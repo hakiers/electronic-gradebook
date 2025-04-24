@@ -1,0 +1,14 @@
+# Ignoruj katalogi Maven i pliki kompilacji
+/target/
+/*.class
+
+# IDE i systemowe
+.idea/
+*.iml
+*.xml
+.DS_Store
+
+# Logi i tymczasowe
+*.log
+temp/
+
