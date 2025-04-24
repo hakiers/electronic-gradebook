@@ -12,25 +12,6 @@
 				<column name="student_id" />
 			</index>
 		</table>
-		<table name="subjects" prior="subjects " >
-			<comment><![CDATA[subjects info]]></comment>
-			<column name="subject_id" type="integer" jt="4" mandatory="y" />
-			<column name="name" type="varchar" length="100" jt="12" />
-			<index name="pk_subjects " unique="PRIMARY_KEY" >
-				<column name="subject_id" />
-			</index>
-		</table>
-		<table name="teacher_subject" prior="teacher_suubject" >
-			<comment><![CDATA[teacher subject]]></comment>
-			<column name="teacher_id" type="integer" jt="4" mandatory="y" />
-			<column name="subject_id" type="integer" jt="4" mandatory="y" />
-			<fk name="fk_teacher_subject_teachers" to_schema="electronic-gradebook-schema" to_table="teachers" >
-				<fk_column name="teacher_id" pk="teacher_id" />
-			</fk>
-			<fk name="fk_teacher_subject_subjects" to_schema="electronic-gradebook-schema" to_table="subjects" >
-				<fk_column name="subject_id" pk="subject_id" />
-			</fk>
-		</table>
 		<table name="teachers" prior="tbl" >
 			<comment><![CDATA[teachers info]]></comment>
 			<column name="teacher_id" type="integer" jt="4" mandatory="y" />
@@ -41,23 +22,10 @@
 				<column name="teacher_id" />
 			</index>
 		</table>
-		<table name="users" prior="tbl" >
-			<column name="user_id" type="varchar" jt="12" mandatory="y" />
-			<column name="password" prior="user_id" type="char" length="32" jt="1" mandatory="y" >
-				<comment><![CDATA[hashed password]]></comment>
-			</column>
-			<column name="role" type="varchar" jt="12" mandatory="y" />
-			<index name="pk_users" unique="PRIMARY_KEY" >
-				<column name="user_id" />
-			</index>
-		</table>
 	</schema>
 	<layout name="Default Diagram" id="ecc7ede0-6acc-4f7c-b598-9c46109bc46c" show_relation="columns" >
+		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="140" y="160" />
 		<entity schema="electronic-gradebook-schema" name="teachers" color="C1D8EE" x="440" y="160" />
-		<entity schema="electronic-gradebook-schema" name="subjects" color="3986C1" x="880" y="180" />
-		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="640" y="280" />
-		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="120" y="160" />
-		<entity schema="electronic-gradebook-schema" name="users" color="C1D8EE" x="120" y="420" />
 		<callout x="60" y="60" pointer="Round" >
 			<comment><![CDATA[- Right-click the diagram to create new tables. 
 - Double-click table headers to edit. 
