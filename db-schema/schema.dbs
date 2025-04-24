@@ -8,6 +8,7 @@
 			<column name="status" type="char" length="20" jt="1" mandatory="y" >
 				<comment><![CDATA[present/absent/late]]></comment>
 			</column>
+			<column name="date" type="date" jt="91" mandatory="y" />
 			<index name="pk_attendance" unique="PRIMARY_KEY" >
 				<column name="attendance_id" />
 			</index>
@@ -98,6 +99,22 @@
 				<fk_column name="subject_id" pk="subject_id" />
 			</fk>
 		</table>
+		<table name="parents" prior="tbl" >
+			<column name="parent_id" type="integer" jt="4" mandatory="y" />
+			<column name="user_id" type="integer" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="100" jt="12" />
+			<column name="surname" type="varchar" length="100" jt="12" />
+			<column name="student_id" type="integer" jt="4" mandatory="y" />
+			<index name="pk_parents" unique="PRIMARY_KEY" >
+				<column name="parent_id" />
+			</index>
+			<fk name="fk_parents_students" to_schema="electronic-gradebook-schema" to_table="students" >
+				<fk_column name="student_id" pk="student_id" />
+			</fk>
+			<fk name="fk_parents_users" to_schema="electronic-gradebook-schema" to_table="users" >
+				<fk_column name="user_id" pk="user_id" />
+			</fk>
+		</table>
 		<table name="students" prior="tbl" >
 			<comment><![CDATA[students table]]></comment>
 			<column name="student_id" type="integer" jt="4" mandatory="y" />
@@ -165,11 +182,12 @@
 		</table>
 		<table name="users" prior="tbl" >
 			<column name="user_id" type="integer" jt="4" mandatory="y" />
+			<column name="username" type="varchar" length="100" jt="12" mandatory="y" />
 			<column name="password" prior="user_id" type="char" length="32" jt="1" mandatory="y" >
 				<comment><![CDATA[hashed password]]></comment>
 			</column>
 			<column name="role" type="varchar" jt="12" mandatory="y" >
-				<comment><![CDATA[student/teacher/admin]]></comment>
+				<comment><![CDATA[student/parent/teacher/admin]]></comment>
 			</column>
 			<index name="pk_users" unique="PRIMARY_KEY" >
 				<column name="user_id" />
@@ -177,23 +195,18 @@
 		</table>
 	</schema>
 	<layout name="Default Diagram" id="ecc7ede0-6acc-4f7c-b598-9c46109bc46c" show_relation="columns" >
-		<entity schema="electronic-gradebook-schema" name="contact_info" color="C1D8EE" x="60" y="460" />
-		<entity schema="electronic-gradebook-schema" name="attendance" color="C1D8EE" x="320" y="460" />
-		<entity schema="electronic-gradebook-schema" name="users" color="C1D8EE" x="120" y="240" />
-		<entity schema="electronic-gradebook-schema" name="grades" color="C1D8EE" x="1000" y="500" />
-		<entity schema="electronic-gradebook-schema" name="class_schedule" color="C1D8EE" x="920" y="200" />
-		<entity schema="electronic-gradebook-schema" name="events" color="C1D8EE" x="560" y="680" />
-		<entity schema="electronic-gradebook-schema" name="subjects" color="3986C1" x="680" y="240" />
-		<entity schema="electronic-gradebook-schema" name="teachers" color="C1D8EE" x="520" y="220" />
-		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="580" y="500" />
-		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="780" y="500" />
-		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="320" y="220" />
-		<entity schema="electronic-gradebook-schema" name="tests" color="C1D8EE" x="240" y="660" />
-		<callout x="280" y="60" pointer="Round" >
-			<comment><![CDATA[- Right-click the diagram to create new tables. 
-- Double-click table headers to edit. 
-- Get a better understanding of the schema by creating multiple diagrams.
-- Save the design to the model file, and deploy from 'Schema / Create into the database'.]]></comment>
-		</callout>
+		<entity schema="electronic-gradebook-schema" name="grades" color="C1D8EE" x="1040" y="360" />
+		<entity schema="electronic-gradebook-schema" name="class_schedule" color="C1D8EE" x="960" y="60" />
+		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="620" y="360" />
+		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="820" y="360" />
+		<entity schema="electronic-gradebook-schema" name="tests" color="C1D8EE" x="280" y="520" />
+		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="380" y="80" />
+		<entity schema="electronic-gradebook-schema" name="teachers" color="C1D8EE" x="560" y="80" />
+		<entity schema="electronic-gradebook-schema" name="events" color="C1D8EE" x="640" y="540" />
+		<entity schema="electronic-gradebook-schema" name="attendance" color="C1D8EE" x="360" y="320" />
+		<entity schema="electronic-gradebook-schema" name="subjects" color="3986C1" x="760" y="80" />
+		<entity schema="electronic-gradebook-schema" name="contact_info" color="C1D8EE" x="120" y="320" />
+		<entity schema="electronic-gradebook-schema" name="parents" color="C1D8EE" x="200" y="80" />
+		<entity schema="electronic-gradebook-schema" name="users" color="C1D8EE" x="60" y="80" />
 	</layout>
 </project>
