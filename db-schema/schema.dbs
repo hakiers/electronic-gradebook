@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="electronic-gradebook-schema" database="PostgreSQL" id="b5d852a2-eb56-44dc-8654-1bb34b4c7b5f" >
+	<schema name="electronic-gradebook-schema" >
+		<table name="students" prior="tbl" >
+			<comment><![CDATA[students table]]></comment>
+			<column name="student_id" type="integer" jt="4" mandatory="y" />
+			<column name="user_id" type="integer" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="100" jt="12" />
+			<column name="surname" type="varchar" length="100" jt="12" />
+			<column name="class_id" type="char" length="4" jt="1" mandatory="y" />
+			<index name="pk_students" unique="PRIMARY_KEY" >
+				<column name="student_id" />
+			</index>
+		</table>
+	</schema>
+	<layout name="Default Diagram" id="ecc7ede0-6acc-4f7c-b598-9c46109bc46c" show_relation="columns" >
+		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="200" y="160" />
+		<callout x="60" y="60" pointer="Round" >
+			<comment><![CDATA[- Right-click the diagram to create new tables. 
+- Double-click table headers to edit. 
+- Get a better understanding of the schema by creating multiple diagrams.
+- Save the design to the model file, and deploy from 'Schema / Create into the database'.]]></comment>
+		</callout>
+	</layout>
+</project>
