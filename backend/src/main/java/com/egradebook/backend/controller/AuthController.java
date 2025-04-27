@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.management.relation.RoleStatus;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -34,7 +36,7 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody UserLoginRequest request, HttpSession session) {
         try{
             userService.loginUser(request, session);
-            return ResponseEntity.ok("Login successful");
+            return ResponseEntity.ok(session.getAttribute("role"));
         } catch (IllegalStateException | IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
