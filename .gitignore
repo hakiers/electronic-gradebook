@@ -4,8 +4,6 @@
 
 # IDE i systemowe
 .idea/
-*.iml
-*.xml
 .DS_Store
 
 # Logi i tymczasowe
