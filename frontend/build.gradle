@@ -1,0 +1,7 @@
+plugins { id 'application' }
+repositories { mavenCentral() }
+dependencies {
+  implementation 'org.openjfx:javafx-controls:17'
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+}
+application { mainClass = 'com.example.egradebook.Main' }

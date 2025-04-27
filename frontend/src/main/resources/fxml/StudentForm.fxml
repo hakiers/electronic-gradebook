@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?><?import javafx.scene.layout.*?>
+<VBox spacing="10" fx:controller="com.example.egradebook.controller.StudentController">
+  <TableView fx:id="table">
+    <columns>
+      <TableColumn text="Imię" />
+      <TableColumn text="Nazwisko" />
+      <TableColumn text="Klasa" />
+    </columns>
+  </TableView>
+  <HBox spacing="10">
+    <Button text="Odśwież"   onAction="#onRefresh"/>
+    <Button text="Dodaj przykładowego" onAction="#onAddSample"/>
+  </HBox>
+</VBox>
