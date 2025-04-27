@@ -1,10 +1,6 @@
-com/example/egradebook/service/UserService.class
-com/example/egradebook/EgradebookApplication.class
-com/example/egradebook/repository/UserRepository.class
-com/example/egradebook/controller/AuthController.class
-com/example/egradebook/repository/StudentRepository.class
-com/example/egradebook/model/Student.class
-com/example/egradebook/controller/StudentController.class
-com/example/egradebook/GlobalExceptionHandler.class
-com/example/egradebook/model/User.class
-com/example/egradebook/service/StudentService.class
+com/egradebook/backend/EgradebookApplication.class
+com/egradebook/backend/model/User.class
+com/egradebook/backend/dto/UserRegistrationRequest.class
+com/egradebook/backend/service/UserService.class
+com/egradebook/backend/repository/UserRepository.class
+com/egradebook/backend/controller/UserController.class

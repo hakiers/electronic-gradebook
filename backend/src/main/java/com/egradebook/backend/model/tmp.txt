@@ -1,0 +1,1 @@
+klasy będą reprezentowały co z bazy danych pobieramy

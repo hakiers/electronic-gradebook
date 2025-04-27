@@ -1,0 +1,1 @@
+klasa będzie odpowiedzialna za komunikację z bazą danych
