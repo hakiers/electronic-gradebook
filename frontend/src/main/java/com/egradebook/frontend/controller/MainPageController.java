@@ -1,23 +1,3 @@
 package com.egradebook.frontend.controller;
-
-import com.egradebook.frontend.utils.ViewLoader;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
 public class MainPageController {
-    @FXML
-    private VBox root;
-    @FXML private Button logoutButton;
-    @FXML
-    public void initialize() {
-        logoutButton.setOnAction(event -> handleLogout());
-    }
-    @FXML
-    public void handleLogout()
-    {
-            Stage currentStage = (Stage) logoutButton.getScene().getWindow();
-            ViewLoader.loadView(currentStage, "/fxml/Login.fxml", "eGradeBook - Logowanie");
-    }
 }

@@ -9,5 +9,5 @@
 
     <Text text="Witaj w aplikacji!" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
     <Label text="Zalogowano pomyślnie!"/>
-    <Button fx:id="logoutButton" text="Wyloguj" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+
 </VBox>

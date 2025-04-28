@@ -18,19 +18,30 @@ public class LoginController {
     @FXML
     private void initialize() {
         clearButton.setOnAction(event -> clearFields());
-        loginButton.setOnAction(event -> handleLogin());
+        loginButton.setOnAction(event -> {
+            try {
+                handleLogin();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
     private void clearFields() {
         usernameField.clear();
         passwordField.clear();
         errorLabel.setText("");
     }
-    private void handleLogin() {
+    private void handleLogin() throws InterruptedException {
         String username = usernameField.getText();
         String password = passwordField.getText();
         //TODO: ADD LOGGING IN
         //login was correct:
         Stage stage=(Stage) loginButton.getScene().getWindow();
         ViewLoader.loadView(stage,"/fxml/MainPage.fxml","Strona główna");
+        Thread.sleep(1000);
+        if(username.equals("admin") && password.equals("admin")) {
+            ViewLoader.loadView(stage,"/fxml/AdminPage.fxml","Strona Główna");
+        }
+        else ViewLoader.loadView(stage, "/fxml/StudentPage.fxml","Strona Główna");
     }
 }
