@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.egradebook.frontend.controller.MainPageController"
+      alignment="CENTER" spacing="20">
+
+    <Text text="Witaj w aplikacji!" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <Label text="Zalogowano pomyślnie!"/>
+    <Button fx:id="logoutButton" text="Wyloguj" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+</VBox>
