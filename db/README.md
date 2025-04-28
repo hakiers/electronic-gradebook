@@ -1,7 +1,5 @@
 # Baza danych PostgreSQL
 
-Uruchom:
-  psql -U postgres -f init.sql
+Towrzenie bazy: 
+  psql -U postgres -f create.sql
 
-Tworzy:
-- bazę 'egradebook'

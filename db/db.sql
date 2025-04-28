@@ -1,5 +1,8 @@
 --wersja wstepna - do poprawek
 
+CREATE DATABASE egradebook;
+
+\c egradebook
 
 CREATE TABLE users(
     user_id integer PRIMARY KEY,
