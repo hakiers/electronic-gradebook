@@ -1,4 +1,4 @@
-package com.example.egradebook;
+package com.egradebook.frontend;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +10,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
-        Scene scene = new Scene(new VBox(), 800, 600);
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+        stage.setScene(new Scene(root,800,600));
         //scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         stage.setTitle("eGradeBook - Logowanie");
-        stage.setScene(scene);
         stage.show();
     }
 

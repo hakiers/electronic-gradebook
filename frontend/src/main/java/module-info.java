@@ -1,7 +1,8 @@
 module com.example.egradebook {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
 
-    opens com.example.egradebook to javafx.fxml;
-    exports com.example.egradebook;
+    opens com.egradebook.frontend to javafx.fxml;
+    exports com.egradebook.frontend;
 }
