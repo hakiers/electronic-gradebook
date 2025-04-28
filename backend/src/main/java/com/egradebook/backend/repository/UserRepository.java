@@ -13,7 +13,7 @@ public class UserRepository {
     JdbcTemplate jdbcTemplate;
 
     public User findUserByUsername(String username) {
-        String sql = "SELECT id, username, password, role FROM users WHERE username = ?";
+        String sql = "SELECT user_id, username, password, role FROM users WHERE username = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{username}, (rs, rowNum) ->
                     new User(
