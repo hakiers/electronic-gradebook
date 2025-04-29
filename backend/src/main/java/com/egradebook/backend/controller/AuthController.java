@@ -1,9 +1,12 @@
 package com.egradebook.backend.controller;
 
+import com.egradebook.backend.dto.UserChangePasswordRequest;
 import com.egradebook.backend.dto.UserLoginRequest;
+import com.egradebook.backend.exception.InvalidCredentialsException;
 import com.egradebook.backend.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +26,8 @@ public class AuthController {
         try{
             userService.loginUser(request, session);
             return ResponseEntity.ok(session.getAttribute("role"));
-        } catch (IllegalStateException | IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (InvalidCredentialsException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 
@@ -32,5 +35,15 @@ public class AuthController {
     public ResponseEntity<?> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok("Logout successful");
+    }
+
+    @PostMapping("/changepassword")
+    public ResponseEntity<?> changePassword(@RequestBody UserChangePasswordRequest request, HttpSession session) {
+        try{
+            userService.changePassword(request, session);
+            return ResponseEntity.ok("Password changed successfully");
+        } catch (InvalidCredentialsException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
     }
 }

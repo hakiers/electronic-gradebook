@@ -3,7 +3,12 @@ package com.egradebook.backend.service;
 
 import com.egradebook.backend.dto.StudentRegistrationRequest;
 import com.egradebook.backend.dto.TeacherRegistrationRequest;
+import com.egradebook.backend.dto.UserChangePasswordRequest;
 import com.egradebook.backend.dto.UserLoginRequest;
+import com.egradebook.backend.exception.ForbiddenOperationException;
+import com.egradebook.backend.exception.InvalidCredentialsException;
+import com.egradebook.backend.exception.PeselAlreadyExistsException;
+import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.LoginData;
 import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Teacher;
@@ -22,12 +27,21 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    //tymczasowy admin
+    public void createAdmin(){
+        String hashedPassword = passwordEncoder.encode("admin");
+        if(userRepository.findUserByUsername("admin") == null){
+            userRepository.saveUser(new User(null, "admin", hashedPassword, "admin"));
+        }
+        else userRepository.changePassword("admin", hashedPassword);
+    }
+
     public LoginData registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
-        if(session.getAttribute("role") == null || !session.getAttribute("role").equals("Admin")){
-            throw new IllegalArgumentException("Only admin can register new teacher!");
+        if(session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")){
+            throw new ForbiddenOperationException("Only admin can register new teacher!");
         }
         if(userRepository.findUserByPesel(request.getPesel()) != null){
-            throw new IllegalStateException("Pesel is already taken!");
+            throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
         LoginData loginData = generator.generateLoginData(request.getName(), request.getSurname());
         String hashedPassword = passwordEncoder.encode(loginData.getPassword());
@@ -36,11 +50,11 @@ public class UserService {
     }
 
     public LoginData registerNewStudent(StudentRegistrationRequest request, HttpSession session) {
-        if(session.getAttribute("role") == null || !session.getAttribute("role").equals("Admin")){
-            throw new IllegalArgumentException("Only admin can register new teacher!");
+        if(session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")){
+            throw new ForbiddenOperationException("Only admin can register new teacher!");
         }
         if(userRepository.findUserByPesel(request.getPesel()) != null){
-            throw new IllegalStateException("Pesel is already taken!");
+            throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
 
         LoginData loginData = generator.generateLoginData(request.getName(), request.getSurname());
@@ -51,14 +65,24 @@ public class UserService {
 
     public void loginUser(UserLoginRequest request, HttpSession session) {
         User user = userRepository.findUserByUsername(request.getUsername());
-        if(user == null){
-            throw new IllegalStateException("Invalid username or password!");
+        if(user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())){
+            throw new InvalidCredentialsException("Invalid username or password");
         }
-        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
-            throw new IllegalStateException("Invalid username or password!");
-        }
+
         session.setAttribute("username", user.getUsername());
         session.setAttribute("role", user.getRole());
+    }
+
+    public void changePassword(UserChangePasswordRequest request, HttpSession session) {
+        if(session.getAttribute("username") == null){
+            throw new UnauthorizedException("You are not logged in!");
+        }
+        if(!session.getAttribute("username").equals(request.getUsername()) && !session.getAttribute("role").equals("Admin")){
+            throw new ForbiddenOperationException("You can change password only for yourself or for admin!");
+        }
+
+        String newHashedPassword = passwordEncoder.encode(request.getNewPassword());
+        userRepository.changePassword(request.getUsername(), newHashedPassword);
     }
 
 }
