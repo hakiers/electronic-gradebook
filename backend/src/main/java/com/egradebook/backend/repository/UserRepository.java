@@ -109,4 +109,9 @@ public class UserRepository {
         sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, userId, student.getName(), student.getSurname(), student.getPesel());
     }
+
+    public void changePassword(String username, String newPassword){
+        String sql = "UPDATE users SET password = ? WHERE username = ?";
+        jdbcTemplate.update(sql, newPassword, username);
+    }
 }
