@@ -8,6 +8,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserRepository {
 
@@ -31,13 +33,25 @@ public class UserRepository {
     }
 
     public User findUserByPesel(String pesel){
-        //to do wika
-        return null;
+        String sql = "SELECT user_id, username, password, role FROM users WHERE pesel = ?";
+        try{
+            return jdbcTemplate.queryForObject(sql, new Object[]{pesel}, (rs, rowNum) ->
+                    new User(
+                            rs.getLong("user_id"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("role")
+                    )
+
+            );
+        }catch(EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     public int countByNameAndSurname(String name, String surname){
-        //to do wika
-        String sql = "SELECT COUNT(*) FROM users WHERE username = ? AND surname = ?";
+        String sql = "SELECT COUNT(*) FROM users u JOIN personal_data p ON u.user_id = p.user_id" +
+                " WHERE p.name = ? AND p.surname = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{name, surname}, Integer.class);
     }
 
@@ -52,8 +66,35 @@ public class UserRepository {
         return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
     }
 
+    public int getTeacherId(String username){
+        String sql = "SELECT teacher_id FROM teachers t JOIN users u " +
+                "ON u.user_id = t.user_id WHERE u.username = ? ";
+        return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
+    }
+
+    public int getSubjectId(String subject){
+        String sql = "SELECT subject_id FROM subjects WHERE subject = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{subject}, Integer.class);
+    }
+
     public void saveTeacher(Teacher teacher) {
-        //to do wika
+        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, teacher.getUsername(), teacher.getPassword(), "teacher");
+
+        int userId = getUserId(teacher.getUsername());
+
+        sql = "INSERT INTO teachers (user_id) VALUES (?)";
+        jdbcTemplate.update(sql, userId);
+
+        int teacherId = getTeacherId(teacher.getUsername());
+        //dodajemy przedmioty
+        sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
+
+        List<String> subjects = teacher.getSubjects();
+        for(String subject: subjects){
+            jdbcTemplate.update(sql, teacherId, getSubjectId(subject));
+        }
+
     }
 
     public void saveStudent(Student student) {

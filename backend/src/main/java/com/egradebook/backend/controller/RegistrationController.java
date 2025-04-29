@@ -20,8 +20,11 @@ public class RegistrationController {
 
     @PostMapping("/teacher")
     public ResponseEntity<?> registerTeacher(@RequestBody TeacherRegistrationRequest request, HttpSession session) {
-        //zobacz jak jest niżej to wika
-        return ResponseEntity.ok("to do");
+        try{
+            return ResponseEntity.ok(userService.registerNewTeacher(request, session));
+        }catch(IllegalStateException | IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/student")

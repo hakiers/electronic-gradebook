@@ -6,6 +6,7 @@ import com.egradebook.backend.dto.TeacherRegistrationRequest;
 import com.egradebook.backend.dto.UserLoginRequest;
 import com.egradebook.backend.model.LoginData;
 import com.egradebook.backend.model.Student;
+import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.model.User;
 import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.utils.generator;
@@ -28,9 +29,10 @@ public class UserService {
         if(userRepository.findUserByPesel(request.getPesel()) != null){
             throw new IllegalStateException("Pesel is already taken!");
         }
-
-        //zobacz jak niżej jest
-        return null;
+        LoginData loginData = generator.generateLoginData(request.getName(), request.getSurname());
+        String hashedPassword = passwordEncoder.encode(loginData.getPassword());
+        userRepository.saveTeacher(new Teacher(request.getName(), request.getSurname(), request.getPesel(), request.getSubjects(), loginData.getUsername(), hashedPassword));
+        return loginData;
     }
 
     public LoginData registerNewStudent(StudentRegistrationRequest request, HttpSession session) {
