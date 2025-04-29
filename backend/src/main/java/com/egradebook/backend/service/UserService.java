@@ -1,10 +1,14 @@
 package com.egradebook.backend.service;
 
+
+import com.egradebook.backend.dto.StudentRegistrationRequest;
 import com.egradebook.backend.dto.TeacherRegistrationRequest;
 import com.egradebook.backend.dto.UserLoginRequest;
-import com.egradebook.backend.dto.UserRegistrationRequest;
+import com.egradebook.backend.model.LoginData;
+import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.User;
 import com.egradebook.backend.repository.UserRepository;
+import com.egradebook.backend.utils.generator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,34 +21,30 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public void registerNewUser(UserRegistrationRequest request, HttpSession session) {
-
-        if(session.getAttribute("role") == null || !session.getAttribute("role").equals("Admin")){
-            throw new IllegalArgumentException("Only admin can register new user!");
-        }
-        if(userRepository.findUserByUsername(request.getUsername()) != null){
-            throw new IllegalStateException("Username is already taken!");
-        }
-
-        String hashedPassword = passwordEncoder.encode(request.getPassword());
-        User newUser = new User(null, request.getUsername(), hashedPassword, request.getRole());
-        userRepository.saveUser(newUser);
-    }
-
-    public void registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
+    public LoginData registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
         if(session.getAttribute("role") == null || !session.getAttribute("role").equals("Admin")){
             throw new IllegalArgumentException("Only admin can register new teacher!");
         }
         if(userRepository.findUserByPesel(request.getPesel()) != null){
             throw new IllegalStateException("Pesel is already taken!");
         }
-        //dodajemy uzytkownika??
-        //tworzymy username
-        //tworzymy haslo
-        String username;
-        String password;
-        String hashedPassword; //
 
+        //zobacz jak niżej jest
+        return null;
+    }
+
+    public LoginData registerNewStudent(StudentRegistrationRequest request, HttpSession session) {
+        if(session.getAttribute("role") == null || !session.getAttribute("role").equals("Admin")){
+            throw new IllegalArgumentException("Only admin can register new teacher!");
+        }
+        if(userRepository.findUserByPesel(request.getPesel()) != null){
+            throw new IllegalStateException("Pesel is already taken!");
+        }
+
+        LoginData loginData = generator.generateLoginData(request.getName(), request.getSurname());
+        String hashedPassword = passwordEncoder.encode(loginData.getPassword());
+        userRepository.saveStudent(new Student(request.getName(), request.getSurname(), request.getPesel(), request.getClassId(), loginData.getUsername(), hashedPassword));
+        return loginData;
     }
 
     public void loginUser(UserLoginRequest request, HttpSession session) {
