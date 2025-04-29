@@ -1,5 +1,7 @@
 package com.egradebook.backend.repository;
 
+import com.egradebook.backend.model.Student;
+import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,12 +31,12 @@ public class UserRepository {
     }
 
     public User findUserByPesel(String pesel){
-        //to do
+        //to do wika
         return null;
     }
 
     public int countByNameAndSurname(String name, String surname){
-        //to do
+        //to do wika
         String sql = "SELECT COUNT(*) FROM users WHERE username = ? AND surname = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{name, surname}, Integer.class);
     }
@@ -45,6 +47,25 @@ public class UserRepository {
         return user;
     }
 
+    public int getUserId(String username) {
+        String sql = "SELECT user_id FROM users WHERE username = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
+    }
 
+    public void saveTeacher(Teacher teacher) {
+        //to do wika
+    }
 
+    public void saveStudent(Student student) {
+        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, student.getUsername(), student.getPassword(), "student");
+
+        int userId = getUserId(student.getUsername());
+
+        sql = "INSERT INTO students (user_id, class_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, userId, student.getClassId());
+
+        sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, userId, student.getName(), student.getSurname(), student.getPesel());
+    }
 }

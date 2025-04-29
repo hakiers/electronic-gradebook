@@ -1,6 +1,8 @@
 package com.egradebook.backend.controller;
 
+import com.egradebook.backend.dto.StudentRegistrationRequest;
 import com.egradebook.backend.dto.TeacherRegistrationRequest;
+import com.egradebook.backend.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,12 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/register")
 public class RegistrationController {
 
+    private final UserService userService;
+
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/teacher")
     public ResponseEntity<?> registerTeacher(@RequestBody TeacherRegistrationRequest request, HttpSession session) {
+        //zobacz jak jest niżej
+        return ResponseEntity.ok("to do");
+    }
+
+    @PostMapping("/student")
+    public ResponseEntity<?> registerStudent(@RequestBody StudentRegistrationRequest request, HttpSession session) {
         try{
-
-        }catch(){
-
+            return ResponseEntity.ok(userService.registerNewStudent(request, session));
+        }catch (IllegalStateException | IllegalArgumentException e){ //to do własne wyjątki
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
