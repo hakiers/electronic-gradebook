@@ -35,6 +35,14 @@ public class UserService {
         }
         else userRepository.changePassword("admin", hashedPassword);
     }
+    //tymczasowy student
+    public void createStudent(){
+        String hashedPassword = passwordEncoder.encode("student");
+        if(userRepository.findUserByUsername("student") == null){
+            userRepository.saveUser(new User(null, "student", hashedPassword, "student"));
+        }
+        else userRepository.changePassword("student", hashedPassword);
+    }
 
     public LoginData registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
         if(session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")){

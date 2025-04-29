@@ -14,6 +14,7 @@ public class StartupRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         userService.createAdmin();
+        userService.createStudent();
         System.out.println("Startup logic here... tymczasowe");
     }
 }
