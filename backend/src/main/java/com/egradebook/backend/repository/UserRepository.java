@@ -47,11 +47,9 @@ public class UserRepository {
         }catch(EmptyResultDataAccessException e){
             return null;
         }
-
     }
 
     public int countByNameAndSurname(String name, String surname){
-        //to do wika
         String sql = "SELECT COUNT(*) FROM users u JOIN personal_data p ON u.user_id = p.user_id" +
                 " WHERE p.name = ? AND p.surname = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{name, surname}, Integer.class);
@@ -80,7 +78,6 @@ public class UserRepository {
     }
 
     public void saveTeacher(Teacher teacher) {
-        //to do wika
         String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, teacher.getUsername(), teacher.getPassword(), "teacher");
 
