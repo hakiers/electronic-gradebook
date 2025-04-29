@@ -231,6 +231,6 @@
 		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="680" y="280" />
 		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="880" y="180" />
 		<entity schema="electronic-gradebook-schema" name="parents" color="C1D8EE" x="440" y="60" />
-		<entity schema="electronic-gradebook-schema" name="parent_student" color="C1D8EE" x="200" y="60" />
+		<entity schema="electronic-gradebook-schema" name="parent_student" color="C1D8EE" x="180" y="60" />
 	</layout>
 </project>

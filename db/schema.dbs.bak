@@ -99,6 +99,20 @@
 				<fk_column name="subject_id" pk="subject_id" />
 			</fk>
 		</table>
+		<table name="parent_student" prior="parent_" >
+			<column name="parent_id" type="integer" jt="4" mandatory="y" />
+			<column name="student_id" type="integer" jt="4" mandatory="y" />
+			<index name="pk_parent_student" unique="PRIMARY_KEY" >
+				<column name="parent_id" />
+				<column name="student_id" />
+			</index>
+			<fk name="fk_parent_student_parents" to_schema="electronic-gradebook-schema" to_table="parents" >
+				<fk_column name="parent_id" pk="parent_id" />
+			</fk>
+			<fk name="fk_parent_student_students" to_schema="electronic-gradebook-schema" to_table="students" >
+				<fk_column name="student_id" pk="student_id" />
+			</fk>
+		</table>
 		<table name="parents" prior="tbl" >
 			<column name="parent_id" type="serial" jt="4" mandatory="y" />
 			<column name="user_id" type="integer" jt="4" mandatory="y" />
@@ -106,9 +120,6 @@
 			<index name="pk_parents" unique="PRIMARY_KEY" >
 				<column name="parent_id" />
 			</index>
-			<fk name="fk_parents_students" to_schema="electronic-gradebook-schema" to_table="students" >
-				<fk_column name="student_id" pk="student_id" />
-			</fk>
 			<fk name="fk_parents_users" to_schema="electronic-gradebook-schema" to_table="users" >
 				<fk_column name="user_id" pk="user_id" />
 			</fk>
@@ -208,9 +219,7 @@
 	<layout name="Default Diagram" id="ecc7ede0-6acc-4f7c-b598-9c46109bc46c" show_relation="columns" >
 		<entity schema="electronic-gradebook-schema" name="contact_info" color="C1D8EE" x="120" y="480" />
 		<entity schema="electronic-gradebook-schema" name="users" color="C1D8EE" x="260" y="280" />
-		<entity schema="electronic-gradebook-schema" name="parents" color="C1D8EE" x="440" y="60" />
 		<entity schema="electronic-gradebook-schema" name="teachers" color="C1D8EE" x="680" y="60" />
-		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="880" y="180" />
 		<entity schema="electronic-gradebook-schema" name="subjects" color="3986C1" x="880" y="320" />
 		<entity schema="electronic-gradebook-schema" name="attendance" color="C1D8EE" x="320" y="480" />
 		<entity schema="electronic-gradebook-schema" name="grades" color="C1D8EE" x="520" y="480" />
@@ -220,5 +229,8 @@
 		<entity schema="electronic-gradebook-schema" name="class_schedule" color="C1D8EE" x="1060" y="480" />
 		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="440" y="280" />
 		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="680" y="280" />
+		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="880" y="180" />
+		<entity schema="electronic-gradebook-schema" name="parents" color="C1D8EE" x="440" y="60" />
+		<entity schema="electronic-gradebook-schema" name="parent_student" color="C1D8EE" x="200" y="60" />
 	</layout>
 </project>
