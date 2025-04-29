@@ -1,5 +1,6 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.dto.TeacherRegistrationRequest;
 import com.egradebook.backend.dto.UserLoginRequest;
 import com.egradebook.backend.dto.UserRegistrationRequest;
 import com.egradebook.backend.model.User;
@@ -28,6 +29,22 @@ public class UserService {
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         User newUser = new User(null, request.getUsername(), hashedPassword, request.getRole());
         userRepository.saveUser(newUser);
+    }
+
+    public void registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
+        if(session.getAttribute("role") == null || !session.getAttribute("role").equals("Admin")){
+            throw new IllegalArgumentException("Only admin can register new teacher!");
+        }
+        if(userRepository.findUserByPesel(request.getPesel()) != null){
+            throw new IllegalStateException("Pesel is already taken!");
+        }
+        //dodajemy uzytkownika??
+        //tworzymy username
+        //tworzymy haslo
+        String username;
+        String password;
+        String hashedPassword; //
+
     }
 
     public void loginUser(UserLoginRequest request, HttpSession session) {

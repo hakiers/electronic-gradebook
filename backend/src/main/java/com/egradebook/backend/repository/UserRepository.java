@@ -28,6 +28,17 @@ public class UserRepository {
         }
     }
 
+    public User findUserByPesel(String pesel){
+        //to do
+        return null;
+    }
+
+    public int countByNameAndSurname(String name, String surname){
+        //to do
+        String sql = "SELECT COUNT(*) FROM users WHERE username = ? AND surname = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{name, surname}, Integer.class);
+    }
+
     public User saveUser(User user) {
         String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getRole());
