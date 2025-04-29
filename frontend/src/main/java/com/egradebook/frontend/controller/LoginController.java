@@ -8,8 +8,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 public class LoginController {
-    @FXML
-    private TextField usernameField;
+    @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Button loginButton;
     @FXML private Button clearButton;
@@ -37,11 +36,20 @@ public class LoginController {
         //TODO: ADD LOGGING IN
         //login was correct:
         Stage stage=(Stage) loginButton.getScene().getWindow();
-        ViewLoader.loadView(stage,"/fxml/MainPage.fxml","Strona główna");
-        Thread.sleep(1000);
+
         if(username.equals("admin") && password.equals("admin")) {
+            ViewLoader.loadView(stage,"/fxml/MainPage.fxml","Strona główna");
+            Thread.sleep(1000);
             ViewLoader.loadView(stage,"/fxml/AdminPage.fxml","Strona Główna");
         }
-        else ViewLoader.loadView(stage, "/fxml/StudentPage.fxml","Strona Główna");
+        else if(username.equals("user")) {
+            ViewLoader.loadView(stage,"/fxml/MainPage.fxml","Strona główna");
+            Thread.sleep(1000);
+            ViewLoader.loadView(stage, "/fxml/StudentPage.fxml", "Strona Główna");
+        }
+        else {
+            errorLabel.setText("Niepoprawny login lub hasło");
+            errorLabel.setVisible(true);
+        }
     }
 }
