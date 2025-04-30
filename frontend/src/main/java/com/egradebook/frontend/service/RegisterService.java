@@ -19,7 +19,7 @@ public class RegisterService {
             StudentRegistrationRequest request= new StudentRegistrationRequest(name, surname, pesel, classId);
             String json =mapper.writeValueAsString(request);
             HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/register/student"))
+                    .uri(new URI("http://localhost:8080/api/admin/register/student"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();

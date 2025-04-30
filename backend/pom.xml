@@ -60,6 +60,7 @@
 			<artifactId>spring-security-crypto</artifactId>
 			<version>6.2.4</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
