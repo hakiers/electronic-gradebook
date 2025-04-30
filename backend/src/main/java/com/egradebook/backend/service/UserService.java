@@ -14,7 +14,6 @@ import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.model.User;
 import com.egradebook.backend.repository.UserRepository;
-import com.egradebook.backend.utils.generator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

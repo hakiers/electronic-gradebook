@@ -11,7 +11,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class RegisterService {
-    private static final HttpClient client = HttpClient.newHttpClient();
+    static final HttpClient client = HttpClient.newHttpClient();
     private static final ObjectMapper mapper = new ObjectMapper();
     public static Pair<Integer,String> registerStudent(String name, String surname, String pesel, Integer classId)
     {
