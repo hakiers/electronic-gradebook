@@ -75,6 +75,23 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
             </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <executions>
+                    <execution>
+                        <id>create-custom-runtime</id>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.egradebook.frontend.Main</mainClass>
+                    <launcher>EgradeBook</launcher> <!-- <- NAZWA twojej aplikacji -->
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
