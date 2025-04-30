@@ -1,4 +1,4 @@
 package com.egradebook.backend.service;
 
-public class UserService {
+public class TeacherService {
 }
