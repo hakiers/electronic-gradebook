@@ -48,9 +48,9 @@
 			<index name="pk_class" unique="PRIMARY_KEY" >
 				<column name="class_id" />
 			</index>
-			<index name="unq_class_class_teacher" unique="UNIQUE_KEY" >
-				<column name="class_teacher" />
-			</index>
+			<fk name="fk_classes_teachers" to_schema="electronic-gradebook-schema" to_table="teachers" >
+				<fk_column name="class_teacher" pk="teacher_id" />
+			</fk>
 		</table>
 		<table name="contact_info" prior="contact" >
 			<column name="contact_id" prior="concact_id" type="serial" jt="4" mandatory="y" />
@@ -205,12 +205,8 @@
 		<table name="users" prior="tbl" >
 			<column name="user_id" type="serial" jt="4" mandatory="y" />
 			<column name="username" type="varchar" length="32" jt="12" mandatory="y" />
-			<column name="password" prior="user_id" type="char" length="32" jt="1" mandatory="y" >
-				<comment><![CDATA[hashed password]]></comment>
-			</column>
-			<column name="role" type="varchar" length="8" jt="12" mandatory="y" >
-				<comment><![CDATA[student/parent/teacher/admin]]></comment>
-			</column>
+			<column name="password" prior="user_id" type="char" length="32" jt="1" mandatory="y" />
+			<column name="role" type="varchar" length="8" jt="12" mandatory="y" />
 			<index name="pk_users" unique="PRIMARY_KEY" >
 				<column name="user_id" />
 			</index>
@@ -218,9 +214,7 @@
 	</schema>
 	<layout name="Default Diagram" id="ecc7ede0-6acc-4f7c-b598-9c46109bc46c" show_relation="columns" >
 		<entity schema="electronic-gradebook-schema" name="contact_info" color="C1D8EE" x="120" y="480" />
-		<entity schema="electronic-gradebook-schema" name="users" color="C1D8EE" x="260" y="280" />
 		<entity schema="electronic-gradebook-schema" name="teachers" color="C1D8EE" x="680" y="60" />
-		<entity schema="electronic-gradebook-schema" name="subjects" color="3986C1" x="880" y="320" />
 		<entity schema="electronic-gradebook-schema" name="attendance" color="C1D8EE" x="320" y="480" />
 		<entity schema="electronic-gradebook-schema" name="grades" color="C1D8EE" x="520" y="480" />
 		<entity schema="electronic-gradebook-schema" name="personal_data" color="C1D8EE" x="60" y="280" />
@@ -228,9 +222,11 @@
 		<entity schema="electronic-gradebook-schema" name="tests" color="C1D8EE" x="880" y="480" />
 		<entity schema="electronic-gradebook-schema" name="class_schedule" color="C1D8EE" x="1060" y="480" />
 		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="440" y="280" />
-		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="680" y="280" />
 		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="880" y="180" />
 		<entity schema="electronic-gradebook-schema" name="parents" color="C1D8EE" x="440" y="60" />
 		<entity schema="electronic-gradebook-schema" name="parent_student" color="C1D8EE" x="180" y="60" />
+		<entity schema="electronic-gradebook-schema" name="subjects" color="3986C1" x="880" y="320" />
+		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="680" y="280" />
+		<entity schema="electronic-gradebook-schema" name="users" color="C1D8EE" x="260" y="280" />
 	</layout>
 </project>

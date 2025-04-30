@@ -85,6 +85,7 @@
 			<column name="subject_id" type="integer" jt="4" mandatory="y" />
 			<column name="teacher_id" type="integer" jt="4" mandatory="y" />
 			<column name="grade_value" type="integer" jt="4" mandatory="y" />
+			<column name="date" type="date" jt="91" mandatory="y" />
 			<column name="description" type="varchar" length="32" jt="12" mandatory="y" />
 			<index name="pk_grades" unique="PRIMARY_KEY" >
 				<column name="grade_id" />
@@ -116,7 +117,6 @@
 		<table name="parents" prior="tbl" >
 			<column name="parent_id" type="serial" jt="4" mandatory="y" />
 			<column name="user_id" type="integer" jt="4" mandatory="y" />
-			<column name="student_id" type="integer" jt="4" mandatory="y" />
 			<index name="pk_parents" unique="PRIMARY_KEY" >
 				<column name="parent_id" />
 			</index>
@@ -216,17 +216,17 @@
 		<entity schema="electronic-gradebook-schema" name="contact_info" color="C1D8EE" x="120" y="480" />
 		<entity schema="electronic-gradebook-schema" name="teachers" color="C1D8EE" x="680" y="60" />
 		<entity schema="electronic-gradebook-schema" name="attendance" color="C1D8EE" x="320" y="480" />
-		<entity schema="electronic-gradebook-schema" name="grades" color="C1D8EE" x="520" y="480" />
 		<entity schema="electronic-gradebook-schema" name="personal_data" color="C1D8EE" x="60" y="280" />
 		<entity schema="electronic-gradebook-schema" name="events" color="C1D8EE" x="700" y="480" />
 		<entity schema="electronic-gradebook-schema" name="tests" color="C1D8EE" x="880" y="480" />
 		<entity schema="electronic-gradebook-schema" name="class_schedule" color="C1D8EE" x="1060" y="480" />
 		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="440" y="280" />
 		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="880" y="180" />
-		<entity schema="electronic-gradebook-schema" name="parents" color="C1D8EE" x="440" y="60" />
 		<entity schema="electronic-gradebook-schema" name="parent_student" color="C1D8EE" x="180" y="60" />
 		<entity schema="electronic-gradebook-schema" name="subjects" color="3986C1" x="880" y="320" />
 		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="680" y="280" />
 		<entity schema="electronic-gradebook-schema" name="users" color="C1D8EE" x="260" y="280" />
+		<entity schema="electronic-gradebook-schema" name="parents" color="C1D8EE" x="440" y="60" />
+		<entity schema="electronic-gradebook-schema" name="grades" color="C1D8EE" x="520" y="480" />
 	</layout>
 </project>
