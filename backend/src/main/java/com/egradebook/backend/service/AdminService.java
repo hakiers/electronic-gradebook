@@ -11,7 +11,7 @@ import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.model.User;
 import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.repository.utils.FindRepository;
-import com.egradebook.backend.utils.generator;
+import com.egradebook.backend.utils.Generator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -50,7 +50,7 @@ public class AdminService {
         if(findRepository.findUserByPesel(request.getPesel()) != null){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
-        LoginData loginData = generator.generateLoginData(request.getName(), request.getSurname());
+        LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
         String hashedPassword = passwordEncoder.encode(loginData.getPassword());
         userRepository.saveTeacher(new Teacher(request.getName(), request.getSurname(), request.getPesel(), request.getSubjects(), loginData.getUsername(), hashedPassword));
         return loginData;
@@ -64,7 +64,7 @@ public class AdminService {
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
 
-        LoginData loginData = generator.generateLoginData(request.getName(), request.getSurname());
+        LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
         String hashedPassword = passwordEncoder.encode(loginData.getPassword());
         userRepository.saveStudent(new Student(request.getName(), request.getSurname(), request.getPesel(), request.getClassId(), loginData.getUsername(), hashedPassword));
         return loginData;
