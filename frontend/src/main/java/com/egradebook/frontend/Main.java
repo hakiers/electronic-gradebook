@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception {
         ViewLoader.loadView(stage,"/fxml/Login.fxml", "eGradeBook - Logowanie");
         stage.show();
     }

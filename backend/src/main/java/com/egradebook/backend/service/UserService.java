@@ -58,9 +58,9 @@ public class UserService {
     }
 
     public LoginData registerNewStudent(StudentRegistrationRequest request, HttpSession session) {
-       /* if(session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")){
+        if(session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")){
             throw new ForbiddenOperationException("Only admin can register new student!");
-        }*/
+        }
         if(userRepository.findUserByPesel(request.getPesel()) != null){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
