@@ -27,6 +27,4 @@
         <Button text="Wyczyść" fx:id="clearButton"
                 style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
     </HBox>
-
-    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
 </VBox>

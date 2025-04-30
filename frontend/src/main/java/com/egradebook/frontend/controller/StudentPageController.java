@@ -1,5 +1,6 @@
 package com.egradebook.frontend.controller;
 
+import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ public class StudentPageController {
     public void handleLogout()
     {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
+        UserService.logout();
         ViewLoader.loadView(currentStage, "/fxml/Login.fxml", "eGradeBook - Logowanie");
     }
 }
