@@ -108,6 +108,7 @@ CREATE TABLE grades(
     subject_id integer REFERENCES subjects(subject_id) ON DELETE CASCADE ON UPDATE CASCADE,
     teacher_id integer REFERENCES teachers(teacher_id) ON DELETE SET NULL ON UPDATE CASCADE,
     grade_value numeric(3,2) not null CHECK (grade_value BETWEEN 1 AND 6),
+    "date" date not null,
     description varchar(32) not null
 );
 
@@ -263,14 +264,14 @@ INSERT INTO events (title, description, date, class_id) VALUES
 ('Kino szkolne', 'Seans filmowy', '2025-04-29', 1);
 
 -- GRADES
-INSERT INTO grades (student_id, subject_id, teacher_id, grade_value, description) VALUES
-(1, 1, 1, 5.0, 'Test Matematyka 1'),
-(2, 2, 1, 4.5, 'Test Informatyka 1'),
-(3, 3, 2, 4.0, 'Test Fizyka 1'),
-(4, 4, 2, 3.5, 'Test Chemia 1'),
-(1, 5, 3, 5.5, 'Test Biologia 1'),
-(2, 6, 3, 3.0, 'Test Geografia 1'),
-(3, 7, 1, 4.5, 'Test Historia 1'),
-(4, 8, 2, 4.0, 'Test Angielski 1'),
-(1, 9, 3, 5.0, 'Test Polski 1'),
-(2, 10, 2, 3.5, 'Test WF 1');
+INSERT INTO grades (student_id, subject_id, teacher_id, grade_value, "date", description) VALUES
+(1, 1, 1, 5.0, '2025-04-12','Test Matematyka 1'),
+(2, 2, 1, 4.5, '2025-04-12','Test Informatyka 1'),
+(3, 3, 2, 4.0, '2025-04-12','Test Fizyka 1'),
+(4, 4, 2, 3.5, '2025-04-12','Test Chemia 1'),
+(1, 5, 3, 5.5, '2025-04-12','Test Biologia 1'),
+(2, 6, 3, 3.0, '2025-04-12','Test Geografia 1'),
+(3, 7, 1, 4.5, '2025-04-12','Test Historia 1'),
+(4, 8, 2, 4.0, '2025-04-12','Test Angielski 1'),
+(1, 9, 3, 5.0, '2025-04-12','Test Polski 1'),
+(2, 10, 2, 3.5,'2025-04-12','Test WF 1');

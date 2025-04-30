@@ -1,7 +1,10 @@
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/EgradebookApplication.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/StartupRunner.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/controller/AdminController.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/controller/AuthController.java
-/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/controller/RegistrationController.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/controller/StudentController.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/controller/TeacherController.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/controller/UserController.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/dto/StudentRegistrationRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/dto/TeacherRegistrationRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/dto/UserChangePasswordRequest.java
@@ -16,5 +19,12 @@
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/Teacher.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/User.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/UserRepository.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/utils/CountRepository.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/utils/FindRepository.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/utils/GetRepository.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/service/AdminService.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/service/LoginService.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/service/StudentService.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/service/TeacherService.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/service/UserService.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/utils/generator.java
