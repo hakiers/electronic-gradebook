@@ -1,4 +1,4 @@
-package com.egradebook.frontend.controller;
+package com.egradebook.frontend.controller.admin;
 
 import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.ViewLoader;
@@ -18,12 +18,12 @@ public class AdminPageController {
     {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
         UserService.logout();
-        ViewLoader.loadView(currentStage, "/fxml/Login.fxml", "eGradeBook - Logowanie");
+        ViewLoader.loadView(currentStage, "/fxml/shared/Login.fxml", "eGradeBook - Logowanie");
     }
     @FXML
     public void handleAddStudent()
     {
         Stage currentStage = (Stage) addStudentButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage,"/fxml/StudentRegistration.fxml", "eGradeBook - Dodaj ucznia");
+        ViewLoader.loadView(currentStage, "/fxml/admin/StudentRegistration.fxml", "eGradeBook - Dodaj ucznia");
     }
 }

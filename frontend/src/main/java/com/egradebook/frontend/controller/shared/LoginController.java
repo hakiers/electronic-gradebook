@@ -1,4 +1,4 @@
-package com.egradebook.frontend.controller;
+package com.egradebook.frontend.controller.shared;
 
 import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.ViewLoader;
@@ -42,18 +42,18 @@ public class LoginController {
         Pair<Integer,String> LoginInfo=UserService.login(username, password);
         if(LoginInfo.getKey()==200){
            if(LoginInfo.getValue().equals("admin")) {
-               ViewLoader.loadView(stage,"/fxml/MainPage.fxml","Strona główna");
+               ViewLoader.loadView(stage, "/fxml/shared/MainPage.fxml","Strona główna");
                PauseTransition delay = new PauseTransition(Duration.seconds(1));
                delay.setOnFinished(event -> {
-                   ViewLoader.loadView(stage, "/fxml/AdminPage.fxml", "Strona Główna");
+                   ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna");
                });
                delay.play();
            }
            else if(LoginInfo.getValue().equals("student")) {
-               ViewLoader.loadView(stage,"/fxml/MainPage.fxml","Strona główna");
+               ViewLoader.loadView(stage, "/fxml/shared/MainPage.fxml","Strona główna");
                PauseTransition delay = new PauseTransition(Duration.seconds(1));
                delay.setOnFinished(event -> {
-                   ViewLoader.loadView(stage, "/fxml/StudentPage.fxml", "Strona Główna");
+                   ViewLoader.loadView(stage, "/fxml/student/StudentPage.fxml", "Strona Główna");
                });
                delay.play();
            }

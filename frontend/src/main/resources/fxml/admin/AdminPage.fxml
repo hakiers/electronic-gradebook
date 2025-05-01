@@ -8,7 +8,7 @@
 
 <?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.egradebook.frontend.controller.AdminPageController"
+      fx:controller="com.egradebook.frontend.controller.admin.AdminPageController"
       alignment="CENTER" spacing="20">
     <Button text="Dodaj ucznia" fx:id="addStudentButton" style="-fx-background-color: #00d9ff;-fx-text-fill: black;"/>
     <Button text="Dodaj nauzcyciela" fx:id="addTeacherButton" style="-fx-background-color: #00d9ff;-fx-text-fill: black;"/>

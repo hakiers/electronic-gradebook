@@ -12,4 +12,7 @@ module com.example.egradebook {
     opens com.egradebook.frontend.dto to com.fasterxml.jackson.databind;
     exports com.egradebook.frontend;
     exports com.egradebook.frontend.utils to javafx.fxml;
+    opens com.egradebook.frontend.controller.admin to javafx.fxml;
+    opens com.egradebook.frontend.controller.shared to javafx.fxml;
+    opens com.egradebook.frontend.controller.student to javafx.fxml;
 }

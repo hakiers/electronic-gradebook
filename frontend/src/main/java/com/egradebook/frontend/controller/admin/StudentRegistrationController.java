@@ -1,4 +1,4 @@
-package com.egradebook.frontend.controller;
+package com.egradebook.frontend.controller.admin;
 
 import com.egradebook.frontend.service.RegisterService;
 import com.egradebook.frontend.utils.IntegerField;
@@ -6,12 +6,9 @@ import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-
-import java.lang.reflect.Field;
 
 public class StudentRegistrationController {
     @FXML private Button returnButton;
@@ -30,7 +27,7 @@ public class StudentRegistrationController {
     @FXML
     public void back() {
         Stage stage=(Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(stage, "/fxml/AdminPage.fxml", "Strona Główna");
+        ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna");
     }
     @FXML
     public void clear() {

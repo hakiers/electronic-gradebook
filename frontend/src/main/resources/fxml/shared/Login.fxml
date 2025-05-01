@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.egradebook.frontend.controller.LoginController"
+      fx:controller="com.egradebook.frontend.controller.shared.LoginController"
       alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f4;">
 
     <Text text="System logowania" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
