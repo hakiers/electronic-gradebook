@@ -8,10 +8,12 @@ import javafx.stage.Stage;
 public class AdminPageController {
     @FXML private Button addStudentButton;
     @FXML private Button logoutButton;
+    @FXML private Button addTeacherButton;
     @FXML
     public void initialize() {
         logoutButton.setOnAction(event -> handleLogout());
         addStudentButton.setOnAction(event -> handleAddStudent());
+        addTeacherButton.setOnAction(event -> handleAddTeacher());
     }
     @FXML
     public void handleLogout()
@@ -25,5 +27,11 @@ public class AdminPageController {
     {
         Stage currentStage = (Stage) addStudentButton.getScene().getWindow();
         ViewLoader.loadView(currentStage, "/fxml/admin/StudentRegistration.fxml", "eGradeBook - Dodaj ucznia");
+    }
+    @FXML
+    public void handleAddTeacher()
+    {
+        Stage currentStage = (Stage) addStudentButton.getScene().getWindow();
+        ViewLoader.loadView(currentStage,"/fxml/admin/TeacherRegistration.fxml", "eGradeBook - Dodaj nauczyciela");
     }
 }
