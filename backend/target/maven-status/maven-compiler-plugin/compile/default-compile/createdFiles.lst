@@ -6,10 +6,12 @@ com/egradebook/backend/repository/UserRepository.class
 com/egradebook/backend/exception/UnauthorizedException.class
 com/egradebook/backend/controller/StudentController.class
 com/egradebook/backend/exception/UsernameAlreadyExistsException.class
+com/egradebook/backend/dto/AddGradeRequest.class
 com/egradebook/backend/service/DebugService.class
-com/egradebook/backend/model/User.class
 com/egradebook/backend/utils/Generator.class
+com/egradebook/backend/model/User.class
 com/egradebook/backend/controller/AuthController.class
+com/egradebook/backend/repository/TeacherRepository.class
 com/egradebook/backend/model/LoginData.class
 com/egradebook/backend/service/UserService.class
 com/egradebook/backend/service/LoginService.class

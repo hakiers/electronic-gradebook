@@ -29,6 +29,7 @@ public class LoginService {
             throw new InvalidCredentialsException("Invalid username or password");
         }
 
+        session.setAttribute("userId", user.getId());
         session.setAttribute("username", user.getUsername());
         session.setAttribute("role", user.getRole());
     }
