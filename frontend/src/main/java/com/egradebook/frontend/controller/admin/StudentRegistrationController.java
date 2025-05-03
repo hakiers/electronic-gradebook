@@ -21,12 +21,12 @@ public class StudentRegistrationController {
     @FXML private Label correctLabel;
     @FXML private Button submitButton;
     @FXML private ToggleGroup sendTypeGroup;
-    private boolean isChangeMode = true;
+    private boolean isChangeMode = false;
     public void initialize() {
         addButton.setSelected(true);
         returnButton.setOnAction(event -> back());
         clearButton.setOnAction(event -> clear());
-        submitButton.setOnAction(event -> add());
+        submitButton.setOnAction(event -> handle());
         sendTypeGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal == null) {
                 if (oldVal != null) oldVal.setSelected(true);

@@ -17,7 +17,6 @@ public class UserService {
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final CookieManager cookieManager = new CookieManager();
     static {
-        // Inicjalizacja menedżera ciasteczek
         CookieHandler.setDefault(cookieManager);
         client = HttpClient.newBuilder()
                 .cookieHandler(CookieHandler.getDefault())

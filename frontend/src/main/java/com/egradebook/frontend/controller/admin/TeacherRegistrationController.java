@@ -1,7 +1,6 @@
 package com.egradebook.frontend.controller.admin;
 
 import com.egradebook.frontend.service.RegisterService;
-import com.egradebook.frontend.utils.IntegerField;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,7 +10,6 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.control.CheckComboBox;
 
-import java.sql.Struct;
 import java.util.List;
 
 public class TeacherRegistrationController {

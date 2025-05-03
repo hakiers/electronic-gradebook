@@ -2,7 +2,6 @@ package com.egradebook.frontend.service;
 
 import com.egradebook.frontend.dto.StudentRegistrationRequest;
 import com.egradebook.frontend.dto.TeacherRegistrationRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.util.Pair;
 
