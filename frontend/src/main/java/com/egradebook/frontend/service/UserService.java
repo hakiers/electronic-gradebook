@@ -14,7 +14,7 @@ import java.util.List;
 public class UserService {
     private static String currentRole;
     private static String currentUsername;
-    private static final HttpClient client;
+    public static final HttpClient client;
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final CookieManager cookieManager = new CookieManager();
     static {

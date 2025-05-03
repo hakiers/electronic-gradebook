@@ -1,5 +1,6 @@
 package com.egradebook.frontend.controller.student;
 
+import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ public class StudentPageController {
     @FXML private Button changePasswordButton;
     @FXML
     public void initialize() {
+        System.out.println(StudentService.getStudentGrades().getValue().gradesBySubject.toString());
         logoutButton.setOnAction(event -> handleLogout());
         changePasswordButton.setOnAction(event -> handleChange());
     }
