@@ -3,8 +3,8 @@ module com.example.egradebook {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
     requires org.controlsfx.controls;
-    requires java.sql;
     requires java.net.http;
+    requires org.apache.tomcat.embed.core;
     opens fxml.admin to javafx.fxml;
     opens fxml.shared to javafx.fxml;
     opens fxml.student to javafx.fxml;
