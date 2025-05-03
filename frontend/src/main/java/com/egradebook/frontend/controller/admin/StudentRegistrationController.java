@@ -4,17 +4,15 @@ import com.egradebook.frontend.service.RegisterService;
 import com.egradebook.frontend.utils.IntegerField;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class StudentRegistrationController {
     @FXML private Button returnButton;
     @FXML private Button clearButton;
-    @FXML private Button addButton;
-    @FXML private Button changeButton;
+    @FXML private ToggleButton addButton;
+    @FXML private ToggleButton changeButton;
     @FXML private TextField nameField;
     @FXML private TextField surnameField;
     @FXML private TextField peselField;
@@ -22,22 +20,25 @@ public class StudentRegistrationController {
     @FXML private Label errorLabel;
     @FXML private Label correctLabel;
     @FXML private Button submitButton;
+    @FXML private ToggleGroup sendTypeGroup;
+    private boolean isChangeMode = true;
     public void initialize() {
+        addButton.setSelected(true);
         returnButton.setOnAction(event -> back());
         clearButton.setOnAction(event -> clear());
         submitButton.setOnAction(event -> add());
-        addButton.setOnAction(event -> setAdd());
-        changeButton.setOnAction(event -> setChange());
+        sendTypeGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal == null) {
+                if (oldVal != null) oldVal.setSelected(true);
+                return;
+            }
+            isChangeMode = (newVal == changeButton);
+        });
     }
-    @FXML
-    public void setAdd() {
-        submitButton.setOnAction(event -> add());
-        submitButton.setText("Dodaj");
-    }
-    @FXML
-    public void setChange() {
-        submitButton.setOnAction(event -> change());
-        submitButton.setText("Zmień");
+    private void handle()
+    {
+        if(isChangeMode) change();
+        else add();
     }
     @FXML
     public void back() {
@@ -60,8 +61,6 @@ public class StudentRegistrationController {
         String pesel = peselField.getText();
         Integer class_id = class_idField.getValue();
         Pair<Integer,String> RegistrationInfo= RegisterService.registerStudent(name,surname,pesel,class_id);
-        System.out.println(RegistrationInfo.getKey());
-        System.out.println(RegistrationInfo.getValue());
         if(RegistrationInfo.getKey()==200){
             clear();
             correctLabel.setVisible(true);
