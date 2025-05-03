@@ -21,7 +21,7 @@ public class DebugController {
     }
 
     @GetMapping("/dbstatus")
-    public ResponseEntity<String> dbStatus(){
+    public ResponseEntity<?> dbStatus(){
         debugService.checkDatabaseConnection();
         return ResponseEntity.ok("Connection OK ✅");
     }
