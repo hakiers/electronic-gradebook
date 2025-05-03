@@ -3,12 +3,13 @@ package com.egradebook.frontend.service;
 import javafx.util.Pair;
 
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static com.egradebook.frontend.service.RegisterService.client;
 
 public class ConnectionService {
+    private static final HttpClient client = HttpClient.newHttpClient();
     public static Pair<Integer,String> ping() {
         try
         {

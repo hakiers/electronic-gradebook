@@ -3,14 +3,20 @@ package com.egradebook.frontend.controller.shared;
 import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.net.URL;
+
 public class LoginController {
+    @FXML
+    private VBox mainContainer; // musi odpowiadać fx:id z FXML
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Button loginButton;
@@ -26,8 +32,8 @@ public class LoginController {
     private boolean isWorkerMode = false;
     @FXML
     private void initialize() {
+
         asStudentButton.setSelected(true);
-        isWorkerMode = false;
         loginButton.setOnAction(event -> handleLogin());
         clearButton.setOnAction(event -> clearFields());
         loginTypeGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
@@ -37,6 +43,12 @@ public class LoginController {
             }
             isWorkerMode = (newVal == asWorkerButton);
         });
+        Platform.runLater(() -> {
+            Scene scene = mainContainer.getScene();
+            URL cssUrl = getClass().getResource("/css/styles.css");
+            scene.getStylesheets().add(cssUrl.toExternalForm());
+        });
+
     }
     private void clearFields() {
         usernameField.clear();

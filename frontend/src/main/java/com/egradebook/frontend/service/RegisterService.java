@@ -2,10 +2,10 @@ package com.egradebook.frontend.service;
 
 import com.egradebook.frontend.dto.StudentRegistrationRequest;
 import com.egradebook.frontend.dto.TeacherRegistrationRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.util.Pair;
 
+import java.net.CookieHandler;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -13,7 +13,9 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 public class RegisterService {
-    static final HttpClient client = HttpClient.newHttpClient();
+    private static final HttpClient client = HttpClient.newBuilder()
+            .cookieHandler(CookieHandler.getDefault())
+            .build();
     private static final ObjectMapper mapper = new ObjectMapper();
     public static Pair<Integer,String> registerStudent(String name, String surname, String pesel, Integer classId)
     {
