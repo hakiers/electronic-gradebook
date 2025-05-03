@@ -1,7 +1,8 @@
 package com.egradebook.backend.controller;
 
+import com.egradebook.backend.dto.UserChangePasswordRequest;
 import com.egradebook.backend.dto.UserLoginRequest;
-import com.egradebook.backend.service.UserService;
+import com.egradebook.backend.service.LoginService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,21 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    UserService userService;
+    LoginService loginService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginRequest request, HttpSession session) {
-        try{
-            userService.loginUser(request, session);
-            return ResponseEntity.ok(session.getAttribute("role"));
-        } catch (IllegalStateException | IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        loginService.loginUser(request, session);
+        return ResponseEntity.ok(session.getAttribute("role"));
     }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok("Logout successful");
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody UserChangePasswordRequest request, HttpSession session) {
+        loginService.changePassword(request, session);
+        return ResponseEntity.ok("Password changed successfully");
     }
 }
