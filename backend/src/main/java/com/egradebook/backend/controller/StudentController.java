@@ -2,9 +2,10 @@ package com.egradebook.backend.controller;
 
 
 import com.egradebook.backend.model.Grade;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.egradebook.backend.model.Subject;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,8 +16,13 @@ public class StudentController {
     // /grades -  pobierz swoje oceny get
     // /attendance - obecność get
     // /profile - dane osobowe get
-    @GetMapping("/grades")
-    public List<Grade> getGrades(){
+    @GetMapping("/grades/{subject}")
+    public ResponseEntity<?> getGrades(@PathVariable String subject, HttpSession session) {
+        return null;
+    }
+
+    @GetMapping("/grades/all")
+    public ResponseEntity<?> getAllGrades(HttpSession session) {
         return null;
     }
 }
