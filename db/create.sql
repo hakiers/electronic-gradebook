@@ -138,8 +138,9 @@ CREATE TABLE slot_exceptions (
 );
 
 -- połączenie nauczycieli z klasami, których uczą
-CREATE TABLE class_teachers (
-    class_id   INTEGER NOT NULL REFERENCES classes(class_id) ON DELETE CASCADE,
+CREATE TABLE teacher_class_subject (
     teacher_id INTEGER NOT NULL REFERENCES teachers(teacher_id) ON DELETE CASCADE,
-    PRIMARY KEY(class_id, teacher_id)
+    class_id INTEGER NOT NULL REFERENCES classes(class_id) ON DELETE CASCADE,
+    subject_id INTEGER NOT NULL REFERENCES subjects(subject_id) ON DELETE CASCADE,
+    PRIMARY KEY (teacher_id, class_id, subject_id)
 );
