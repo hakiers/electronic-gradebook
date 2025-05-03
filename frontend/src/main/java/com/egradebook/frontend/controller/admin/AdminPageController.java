@@ -8,12 +8,20 @@ import javafx.stage.Stage;
 public class AdminPageController {
     @FXML private Button addStudentButton;
     @FXML private Button logoutButton;
+    @FXML private Button changePasswordButton;
     @FXML private Button addTeacherButton;
     @FXML
     public void initialize() {
         logoutButton.setOnAction(event -> handleLogout());
         addStudentButton.setOnAction(event -> handleAddStudent());
         addTeacherButton.setOnAction(event -> handleAddTeacher());
+        changePasswordButton.setOnAction(event -> handleChange());
+    }
+    @FXML
+    public void handleChange()
+    {
+        Stage currentStage = (Stage) logoutButton.getScene().getWindow();
+        ViewLoader.loadView(currentStage,"/fxml/shared/ChangePassword.fxml","Zmiana hasła");
     }
     @FXML
     public void handleLogout()

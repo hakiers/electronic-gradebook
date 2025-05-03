@@ -1,6 +1,7 @@
 package com.egradebook.frontend.service;
 
 import com.egradebook.frontend.dto.FrontendLoginRequest;
+import com.egradebook.frontend.dto.UserChangePasswordRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.util.Pair;
 
@@ -48,7 +49,6 @@ public class UserService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            printCookies();
             if (response.statusCode() == 200) {
                 currentRole = response.body();
                 currentUsername = username;
@@ -69,15 +69,27 @@ public class UserService {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.statusCode());
             System.out.println(response.body());
-            printCookies();
             currentRole = null;
             currentUsername = null;
         }catch (Exception e) {
         }
     }
-    private static void printCookies() {
-        List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
-        System.out.println("Aktualne ciasteczka:");
-        cookies.forEach(cookie -> System.out.println(cookie.getName() + "=" + cookie.getValue()));
+    public static Pair<Integer,String> changePassword(String newPassword) {
+        try
+        {
+            UserChangePasswordRequest request = new UserChangePasswordRequest(currentUsername,newPassword);
+            String json =mapper.writeValueAsString(request);
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/auth/change-password"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.statusCode());
+            System.out.println(response.body());
+            return new Pair<>(response.statusCode(), response.body());
+        }catch (Exception e) {
+            return new Pair<>(0,"");
+        }
     }
 }
