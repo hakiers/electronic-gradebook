@@ -1,14 +1,12 @@
 package com.egradebook.backend.utils;
 
 import com.egradebook.backend.model.LoginData;
-import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.repository.utils.CountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.css.Counter;
 
 @Component
-public class generator {
+public class Generator {
     @Autowired
     private CountRepository countRepository;
 

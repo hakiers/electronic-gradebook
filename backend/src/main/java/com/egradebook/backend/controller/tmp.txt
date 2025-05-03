@@ -1,4 +1,0 @@
-prosty kontroler rest
-
-np do frontendu wysylamy zapytanie
-http://localhost:8080/api/users/register', { method: 'POST', body: JSON.stringify({ username, password, role })

@@ -37,8 +37,11 @@ public class LoginService {
         if(session.getAttribute("username") == null){
             throw new UnauthorizedException("You are not logged in!");
         }
-        if(!session.getAttribute("username").equals(request.getUsername()) && !session.getAttribute("role").equals("Admin")){
+        if(!session.getAttribute("username").equals(request.getUsername()) && !session.getAttribute("role").equals("admin")){
             throw new ForbiddenOperationException("You can change password only for yourself or for admin!");
+        }
+        if(findRepository.findUserByUsername(request.getUsername()) == null){
+            throw new InvalidCredentialsException("Invalid username");
         }
 
         String newHashedPassword = passwordEncoder.encode(request.getNewPassword());

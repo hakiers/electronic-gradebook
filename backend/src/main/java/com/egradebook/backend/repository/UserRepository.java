@@ -3,8 +3,6 @@ package com.egradebook.backend.repository;
 import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.model.User;
-import com.egradebook.backend.repository.utils.CountRepository;
-import com.egradebook.backend.repository.utils.FindRepository;
 import com.egradebook.backend.repository.utils.GetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

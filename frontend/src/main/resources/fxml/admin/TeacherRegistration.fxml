@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import com.egradebook.frontend.utils.IntegerField?>
+<?import org.controlsfx.control.CheckComboBox?>
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.egradebook.frontend.controller.admin.TeacherRegistrationController"
+      alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f4;">
+    <Button text="wróć" fx:id="returnButton" defaultButton="true"
+            alignment="TOP_LEFT"/>
+    <Label fx:id="errorLabel" textFill="RED" visible="false" />
+    <Label fx:id="correctLabel" textFill="GREEN" visible="false" />
+    <GridPane hgap="10" vgap="10" alignment="CENTER">
+        <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+        <Label text="Imię:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="nameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Nazwisko:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="surnameField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="(wymagane) PESEL:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="peselField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Przedmioty:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <CheckComboBox fx:id="subjectsCheckComboBox" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    </GridPane>
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Dodaj" fx:id="submitButton" defaultButton="true"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        <Button text="Wyczyść" fx:id="clearButton"
+                style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+    </HBox>
+</VBox>

@@ -29,7 +29,7 @@ public class FindRepository {
     }
 
     public User findUserByPesel(String pesel){
-        String sql = "SELECT user_id, username, password, role FROM users WHERE pesel = ?";
+        String sql = "SELECT u.user_id, u.username, u.password, u.role FROM users u JOIN personal_data p ON u.user_id = p.user_id WHERE p.pesel = ?";
         try{
             return jdbcTemplate.queryForObject(sql, new Object[]{pesel}, (rs, rowNum) ->
                     new User(
