@@ -22,6 +22,7 @@
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/Subject.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/Teacher.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/User.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/StudentRepository.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/UserRepository.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/utils/CountRepository.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/utils/FindRepository.java
