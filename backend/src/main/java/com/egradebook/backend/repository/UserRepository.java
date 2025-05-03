@@ -37,6 +37,7 @@ public class UserRepository {
 
         int teacherId = getRepository.getTeacherId(teacher.getUsername());
         //dodajemy przedmioty
+        //to do dodac dane osobowe
         sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
 
         List<String> subjects = teacher.getSubjects();
