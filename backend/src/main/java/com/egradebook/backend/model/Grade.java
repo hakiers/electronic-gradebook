@@ -8,7 +8,7 @@ public class Grade {
     private int grade_value;
     private String description;
 
-    Grade(int student_id, int subject_id, int teacher_id, String date, int grade_value, String description) {
+    public Grade(int student_id, int subject_id, int teacher_id, String date, int grade_value, String description) {
         this.student_id = student_id;
         this.subject_id = subject_id;
         this.teacher_id = teacher_id;

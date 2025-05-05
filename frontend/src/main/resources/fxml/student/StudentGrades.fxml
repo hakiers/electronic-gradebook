@@ -7,9 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
-      spacing="15"
-      style="-fx-padding: 20;"
-      stylesheets="@/css/styles.css">
+      fx:controller="com.egradebook.frontend.controller.student.StudentGradesController">
 
     <!-- Nagłówek z danymi ucznia -->
     <HBox spacing="20" alignment="CENTER_LEFT">
@@ -18,11 +16,10 @@
     </HBox>
 
     <!-- Tabela z ocenami -->
-    <TableView fx:id="gradesTable" styleClass="grades-table">
+    <TableView fx:id="gradesTable">
         <columns>
-            <TableColumn text="Przedmiot" fx:id="subjectColumn" styleClass="subject-column"/>
-            <TableColumn text="Oceny" fx:id="gradesColumn" styleClass="grades-column"/>
-            <TableColumn text="Średnia" fx:id="averageColumn" styleClass="average-column"/>
+            <TableColumn fx:id="subjectColumn" text="Przedmiot" />
+            <TableColumn fx:id="gradesColumn" text="Oceny" />
         </columns>
     </TableView>
 

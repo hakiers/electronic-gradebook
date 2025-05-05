@@ -3,6 +3,8 @@ package com.egradebook.frontend.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class Grade {
     private int student_id;
     private int subject_id;
@@ -60,5 +62,22 @@ public class Grade {
     @Override
     public String toString() {
         return grade_value + ", " + student_id + "; ";
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Grade grade = (Grade) o;
+        return student_id == grade.student_id &&
+                subject_id == grade.subject_id &&
+                teacher_id == grade.teacher_id &&
+                grade_value == grade.grade_value &&
+                Objects.equals(date, grade.date) &&
+                Objects.equals(description, grade.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(student_id, subject_id, teacher_id, date, grade_value, description);
     }
 }

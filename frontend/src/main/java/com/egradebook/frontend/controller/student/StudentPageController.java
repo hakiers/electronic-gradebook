@@ -8,10 +8,11 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 public class StudentPageController {
     @FXML private Button logoutButton;
+    @FXML private Button showGradesButton;
     @FXML private Button changePasswordButton;
     @FXML
     public void initialize() {
-        System.out.println(StudentService.getStudentGrades().getValue().gradesBySubject.toString());
+        showGradesButton.setOnAction(event -> handleShowGrades());
         logoutButton.setOnAction(event -> handleLogout());
         changePasswordButton.setOnAction(event -> handleChange());
     }
@@ -27,5 +28,11 @@ public class StudentPageController {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
         UserService.logout();
         ViewLoader.loadView(currentStage, "/fxml/shared/Login.fxml", "eGradeBook - Logowanie");
+    }
+    @FXML
+    public void handleShowGrades()
+    {
+        Stage currentStage = (Stage) logoutButton.getScene().getWindow();
+        ViewLoader.loadView(currentStage, "/fxml/student/StudentGrades.fxml", "Oceny");
     }
 }
