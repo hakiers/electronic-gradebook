@@ -44,4 +44,21 @@ public class FindRepository {
             return null;
         }
     }
+
+    public User findUserByPeselAndRole(String pesel, String role){
+        String sql = "SELECT u.user_id, u.username, u.password, u.role FROM users u JOIN personal_data p ON u.user_id = p.user_id WHERE p.pesel = ? AND u.role = ?";
+        try{
+            return jdbcTemplate.queryForObject(sql, new Object[]{pesel, role}, (rs, rowNum) ->
+                    new User(
+                            rs.getLong("user_id"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("role")
+                    )
+
+            );
+        } catch(EmptyResultDataAccessException e){
+            return null;
+        }
+    }
 }

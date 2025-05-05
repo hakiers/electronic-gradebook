@@ -5,10 +5,10 @@ public class Grade {
     private int subject_id;
     private int teacher_id;
     private String date;
-    private int grade_value;
+    private float grade_value;
     private String description;
 
-    public Grade(int student_id, int subject_id, int teacher_id, String date, int grade_value, String description) {
+    public Grade(int student_id, int subject_id, int teacher_id, String date, float grade_value, String description) {
         this.student_id = student_id;
         this.subject_id = subject_id;
         this.teacher_id = teacher_id;
@@ -20,7 +20,7 @@ public class Grade {
     public int getSubject_id() { return subject_id; }
     public int getTeacher_id() { return teacher_id; }
     public String getDate() { return date; }
-    public int getGrade_value() { return grade_value; }
+    public float getGrade_value() { return grade_value; }
     public String getDescription() { return description; }
 
     public void setStudent_id(int student_id) { this.student_id = student_id; }

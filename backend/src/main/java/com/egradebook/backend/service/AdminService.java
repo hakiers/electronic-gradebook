@@ -47,7 +47,7 @@ public class AdminService {
         if(session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")){
             throw new ForbiddenOperationException("Only admin can register new teacher!");
         }
-        if(findRepository.findUserByPesel(request.getPesel()) != null){
+        if(findRepository.findUserByPeselAndRole(request.getPesel(), "teacher") != null){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
         LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
@@ -60,7 +60,7 @@ public class AdminService {
         if(session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")){
             throw new ForbiddenOperationException("Only admin can register new teacher!");
         }
-        if(findRepository.findUserByPesel(request.getPesel()) != null){
+        if(findRepository.findUserByPeselAndRole(request.getPesel(), "student") != null){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
 
