@@ -1,5 +1,6 @@
 package com.egradebook.frontend.controller.admin;
 
+import com.egradebook.frontend.model.LoginData;
 import com.egradebook.frontend.service.RegisterService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
@@ -22,7 +23,12 @@ public class TeacherRegistrationController {
     @FXML private Label errorLabel;
     @FXML private Label correctLabel;
     @FXML private CheckComboBox<String> subjectsCheckComboBox;
+    @FXML private Label usernameLabel;
+    @FXML private Label passwordLabel;
+    @FXML private TextField usernameField;
+    @FXML private TextField passwordField;
     public void initialize() {
+        hide();
         returnButton.setOnAction(event -> back());
         clearButton.setOnAction(event -> clear());
         submitButton.setOnAction(event -> add());
@@ -39,9 +45,12 @@ public class TeacherRegistrationController {
     }
     @FXML
     public void clear() {
+        hide();
         nameField.clear();
         surnameField.clear();
+        peselField.clear();
         subjectsCheckComboBox.getCheckModel().clearChecks();
+
         errorLabel.setText("");
         correctLabel.setText("");
     }
@@ -51,11 +60,13 @@ public class TeacherRegistrationController {
         String surname = surnameField.getText();
         String pesel = peselField.getText();
         List<String > subjects = subjectsCheckComboBox.getCheckModel().getCheckedItems();
-        Pair<Integer,String> RegistrationInfo= RegisterService.registerTeacher(name,surname,pesel,subjects);
-        System.out.println(RegistrationInfo.getKey());
-        System.out.println(RegistrationInfo.getValue());
+        Pair<Integer, LoginData> RegistrationInfo= RegisterService.registerTeacher(name,surname,pesel,subjects);
+        LoginData loginData=RegistrationInfo.getValue();
         if(RegistrationInfo.getKey()==200){
             clear();
+            show();
+            usernameField.setText(loginData.getUsername());
+            passwordField.setText(loginData.getPassword());
             correctLabel.setVisible(true);
             correctLabel.setText("Pomyślnie dodano nauczyciela");
         }
@@ -63,5 +74,19 @@ public class TeacherRegistrationController {
             errorLabel.setVisible(true);
             errorLabel.setText("Dane są niepoprawne, albo nauczyciel już istnieje");
         }
+    }
+    void hide() {
+        usernameField.setVisible(false);
+        usernameField.setEditable(false);
+        passwordField.setVisible(false);
+        passwordField.setEditable(false);
+        usernameLabel.setVisible(false);
+        passwordLabel.setVisible(false);
+    }
+    void show() {
+        usernameField.setVisible(true);
+        passwordField.setVisible(true);
+        usernameLabel.setVisible(true);
+        passwordLabel.setVisible(true);
     }
 }

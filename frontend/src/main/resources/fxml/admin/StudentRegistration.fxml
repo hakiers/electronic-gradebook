@@ -40,6 +40,12 @@
 
         <Label text="Klasa:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
         <IntegerField fx:id="class_idField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label fx:id="usernameLabel" text="Nazwa użytkownika:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+        <TextField fx:id="usernameField" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+
+        <Label fx:id="passwordLabel" text="Hasło" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+        <TextField fx:id="passwordField" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER">

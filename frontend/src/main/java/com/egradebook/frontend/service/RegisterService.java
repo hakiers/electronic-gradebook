@@ -2,6 +2,7 @@ package com.egradebook.frontend.service;
 
 import com.egradebook.frontend.dto.StudentRegistrationRequest;
 import com.egradebook.frontend.dto.TeacherRegistrationRequest;
+import com.egradebook.frontend.model.LoginData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.util.Pair;
 
@@ -17,7 +18,7 @@ public class RegisterService {
             .cookieHandler(CookieHandler.getDefault())
             .build();
     private static final ObjectMapper mapper = new ObjectMapper();
-    public static Pair<Integer,String> registerStudent(String name, String surname, String pesel, Integer classId)
+    public static Pair<Integer,LoginData> registerStudent(String name, String surname, String pesel, Integer classId)
     {
         try{
             StudentRegistrationRequest request= new StudentRegistrationRequest(name, surname, pesel, classId);
@@ -28,12 +29,13 @@ public class RegisterService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            return new Pair<>(response.statusCode(), response.body());
+            LoginData loginData = mapper.readValue(response.body(), LoginData.class);
+            return new Pair<>(response.statusCode(), loginData);
         } catch (Exception e) {
-            return new Pair<>(0,"");
+            return new Pair<>(0,null);
         }
     }
-    public static Pair<Integer,String> registerTeacher(String name, String surname, String pesel, List<String> subjects)
+    public static Pair<Integer, LoginData> registerTeacher(String name, String surname, String pesel, List<String> subjects)
     {
         try{
             TeacherRegistrationRequest request= new TeacherRegistrationRequest(name, surname, pesel, subjects);
@@ -44,9 +46,10 @@ public class RegisterService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            return new Pair<>(response.statusCode(), response.body());
+            LoginData loginData = mapper.readValue(response.body(), LoginData.class);
+            return new Pair<>(response.statusCode(), loginData);
         } catch (Exception e) {
-            return new Pair<>(0,"");
+            return new Pair<>(0,null);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.egradebook.frontend.controller.admin;
 
+import com.egradebook.frontend.model.LoginData;
 import com.egradebook.frontend.service.RegisterService;
 import com.egradebook.frontend.utils.IntegerField;
 import com.egradebook.frontend.utils.ViewLoader;
@@ -21,8 +22,13 @@ public class StudentRegistrationController {
     @FXML private Label correctLabel;
     @FXML private Button submitButton;
     @FXML private ToggleGroup sendTypeGroup;
+    @FXML private Label usernameLabel;
+    @FXML private Label passwordLabel;
+    @FXML private TextField usernameField;
+    @FXML private TextField passwordField;
     private boolean isChangeMode = false;
     public void initialize() {
+        hide();
         addButton.setSelected(true);
         returnButton.setOnAction(event -> back());
         clearButton.setOnAction(event -> clear());
@@ -47,6 +53,7 @@ public class StudentRegistrationController {
     }
     @FXML
     public void clear() {
+        hide();
         nameField.clear();
         surnameField.clear();
         peselField.clear();
@@ -60,9 +67,13 @@ public class StudentRegistrationController {
         String surname = surnameField.getText();
         String pesel = peselField.getText();
         Integer class_id = class_idField.getValue();
-        Pair<Integer,String> RegistrationInfo= RegisterService.registerStudent(name,surname,pesel,class_id);
+        Pair<Integer, LoginData> RegistrationInfo= RegisterService.registerStudent(name,surname,pesel,class_id);
+        LoginData loginData = RegistrationInfo.getValue();
         if(RegistrationInfo.getKey()==200){
             clear();
+            show();
+            usernameField.setText(loginData.getUsername());
+            passwordField.setText(loginData.getPassword());
             correctLabel.setVisible(true);
             correctLabel.setText("Pomyślnie dodano ucznia");
         }
@@ -93,5 +104,19 @@ public class StudentRegistrationController {
             errorLabel.setVisible(true);
             errorLabel.setText("Dane są niepoprawne, albo uczeń już istnieje");
         }*/
+    }
+    void hide() {
+        usernameField.setEditable(false);
+        usernameField.setVisible(false);
+        usernameLabel.setVisible(false);
+        passwordField.setVisible(false);
+        passwordField.setEditable(false);
+        passwordLabel.setVisible(false);
+    }
+    void show() {
+        usernameField.setVisible(true);
+        passwordField.setVisible(true);
+        usernameLabel.setVisible(true);
+        passwordLabel.setVisible(true);
     }
 }
