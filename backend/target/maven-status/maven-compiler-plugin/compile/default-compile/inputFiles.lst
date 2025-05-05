@@ -7,6 +7,8 @@
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/controller/TeacherController.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/controller/UserController.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/dto/AddGradeRequest.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/dto/EditGradeRequest.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/dto/RemoveGradeRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/dto/StudentRegistrationRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/dto/TeacherRegistrationRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/dto/UserChangePasswordRequest.java
