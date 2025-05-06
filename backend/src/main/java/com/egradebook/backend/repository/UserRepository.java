@@ -34,10 +34,11 @@ public class UserRepository {
         jdbcTemplate.update(sql, userId);
 
         int teacherId = getRepository.getTeacherId(teacher.getUsername());
-        //dodajemy przedmioty
-        //to do dodac dane osobowe
-        sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
+        sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, userId, teacher.getName(), teacher.getSurname(), teacher.getPesel());
 
+
+        sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
         List<String> subjects = teacher.getSubjects();
         for(String subject: subjects){
             jdbcTemplate.update(sql, teacherId, getRepository.getSubjectId(subject));

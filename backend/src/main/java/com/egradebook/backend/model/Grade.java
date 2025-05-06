@@ -1,5 +1,10 @@
 package com.egradebook.backend.model;
 
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Grade {
     private int student_id;
     private int subject_id;
