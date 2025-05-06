@@ -1,12 +1,14 @@
 package com.egradebook.backend.service;
 
 import com.egradebook.backend.model.Grade;
+import com.egradebook.backend.model.StudentProfile;
 import com.egradebook.backend.model.Subject;
 import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.utils.FindRepository;
 import com.egradebook.backend.repository.utils.GetRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -40,6 +42,11 @@ public class StudentService {
             gradesList.put(subject.getName(), getStudentsGradesBySubject(subject.getName(), session));
         }
         return gradesList;
+    }
+
+    public StudentProfile getStudentsProfile(HttpSession session) {
+        int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
+        String name =
     }
 
 }
