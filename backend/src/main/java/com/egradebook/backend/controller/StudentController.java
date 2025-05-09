@@ -35,8 +35,7 @@ public class StudentController {
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(HttpSession session) {
-        return null;
-        //dane osobowe
-
+        return ResponseEntity.ok(studentService.getStudentsProfile(session));
+        //
     }
 }
