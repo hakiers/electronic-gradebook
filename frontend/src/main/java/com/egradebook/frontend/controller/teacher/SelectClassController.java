@@ -11,10 +11,13 @@ import javafx.util.StringConverter;
 public class SelectClassController {
     //buttons
     @FXML private Button returnButton;
+    @FXML private Button nextButton;
     //combobox
     @FXML private ComboBox<Pair<String ,String>> selectBox;
     public void initialize() {
         returnButton.setOnAction(event ->back());
+        nextButton.setOnAction(event -> next());
+
         selectBox.getItems().addAll(new Pair<>("1A", "Matematyka"),new Pair<>("1A","Informatyka"),
                 new Pair<>("2B","Informatyka"));
         selectBox.setConverter(new StringConverter<>() {
@@ -33,5 +36,9 @@ public class SelectClassController {
     public void back() {
         Stage stage=(Stage) returnButton.getScene().getWindow();
         ViewLoader.loadView(stage, "/fxml/teacher/TeacherPage.fxml", "Strona Główna");
+    }
+    public void next() {
+        Stage stage=(Stage) returnButton.getScene().getWindow();
+        ViewLoader.loadView(stage, "/fxml/teacher/TeacherGrades.fxml", "Oceny");
     }
 }

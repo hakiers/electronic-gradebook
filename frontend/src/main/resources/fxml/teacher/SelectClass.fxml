@@ -13,6 +13,6 @@
             alignment="TOP_LEFT"/>
     <Label text="Wybierz klasę" fx:id="selectLabel" />
     <ComboBox fx:id="selectBox"/>
-    <Button text="Dodaj" fx:id="przejdź" defaultButton="true"
+    <Button text="Przejdź" fx:id="nextButton" defaultButton="true"
             style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
 </VBox>

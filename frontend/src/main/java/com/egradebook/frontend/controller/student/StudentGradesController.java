@@ -3,6 +3,7 @@ package com.egradebook.frontend.controller.student;
 import com.egradebook.frontend.model.Grade;
 import com.egradebook.frontend.model.SubjectGrades;
 import com.egradebook.frontend.service.StudentService;
+import com.egradebook.frontend.utils.ViewLoader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,12 +11,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StudentGradesController {
+    @FXML private Button returnButton;
 
     @FXML private TableView<SubjectGrades> gradesTable;
     @FXML private TableColumn<SubjectGrades, String> subjectColumn;
@@ -23,6 +26,7 @@ public class StudentGradesController {
 
     @FXML
     public void initialize() {
+        returnButton.setOnAction(event -> back());
         configureTableColumns();
         loadGrades();
     }
@@ -69,5 +73,9 @@ public class StudentGradesController {
         });
 
         gradesTable.setItems(subjectGradesList);
+    }
+    public void back() {
+        Stage stage = (Stage) returnButton.getScene().getWindow();
+        ViewLoader.loadView(stage, "/fxml/student/StudentPage.fxml", "Strona Główna");
     }
 }
