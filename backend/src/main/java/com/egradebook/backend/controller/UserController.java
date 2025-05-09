@@ -7,5 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class UserController {
     // /me - info o zalogowanym uzytkowniku get
+    // /me/personal
+    // /me
     // /{id} - info o użytkowniku (tylko dla admina) get
 }
