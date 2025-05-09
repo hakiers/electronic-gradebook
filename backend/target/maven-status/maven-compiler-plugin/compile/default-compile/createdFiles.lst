@@ -6,12 +6,14 @@ com/egradebook/backend/repository/UserRepository.class
 com/egradebook/backend/exception/UnauthorizedException.class
 com/egradebook/backend/controller/StudentController.class
 com/egradebook/backend/exception/UsernameAlreadyExistsException.class
+com/egradebook/backend/dto/AddGradeRequest.class
 com/egradebook/backend/service/DebugService.class
 com/egradebook/backend/repository/StudentRepository.class
 com/egradebook/backend/dto/RemoveGradeRequest.class
-com/egradebook/backend/utils/Generator.class
 com/egradebook/backend/model/User.class
+com/egradebook/backend/utils/Generator.class
 com/egradebook/backend/controller/AuthController.class
+com/egradebook/backend/repository/TeacherRepository.class
 com/egradebook/backend/model/LoginData.class
 com/egradebook/backend/service/UserService.class
 com/egradebook/backend/service/LoginService.class
@@ -33,6 +35,7 @@ com/egradebook/backend/dto/UserLoginRequest.class
 com/egradebook/backend/EgradebookApplication.class
 com/egradebook/backend/dto/EditGradeRequest.class
 com/egradebook/backend/controller/AdminController.class
+com/egradebook/backend/model/StudentProfile.class
 com/egradebook/backend/dto/StudentRegistrationRequest.class
 com/egradebook/backend/model/Subject.class
 com/egradebook/backend/exception/PeselAlreadyExistsException.class

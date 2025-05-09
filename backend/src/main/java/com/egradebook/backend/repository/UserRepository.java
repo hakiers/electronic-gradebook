@@ -1,8 +1,6 @@
 package com.egradebook.backend.repository;
 
-import com.egradebook.backend.model.Student;
-import com.egradebook.backend.model.Teacher;
-import com.egradebook.backend.model.User;
+import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.utils.GetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -62,6 +60,30 @@ public class UserRepository {
     public void changePassword(String username, String newPassword){
         String sql = "UPDATE users SET password = ? WHERE username = ?";
         jdbcTemplate.update(sql, newPassword, username);
+    }
+
+    public UserContactData getUserContactData(int user_id){
+        String sql = "SELECT phone_number, email, adress FROM contact_info WHERE user_id = ?";
+
+        return (UserContactData) jdbcTemplate.query(sql, new Object[]{user_id}, (rs, rowNum) ->
+                new UserContactData(
+                        rs.getString("phone_number"),
+                        rs.getString("email"),
+                        rs.getString("adress")
+                )
+        );
+    }
+
+    public UserPersonalData getUserPersonalData(int user_id){
+        String sql = "SELECT name, surname, pesel FROM personal_data WHERE user_id = ?";
+
+        return (UserPersonalData) jdbcTemplate.query(sql, new Object[]{user_id}, (rs, rowNum) ->
+                    new UserPersonalData(
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getString("pesel")
+                    )
+                );
     }
 
 }

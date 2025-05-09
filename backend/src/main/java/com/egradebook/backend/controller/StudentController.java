@@ -36,5 +36,6 @@ public class StudentController {
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(HttpSession session) {
         return ResponseEntity.ok(studentService.getStudentsProfile(session));
+        //
     }
 }

@@ -44,9 +44,11 @@ public class StudentService {
         return gradesList;
     }
 
+
     public StudentProfile getStudentsProfile(HttpSession session) {
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
-        String name =
+        String name = "xd";
+        return null;
     }
 
 }
