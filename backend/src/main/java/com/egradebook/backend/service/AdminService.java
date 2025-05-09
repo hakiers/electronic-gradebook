@@ -42,7 +42,13 @@ public class AdminService {
         }
         else userRepository.changePassword("student", hashedPassword);
     }
-
+    public void createTeacher(){
+        String hashedPassword = passwordEncoder.encode("teacher");
+        if(findRepository.findUserByUsername("teacher") == null){
+            userRepository.saveUser(new User(null, "teacher", hashedPassword, "teacher"));
+        }
+        else userRepository.changePassword("teacher", hashedPassword);
+    }
     public LoginData registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
         if(session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")){
             throw new ForbiddenOperationException("Only admin can register new teacher!");

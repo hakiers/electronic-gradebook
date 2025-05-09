@@ -16,5 +16,6 @@ module com.example.egradebook {
     opens com.egradebook.frontend.controller.admin to javafx.fxml;
     opens com.egradebook.frontend.controller.shared to javafx.fxml;
     opens com.egradebook.frontend.controller.student to javafx.fxml;
+    opens com.egradebook.frontend.controller.teacher to javafx.fxml;
     opens com.egradebook.frontend.model to javafx.base;
 }

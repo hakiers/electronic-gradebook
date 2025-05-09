@@ -1,22 +1,18 @@
-package com.egradebook.frontend.controller.admin;
+package com.egradebook.frontend.controller.teacher;
 
 import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-public class AdminPageController {
-    //przyciski
-    @FXML private Button addStudentButton;
+public class TeacherPageController {
     @FXML private Button logoutButton;
+    @FXML private Button manageClassButton;
     @FXML private Button changePasswordButton;
-    @FXML private Button addTeacherButton;
-
     @FXML
     public void initialize() {
+        manageClassButton.setOnAction(event -> handleManageClass());
         logoutButton.setOnAction(event -> handleLogout());
-        addStudentButton.setOnAction(event -> handleAddStudent());
-        addTeacherButton.setOnAction(event -> handleAddTeacher());
         changePasswordButton.setOnAction(event -> handleChange());
     }
     @FXML
@@ -33,15 +29,9 @@ public class AdminPageController {
         ViewLoader.loadView(currentStage, "/fxml/shared/Login.fxml", "eGradeBook - Logowanie");
     }
     @FXML
-    public void handleAddStudent()
+    public void handleManageClass()
     {
-        Stage currentStage = (Stage) addStudentButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage, "/fxml/admin/StudentRegistration.fxml", "eGradeBook - Dodaj ucznia");
-    }
-    @FXML
-    public void handleAddTeacher()
-    {
-        Stage currentStage = (Stage) addStudentButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage,"/fxml/admin/TeacherRegistration.fxml", "eGradeBook - Dodaj nauczyciela");
+        Stage currentStage = (Stage) logoutButton.getScene().getWindow();
+        ViewLoader.loadView(currentStage, "/fxml/teacher/SelectClass.fxml", "Wybór klasy");
     }
 }

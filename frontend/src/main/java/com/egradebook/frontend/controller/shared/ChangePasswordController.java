@@ -8,12 +8,17 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class ChangePasswordController {
+    //przyciski
     @FXML Button returnButton;
+    @FXML Button changeButton;
+
+    //pola
     @FXML PasswordField checkField;
     @FXML PasswordField newPasswordField;
-    @FXML Button changeButton;
+    //napisy
     @FXML Label errorLabel;
     @FXML Label successLabel;
+
     Pair<Integer,String> ChangeInfo;
 
     public void initialize() {
@@ -29,6 +34,8 @@ public class ChangePasswordController {
         else if(role.equals("admin")) {
             ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna");
         }
+        else ViewLoader.loadView(stage, "/fxml/teacher/TeacherPage.fxml", "Strona Główna");
+
     }
     public void handleChange() {
         String check = checkField.getText();

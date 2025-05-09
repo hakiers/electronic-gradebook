@@ -16,15 +16,24 @@ import java.net.URL;
 
 public class LoginController {
     @FXML
-    private VBox mainContainer; // musi odpowiadać fx:id z FXML
-    @FXML private TextField usernameField;
-    @FXML private PasswordField passwordField;
+    private VBox mainContainer;
+
+    //przyciski
     @FXML private Button loginButton;
     @FXML private Button clearButton;
+
+    @FXML private ToggleGroup loginTypeGroup;
     @FXML private ToggleButton asStudentButton;
     @FXML private ToggleButton asWorkerButton;
-    @FXML private ToggleGroup loginTypeGroup;
+
+    //pola
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+
+
+    //napisy
     @FXML private Label errorLabel;
+
     Stage stage;
     String username;
     String password;
@@ -89,9 +98,12 @@ public class LoginController {
                     ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna"));
                 delay.play();
             }
-            else {
-                errorLabel.setText("Niepoprawny login lub hasło");
-                errorLabel.setVisible(true);
+            else{
+                ViewLoader.loadView(stage, "/fxml/shared/MainPage.fxml","Strona główna");
+                PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                delay.setOnFinished(event ->
+                        ViewLoader.loadView(stage, "/fxml/teacher/TeacherPage.fxml", "Strona Główna"));
+                delay.play();
             }
         }
         //dodaj konto nauczyciela

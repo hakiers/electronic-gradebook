@@ -7,11 +7,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 
 import java.util.List;
 import java.util.Map;
@@ -34,33 +32,33 @@ public class StudentGradesController {
         gradesColumn.setCellValueFactory(new PropertyValueFactory<>("grades"));
 
         // Dodanie tooltipa z dodatkowymi informacjami
-        gradesColumn.setCellFactory(column -> new TableCell<SubjectGrades, String>() {
+        gradesColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(item);
+                setText(null); // wyczyść domyślny tekst
+                setGraphic(null); // wyczyść grafikę
 
                 if (!empty) {
                     SubjectGrades subjectGrades = getTableView().getItems().get(getIndex());
-                    String tooltipText = createTooltipText(subjectGrades);
-                    setTooltip(new Tooltip(tooltipText));
+                    Map<String, List<Grade>> gradesMap = StudentService.getStudentGrades().getValue().gradesBySubject;
+                    List<Grade> grades = gradesMap.get(subjectGrades.getSubject());
+
+                    HBox hbox = new HBox(5); // odstęp między przyciskami
+                    for (Grade grade : grades) {
+                        Button gradeButton = new Button(String.valueOf(grade.getGrade_value()));
+                        String tooltipText = String.format("Data: %s\nOpis: %s", grade.getDate(), grade.getDescription());
+                        gradeButton.setTooltip(new Tooltip(tooltipText));
+                        gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6;"); // opcjonalne stylowanie
+                        hbox.getChildren().add(gradeButton);
+                    }
+
+                    setGraphic(hbox);
                 }
             }
         });
     }
 
-    private String createTooltipText(SubjectGrades subjectGrades) {
-        Map<String, List<Grade>> gradesMap = StudentService.getStudentGrades().getValue().gradesBySubject;
-        List<Grade> grades = gradesMap.get(subjectGrades.getSubject());
-
-        return grades.stream()
-                .map(grade -> String.format("%s - %s: %d (%s)",
-                        grade.getDate(),
-                        "Ocena",
-                        grade.getGrade_value(),
-                        grade.getDescription()))
-                .collect(Collectors.joining("\n"));
-    }
 
     private void loadGrades() {
         Map<String, List<Grade>> gradesMap = StudentService.getStudentGrades().getValue().gradesBySubject;

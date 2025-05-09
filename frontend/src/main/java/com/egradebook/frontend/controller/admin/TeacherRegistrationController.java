@@ -14,19 +14,25 @@ import org.controlsfx.control.CheckComboBox;
 import java.util.List;
 
 public class TeacherRegistrationController {
+    //przyciski
     @FXML private Button returnButton;
     @FXML private Button clearButton;
     @FXML private Button submitButton;
+
+    //pola
     @FXML private TextField nameField;
     @FXML private TextField surnameField;
     @FXML private TextField peselField;
-    @FXML private Label errorLabel;
-    @FXML private Label correctLabel;
-    @FXML private CheckComboBox<String> subjectsCheckComboBox;
-    @FXML private Label usernameLabel;
-    @FXML private Label passwordLabel;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
+    @FXML private CheckComboBox<String> subjectsCheckComboBox;
+
+    //napisy
+    @FXML private Label errorLabel;
+    @FXML private Label correctLabel;
+    @FXML private Label usernameLabel;
+    @FXML private Label passwordLabel;
+
     public void initialize() {
         hide();
         returnButton.setOnAction(event -> back());

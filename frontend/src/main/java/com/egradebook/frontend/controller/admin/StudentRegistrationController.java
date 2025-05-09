@@ -4,28 +4,42 @@ import com.egradebook.frontend.model.LoginData;
 import com.egradebook.frontend.service.RegisterService;
 import com.egradebook.frontend.utils.IntegerField;
 import com.egradebook.frontend.utils.ViewLoader;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.net.URL;
+
 public class StudentRegistrationController {
+    @FXML private VBox mainContainer;
+
+    //przyciski
     @FXML private Button returnButton;
     @FXML private Button clearButton;
+    @FXML private Button submitButton;
+
+    @FXML private ToggleGroup sendTypeGroup;
     @FXML private ToggleButton addButton;
     @FXML private ToggleButton changeButton;
+
+    //pola
     @FXML private TextField nameField;
     @FXML private TextField surnameField;
     @FXML private TextField peselField;
-    @FXML private IntegerField class_idField;
-    @FXML private Label errorLabel;
-    @FXML private Label correctLabel;
-    @FXML private Button submitButton;
-    @FXML private ToggleGroup sendTypeGroup;
-    @FXML private Label usernameLabel;
-    @FXML private Label passwordLabel;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
+    @FXML private IntegerField class_idField;
+
+    //napisy
+    @FXML private Label errorLabel;
+    @FXML private Label correctLabel;
+    @FXML private Label usernameLabel;
+    @FXML private Label passwordLabel;
+
     private boolean isChangeMode = false;
     public void initialize() {
         hide();
@@ -39,6 +53,11 @@ public class StudentRegistrationController {
                 return;
             }
             isChangeMode = (newVal == changeButton);
+        });
+        Platform.runLater(() -> {
+            Scene scene = mainContainer.getScene();
+            URL cssUrl = getClass().getResource("/css/styles.css");
+            scene.getStylesheets().add(cssUrl.toExternalForm());
         });
     }
     private void handle()
