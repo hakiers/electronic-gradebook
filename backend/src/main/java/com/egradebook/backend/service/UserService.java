@@ -39,4 +39,24 @@ public class UserService {
         int user_id = (int)session.getAttribute("userId");
         return userRepository.getUserPersonalData(user_id);
     }
+
+    public UserPersonalData getUserPersonalInfo(int user_id, HttpSession session) {
+        if(session.getAttribute("username") == null) {
+            throw new UnauthorizedException("You are not logged in!");
+        }
+        if(!session.getAttribute("role").equals("admin")){
+            throw new ForbiddenOperationException("Only admin can access this user!");
+        }
+        return userRepository.getUserPersonalData(user_id);
+    }
+
+    public UserContactData getUserContactInfo(int user_id, HttpSession session){
+        if(session.getAttribute("username") == null) {
+            throw new UnauthorizedException("You are not logged in!");
+        }
+        if(!session.getAttribute("role").equals("admin")){
+            throw new ForbiddenOperationException("Only admin can access this user!");
+        }
+        return userRepository.getUserContactData(user_id);
+    }
 }
