@@ -87,9 +87,11 @@ public class TeacherRepository {
     }
 
     public List<Subject> getTeacherSubjects(int teacher_id) {
-        String sql = "SELECT DISTINCT subjects.subject_id, subjects.name " +
-                "FROM teacher_subject JOIN subjects ON teacher_subject.subject_id = subjects.subject_id" +
-                "WHERE teacher_subject.teacher_id = ?;";
+        String sql = """
+                SELECT DISTINCT subjects.subject_id, subjects.name 
+                FROM teacher_subject JOIN subjects ON teacher_subject.subject_id = subjects.subject_id
+                WHERE teacher_subject.teacher_id = ?;
+                """;
         List<Subject> subjects = jdbcTemplate.query(sql, new Object[]{teacher_id}, (rs, rowNum) ->
                 new Subject(
                         rs.getInt("subject_id"),
