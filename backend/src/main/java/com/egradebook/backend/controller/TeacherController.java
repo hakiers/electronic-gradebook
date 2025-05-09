@@ -45,20 +45,34 @@ public class TeacherController {
     }
 
     //to do
-    // Lista przedmiotów
+    // Lista przedmiotów których uczy
     @GetMapping("/subjects")
-    public ResponseEntity<?> getSubjects(HttpSession session) { return ResponseEntity.ok(""); }
+    public ResponseEntity<?> getSubjects(HttpSession session) {
+        return ResponseEntity.ok(teacherService.getSubjects(session));
+    }
+
+    //dla admina
+    @GetMapping("/{teacher_id}/subjects")
+    public ResponseEntity<?> getSubjects(@PathVariable int teacher_id, HttpSession session) {
+        return ResponseEntity.ok(teacherService.getSubjects(teacher_id, session));
+    }
 
     // Lista klas dla przedmiotu
-    @GetMapping("/subjects/{subjectId}/classes")
-    public ResponseEntity<?> getClassesForSubject(@PathVariable int subjectId, HttpSession session) { return ResponseEntity.ok(""); }
+    @GetMapping("/subjects/{subject_id}/classes")
+    public ResponseEntity<?> getClassesForSubject(@PathVariable int subject_id, HttpSession session) {
+        return ResponseEntity.ok(teacherService.getClassesForSubject(subject_id, session));
+    }
 
-    // Lista uczniów w klasie
-    @GetMapping("/classes/{classId}/students")
-    public ResponseEntity<?> getStudentsInClass(@PathVariable int classId, HttpSession session) { return ResponseEntity.ok(""); }
+    //dla admina
+    @GetMapping("/{teacher_id}/subjects/{subject_id}/classes")
+    public ResponseEntity<?> getClassesForSubject(@PathVariable int teacher_id, @PathVariable int subject_id, HttpSession session) {
+        return ResponseEntity.ok(teacherService.getClassesForSubject(teacher_id, subject_id, session));
+    }
 
     // Oceny ucznia z przedmiotu
-    @GetMapping("/students/{studentId}/subjects/{subjectId}/grades")
-    public ResponseEntity<?> getGradesForStudentAndSubject(@PathVariable int studentId, @PathVariable int subjectId, HttpSession session) { return ResponseEntity.ok(""); }
+    @GetMapping("/students/{student_id}/subjects/{subject_id}/grades")
+    public ResponseEntity<?> getGradesForStudentAndSubject(@PathVariable int student_id, @PathVariable int subject_id, HttpSession session) {
+        return ResponseEntity.ok(teacherService.getGradesForStudentAndSubject(student_id, subject_id, session));
+    }
 
 }

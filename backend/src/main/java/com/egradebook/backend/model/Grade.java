@@ -1,5 +1,10 @@
 package com.egradebook.backend.model;
 
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Grade {
     private int student_id;
     private int subject_id;
@@ -27,6 +32,6 @@ public class Grade {
     public void setSubject_id(int subject_id) { this.subject_id = subject_id; }
     public void setTeacher_id(int teacher_id) { this.teacher_id = teacher_id; }
     public void setDate(String date) { this.date = date; }
-    public void setGrade_value(int grade_value) { this.grade_value = grade_value; }
+    public void setGrade_value(float grade_value) { this.grade_value = grade_value; }
     public void setDescription(String description) { this.description = description; }
 }
