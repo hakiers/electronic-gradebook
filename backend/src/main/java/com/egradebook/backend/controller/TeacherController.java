@@ -69,12 +69,10 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.getClassesForSubject(teacher_id, subject_id, session));
     }
 
-    // Lista uczniów w klasie
-    @GetMapping("/classes/{class_id}/students")
-    public ResponseEntity<?> getStudentsInClass(@PathVariable int class_id, HttpSession session) { return ResponseEntity.ok(""); }
-
     // Oceny ucznia z przedmiotu
     @GetMapping("/students/{student_id}/subjects/{subject_id}/grades")
-    public ResponseEntity<?> getGradesForStudentAndSubject(@PathVariable int student_id, @PathVariable int subject_id, HttpSession session) { return ResponseEntity.ok(""); }
+    public ResponseEntity<?> getGradesForStudentAndSubject(@PathVariable int student_id, @PathVariable int subject_id, HttpSession session) {
+        return ResponseEntity.ok(teacherService.getGradesForStudentAndSubject(student_id, subject_id, session));
+    }
 
 }

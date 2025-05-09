@@ -52,7 +52,7 @@ public class AdminService {
         }
         LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
         String hashedPassword = passwordEncoder.encode(loginData.getPassword());
-        userRepository.saveTeacher(new Teacher(request.getName(), request.getSurname(), request.getPesel(), request.getSubjects(), loginData.getUsername(), hashedPassword));
+        userRepository.saveTeacher(new Teacher(null, request.getName(), request.getSurname(), request.getPesel(), request.getSubjects(), loginData.getUsername(), hashedPassword));
         return loginData;
     }
 
@@ -66,7 +66,7 @@ public class AdminService {
 
         LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
         String hashedPassword = passwordEncoder.encode(loginData.getPassword());
-        userRepository.saveStudent(new Student(request.getName(), request.getSurname(), request.getPesel(), request.getClassId(), loginData.getUsername(), hashedPassword));
+        userRepository.saveStudent(new Student(null, request.getName(), request.getSurname(), request.getPesel(), request.getClassId(), loginData.getUsername(), hashedPassword));
         return loginData;
     }
 

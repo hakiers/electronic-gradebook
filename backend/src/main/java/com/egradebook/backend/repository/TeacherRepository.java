@@ -32,12 +32,12 @@ public class TeacherRepository {
         return count != null && count > 0;
     }
 
-    public boolean doesTeacherTeachClass(int teacher_id, int class_id, int subject_id){
+    public boolean doesTeacherTeachClass(int teacher_id, int class_id){
         String sql = """
                   SELECT COUNT(*) FROM teacher_class_subject tcs WHERE tcs.teacher_id = ?
-                  AND tcs.class_id = ? AND tcs.subject_id = ?
+                  AND tcs.class_id = ?
                 """;
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, teacher_id, class_id, subject_id);
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, teacher_id, class_id);
         return count != null && count > 0;
     }
 

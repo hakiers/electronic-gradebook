@@ -7,11 +7,14 @@ import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Grade;
+import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Subject;
+import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.repository.utils.FindRepository;
 import com.egradebook.backend.repository.utils.GetRepository;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +23,13 @@ import java.util.List;
 @Service
 public class TeacherService {
 
-    private final FindRepository findRepository;
-    private final GetRepository getRepository;
-    private final TeacherRepository teacherRepository;
+    @Autowired
+    GetRepository getRepository;
+    @Autowired
+    TeacherRepository teacherRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
-    public TeacherService(FindRepository findRepository, GetRepository getRepository, TeacherRepository teacherRepository) {
-        this.findRepository = findRepository;
-        this.getRepository = getRepository;
-        this.teacherRepository = teacherRepository;
-    }
 
     public void assignClassToTeacher(Long classId, Long teacherId) {
     }
@@ -108,5 +109,15 @@ public class TeacherService {
         return teacherRepository.getTeacherClassesForSubject(teacher_id, subject_id);
     }
 
+    public List<Grade> getGradesForStudentAndSubject(int student_id, int subject_id, HttpSession session) {
+        if(session.getAttribute("username")  == null || !session.getAttribute("role").equals("teacher")){
+            throw new UnauthorizedException("User is not a teacher");
+        }
+        int teacher_id = getRepository.getTeacherId(session.getAttribute("username").toString());
+        if(!teacherRepository.canTeacherGradeStudent(teacher_id, student_id, subject_id)){
+            throw new ForbiddenOperationException("Teacher is not authorized to get student grades");
+        }
+        return studentRepository.getStudentsGrades(getRepository.getSubjectName(subject_id), student_id);
+    }
 
 }

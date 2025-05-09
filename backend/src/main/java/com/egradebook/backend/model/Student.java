@@ -1,6 +1,7 @@
 package com.egradebook.backend.model;
 
 public class Student {
+    private Long user_id;
     private String name;
     private String surname;
     private String pesel;
@@ -10,7 +11,8 @@ public class Student {
 
     public Student() {}
 
-    public Student(String name, String surname, String pesel, Integer class_id, String username, String password) {
+    public Student(Long user_id, String name, String surname, String pesel, Integer class_id, String username, String password) {
+        this.user_id = user_id;
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
@@ -19,6 +21,7 @@ public class Student {
         this.password = password;
     }
 
+    public Long getUser_id() { return user_id; }
     public String getName() { return name; }
     public String getSurname() { return surname; }
     public String getPesel() { return pesel; }
@@ -26,6 +29,7 @@ public class Student {
     public String getUsername() { return username; }
     public String getPassword() { return password; }
 
+    public void setUser_id(Long user_id) { this.user_id = user_id; }
     public void setName(String name) { this.name = name; }
     public void setSurname(String surname) { this.surname = surname; }
     public void setPesel(String pesel) { this.pesel = pesel; }
