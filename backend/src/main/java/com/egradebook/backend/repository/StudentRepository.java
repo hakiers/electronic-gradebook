@@ -34,10 +34,12 @@ public class StudentRepository {
     }
 
     public List<Subject> getStudentsSubjects(int student_id) {
-        String sql = "SELECT DISTINCT subjects.subject_id, subjects.name " +
-                "FROM students JOIN class_schedule ON students.class_id = class_schedule.class_id " +
-                "JOIN subjects ON class_schedule.subject_id = subjects.subject_id" +
-                "WHERE students.student_id = ?;";
+        String sql = """
+        SELECT DISTINCT subjects.subject_id, subjects.name 
+                FROM students JOIN class_schedule ON students.class_id = class_schedule.class_id 
+                JOIN subjects ON class_schedule.subject_id = subjects.subject_id
+                WHERE students.student_id = ?;
+                """;
         List<Subject> subjects = jdbcTemplate.query(sql, new Object[]{student_id}, (rs, rowNum) ->
                 new Subject(
                         rs.getInt("subject_id"),
