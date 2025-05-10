@@ -15,13 +15,13 @@ public class ClassRepository {
     public List<Student> getStudentsInClass(int class_id){
 
         String sql = """
-                SELECT p.user_id, p.name, p.surname, p.pesel FROM personal_data p
+                SELECT s.student_id, p.name, p.surname, p.pesel FROM personal_data p
                 JOIN students s ON p.user_id = s.user_id WHERE s.class_id = ?
                 """;
 
         List<Student> students = jdbcTemplate.query(sql, new Object[]{class_id}, (rs, rowNum) ->
                 new Student(
-                        rs.getLong("user_id"),
+                        rs.getLong("student_id"),
                         rs.getString("name"),
                         rs.getString("surname"),
                         rs.getString("pesel"),
