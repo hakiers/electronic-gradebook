@@ -1,5 +1,6 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.Grade;
 import com.egradebook.backend.model.StudentProfile;
 import com.egradebook.backend.model.Subject;
@@ -25,16 +26,25 @@ public class StudentService {
     GetRepository getRepository;
 
     public List<Grade> getStudentsGradesBySubject(String subject, HttpSession session) {
+        if(session.getAttribute("username") == null){
+            throw new UnauthorizedException("You are not logged in!");
+        }
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
         return studentRepository.getStudentsGrades(subject, student_id);
     }
 
     public List<Subject> getSubjectsByStudent(HttpSession session) {
+        if(session.getAttribute("username") == null){
+            throw new UnauthorizedException("You are not logged in!");
+        }
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
         return studentRepository.getStudentsSubjects(student_id);
     }
 
     public Map<String, List<Grade>> getStudentsGrades(HttpSession session) {
+        if(session.getAttribute("username") == null){
+            throw new UnauthorizedException("You are not logged in!");
+        }
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
         List<Subject> subjects = getSubjectsByStudent(session);
         Map<String, List<Grade>> gradesList = new HashMap<>();
@@ -46,6 +56,9 @@ public class StudentService {
 
 
     public StudentProfile getStudentsProfile(HttpSession session) {
+        if(session.getAttribute("username") == null){
+            throw new UnauthorizedException("You are not logged in!");
+        }
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
         String name = "xd";
         return null;
