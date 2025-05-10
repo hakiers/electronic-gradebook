@@ -9,7 +9,6 @@ com/egradebook/backend/model/User.class
 com/egradebook/backend/controller/AuthController.class
 com/egradebook/backend/service/UserService.class
 com/egradebook/backend/service/LoginService.class
-com/egradebook/backend/StartupRunner.class
 com/egradebook/backend/exception/InvalidCredentialsException.class
 com/egradebook/backend/controller/TeacherController.class
 com/egradebook/backend/model/UserPersonalData.class
@@ -40,6 +39,7 @@ com/egradebook/backend/repository/utils/GetRepository.class
 com/egradebook/backend/controller/UserController.class
 com/egradebook/backend/exception/DatabaseUnavailableException.class
 com/egradebook/backend/repository/utils/FindRepository.class
+com/egradebook/backend/DataInitializer.class
 com/egradebook/backend/service/TeacherService.class
 com/egradebook/backend/model/Grade.class
 com/egradebook/backend/controller/AdminController.class
