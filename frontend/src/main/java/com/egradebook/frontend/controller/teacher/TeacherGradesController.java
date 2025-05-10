@@ -3,7 +3,9 @@ package com.egradebook.frontend.controller.teacher;
 import com.egradebook.frontend.model.Grade;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.model.StudentGrades;
+import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.ViewLoader;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,11 +32,7 @@ public class TeacherGradesController {
 
     @FXML private TextField descriptionField;
 
-    private final Map<Integer, Student> students = Map.of(
-            1, new Student(1, "Jan", "Kowalski"),
-            2, new Student(2, "Anna", "Nowak"),
-            3, new Student(3, "Piotr", "Wiśniewski")
-    );
+    private final List<Student> students = TeacherService.getStudentInClass().getValue();
 
     @FXML
     public void initialize() {
@@ -44,7 +44,6 @@ public class TeacherGradesController {
 
     private void configureTableColumns() {
         studentColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
-
         gradesColumn.setCellFactory(column -> new TableCell<>() {
             private final HBox hbox = new HBox(5);
 
@@ -114,11 +113,13 @@ public class TeacherGradesController {
             String gradeValueStr = studentGrades.getNewGradeValue();
             String gradeText = gradeValueStr;
 
+            //TODO zrobić addGrade
+
             if (!gradeText.isEmpty()) {
                 try {
                     int gradeValue = Integer.parseInt(gradeText);
                     Grade newGrade = new Grade(
-                            getStudentId(studentGrades.getStudentName()),
+                            getStudentId(studentGrades.getStudentName()).intValue(),
                             1, // ID przedmiotu
                             2, // ID nauczyciela
                             date,
@@ -151,12 +152,11 @@ public class TeacherGradesController {
         alert.showAndWait();
     }
 
-    private int getStudentId(String fullName) {
-        return students.values().stream()
+    private Long getStudentId(String fullName) {
+        return students.stream()
                 .filter(s -> s.getFullName().equals(fullName))
                 .findFirst()
-                .map(Student::getId)
-                .orElse(-1);
+                .map(Student::getStudent_id).orElse(null);
     }
 
     private void showAlert(String message) {
@@ -168,23 +168,41 @@ public class TeacherGradesController {
     }
 
     private void loadGrades() {
+        // TODO pobrać listę z bazy
         List<Grade> grades = List.of(
                 new Grade(1, 1, 2, "2023-10-15", 5, "Matematyka - sprawdzian"),
                 new Grade(1, 1, 2, "2023-10-22", 4, "Matematyka - kartkówka"),
                 new Grade(2, 1, 2, "2023-10-18", 4, "Matematyka - analiza"),
-                new Grade(2, 1, 2, "2023-11-02", 5, "Matematyka - wypracowanie"),
-                new Grade(3, 1, 2, "2023-10-20", 5, "Matematyka - projekt")
+                new Grade(2, 1, 2, "2023-11-02", 5, "Matematyka - wypracowanie")
         );
 
-        Map<String, List<Grade>> gradesByStudent = grades.stream()
-                .collect(Collectors.groupingBy(
-                        grade -> students.get(grade.getStudent_id()).getFullName()
+        // Tworzymy mapę student_id -> Student dla łatwego wyszukiwania
+        Map<Integer, Student> studentMap = students.stream()
+                .collect(Collectors.toMap(
+                        student -> student.getStudent_id().intValue(), // Konwersja Long na int
+                        student -> student
                 ));
 
+        // Grupujemy oceny po ID studenta
+        Map<Integer, List<Grade>> gradesByStudentId = grades.stream()
+                .collect(Collectors.groupingBy(Grade::getStudent_id));
+
         ObservableList<StudentGrades> studentGradesList = FXCollections.observableArrayList();
-        gradesByStudent.forEach((studentName, studentGrades) -> {
-            studentGradesList.add(new StudentGrades(studentName, studentGrades));
+
+        // Przetwarzamy wszystkich studentów
+        students.forEach(student -> {
+            String fullName = student.getName() + " " + student.getSurname();
+            // Konwertujemy student_id do int dla zgodności z Grade
+            List<Grade> studentGrades = gradesByStudentId.getOrDefault(student.getStudent_id().intValue(), new ArrayList<>());
+            studentGradesList.add(new StudentGrades(fullName, studentGrades));
+
+            // Debug: wypisz informacje o studentach i ich ocenach
+            System.out.println("Student: " + fullName + " (ID: " + student.getStudent_id() + ")");
+            studentGrades.forEach(g -> System.out.println("  Ocena: " + g.getGrade_value()));
         });
+
+        // Sortowanie alfabetyczne po nazwisku i imieniu
+        studentGradesList.sort(Comparator.comparing(StudentGrades::getStudentName));
 
         gradesTable.setItems(studentGradesList);
     }

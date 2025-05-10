@@ -2,6 +2,8 @@ package com.egradebook.frontend.service;
 
 import com.egradebook.frontend.dto.StudentGradesResponse;
 import com.egradebook.frontend.model.Grade;
+import com.egradebook.frontend.model.Student;
+import com.egradebook.frontend.utils.StudentConverter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.util.Pair;
@@ -14,10 +16,10 @@ import java.util.Map;
 
 public class TeacherService {
     private static final ObjectMapper mapper = new ObjectMapper();
-    public static Pair<Integer, StudentGradesResponse> getStudentInClass() {
+    public static Pair<Integer, List<Student>> getStudentInClass() {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
-                return new Pair<>(401, new StudentGradesResponse("User not authenticated"));
+                return new Pair<>(401, null);
             }
 
             HttpRequest request = HttpRequest.newBuilder()
@@ -28,19 +30,11 @@ public class TeacherService {
 
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 200) {
-                Map<String, List<Grade>> gradesMap = mapper.readValue(
-                        response.body(),
-                        new TypeReference<Map<String, List<Grade>>>() {}
-                );
-                return new Pair<>(response.statusCode(), new StudentGradesResponse(gradesMap));
-            } else {
-                return new Pair<>(response.statusCode(),
-                        new StudentGradesResponse("Error: " + response.body()));
-            }
+            List<Student> lista= StudentConverter.jsonToStudentList(response.body());
+            return new Pair<>(response.statusCode(), lista);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Pair<>(500, new StudentGradesResponse("Internal server error"));
+            return new Pair<>(500, null);
         }
     }
 }

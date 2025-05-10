@@ -35,7 +35,7 @@ public class GetRepository {
     }
 
     public int getStudentId(String username){
-        String sql = "SELECT student_id FROM students WHERE username = ?";
+        String sql = "SELECT s.student_id FROM students s JOIN users u ON s.user_id = u.user_id WHERE username = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
     }
 }
