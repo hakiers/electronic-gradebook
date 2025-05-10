@@ -117,7 +117,7 @@ public class TeacherService {
         if(!teacherRepository.canTeacherGradeStudent(teacher_id, student_id, subject_id)){
             throw new ForbiddenOperationException("Teacher is not authorized to get student grades");
         }
-        return studentRepository.getStudentsGrades(getRepository.getSubjectName(subject_id), student_id);
+        return studentRepository.getStudentsGrades(subject_id, student_id);
     }
 
 }

@@ -25,12 +25,12 @@ public class StudentService {
     @Autowired
     GetRepository getRepository;
 
-    public List<Grade> getStudentsGradesBySubject(String subject, HttpSession session) {
+    public List<Grade> getStudentsGradesBySubject(int subject_id, HttpSession session) {
         if(session.getAttribute("username") == null){
             throw new UnauthorizedException("You are not logged in!");
         }
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
-        return studentRepository.getStudentsGrades(subject, student_id);
+        return studentRepository.getStudentsGrades(subject_id, student_id);
     }
 
     public List<Subject> getSubjectsByStudent(HttpSession session) {
@@ -49,7 +49,7 @@ public class StudentService {
         List<Subject> subjects = getSubjectsByStudent(session);
         Map<String, List<Grade>> gradesList = new HashMap<>();
         for (Subject subject : subjects) {
-            gradesList.put(subject.getName(), getStudentsGradesBySubject(subject.getName(), session));
+            gradesList.put(subject.getName(), getStudentsGradesBySubject(subject.getSubject_id(), session));
         }
         return gradesList;
     }

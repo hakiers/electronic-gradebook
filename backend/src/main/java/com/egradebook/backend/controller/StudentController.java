@@ -23,9 +23,9 @@ public class StudentController {
     // /subjects - pobierz swoje przedmioty get
     // /attendance - obecność get
     // /profile - dane osobowe get
-    @GetMapping("/grades/{subject}")
-    public ResponseEntity<?> getGrades(@PathVariable String subject, HttpSession session) {
-        return ResponseEntity.ok(studentService.getStudentsGradesBySubject(subject, session));
+    @GetMapping("/grades/{subject_id}")
+    public ResponseEntity<?> getGrades(@PathVariable int subject_id, HttpSession session) {
+        return ResponseEntity.ok(studentService.getStudentsGradesBySubject(subject_id, session));
     }
 
     @GetMapping("/grades/all")
