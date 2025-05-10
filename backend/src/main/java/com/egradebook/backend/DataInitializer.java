@@ -180,7 +180,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private String generatePhone() {
-        return "5" + (int)(Math.random() * 1_000_0000 + 100_0000);
+        return "51" + (int)(Math.random() * 1_000_0000 + 100_0000);
     }
 
     private String generatePesel(String username) {
