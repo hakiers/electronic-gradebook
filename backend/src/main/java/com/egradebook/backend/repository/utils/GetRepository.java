@@ -30,7 +30,7 @@ public class GetRepository {
     }
 
     public String getSubjectName(int subject_id){
-        String sql = "SELECT subject FROM subjects WHERE subject_id = ?";
+        String sql = "SELECT name FROM subjects WHERE subject_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{subject_id}, String.class);
     }
 

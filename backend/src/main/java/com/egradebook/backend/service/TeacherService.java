@@ -111,13 +111,13 @@ public class TeacherService {
     }
 
     public List<Grade> getGradesForStudentAndSubject(int student_id, int subject_id, HttpSession session) {
-        if(session.getAttribute("username")  == null || !session.getAttribute("role").equals("teacher")){
+        /*if(session.getAttribute("username")  == null || !session.getAttribute("role").equals("teacher")){
             throw new UnauthorizedException("User is not a teacher");
         }
         int teacher_id = getRepository.getTeacherId(session.getAttribute("username").toString());
         if(!teacherRepository.canTeacherGradeStudent(teacher_id, student_id, subject_id)){
             throw new ForbiddenOperationException("Teacher is not authorized to get student grades");
-        }
+        }*/
         return studentRepository.getStudentsGrades(getRepository.getSubjectName(subject_id), student_id);
     }
 
