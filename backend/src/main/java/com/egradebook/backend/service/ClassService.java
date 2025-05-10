@@ -21,7 +21,7 @@ public class ClassService {
     ClassRepository classRepository;
 
     public List<Student> getStudentsInClass(int class_id, HttpSession session){
-        /*if (session.getAttribute("username") == null){
+        if (session.getAttribute("username") == null){
             throw new UnauthorizedException("User is not logged in!");
         }
         if(session.getAttribute("role").equals("teacher")){
@@ -32,7 +32,7 @@ public class ClassService {
         }
         else if(!session.getAttribute("role").equals("admin")){
             throw new ForbiddenOperationException("You are not authorized to get students in this class");
-        }*/
+        }
         return classRepository.getStudentsInClass(class_id);
     }
 }

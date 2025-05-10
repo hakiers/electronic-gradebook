@@ -39,8 +39,8 @@ public class TeacherRegistrationController {
         clearButton.setOnAction(event -> clear());
         submitButton.setOnAction(event -> add());
         subjectsCheckComboBox.getItems().addAll(
-                "Matematyka", "Fizyka", "Chemia", "Biologia",
-                "Informatyka", "Język polski", "Historia"
+                "Matematyka","Informatyka", "Fizyka", "Chemia", "Biologia",
+                 "Geografia", "Historia","Angielski","Polski","WF"
         );
     }
 
