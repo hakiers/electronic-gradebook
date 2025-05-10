@@ -54,6 +54,8 @@ public class DataInitializer implements CommandLineRunner {
         // --- TEACHER_CLASS_SUBJECT ---
         addTeacherClassSubject(teacher1Id, class1AId, mathId);
         addTeacherSubject(teacher1Id, mathId);
+        addTeacherClassSubject(teacher2Id, class1AId, infoId);
+        addTeacherSubject(teacher2Id, infoId);
 
         // --- STUDENTS ---
         addStudent(student1A1UserId, class1AId);
@@ -69,10 +71,13 @@ public class DataInitializer implements CommandLineRunner {
         // --- CLASS_SCHEDULE ---
         addClassSchedule(class1AId, teacher1Id, mathId, 1, 1, 101); // poniedziałek, lekcja 1, sala 101
         addClassSchedule(class1AId, teacher1Id, mathId, 3, 2, 102); // środa, lekcja 2, sala 102
+        addClassSchedule(class1AId, teacher2Id, infoId, 5, 1, 101);
 
         // --- GRADE ---
         addGrade(student1A1Id, mathId, teacher1Id, 4.5f, "Pierwsza ocena");
         addGrade(student1A2Id, mathId, teacher1Id, 5.0f, "Druga ocena");
+        addGrade(student1A1Id, infoId, teacher2Id, 3.5f, "Pierwsza ocena");
+        addGrade(student1A2Id, infoId, teacher2Id, 4.0f, "Druga ocena");
 
         // --- ATTENDANCE ---
         addAttendance(student1A1Id, 1, "present");
