@@ -6,11 +6,11 @@ public class StudentRegistrationRequest {
     private final String pesel;
     private final Integer class_id;
 
-    public StudentRegistrationRequest(String name, String surname, String pesel, Integer classId) {
+    public StudentRegistrationRequest(String name, String surname, String pesel, Integer class_id) {
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
-        this.class_id = classId;
+        this.class_id = class_id;
     }
 
     public String getName() { return name; }

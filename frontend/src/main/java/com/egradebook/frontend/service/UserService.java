@@ -67,7 +67,7 @@ public class UserService {
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.statusCode());
+            //System.out.println(response.statusCode());
             System.out.println(response.body());
             currentRole = null;
             currentUsername = null;
@@ -85,7 +85,7 @@ public class UserService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.statusCode());
+            //System.out.println(response.statusCode());
             System.out.println(response.body());
             return new Pair<>(response.statusCode(), response.body());
         }catch (Exception e) {

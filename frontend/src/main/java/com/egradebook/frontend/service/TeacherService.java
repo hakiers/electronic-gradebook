@@ -78,7 +78,7 @@ public class TeacherService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = UserService.client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.statusCode());
+            //System.out.println(response.statusCode());
             System.out.println(response.body());
             if (response.statusCode() == 200) {
                 return new Pair<>(response.statusCode(), response.body());
