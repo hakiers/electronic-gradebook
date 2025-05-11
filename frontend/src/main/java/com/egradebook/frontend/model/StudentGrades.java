@@ -2,10 +2,8 @@ package com.egradebook.frontend.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TextField;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class StudentGrades {
     private final String studentName;

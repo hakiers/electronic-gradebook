@@ -25,6 +25,7 @@ public class ChangePasswordController {
         returnButton.setOnAction(event -> back());
         changeButton.setOnAction(event -> handleChange());
     }
+
     public void back() {
         Stage stage = (Stage) returnButton.getScene().getWindow();
         String role= UserService.getCurrentRole();
@@ -35,8 +36,8 @@ public class ChangePasswordController {
             ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna");
         }
         else ViewLoader.loadView(stage, "/fxml/teacher/TeacherPage.fxml", "Strona Główna");
-
     }
+
     public void handleChange() {
         String check = checkField.getText();
         String newPassword = newPasswordField.getText();
@@ -46,14 +47,12 @@ public class ChangePasswordController {
             return;
         }
         ChangeInfo=UserService.changePassword(newPassword);
-        if(ChangeInfo.getKey()!=200)
-        {
+        if(ChangeInfo.getKey()!=200) {
             successLabel.setVisible(false);
             errorLabel.setVisible(true);
             errorLabel.setText("Nowe hasło jest niepoprawne");
         }
-        else
-        {
+        else {
             errorLabel.setVisible(false);
             successLabel.setVisible(true);
             successLabel.setText("Hasło zmienione");

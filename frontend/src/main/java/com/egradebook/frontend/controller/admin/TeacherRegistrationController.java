@@ -14,6 +14,7 @@ import org.controlsfx.control.CheckComboBox;
 import java.util.List;
 
 public class TeacherRegistrationController {
+
     //przyciski
     @FXML private Button returnButton;
     @FXML private Button clearButton;
@@ -39,8 +40,8 @@ public class TeacherRegistrationController {
         clearButton.setOnAction(event -> clear());
         submitButton.setOnAction(event -> add());
         subjectsCheckComboBox.getItems().addAll(
-                "Matematyka","Informatyka", "Fizyka", "Chemia", "Biologia",
-                 "Geografia", "Historia","Angielski","Polski","WF"
+                "Matematyka","Informatyka"/*, "Fizyka", "Chemia", "Biologia",
+                 "Geografia", "Historia","Angielski","Polski","WF"*/
         );
     }
 
@@ -60,6 +61,7 @@ public class TeacherRegistrationController {
         errorLabel.setText("");
         correctLabel.setText("");
     }
+
     @FXML
     public void add() {
         String name = nameField.getText();
@@ -77,10 +79,12 @@ public class TeacherRegistrationController {
             correctLabel.setText("Pomyślnie dodano nauczyciela");
         }
         else{
+            clear();
             errorLabel.setVisible(true);
             errorLabel.setText("Dane są niepoprawne, albo nauczyciel już istnieje");
         }
     }
+    @FXML
     void hide() {
         usernameField.setVisible(false);
         usernameField.setEditable(false);
@@ -89,6 +93,7 @@ public class TeacherRegistrationController {
         usernameLabel.setVisible(false);
         passwordLabel.setVisible(false);
     }
+    @FXML
     void show() {
         usernameField.setVisible(true);
         passwordField.setVisible(true);

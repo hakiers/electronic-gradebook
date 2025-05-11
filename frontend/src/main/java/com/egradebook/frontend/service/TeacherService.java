@@ -1,14 +1,11 @@
 package com.egradebook.frontend.service;
 
 import com.egradebook.frontend.dto.AddGradeRequest;
-import com.egradebook.frontend.dto.FrontendLoginRequest;
-import com.egradebook.frontend.dto.StudentGradesResponse;
 import com.egradebook.frontend.model.Grade;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.utils.StudentConverter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpSession;
 import javafx.util.Pair;
 
 import java.net.URI;

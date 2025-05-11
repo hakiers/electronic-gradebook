@@ -24,7 +24,6 @@ public class StudentGradesController {
     @FXML private TableColumn<SubjectGrades, String> subjectColumn;
     @FXML private TableColumn<SubjectGrades, String> gradesColumn;
 
-    @FXML
     public void initialize() {
         returnButton.setOnAction(event -> back());
         configureTableColumns();
@@ -74,6 +73,7 @@ public class StudentGradesController {
 
         gradesTable.setItems(subjectGradesList);
     }
+
     public void back() {
         Stage stage = (Stage) returnButton.getScene().getWindow();
         ViewLoader.loadView(stage, "/fxml/student/StudentPage.fxml", "Strona Główna");

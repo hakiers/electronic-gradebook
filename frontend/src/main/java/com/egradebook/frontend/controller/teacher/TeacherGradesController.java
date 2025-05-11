@@ -35,7 +35,6 @@ public class TeacherGradesController {
 
     private final List<Student> students = TeacherService.getStudentInClass().getValue();
 
-    @FXML
     public void initialize() {
         configureTableColumns();
         loadGrades();
@@ -99,7 +98,6 @@ public class TeacherGradesController {
         });
     }
 
-    @FXML
     private void addGradesToSelected() {
         String description = descriptionField.getText();
         if (description.isEmpty()) {
@@ -204,6 +202,7 @@ public class TeacherGradesController {
 
         gradesTable.setItems(studentGradesList);
     }
+
     private void back() {
         Stage currentStage = (Stage) returnButton.getScene().getWindow();
         ViewLoader.loadView(currentStage, "/fxml/teacher/SelectClass.fxml", "Wybór klasy");

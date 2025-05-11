@@ -39,12 +39,10 @@ public class LoginController {
     String password;
     Pair<Integer,String> LoginInfo;
     private boolean isWorkerMode = false;
+
     @FXML
     private void initialize() {
-
         asStudentButton.setSelected(true);
-        loginButton.setOnAction(event -> handleLogin());
-        clearButton.setOnAction(event -> clearFields());
         loginTypeGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal == null) {
                 if (oldVal != null) oldVal.setSelected(true);
@@ -57,17 +55,21 @@ public class LoginController {
             URL cssUrl = getClass().getResource("/css/styles.css");
             scene.getStylesheets().add(cssUrl.toExternalForm());
         });
-
     }
+
+    @FXML
     private void clearFields() {
         usernameField.clear();
         passwordField.clear();
         errorLabel.setText("");
     }
+
+    @FXML
     private void handleLogin(){
         if(isWorkerMode) handleWorkerLogin();
         else handleStudentLogin();
     }
+
     private void handleStudentLogin(){
         collect();
         if(LoginInfo.getKey()==200){
@@ -112,8 +114,8 @@ public class LoginController {
             errorLabel.setVisible(true);
         }
     }
-    private void collect()
-    {
+
+    private void collect() {
         stage=(Stage) loginButton.getScene().getWindow();
         username = usernameField.getText();
         password = passwordField.getText();

@@ -10,29 +10,27 @@ public class StudentPageController {
     @FXML private Button logoutButton;
     @FXML private Button showGradesButton;
     @FXML private Button changePasswordButton;
-    @FXML
+
     public void initialize() {
         showGradesButton.setOnAction(event -> handleShowGrades());
         logoutButton.setOnAction(event -> handleLogout());
         changePasswordButton.setOnAction(event -> handleChange());
     }
-    @FXML
-    public void handleChange()
-    {
+
+    public void handleChange() {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
         ViewLoader.loadView(currentStage,"/fxml/shared/ChangePassword.fxml","Zmiana hasła");
     }
-    @FXML
-    public void handleLogout()
-    {
+
+    public void handleLogout() {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
         UserService.logout();
         ViewLoader.loadView(currentStage, "/fxml/shared/Login.fxml", "eGradeBook - Logowanie");
     }
-    @FXML
-    public void handleShowGrades()
-    {
+
+    public void handleShowGrades() {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
         ViewLoader.loadView(currentStage, "/fxml/student/StudentGrades.fxml", "Oceny");
     }
+
 }
