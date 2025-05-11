@@ -1,11 +1,14 @@
 package com.egradebook.frontend.service;
 
+import com.egradebook.frontend.dto.AddGradeRequest;
+import com.egradebook.frontend.dto.FrontendLoginRequest;
 import com.egradebook.frontend.dto.StudentGradesResponse;
 import com.egradebook.frontend.model.Grade;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.utils.StudentConverter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import javafx.util.Pair;
 
 import java.net.URI;
@@ -35,6 +38,54 @@ public class TeacherService {
         } catch (Exception e) {
             e.printStackTrace();
             return new Pair<>(500, null);
+        }
+    }
+    public static Pair<Integer, List<Grade>> getGradesForStudent(int student_id, int subject_id) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/teacher/students/"+student_id+"/subjects/"+subject_id+"/grades"))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                List<Grade> lista= mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Grade>>() {}
+                );
+                return new Pair<>(response.statusCode(), lista);
+            } else {
+                return new Pair<>(response.statusCode(),
+                        null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, null);
+        }
+    }
+    public static Pair<Integer,String> addGrade(AddGradeRequest request) {
+        try {
+            String json =mapper.writeValueAsString(request);
+
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/teacher/add-grade"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            HttpResponse<String> response = UserService.client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.statusCode());
+            System.out.println(response.body());
+            if (response.statusCode() == 200) {
+                return new Pair<>(response.statusCode(), response.body());
+            }
+            return new Pair<>(response.statusCode(), response.body());
+        } catch (Exception e) {
+            return new Pair<>(0,"");
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.egradebook.frontend.controller.teacher;
 
+import com.egradebook.frontend.dto.AddGradeRequest;
 import com.egradebook.frontend.model.Grade;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.model.StudentGrades;
@@ -118,15 +119,10 @@ public class TeacherGradesController {
             if (!gradeText.isEmpty()) {
                 try {
                     int gradeValue = Integer.parseInt(gradeText);
-                    Grade newGrade = new Grade(
-                            getStudentId(studentGrades.getStudentName()).intValue(),
-                            1, // ID przedmiotu
-                            2, // ID nauczyciela
-                            date,
-                            gradeValue,
-                            description
-                    );
-                    studentGrades.addGrade(newGrade);
+                    AddGradeRequest request=new AddGradeRequest(getStudentId(studentGrades.getStudentName()).intValue(),
+                            1,gradeValue,date,description);
+                    TeacherService.addGrade(request);
+                    studentGrades.setNewGradeValue("");
                     gradesAdded = true;
                 } catch (NumberFormatException e) {
                     showAlert("Nieprawidłowa ocena dla: " + studentGrades.getStudentName());
@@ -168,21 +164,23 @@ public class TeacherGradesController {
     }
 
     private void loadGrades() {
-        // TODO pobrać listę z bazy
-        List<Grade> grades = List.of(
-                new Grade(1, 1, 2, "2023-10-15", 5, "Matematyka - sprawdzian"),
-                new Grade(1, 1, 2, "2023-10-22", 4, "Matematyka - kartkówka"),
-                new Grade(2, 1, 2, "2023-10-18", 4, "Matematyka - analiza"),
-                new Grade(2, 1, 2, "2023-11-02", 5, "Matematyka - wypracowanie")
-        );
+        List<Grade> grades = new ArrayList<>();
 
         // Tworzymy mapę student_id -> Student dla łatwego wyszukiwania
         Map<Integer, Student> studentMap = students.stream()
                 .collect(Collectors.toMap(
-                        student -> student.getStudent_id().intValue(), // Konwersja Long na int
+                        student -> student.getStudent_id().intValue(),
                         student -> student
                 ));
 
+        for(Student student : studentMap.values()) {
+            //TODO przedmiot wpisany na sztywno!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            List<Grade> studentGrades=TeacherService.getGradesForStudent(student.getStudent_id().intValue(),1).getValue();
+            if(studentGrades!=null && !studentGrades.isEmpty()) {
+                grades.addAll(studentGrades);
+            }
+
+        }
         // Grupujemy oceny po ID studenta
         Map<Integer, List<Grade>> gradesByStudentId = grades.stream()
                 .collect(Collectors.groupingBy(Grade::getStudent_id));
@@ -192,13 +190,13 @@ public class TeacherGradesController {
         // Przetwarzamy wszystkich studentów
         students.forEach(student -> {
             String fullName = student.getName() + " " + student.getSurname();
-            // Konwertujemy student_id do int dla zgodności z Grade
             List<Grade> studentGrades = gradesByStudentId.getOrDefault(student.getStudent_id().intValue(), new ArrayList<>());
             studentGradesList.add(new StudentGrades(fullName, studentGrades));
-
+            /*
             // Debug: wypisz informacje o studentach i ich ocenach
             System.out.println("Student: " + fullName + " (ID: " + student.getStudent_id() + ")");
             studentGrades.forEach(g -> System.out.println("  Ocena: " + g.getGrade_value()));
+             */
         });
 
         // Sortowanie alfabetyczne po nazwisku i imieniu
