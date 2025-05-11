@@ -16,85 +16,89 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("🔄 Initializing database...");
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        try {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        // --- USERS ---
-        addUser("admin", encoder.encode("admin123"), "admin");
-        addUser("teacher1", encoder.encode("teacher123"), "teacher");
-        addUser("teacher2", encoder.encode("teacher123"), "teacher");
-        addUser("student1A1", encoder.encode("student123"), "student");
-        addUser("student1A2", encoder.encode("student123"), "student");
-        addUser("parent1", encoder.encode("parent123"), "parent");
+            // --- USERS ---
+            addUser("admin", encoder.encode("admin123"), "admin");
+            addUser("teacher1", encoder.encode("teacher123"), "teacher");
+            addUser("teacher2", encoder.encode("teacher123"), "teacher");
+            addUser("student1A1", encoder.encode("student123"), "student");
+            addUser("student1A2", encoder.encode("student123"), "student");
+            addUser("parent1", encoder.encode("parent123"), "parent");
 
-        Integer teacher1UserId = getUserId("teacher1");
-        Integer teacher2UserId = getUserId("teacher2");
-        Integer student1A1UserId = getUserId("student1A1");
-        Integer student1A2UserId = getUserId("student1A2");
-        Integer parent1UserId = getUserId("parent1");
+            Integer teacher1UserId = getUserId("teacher1");
+            Integer teacher2UserId = getUserId("teacher2");
+            Integer student1A1UserId = getUserId("student1A1");
+            Integer student1A2UserId = getUserId("student1A2");
+            Integer parent1UserId = getUserId("parent1");
 
-        // --- TEACHERS ---
-        addTeacher(teacher1UserId);
-        addTeacher(teacher2UserId);
+            // --- TEACHERS ---
+            addTeacher(teacher1UserId);
+            addTeacher(teacher2UserId);
 
-        Integer teacher1Id = getTeacherId("teacher1");
-        Integer teacher2Id = getTeacherId("teacher2");
+            Integer teacher1Id = getTeacherId("teacher1");
+            Integer teacher2Id = getTeacherId("teacher2");
 
-        // --- SUBJECTS ---
-        addSubject("Matematyka");
-        addSubject("Informatyka");
+            // --- SUBJECTS ---
+            addSubject("Matematyka");
+            addSubject("Informatyka");
 
-        Integer mathId = getSubjectId("Matematyka");
-        Integer infoId = getSubjectId("Informatyka");
+            Integer mathId = getSubjectId("Matematyka");
+            Integer infoId = getSubjectId("Informatyka");
 
-        // --- CLASSES ---
-        addClass("1A", teacher1Id);
+            // --- CLASSES ---
+            addClass("1A", teacher1Id);
 
-        Integer class1AId = getClassId("1A");
+            Integer class1AId = getClassId("1A");
 
-        // --- TEACHER_CLASS_SUBJECT ---
-        addTeacherClassSubject(teacher1Id, class1AId, mathId);
-        addTeacherSubject(teacher1Id, mathId);
+            // --- TEACHER_CLASS_SUBJECT ---
+            addTeacherClassSubject(teacher1Id, class1AId, mathId);
+            addTeacherSubject(teacher1Id, mathId);
 
-        // --- STUDENTS ---
-        addStudent(student1A1UserId, class1AId);
-        addStudent(student1A2UserId, class1AId);
+            // --- STUDENTS ---
+            addStudent(student1A1UserId, class1AId);
+            addStudent(student1A2UserId, class1AId);
 
-        Integer student1A1Id = getStudentId(student1A1UserId);
-        Integer student1A2Id = getStudentId(student1A2UserId);
+            Integer student1A1Id = getStudentId(student1A1UserId);
+            Integer student1A2Id = getStudentId(student1A2UserId);
 
-        // --- PARENT ---
-        //addParent(parent1UserId);
-        //addParentStudent(parent1UserId, student1A1Id);
+            // --- PARENT ---
+            //addParent(parent1UserId);
+            //addParentStudent(parent1UserId, student1A1Id);
 
-        // --- CLASS_SCHEDULE ---
-        addClassSchedule(class1AId, teacher1Id, mathId, 1, 1, 101); // poniedziałek, lekcja 1, sala 101
-        addClassSchedule(class1AId, teacher1Id, mathId, 3, 2, 102); // środa, lekcja 2, sala 102
+            // --- CLASS_SCHEDULE ---
+            addClassSchedule(class1AId, teacher1Id, mathId, 1, 1, 101); // poniedziałek, lekcja 1, sala 101
+            addClassSchedule(class1AId, teacher1Id, mathId, 3, 2, 102); // środa, lekcja 2, sala 102
 
-        // --- GRADE ---
-        addGrade(student1A1Id, mathId, teacher1Id, 4.5f, "Pierwsza ocena");
-        addGrade(student1A2Id, mathId, teacher1Id, 5.0f, "Druga ocena");
+            // --- GRADE ---
+            addGrade(student1A1Id, mathId, teacher1Id, 4.5f, "Pierwsza ocena");
+            addGrade(student1A2Id, mathId, teacher1Id, 5.0f, "Druga ocena");
 
-        // --- ATTENDANCE ---
-        addAttendance(student1A1Id, 1, "present");
-        addAttendance(student1A2Id, 2, "absent");
+            // --- ATTENDANCE ---
+            addAttendance(student1A1Id, 1, "present");
+            addAttendance(student1A2Id, 2, "absent");
 
-        // --- TEST ---
-        addTest("Sprawdzian z algebry", mathId, class1AId);
+            // --- TEST ---
+            addTest("Sprawdzian z algebry", mathId, class1AId);
 
-        // --- EVENTS ---
-        addEvent("Dzień Sportu", "Zawody sportowe", class1AId);
+            // --- EVENTS ---
+            addEvent("Dzień Sportu", "Zawody sportowe", class1AId);
 
-        // --- STUDENT_GROUP ---
-        addStudentGroup(class1AId, "Grupa1");
-        Integer group1Id = getGroupId("Grupa1");
+            // --- STUDENT_GROUP ---
+            addStudentGroup(class1AId, "Grupa1");
+            Integer group1Id = getGroupId("Grupa1");
 
-        // --- GROUP_MEMBERSHIPS ---
-        addGroupMembership(group1Id, student1A1Id);
+            // --- GROUP_MEMBERSHIPS ---
+            addGroupMembership(group1Id, student1A1Id);
 
-        // --- SLOT_EXCEPTIONS ---
-        addSlotException(1, "cancelled", teacher1Id, "Nauczyciel chory");
+            // --- SLOT_EXCEPTIONS ---
+            addSlotException(1, "cancelled", teacher1Id, "Nauczyciel chory");
 
-        System.out.println("✅ Database initialized!");
+            System.out.println("✅ Database initialized!");
+        } catch (Exception e){
+            //
+        }
     }
 
     // --- INSERTS WITH EXISTS CHECKS ---
