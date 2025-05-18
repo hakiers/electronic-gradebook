@@ -21,4 +21,9 @@ public class ClassController {
         return ResponseEntity.ok(classService.getStudentsInClass(class_id, session));
     }
 
+    @GetMapping("/schedule/{class_id}")
+    public ResponseEntity<?> getScheulde(@PathVariable int class_id, HttpSession session){
+        return ResponseEntity.ok(classService.getScheulde(class_id, session));
+    }
+
 }

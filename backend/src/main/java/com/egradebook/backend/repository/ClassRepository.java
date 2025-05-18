@@ -1,11 +1,15 @@
 package com.egradebook.backend.repository;
 
+import com.egradebook.backend.model.Lesson;
 import com.egradebook.backend.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ClassRepository {
@@ -31,5 +35,31 @@ public class ClassRepository {
                     )
                 );
         return students;
+    }
+
+    public Map<String, List<Lesson>> getScheulde(int class_id){
+        String sql = " SELECT * FROM class_schedule WHERE class_id = ?";
+
+        Map<String, List<Lesson>> scheulde = new LinkedHashMap<>();
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        for(String day: days){
+            scheulde.put(day, new ArrayList<>());
+        }
+        jdbcTemplate.query(sql, new Object[]{class_id}, rs -> {
+           int dayOfWeek = rs.getInt("day_of_week");
+
+           scheulde.get(dayOfWeek).add(new Lesson(
+                   rs.getInt("schedule_id"),
+                   rs.getInt("class_id"),
+                   rs.getInt("teacher_id"),
+                   rs.getInt("subject_id"),
+                   rs.getInt("group"),
+                   rs.getInt("day_of_week"),
+                   rs.getInt("lesson_number"),
+                   rs.getInt("room_number"))
+           );
+        });
+
+        return scheulde;
     }
 }

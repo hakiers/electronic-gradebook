@@ -28,6 +28,8 @@ public class TeacherRepository {
             WHERE tcs.teacher_id = ? AND tcs.subject_id = ? AND s.student_id = ?
         """;
 
+        //to do musimy brać pod uwagę grupę studenta
+
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, teacher_id, subject_id, student_id);
         return count != null && count > 0;
     }
@@ -102,13 +104,21 @@ public class TeacherRepository {
     }
 
     public List<Clazz> getTeacherClassesForSubject(int teacher_id, int subject_id){
-        String sql = "SELECT class_id, name, class_teacher FROM classes JOIN teacher_class_subject ON classes.class_id = teacher_class_subject.class_id WHERE teacher_id = ? AND subject_id = ?";
+        String sql = """
+        SELECT class_id, class_profile, class_teacher, class_year, short_name, name FROM classes 
+        JOIN class_profile ON classes.class_profile = class_profile.profile_id 
+        JOIN teacher_class_subject ON classes.class_id = teacher_class_subject.class_id 
+        WHERE teacher_id = ? AND subject_id = ?
+        """;
+
         List <Clazz> clazzes = jdbcTemplate.query(sql, new Object[]{teacher_id, subject_id}, (rs, rowNum) ->
                 new Clazz(
                         rs.getInt("class_id"),
-                        rs.getString("name"),
+                        rs.getInt("class_profile"),
                         rs.getInt("class_teacher"),
-                        null
+                        rs.getString("class_year"),
+                        rs.getString("short_name"),
+                        rs.getString("name")
                 )
         );
         return clazzes;

@@ -20,6 +20,7 @@ public class StudentRepository {
         String sql = "SELECT * FROM grades WHERE subject_id = ? AND student_id = ?";
         List<Grade> grades = jdbcTemplate.query(sql, new Object[]{subject_id, student_id}, (rs, rowNum) ->
                 new Grade(
+                        rs.getInt("grade_id"),
                         rs.getInt("student_id"),
                         rs.getInt("subject_id"),
                         rs.getInt("teacher_id"),
@@ -46,5 +47,11 @@ public class StudentRepository {
                 )
         );
         return subjects;
+    }
+
+    public boolean isStudentInClass(int student_id, int class_id) {
+        String sql = "SELECT COUNT(*) FROM students WHERE student_id = ? AND class_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, student_id, class_id);
+        return count != null && count > 0;
     }
 }

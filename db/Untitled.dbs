@@ -19,12 +19,21 @@
 				<fk_column name="schedule_id" pk="scheulde_id" />
 			</fk>
 		</table>
+		<table name="class_profile" prior="class_pro" >
+			<column name="profile_id" prior="id" type="integer" jt="4" mandatory="y" />
+			<column name="short_name" prior="shortcut_name" type="char" length="4" jt="1" mandatory="y" />
+			<column name="name" type="varchar" length="32" jt="12" mandatory="y" />
+			<index name="pk_class_profile" unique="PRIMARY_KEY" >
+				<column name="profile_id" />
+			</index>
+		</table>
 		<table name="class_schedule" prior="schedule" >
 			<comment><![CDATA[class schedule]]></comment>
 			<column name="scheulde_id" type="serial" jt="4" mandatory="y" />
 			<column name="class_id" type="integer" jt="4" mandatory="y" />
 			<column name="teacher_id" type="integer" jt="4" mandatory="y" />
 			<column name="subject_id" type="integer" jt="4" mandatory="y" />
+			<column name="group_id" type="integer" jt="4" mandatory="y" />
 			<column name="day_of_week" type="date" jt="91" mandatory="y" />
 			<column name="lesson_number" type="integer" jt="4" mandatory="y" />
 			<column name="room_number" type="integer" jt="4" mandatory="y" />
@@ -43,16 +52,23 @@
 			<fk name="fk_class_schedule_subjects" to_schema="electronic-gradebook-schema" to_table="subjects" >
 				<fk_column name="subject_id" pk="subject_id" />
 			</fk>
+			<fk name="fk_class_schedule_subject_groups" to_schema="electronic-gradebook-schema" to_table="subject_groups" >
+				<fk_column name="group_id" pk="group_id" />
+			</fk>
 		</table>
 		<table name="classes" prior="class" >
 			<column name="class_id" type="serial" jt="4" mandatory="y" />
-			<column name="name" type="varchar" length="4" jt="12" mandatory="y" />
+			<column name="class_profile" type="integer" jt="4" mandatory="y" />
 			<column name="class_teacher" type="integer" jt="4" mandatory="y" />
+			<column name="class_year" type="char" length="4" jt="1" mandatory="y" />
 			<index name="pk_class" unique="PRIMARY_KEY" >
 				<column name="class_id" />
 			</index>
 			<fk name="fk_classes_teachers" to_schema="electronic-gradebook-schema" to_table="teachers" >
 				<fk_column name="class_teacher" pk="teacher_id" />
+			</fk>
+			<fk name="fk_classes_class_profile" to_schema="electronic-gradebook-schema" to_table="class_profile" >
+				<fk_column name="class_profile" pk="profile_id" />
 			</fk>
 		</table>
 		<table name="contact_info" prior="contact" >
@@ -103,23 +119,12 @@
 				<fk_column name="subject_id" pk="subject_id" />
 			</fk>
 		</table>
-		<table name="group_memberships" prior="tbl" >
-			<column name="group_id" type="integer" jt="4" mandatory="y" />
-			<column name="student_id" type="integer" jt="4" mandatory="y" />
-			<index name="idx_group_memberships" unique="NORMAL" >
-				<column name="group_id" />
-				<column name="student_id" />
-			</index>
-			<fk name="fk_group_memberships_student_groups" to_schema="electronic-gradebook-schema" to_table="student_groups" >
-				<fk_column name="group_id" pk="group_id" />
-			</fk>
-			<fk name="fk_group_memberships_students" to_schema="electronic-gradebook-schema" to_table="students" >
-				<fk_column name="student_id" pk="student_id" />
-			</fk>
-		</table>
 		<table name="parent_student" prior="parent_" >
 			<column name="parent_id" type="integer" jt="4" mandatory="y" />
 			<column name="student_id" type="integer" jt="4" mandatory="y" />
+			<column name="show_info" prior="show_information" type="boolean" jt="16" mandatory="y" >
+				<defo><![CDATA[1]]></defo>
+			</column>
 			<index name="pk_parent_student" unique="PRIMARY_KEY" >
 				<column name="parent_id" />
 				<column name="student_id" />
@@ -171,15 +176,25 @@
 				<fk_column name="sub_teacher_id" pk="teacher_id" />
 			</fk>
 		</table>
-		<table name="student_groups" prior="tbl" >
-			<column name="group_id" type="serial" jt="4" mandatory="y" />
-			<column name="class_id" type="integer" jt="4" mandatory="y" />
-			<column name="name" type="varchar" length="32" jt="12" mandatory="y" />
-			<index name="pk_student_groups" unique="PRIMARY_KEY" >
+		<table name="student_class_history" prior="tbl" >
+			<column name="student_id" type="integer" jt="4" mandatory="y" />
+			<column name="previous_class" type="integer" jt="4" mandatory="y" />
+			<index name="pk_student_class_history" unique="PRIMARY_KEY" >
+				<column name="previous_class" />
+			</index>
+		</table>
+		<table name="student_subject_group" prior="tbl" >
+			<column name="student_id" prior="subject_id" type="integer" jt="4" mandatory="y" />
+			<column name="group_id" type="integer" jt="4" mandatory="y" />
+			<index name="idx_student_subject_group" unique="NORMAL" >
+				<column name="student_id" />
 				<column name="group_id" />
 			</index>
-			<fk name="fk_student_groups_classes" to_schema="electronic-gradebook-schema" to_table="classes" >
-				<fk_column name="class_id" pk="class_id" />
+			<fk name="fk_student_subject_group_students" to_schema="electronic-gradebook-schema" to_table="students" >
+				<fk_column name="student_id" pk="student_id" />
+			</fk>
+			<fk name="fk_student_subject_group_subject_groups" to_schema="electronic-gradebook-schema" to_table="subject_groups" >
+				<fk_column name="group_id" pk="group_id" />
 			</fk>
 		</table>
 		<table name="students" prior="tbl" >
@@ -197,6 +212,21 @@
 				<fk_column name="class_id" pk="class_id" />
 			</fk>
 		</table>
+		<table name="subject_groups" prior="subject_gr" >
+			<column name="group_id" type="integer" jt="4" mandatory="y" />
+			<column name="class_id" type="integer" jt="4" mandatory="y" />
+			<column name="subject_id" type="integer" jt="4" mandatory="y" />
+			<column name="group_number" type="integer" jt="4" mandatory="y" />
+			<index name="pk_subject_groups" unique="PRIMARY_KEY" >
+				<column name="group_id" />
+			</index>
+			<fk name="fk_subject_groups_classes" to_schema="electronic-gradebook-schema" to_table="classes" >
+				<fk_column name="class_id" pk="class_id" />
+			</fk>
+			<fk name="fk_subject_groups_subjects" to_schema="electronic-gradebook-schema" to_table="subjects" >
+				<fk_column name="subject_id" pk="subject_id" />
+			</fk>
+		</table>
 		<table name="subjects" prior="subjects " >
 			<comment><![CDATA[subjects info]]></comment>
 			<column name="subject_id" type="serial" jt="4" mandatory="y" />
@@ -209,10 +239,12 @@
 			<column name="teacher_id" type="integer" jt="4" mandatory="y" />
 			<column name="class_id" type="integer" jt="4" mandatory="y" />
 			<column name="subject_id" type="integer" jt="4" mandatory="y" />
+			<column name="group_id" type="integer" jt="4" mandatory="y" />
 			<index name="idx_class_teachers" unique="NORMAL" >
 				<column name="teacher_id" />
 				<column name="class_id" />
 				<column name="subject_id" />
+				<column name="group_id" />
 			</index>
 			<fk name="fk_teacher_class_subject_teachers" to_schema="electronic-gradebook-schema" to_table="teachers" >
 				<fk_column name="teacher_id" pk="teacher_id" />
@@ -222,6 +254,9 @@
 			</fk>
 			<fk name="fk_teacher_class_subject_subjects" to_schema="electronic-gradebook-schema" to_table="subjects" >
 				<fk_column name="subject_id" pk="subject_id" />
+			</fk>
+			<fk name="fk_teacher_class_subject_subject_groups" to_schema="electronic-gradebook-schema" to_table="subject_groups" >
+				<fk_column name="group_id" pk="group_id" />
 			</fk>
 		</table>
 		<table name="teacher_subject" prior="teacher_suubject" >
@@ -278,24 +313,25 @@
 	</schema>
 	<layout name="Default Diagram" id="ecc7ede0-6acc-4f7c-b598-9c46109bc46c" show_relation="columns" >
 		<entity schema="electronic-gradebook-schema" name="personal_data" color="C1D8EE" x="60" y="280" />
-		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="440" y="280" />
-		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="880" y="180" />
-		<entity schema="electronic-gradebook-schema" name="subjects" color="3986C1" x="880" y="320" />
 		<entity schema="electronic-gradebook-schema" name="users" color="C1D8EE" x="260" y="280" />
-		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="680" y="280" />
-		<entity schema="electronic-gradebook-schema" name="parent_student" color="C1D8EE" x="60" y="60" />
 		<entity schema="electronic-gradebook-schema" name="parents" color="C1D8EE" x="260" y="60" />
 		<entity schema="electronic-gradebook-schema" name="teachers" color="C1D8EE" x="440" y="60" />
-		<entity schema="electronic-gradebook-schema" name="slot_exceptions" color="C1D8EE" x="1080" y="60" />
 		<entity schema="electronic-gradebook-schema" name="contact_info" color="C1D8EE" x="100" y="500" />
 		<entity schema="electronic-gradebook-schema" name="attendance" color="C1D8EE" x="320" y="500" />
 		<entity schema="electronic-gradebook-schema" name="grades" color="C1D8EE" x="520" y="500" />
 		<entity schema="electronic-gradebook-schema" name="events" color="C1D8EE" x="700" y="500" />
 		<entity schema="electronic-gradebook-schema" name="tests" color="C1D8EE" x="880" y="500" />
+		<entity schema="electronic-gradebook-schema" name="subjects" color="3986C1" x="1020" y="280" />
+		<entity schema="electronic-gradebook-schema" name="slot_exceptions" color="C1D8EE" x="1200" y="60" />
+		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="1040" y="60" />
+		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="660" y="280" />
+		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="440" y="280" />
 		<entity schema="electronic-gradebook-schema" name="class_schedule" color="C1D8EE" x="1060" y="500" />
-		<entity schema="electronic-gradebook-schema" name="student_groups" color="C1D8EE" x="660" y="60" />
-		<entity schema="electronic-gradebook-schema" name="group_memberships" color="C1D8EE" x="860" y="60" />
-		<entity schema="electronic-gradebook-schema" name="teacher_class_subject" color="C1D8EE" x="1060" y="300" />
+		<entity schema="electronic-gradebook-schema" name="teacher_class_subject" color="C1D8EE" x="1200" y="280" />
+		<entity schema="electronic-gradebook-schema" name="parent_student" color="C1D8EE" x="60" y="60" />
+		<entity schema="electronic-gradebook-schema" name="subject_groups" color="C1D8EE" x="640" y="60" />
+		<entity schema="electronic-gradebook-schema" name="student_subject_group" color="C1D8EE" x="840" y="60" />
+		<entity schema="electronic-gradebook-schema" name="class_profile" color="C1D8EE" x="840" y="280" />
 		<script name="SQL_Editor" id="57a64da3-3270-40e2-8e76-f005324f02d3" language="SQL" confirmed="y" >
 			<string><![CDATA[CREATE TABLE student_groups (
     group_id   SERIAL PRIMARY KEY,
