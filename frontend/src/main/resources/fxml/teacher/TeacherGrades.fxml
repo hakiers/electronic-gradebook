@@ -9,7 +9,7 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.egradebook.frontend.controller.teacher.TeacherGradesController">
     <Button text="wróć" fx:id="returnButton" defaultButton="true"
-            alignment="TOP_LEFT"/>
+            alignment="TOP_LEFT" onAction="#back"/>
     <HBox spacing="20" alignment="CENTER">
         <Label text="Twoje oceny" styleClass="header"/>
         <Label fx:id="studentNameLabel" styleClass="student-name"/>
@@ -30,8 +30,8 @@
         <Tooltip fx:id="gradeTooltip" styleClass="grade-tooltip"/>
     </fx:define>
     <HBox style="-fx-padding: 10 0 0 0;">
-        <TextField fx:id="newField" promptText="Nowa ocena" HBox.hgrow="ALWAYS"/>
-        <Button fx:id="editGradeButton" text="edytuj" style="-fx-base: green;"/>
+        <TextField fx:id="newGradeField" promptText="Nowa ocena" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="editGradeButton" text="edytuj" style="-fx-base: green;" onAction="#edit"/>
         <Button fx:id="eraseGradeButton" text="usuń" style="-fx-base: red;"/>
     </HBox>
 </VBox>

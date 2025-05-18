@@ -45,7 +45,6 @@ public class StudentRegistrationController {
     public void initialize() {
         hide();
         addButton.setSelected(true);
-        returnButton.setOnAction(event -> back());
         clearButton.setOnAction(event -> clear());
         submitButton.setOnAction(event -> handle());
         sendTypeGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {

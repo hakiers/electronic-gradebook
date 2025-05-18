@@ -9,7 +9,7 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.egradebook.frontend.controller.student.StudentGradesController">
     <Button text="wróć" fx:id="returnButton" defaultButton="true"
-            alignment="TOP_LEFT"/>
+            alignment="TOP_LEFT" onAction="#back"/>
     <HBox spacing="20" alignment="CENTER">
         <Label text="Twoje oceny" styleClass="header"/>
         <Label fx:id="studentNameLabel" styleClass="student-name"/>

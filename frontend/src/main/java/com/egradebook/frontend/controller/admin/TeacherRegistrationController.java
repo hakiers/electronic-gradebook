@@ -36,7 +36,6 @@ public class TeacherRegistrationController {
 
     public void initialize() {
         hide();
-        returnButton.setOnAction(event -> back());
         clearButton.setOnAction(event -> clear());
         submitButton.setOnAction(event -> add());
         subjectsCheckComboBox.getItems().addAll(

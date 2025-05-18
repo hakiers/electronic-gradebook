@@ -11,7 +11,7 @@
       fx:controller="com.egradebook.frontend.controller.admin.StudentRegistrationController"
       alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f4;">
     <Button text="wróć" fx:id="returnButton" defaultButton="true"
-            alignment="TOP_LEFT"/>
+            alignment="TOP_LEFT" onAction="#back"/>
     <fx:define>
         <ToggleGroup fx:id="sendTypeGroup"/>
     </fx:define>

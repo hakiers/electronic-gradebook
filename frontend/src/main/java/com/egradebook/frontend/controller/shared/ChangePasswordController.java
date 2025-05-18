@@ -22,7 +22,6 @@ public class ChangePasswordController {
     Pair<Integer,String> ChangeInfo;
 
     public void initialize() {
-        returnButton.setOnAction(event -> back());
         changeButton.setOnAction(event -> handleChange());
     }
 

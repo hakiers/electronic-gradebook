@@ -18,7 +18,6 @@ public class SelectClassController {
     @FXML private ComboBox<Pair<String ,String>> selectBox;
 
     public void initialize() {
-        returnButton.setOnAction(event ->back());
         nextButton.setOnAction(event -> next());
         //TODO ADD LOGIC
         selectBox.getItems().addAll(new Pair<>("1A", "Matematyka"),new Pair<>("1A","Informatyka"),
@@ -38,10 +37,11 @@ public class SelectClassController {
     }
     public void back() {
         Stage stage=(Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(stage, "/fxml/teacher/TeacherPage.fxml", "Strona Główna");
+        ViewLoader.goPrev(stage);
     }
 
     public void next() {
         Stage stage=(Stage) returnButton.getScene().getWindow();
-        ViewLoader.goPrev(stage);    }
+        ViewLoader.loadView(stage,"/fxml/teacher/TeacherGrades.fxml", "Oceny");
+    }
 }

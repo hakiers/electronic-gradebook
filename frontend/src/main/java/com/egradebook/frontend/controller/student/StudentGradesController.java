@@ -25,7 +25,6 @@ public class StudentGradesController {
     @FXML private TableColumn<SubjectGrades, String> gradesColumn;
 
     public void initialize() {
-        returnButton.setOnAction(event -> back());
         configureTableColumns();
         loadGrades();
     }
