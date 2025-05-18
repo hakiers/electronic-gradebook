@@ -65,24 +65,5 @@ public class TeacherService {
             return new Pair<>(500, null);
         }
     }
-    public static Pair<Integer,String> addGrade(AddGradeRequest request) {
-        try {
-            String json =mapper.writeValueAsString(request);
 
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/teacher/add-grade"))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
-                    .build();
-            HttpResponse<String> response = UserService.client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            //System.out.println(response.statusCode());
-            System.out.println(response.body());
-            if (response.statusCode() == 200) {
-                return new Pair<>(response.statusCode(), response.body());
-            }
-            return new Pair<>(response.statusCode(), response.body());
-        } catch (Exception e) {
-            return new Pair<>(0,"");
-        }
-    }
 }

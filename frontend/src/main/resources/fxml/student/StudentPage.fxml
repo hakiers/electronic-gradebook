@@ -7,7 +7,7 @@
       fx:controller="com.egradebook.frontend.controller.student.StudentPageController"
       alignment="CENTER" spacing="20">
     <Button text="Oceny" fx:id="showGradesButton"  style="-fx-background-color: #00d9ff;-fx-text-fill: black;"/>
-    <Button text="Plan lekcji" fx:id="showSchedule" style="-fx-background-color: #00d9ff;-fx-text-fill: black;"/>
+    <Button text="Plan lekcji" fx:id="showScheduleButton" style="-fx-background-color: #00d9ff;-fx-text-fill: black;"/>
     <Button text="Zmień hasło" fx:id="changePasswordButton" style="-fx-background-color: #00d9ff;-fx-text-fill: black;"/>
     <Button text="Wyloguj" fx:id="logoutButton"  style="-fx-background-color: red; -fx-text-fill: white;"/>
 

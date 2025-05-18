@@ -69,7 +69,7 @@ public class StudentRegistrationController {
     @FXML
     public void back() {
         Stage stage=(Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna");
+        ViewLoader.goPrev(stage);
     }
     @FXML
     public void clear() {

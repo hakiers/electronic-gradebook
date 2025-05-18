@@ -1,9 +1,11 @@
 package com.egradebook.frontend.controller.teacher;
 
 import com.egradebook.frontend.dto.AddGradeRequest;
+import com.egradebook.frontend.dto.EditGradeRequest;
 import com.egradebook.frontend.model.Grade;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.model.StudentGrades;
+import com.egradebook.frontend.service.GradeService;
 import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class TeacherGradesController {
     @FXML private Button returnButton;
     @FXML private Button addGradesButton;
+    @FXML private Button editGradeButton;
 
     @FXML private TableView<StudentGrades> gradesTable;
     @FXML private TableColumn<StudentGrades, String> studentColumn;
@@ -35,11 +38,15 @@ public class TeacherGradesController {
 
     private final List<Student> students = TeacherService.getStudentInClass().getValue();
 
+    Grade selected_grade;
+
+
     public void initialize() {
         configureTableColumns();
         loadGrades();
         returnButton.setOnAction(event -> back());
         addGradesButton.setOnAction(event -> addGradesToSelected());
+        editGradeButton.setOnAction(event -> edit());
     }
 
     private void configureTableColumns() {
@@ -64,6 +71,9 @@ public class TeacherGradesController {
                         ));
                         gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6;");
                         hbox.getChildren().add(gradeButton);
+                        gradeButton.setOnAction(event -> {
+                            selected_grade = grade;
+                        });
                     });
 
                     setGraphic(hbox);
@@ -119,7 +129,7 @@ public class TeacherGradesController {
                     int gradeValue = Integer.parseInt(gradeText);
                     AddGradeRequest request=new AddGradeRequest(getStudentId(studentGrades.getStudentName()).intValue(),
                             1,gradeValue,date,description);
-                    TeacherService.addGrade(request);
+                    GradeService.addGrade(request);
                     studentGrades.setNewGradeValue("");
                     gradesAdded = true;
                 } catch (NumberFormatException e) {
@@ -190,17 +200,16 @@ public class TeacherGradesController {
             String fullName = student.getName() + " " + student.getSurname();
             List<Grade> studentGrades = gradesByStudentId.getOrDefault(student.getStudent_id().intValue(), new ArrayList<>());
             studentGradesList.add(new StudentGrades(fullName, studentGrades));
-            /*
-            // Debug: wypisz informacje o studentach i ich ocenach
-            System.out.println("Student: " + fullName + " (ID: " + student.getStudent_id() + ")");
-            studentGrades.forEach(g -> System.out.println("  Ocena: " + g.getGrade_value()));
-             */
         });
 
         // Sortowanie alfabetyczne po nazwisku i imieniu
         studentGradesList.sort(Comparator.comparing(StudentGrades::getStudentName));
 
         gradesTable.setItems(studentGradesList);
+    }
+
+    private void edit() {
+        //EditGradeRequest request = new EditGradeRequest(selected_grade.ge);
     }
 
     private void back() {

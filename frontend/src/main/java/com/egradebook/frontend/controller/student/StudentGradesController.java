@@ -76,6 +76,5 @@ public class StudentGradesController {
 
     public void back() {
         Stage stage = (Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(stage, "/fxml/student/StudentPage.fxml", "Strona Główna");
-    }
+        ViewLoader.goPrev(stage);    }
 }

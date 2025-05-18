@@ -43,6 +43,5 @@ public class SelectClassController {
 
     public void next() {
         Stage stage=(Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(stage, "/fxml/teacher/TeacherGrades.fxml", "Oceny");
-    }
+        ViewLoader.goPrev(stage);    }
 }

@@ -28,14 +28,7 @@ public class ChangePasswordController {
 
     public void back() {
         Stage stage = (Stage) returnButton.getScene().getWindow();
-        String role= UserService.getCurrentRole();
-        if(role.equals("student")) {
-            ViewLoader.loadView(stage, "/fxml/student/StudentPage.fxml", "Strona Główna");
-        }
-        else if(role.equals("admin")) {
-            ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna");
-        }
-        else ViewLoader.loadView(stage, "/fxml/teacher/TeacherPage.fxml", "Strona Główna");
+         ViewLoader.goPrev(stage);
     }
 
     public void handleChange() {

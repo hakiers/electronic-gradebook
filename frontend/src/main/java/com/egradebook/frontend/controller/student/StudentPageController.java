@@ -10,11 +10,12 @@ public class StudentPageController {
     @FXML private Button logoutButton;
     @FXML private Button showGradesButton;
     @FXML private Button changePasswordButton;
-
+    @FXML private Button showScheduleButton;
     public void initialize() {
         showGradesButton.setOnAction(event -> handleShowGrades());
         logoutButton.setOnAction(event -> handleLogout());
         changePasswordButton.setOnAction(event -> handleChange());
+        showScheduleButton.setOnAction(event -> {});
     }
 
     public void handleChange() {
