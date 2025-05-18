@@ -1,5 +1,6 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.Grade;
 import com.egradebook.backend.model.StudentProfile;
 import com.egradebook.backend.model.Subject;
@@ -24,28 +25,40 @@ public class StudentService {
     @Autowired
     GetRepository getRepository;
 
-    public List<Grade> getStudentsGradesBySubject(String subject, HttpSession session) {
+    public List<Grade> getStudentsGradesBySubject(int subject_id, HttpSession session) {
+        if(session.getAttribute("username") == null){
+            throw new UnauthorizedException("You are not logged in!");
+        }
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
-        return studentRepository.getStudentsGrades(subject, student_id);
+        return studentRepository.getStudentsGrades(subject_id, student_id);
     }
 
     public List<Subject> getSubjectsByStudent(HttpSession session) {
+        if(session.getAttribute("username") == null){
+            throw new UnauthorizedException("You are not logged in!");
+        }
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
         return studentRepository.getStudentsSubjects(student_id);
     }
 
     public Map<String, List<Grade>> getStudentsGrades(HttpSession session) {
+        if(session.getAttribute("username") == null){
+            throw new UnauthorizedException("You are not logged in!");
+        }
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
         List<Subject> subjects = getSubjectsByStudent(session);
         Map<String, List<Grade>> gradesList = new HashMap<>();
         for (Subject subject : subjects) {
-            gradesList.put(subject.getName(), getStudentsGradesBySubject(subject.getName(), session));
+            gradesList.put(subject.getName(), getStudentsGradesBySubject(subject.getSubject_id(), session));
         }
         return gradesList;
     }
 
 
     public StudentProfile getStudentsProfile(HttpSession session) {
+        if(session.getAttribute("username") == null){
+            throw new UnauthorizedException("You are not logged in!");
+        }
         int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
         String name = "xd";
         return null;

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Grade {
+    private int grade_id;
     private int student_id;
     private int subject_id;
     private int teacher_id;
@@ -13,7 +14,8 @@ public class Grade {
     private float grade_value;
     private String description;
 
-    public Grade(int student_id, int subject_id, int teacher_id, String date, float grade_value, String description) {
+    public Grade(int garde_id, int student_id, int subject_id, int teacher_id, String date, float grade_value, String description) {
+        this.grade_id = garde_id;
         this.student_id = student_id;
         this.subject_id = subject_id;
         this.teacher_id = teacher_id;
@@ -21,6 +23,8 @@ public class Grade {
         this.grade_value = grade_value;
         this.description = description;
     }
+
+    public int getGrade_id() { return grade_id; }
     public int getStudent_id() { return student_id; }
     public int getSubject_id() { return subject_id; }
     public int getTeacher_id() { return teacher_id; }
@@ -28,6 +32,7 @@ public class Grade {
     public float getGrade_value() { return grade_value; }
     public String getDescription() { return description; }
 
+    public void setGrade_id(int grade_id) { this.grade_id = grade_id; }
     public void setStudent_id(int student_id) { this.student_id = student_id; }
     public void setSubject_id(int subject_id) { this.subject_id = subject_id; }
     public void setTeacher_id(int teacher_id) { this.teacher_id = teacher_id; }
