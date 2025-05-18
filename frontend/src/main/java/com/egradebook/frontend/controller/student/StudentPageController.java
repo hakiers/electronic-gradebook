@@ -15,7 +15,12 @@ public class StudentPageController {
         showGradesButton.setOnAction(event -> handleShowGrades());
         logoutButton.setOnAction(event -> handleLogout());
         changePasswordButton.setOnAction(event -> handleChange());
-        showScheduleButton.setOnAction(event -> {});
+        showScheduleButton.setOnAction(event -> handleShowSchedule());
+    }
+
+    private void handleShowSchedule() {
+        Stage stage = (Stage) showScheduleButton.getScene().getWindow();
+        ViewLoader.loadView(stage,"/fxml/student/StudentSchedule.fxml","Plan Lekcji");
     }
 
     public void handleChange() {
