@@ -2,8 +2,8 @@ package com.egradebook.frontend.service;
 
 import com.egradebook.frontend.dto.AddGradeRequest;
 import com.egradebook.frontend.dto.EditGradeRequest;
+import com.egradebook.frontend.dto.RemoveGradeRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.util.Pair;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
@@ -11,7 +11,7 @@ import java.net.http.HttpResponse;
 
 public class GradeService {
     private static final ObjectMapper mapper = new ObjectMapper();
-    public static Pair<Integer,String> addGrade(AddGradeRequest request) {
+    public static void addGrade(AddGradeRequest request) {
         try {
             String json =mapper.writeValueAsString(request);
 
@@ -24,19 +24,43 @@ public class GradeService {
             //System.out.println(response.statusCode());
             System.out.println(response.body());
             if (response.statusCode() == 200) {
-                return new Pair<>(response.statusCode(), response.body());
+                response.statusCode();
+                response.body();
+                return;
             }
-            return new Pair<>(response.statusCode(), response.body());
+            response.statusCode();
+            response.body();
         } catch (Exception e) {
-            return new Pair<>(0,"");
         }
     }
-    public static Pair<Integer,String> editGrade(EditGradeRequest request) {
+    public static void deleteGrade(RemoveGradeRequest request) {
         try {
             String json =mapper.writeValueAsString(request);
 
             HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/teacher/edit-gradegrade"))
+                    .uri(new URI("http://localhost:8080/api/teacher/remove-grade"))
+                    .header("Content-Type", "application/json")
+                    .DELETE()
+                    .build();
+            HttpResponse<String> response = UserService.client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            //System.out.println(response.statusCode());
+            System.out.println(response.body());
+            if (response.statusCode() == 200) {
+                response.statusCode();
+                response.body();
+                return;
+            }
+            response.statusCode();
+            response.body();
+        } catch (Exception e) {
+        }
+    }
+    public static void editGrade(EditGradeRequest request) {
+        try {
+            String json =mapper.writeValueAsString(request);
+
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/teacher/edit-grade"))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -44,11 +68,13 @@ public class GradeService {
             //System.out.println(response.statusCode());
             System.out.println(response.body());
             if (response.statusCode() == 200) {
-                return new Pair<>(response.statusCode(), response.body());
+                response.statusCode();
+                response.body();
+                return;
             }
-            return new Pair<>(response.statusCode(), response.body());
+            response.statusCode();
+            response.body();
         } catch (Exception e) {
-            return new Pair<>(0,"");
         }
     }
 }

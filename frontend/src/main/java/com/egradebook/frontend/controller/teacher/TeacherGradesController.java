@@ -2,6 +2,7 @@ package com.egradebook.frontend.controller.teacher;
 
 import com.egradebook.frontend.dto.AddGradeRequest;
 import com.egradebook.frontend.dto.EditGradeRequest;
+import com.egradebook.frontend.dto.RemoveGradeRequest;
 import com.egradebook.frontend.model.Grade;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.model.StudentGrades;
@@ -35,6 +36,7 @@ public class TeacherGradesController {
     @FXML private TableColumn<StudentGrades, String> newGradeColumn;
 
     @FXML private TextField descriptionField;
+    @FXML private TextField newGradeField;
 
     private final List<Student> students = TeacherService.getStudentInClass().getValue();
 
@@ -44,9 +46,7 @@ public class TeacherGradesController {
     public void initialize() {
         configureTableColumns();
         loadGrades();
-        returnButton.setOnAction(event -> back());
         addGradesButton.setOnAction(event -> addGradesToSelected());
-        editGradeButton.setOnAction(event -> edit());
     }
 
     private void configureTableColumns() {
@@ -69,13 +69,20 @@ public class TeacherGradesController {
                         gradeButton.setTooltip(new Tooltip(
                                 "Data: " + grade.getDate() + "\nOpis: " + grade.getDescription()
                         ));
-                        gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6;");
-                        hbox.getChildren().add(gradeButton);
+                        // Dodaj styl dla wybranej oceny
+                        if (grade.equals(selected_grade)) {
+                            gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6; -fx-background-color: #d3d3d3;");
+                        } else {
+                            gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6;");
+                        }
+
                         gradeButton.setOnAction(event -> {
                             selected_grade = grade;
+                            newGradeField.setText(String.valueOf(grade.getGrade_value()));
+                            gradesTable.refresh(); // Odśwież aby pokazać wybór
                         });
+                        hbox.getChildren().add(gradeButton);
                     });
-
                     setGraphic(hbox);
                 }
             }
@@ -122,7 +129,6 @@ public class TeacherGradesController {
             String gradeValueStr = studentGrades.getNewGradeValue();
             String gradeText = gradeValueStr;
 
-            //TODO zrobić addGrade
 
             if (!gradeText.isEmpty()) {
                 try {
@@ -207,11 +213,43 @@ public class TeacherGradesController {
 
         gradesTable.setItems(studentGradesList);
     }
-
+    @FXML
     private void edit() {
-        //EditGradeRequest request = new EditGradeRequest(selected_grade.ge);
-    }
+        if (selected_grade == null) {
+            showAlert("Wybierz ocenę do edycji");
+            return;
+        }
 
+        try {
+            float newGradeValue = Float.parseFloat(newGradeField.getText());
+            if (newGradeValue < 1 || newGradeValue > 6) {
+                showAlert("Ocena musi być w zakresie 1-6");
+                return;
+            }
+
+            EditGradeRequest request = new EditGradeRequest(
+                    selected_grade.getGrade_id(),
+                    newGradeValue,
+                    selected_grade.getDescription()
+            );
+            GradeService.editGrade(request);
+            refreshGrades(); // Odśwież dane po edycji
+            showSuccessAlert("Pomyślnie zaktualizowano ocenę");
+            newGradeField.clear();
+        } catch (NumberFormatException e) {
+            showAlert("Wprowadź poprawną wartość oceny");
+        }
+    }
+    private void refreshGrades() {
+        loadGrades(); // Ponownie ładuje dane
+        gradesTable.refresh(); // Wymusza odświeżenie widoku tabeli
+    }
+    @FXML
+    private void delete() {
+        RemoveGradeRequest request = new RemoveGradeRequest(selected_grade.getGrade_id());
+        //GradeService
+    }
+    @FXML
     private void back() {
         Stage currentStage = (Stage) returnButton.getScene().getWindow();
         ViewLoader.loadView(currentStage, "/fxml/teacher/SelectClass.fxml", "Wybór klasy");
