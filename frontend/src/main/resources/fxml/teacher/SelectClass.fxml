@@ -14,5 +14,6 @@
     <Label text="Wybierz klasę" fx:id="selectLabel" />
     <ComboBox fx:id="selectBox"/>
     <Button text="Przejdź" fx:id="nextButton" defaultButton="true"
-            style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
+            onAction="#next"/>
 </VBox>

@@ -20,7 +20,6 @@ public class LoginController {
 
     //przyciski
     @FXML private Button loginButton;
-    @FXML private Button clearButton;
 
     @FXML private ToggleGroup loginTypeGroup;
     @FXML private ToggleButton asStudentButton;

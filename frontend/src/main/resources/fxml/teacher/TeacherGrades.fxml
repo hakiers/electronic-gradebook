@@ -24,7 +24,7 @@
     </TableView>
     <HBox style="-fx-padding: 10 0 0 0;">
         <TextField fx:id="descriptionField" promptText="Opis oceny" HBox.hgrow="ALWAYS"/>
-        <Button fx:id="addGradesButton" text="Dodaj oceny" style="-fx-base: green;"/>
+        <Button fx:id="addGradesButton" text="Dodaj oceny" style="-fx-base: green;" onAction="#addGradesToSelected"/>
     </HBox>
     <fx:define>
         <Tooltip fx:id="gradeTooltip" styleClass="grade-tooltip"/>

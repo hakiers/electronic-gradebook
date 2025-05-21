@@ -46,7 +46,6 @@ public class TeacherGradesController {
     public void initialize() {
         configureTableColumns();
         loadGrades();
-        addGradesButton.setOnAction(event -> addGradesToSelected());
     }
 
     private void configureTableColumns() {
@@ -69,7 +68,6 @@ public class TeacherGradesController {
                         gradeButton.setTooltip(new Tooltip(
                                 "Data: " + grade.getDate() + "\nOpis: " + grade.getDescription()
                         ));
-                        // Dodaj styl dla wybranej oceny
                         if (grade.equals(selected_grade)) {
                             gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6; -fx-background-color: #d3d3d3;");
                         } else {
@@ -79,7 +77,7 @@ public class TeacherGradesController {
                         gradeButton.setOnAction(event -> {
                             selected_grade = grade;
                             newGradeField.setText(String.valueOf(grade.getGrade_value()));
-                            gradesTable.refresh(); // Odśwież aby pokazać wybór
+                            gradesTable.refresh();
                         });
                         hbox.getChildren().add(gradeButton);
                     });
@@ -115,6 +113,7 @@ public class TeacherGradesController {
         });
     }
 
+    @FXML
     private void addGradesToSelected() {
         String description = descriptionField.getText();
         if (description.isEmpty()) {
@@ -194,21 +193,17 @@ public class TeacherGradesController {
                 grades.addAll(studentGrades);
             }
 
-        }
-        // Grupujemy oceny po ID studenta
-        Map<Integer, List<Grade>> gradesByStudentId = grades.stream()
+        }Map<Integer, List<Grade>> gradesByStudentId = grades.stream()
                 .collect(Collectors.groupingBy(Grade::getStudent_id));
 
         ObservableList<StudentGrades> studentGradesList = FXCollections.observableArrayList();
 
-        // Przetwarzamy wszystkich studentów
         students.forEach(student -> {
             String fullName = student.getName() + " " + student.getSurname();
             List<Grade> studentGrades = gradesByStudentId.getOrDefault(student.getStudent_id().intValue(), new ArrayList<>());
             studentGradesList.add(new StudentGrades(fullName, studentGrades));
         });
 
-        // Sortowanie alfabetyczne po nazwisku i imieniu
         studentGradesList.sort(Comparator.comparing(StudentGrades::getStudentName));
 
         gradesTable.setItems(studentGradesList);

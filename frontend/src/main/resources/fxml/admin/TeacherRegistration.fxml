@@ -36,8 +36,10 @@
     </GridPane>
     <HBox spacing="10" alignment="CENTER">
         <Button text="Wyślij" fx:id="submitButton" defaultButton="true"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
+                onAction="#add"/>
         <Button text="Wyczyść" fx:id="clearButton"
-                style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                style="-fx-background-color: #f44336; -fx-text-fill: white;"
+                onAction="#clear"/>
     </HBox>
 </VBox>

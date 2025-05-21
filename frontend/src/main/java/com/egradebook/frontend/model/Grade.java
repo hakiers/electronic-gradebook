@@ -12,10 +12,8 @@ public class Grade {
     private float grade_value;
     private String description;
 
-    // Konstruktor bezargumentowy wymagany przez Jacksona
     public Grade() {}
 
-    // Konstruktor z adnotacjami Jacksona
     @JsonCreator
     public Grade(
             @JsonProperty("grade_id") int grade_id,

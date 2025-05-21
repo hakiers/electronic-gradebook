@@ -19,9 +19,6 @@ public class StudentRegistrationController {
 
     //przyciski
     @FXML private Button returnButton;
-    @FXML private Button clearButton;
-    @FXML private Button submitButton;
-
     @FXML private ToggleGroup sendTypeGroup;
     @FXML private ToggleButton addButton;
     @FXML private ToggleButton changeButton;
@@ -45,8 +42,6 @@ public class StudentRegistrationController {
     public void initialize() {
         hide();
         addButton.setSelected(true);
-        clearButton.setOnAction(event -> clear());
-        submitButton.setOnAction(event -> handle());
         sendTypeGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal == null) {
                 if (oldVal != null) oldVal.setSelected(true);
@@ -60,6 +55,7 @@ public class StudentRegistrationController {
             scene.getStylesheets().add(cssUrl.toExternalForm());
         });
     }
+    @FXML
     private void handle()
     {
         if(isChangeMode) change();

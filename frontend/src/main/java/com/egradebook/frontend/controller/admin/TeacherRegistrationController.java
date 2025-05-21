@@ -17,8 +17,6 @@ public class TeacherRegistrationController {
 
     //przyciski
     @FXML private Button returnButton;
-    @FXML private Button clearButton;
-    @FXML private Button submitButton;
 
     //pola
     @FXML private TextField nameField;
@@ -36,8 +34,6 @@ public class TeacherRegistrationController {
 
     public void initialize() {
         hide();
-        clearButton.setOnAction(event -> clear());
-        submitButton.setOnAction(event -> add());
         subjectsCheckComboBox.getItems().addAll(
                 "Matematyka","Informatyka"/*, "Fizyka", "Chemia", "Biologia",
                  "Geografia", "Historia","Angielski","Polski","WF"*/

@@ -12,13 +12,11 @@ public class SelectClassController {
 
     //buttons
     @FXML private Button returnButton;
-    @FXML private Button nextButton;
 
     //combobox
     @FXML private ComboBox<Pair<String ,String>> selectBox;
 
     public void initialize() {
-        nextButton.setOnAction(event -> next());
         //TODO ADD LOGIC
         selectBox.getItems().addAll(new Pair<>("1A", "Matematyka"),new Pair<>("1A","Informatyka"),
                 new Pair<>("2B","Informatyka"));

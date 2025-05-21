@@ -10,7 +10,6 @@ import javafx.util.Pair;
 public class ChangePasswordController {
     //przyciski
     @FXML Button returnButton;
-    @FXML Button changeButton;
 
     //pola
     @FXML PasswordField checkField;
@@ -20,16 +19,12 @@ public class ChangePasswordController {
     @FXML Label successLabel;
 
     Pair<Integer,String> ChangeInfo;
-
-    public void initialize() {
-        changeButton.setOnAction(event -> handleChange());
-    }
-
+    @FXML
     public void back() {
         Stage stage = (Stage) returnButton.getScene().getWindow();
          ViewLoader.goPrev(stage);
     }
-
+    @FXML
     public void handleChange() {
         String check = checkField.getText();
         String newPassword = newPasswordField.getText();
