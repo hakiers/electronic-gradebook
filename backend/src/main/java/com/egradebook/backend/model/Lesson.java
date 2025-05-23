@@ -11,6 +11,7 @@ public class Lesson {
     private int room_number;
 
     public Lesson(){}
+
     public Lesson(int schedule_id, int class_id, int teacher_id, int subject_id, int group, int day_od_week, int lesson_number, int room_number) {
         this.schedule_id = schedule_id;
         this.class_id = class_id;

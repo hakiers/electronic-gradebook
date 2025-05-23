@@ -1,7 +1,7 @@
 package com.egradebook.backend.controller;
 
-import com.egradebook.backend.dto.StudentRegistrationRequest;
-import com.egradebook.backend.dto.TeacherRegistrationRequest;
+import com.egradebook.backend.request.StudentRegistrationRequest;
+import com.egradebook.backend.request.TeacherRegistrationRequest;
 import com.egradebook.backend.service.AdminService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,5 @@ public class AdminController {
     public ResponseEntity<?> registerStudent(@RequestBody StudentRegistrationRequest request, HttpSession session) {
             return ResponseEntity.ok(adminService.registerNewStudent(request, session));
     }
-
-    // /delete/{id}
-    // /users lista uzytkownikow get
 
 }

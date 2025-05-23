@@ -1,8 +1,8 @@
 package com.egradebook.backend.service;
 
 
-import com.egradebook.backend.dto.UserChangePasswordRequest;
-import com.egradebook.backend.dto.UserLoginRequest;
+import com.egradebook.backend.request.UserChangePasswordRequest;
+import com.egradebook.backend.request.UserLoginRequest;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.InvalidCredentialsException;
 import com.egradebook.backend.exception.UnauthorizedException;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LoginService {
+public class AuthService {
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -25,28 +25,29 @@ public class LoginService {
 
     public void loginUser(UserLoginRequest request, HttpSession session) {
         User user = findRepository.findUserByUsername(request.getUsername());
-        if(user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())){
+        if(user.isPasswordCorrect(request.getPassword())) {
             throw new InvalidCredentialsException("Invalid username or password");
         }
 
-        session.setAttribute("userId", user.getId());
+        session.setAttribute("user_id", user.getId());
         session.setAttribute("username", user.getUsername());
         session.setAttribute("role", user.getRole());
     }
 
     public void changePassword(UserChangePasswordRequest request, HttpSession session) {
-        if(session.getAttribute("username") == null){
+        User loggedUser = findRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        User user = findRepository.findUserByUsername(request.getUsername());
+        if(loggedUser.isLoggedIn()) {
             throw new UnauthorizedException("You are not logged in!");
         }
-        if(!session.getAttribute("username").equals(request.getUsername()) && !session.getAttribute("role").equals("admin")){
+        if(!loggedUser.isAdmin() && user.getId() != loggedUser.getId()) {
             throw new ForbiddenOperationException("You can change password only for yourself or for admin!");
         }
-        if(findRepository.findUserByUsername(request.getUsername()) == null){
+        if(!user.isLoggedIn()){
             throw new InvalidCredentialsException("Invalid username");
         }
 
-        String newHashedPassword = passwordEncoder.encode(request.getNewPassword());
-        userRepository.changePassword(request.getUsername(), newHashedPassword);
+        user.changePassword(request.getNewPassword());
     }
 
 }

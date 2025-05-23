@@ -1,9 +1,10 @@
 package com.egradebook.backend.repository;
 
-import com.egradebook.backend.dto.EditGradeRequest;
+import com.egradebook.backend.request.EditGradeRequest;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Grade;
 import com.egradebook.backend.model.Subject;
+import com.egradebook.backend.request.RemoveGradeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -77,13 +78,13 @@ public class TeacherRepository {
         return updated > 0;
     }
 
-    public boolean deleteGrade(int grade_id, int teacher_id){
+    public boolean deleteGrade(RemoveGradeRequest request, int teacher_id){
         String sql = """
         DELETE FROM grades
         WHERE grade_id = ? AND teacher_id = ?
         """;
 
-        int deleted = jdbcTemplate.update(sql, grade_id, teacher_id);
+        int deleted = jdbcTemplate.update(sql, request.getGrade_id(), teacher_id);
 
         return deleted > 0;
     }

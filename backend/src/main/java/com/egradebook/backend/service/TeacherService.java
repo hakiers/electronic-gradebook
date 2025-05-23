@@ -1,21 +1,17 @@
 package com.egradebook.backend.service;
 
-import ch.qos.logback.core.joran.sanity.Pair;
-import com.egradebook.backend.dto.AddGradeRequest;
-import com.egradebook.backend.dto.EditGradeRequest;
+import com.egradebook.backend.model.*;
+import com.egradebook.backend.repository.utils.FindRepository;
+import com.egradebook.backend.request.AddGradeRequest;
+import com.egradebook.backend.request.EditGradeRequest;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.UnauthorizedException;
-import com.egradebook.backend.model.Clazz;
-import com.egradebook.backend.model.Grade;
-import com.egradebook.backend.model.Student;
-import com.egradebook.backend.model.Subject;
 import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.TeacherRepository;
-import com.egradebook.backend.repository.utils.FindRepository;
 import com.egradebook.backend.repository.utils.GetRepository;
+import com.egradebook.backend.request.RemoveGradeRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +25,8 @@ public class TeacherService {
     TeacherRepository teacherRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private FindRepository findRepository;
 
 
     public void assignClassToTeacher(Long classId, Long teacherId) {
@@ -44,53 +42,53 @@ public class TeacherService {
     }
 
     public void addGrade(AddGradeRequest request, HttpSession session) {
-        if (session.getAttribute("username") == null || !session.getAttribute("role").equals("teacher")) {
+        User loggedUser = findRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isTeacher()) {
             throw new UnauthorizedException("User is not a teacher");
         }
-        int teacher_id = getRepository.getTeacherId(session.getAttribute("username").toString());
-        boolean authorized = teacherRepository.canTeacherGradeStudent(teacher_id, request.getStudent_id(), request.getSubject_id());
-        if (!authorized) {
-            throw new ForbiddenOperationException("Teacher is not authorized to grade student");
-        }
-        teacherRepository.insertGrade(new Grade(0, request.getStudent_id(), request.getSubject_id(), teacher_id, request.getDate(), request.getGrade_value(), request.getDescription()));
+
+        Teacher teacher = getTeacher(loggedUser.getId());
+        teacher.addGrade(request);
     }
 
     public void editGrade(EditGradeRequest request, HttpSession session) {
-        if (session.getAttribute("username") == null || !session.getAttribute("role").equals("teacher")) {
+        User loggedUser = findRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isTeacher()) {
             throw new UnauthorizedException("User is not a teacher");
         }
-        int teacher_id = getRepository.getTeacherId(session.getAttribute("username").toString());
-        boolean updated = teacherRepository.updateGrade(request, teacher_id);
-        if (!updated) {
-            throw new ForbiddenOperationException("You can't edit this grade or it doesn't exist");
-        }
+
+        Teacher teacher = getTeacher(loggedUser.getId());
+        teacher.editGrade(request);
     }
 
-    public void removeGrade(int grade_id, HttpSession session) {
-        if (session.getAttribute("username") == null || !session.getAttribute("role").equals("teacher")) {
+    public void removeGrade(RemoveGradeRequest request, HttpSession session) {
+        User loggedUser = findRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isTeacher()) {
             throw new UnauthorizedException("User is not a teacher");
         }
-        int teacher_id = getRepository.getTeacherId(session.getAttribute("username").toString());
-        boolean deleted = teacherRepository.deleteGrade(grade_id, teacher_id);
-        if (!deleted) {
-            throw new ForbiddenOperationException("You can't delete this grade or it doesn't exist");
-        }
+
+        Teacher teacher = getTeacher(loggedUser.getId());
+        teacher.removeGrade(request);
     }
 
     public List<Subject> getSubjects(HttpSession session) {
-        if (session.getAttribute("username") == null || !session.getAttribute("role").equals("teacher")) {
+        User loggedUser = findRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isTeacher()) {
             throw new UnauthorizedException("User is not a teacher");
         }
-        int teacher_id = getRepository.getTeacherId(session.getAttribute("username").toString());
-        return teacherRepository.getTeacherSubjects(teacher_id);
+
+        Teacher teacher = getTeacher(loggedUser.getId());
+        return teacher.getSubjects();
     }
 
     //getSubjects teacher for admin
     public List<Subject> getSubjects(int teacher_id, HttpSession session) {
-        if (session.getAttribute("username") == null || !session.getAttribute("role").equals("admin")) {
+        User loggedUser = findRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isAdmin()) {
             throw new UnauthorizedException("User is not a admin");
         }
-        return teacherRepository.getTeacherSubjects(teacher_id);
+        Teacher teacher = getTeacher(teacher_id);
+        return teacher.getSubjects();
     }
 
     public List<Clazz> getClassesForSubject(int subject_id, HttpSession session) {

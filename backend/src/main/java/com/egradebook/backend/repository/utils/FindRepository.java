@@ -12,19 +12,36 @@ public class FindRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    public User findUserById(int user_id) {
+        String sql = "SELECT user_id, username, password, role FROM users WHERE user_id = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{user_id}, (rs, rowNum) ->
+                    new User(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("role")
+                    )
+            );
+        }
+        catch (EmptyResultDataAccessException e) {
+            return new User();
+        }
+    }
+
     public User findUserByUsername(String username) {
         String sql = "SELECT user_id, username, password, role FROM users WHERE username = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{username}, (rs, rowNum) ->
                     new User(
-                            rs.getLong("user_id"),
+                            rs.getInt("user_id"),
                             rs.getString("username"),
                             rs.getString("password"),
                             rs.getString("role")
                     )
             );
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            return new User();
         }
     }
 
@@ -33,7 +50,7 @@ public class FindRepository {
         try{
             return jdbcTemplate.queryForObject(sql, new Object[]{pesel}, (rs, rowNum) ->
                     new User(
-                            rs.getLong("user_id"),
+                            rs.getInt("user_id"),
                             rs.getString("username"),
                             rs.getString("password"),
                             rs.getString("role")
@@ -41,7 +58,7 @@ public class FindRepository {
 
             );
         } catch(EmptyResultDataAccessException e){
-            return null;
+            return new User();
         }
     }
 
@@ -50,7 +67,7 @@ public class FindRepository {
         try{
             return jdbcTemplate.queryForObject(sql, new Object[]{pesel, role}, (rs, rowNum) ->
                     new User(
-                            rs.getLong("user_id"),
+                            rs.getInt("user_id"),
                             rs.getString("username"),
                             rs.getString("password"),
                             rs.getString("role")
@@ -58,7 +75,7 @@ public class FindRepository {
 
             );
         } catch(EmptyResultDataAccessException e){
-            return null;
+            return new User();
         }
     }
 }

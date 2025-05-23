@@ -1,4 +1,4 @@
-package com.egradebook.backend.dto;
+package com.egradebook.backend.request;
 
 public class StudentRegistrationRequest {
     private final String name;
