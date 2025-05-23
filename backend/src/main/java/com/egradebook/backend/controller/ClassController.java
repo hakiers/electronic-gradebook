@@ -16,6 +16,11 @@ public class ClassController {
     @Autowired
     private ClassService classService;
 
+    @GetMapping("/{class_id}")
+    public ResponseEntity<?> getClass(@PathVariable Long class_id, HttpSession session) {
+        return null;
+    }
+
     @GetMapping("/{class_id}/students")
     public ResponseEntity<?> getStudentsInClass(@PathVariable int class_id, HttpSession session) {
         return ResponseEntity.ok(classService.getStudentsInClass(class_id, session));
@@ -25,5 +30,4 @@ public class ClassController {
     public ResponseEntity<?> getScheulde(@PathVariable int class_id, HttpSession session){
         return ResponseEntity.ok(classService.getScheulde(class_id, session));
     }
-
 }
