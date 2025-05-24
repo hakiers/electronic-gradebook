@@ -72,6 +72,6 @@ public class StudentScheduleController {
     @FXML
     private void back() {
         Stage stage = (Stage) timetableGrid.getScene().getWindow();
-        ViewLoader.loadView(stage,"/fxml/shared/PreviousView.fxml", "Poprzedni widok");
+        ViewLoader.goPrev(stage);
     }
 }

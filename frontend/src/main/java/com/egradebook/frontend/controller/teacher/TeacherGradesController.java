@@ -8,14 +8,13 @@ import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.model.StudentGrades;
 import com.egradebook.frontend.service.GradeService;
 import com.egradebook.frontend.service.TeacherService;
+import com.egradebook.frontend.utils.GradeButtonCellFactory;
 import com.egradebook.frontend.utils.ViewLoader;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -50,41 +49,17 @@ public class TeacherGradesController {
 
     private void configureTableColumns() {
         studentColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
-        gradesColumn.setCellFactory(column -> new TableCell<>() {
-            private final HBox hbox = new HBox(5);
-
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(null);
-                setGraphic(null);
-
-                if (!empty && getTableRow() != null && getTableRow().getItem() != null) {
-                    StudentGrades studentGrades = getTableRow().getItem();
-                    hbox.getChildren().clear();
-
-                    studentGrades.getGrades().forEach(grade -> {
-                        Button gradeButton = new Button(String.valueOf(grade.getGrade_value()));
-                        gradeButton.setTooltip(new Tooltip(
-                                "Data: " + grade.getDate() + "\nOpis: " + grade.getDescription()
-                        ));
-                        if (grade.equals(selected_grade)) {
-                            gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6; -fx-background-color: #d3d3d3;");
-                        } else {
-                            gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6;");
-                        }
-
-                        gradeButton.setOnAction(event -> {
+        gradesColumn.setCellFactory(
+                new GradeButtonCellFactory<>(
+                        StudentGrades::getGrades,
+                        grade -> {
                             selected_grade = grade;
                             newGradeField.setText(String.valueOf(grade.getGrade_value()));
                             gradesTable.refresh();
-                        });
-                        hbox.getChildren().add(gradeButton);
-                    });
-                    setGraphic(hbox);
-                }
-            }
-        });
+                        },
+                        grade -> selected_grade != null && grade.equals(selected_grade)
+                ).create()
+        );
         newGradeColumn.setCellFactory(column -> new TableCell<>() {
             private final TextField textField = new TextField();
             {
@@ -126,12 +101,10 @@ public class TeacherGradesController {
 
         for (StudentGrades studentGrades : gradesTable.getItems()) {
             String gradeValueStr = studentGrades.getNewGradeValue();
-            String gradeText = gradeValueStr;
 
-
-            if (!gradeText.isEmpty()) {
+            if (!gradeValueStr.isEmpty()) {
                 try {
-                    int gradeValue = Integer.parseInt(gradeText);
+                    int gradeValue = Integer.parseInt(gradeValueStr);
                     AddGradeRequest request=new AddGradeRequest(getStudentId(studentGrades.getStudentName()).intValue(),
                             1,gradeValue,date,description);
                     GradeService.addGrade(request);
@@ -169,7 +142,7 @@ public class TeacherGradesController {
     }
 
     private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Uwaga");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -247,6 +220,6 @@ public class TeacherGradesController {
     @FXML
     private void back() {
         Stage currentStage = (Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage, "/fxml/teacher/SelectClass.fxml", "Wybór klasy");
+        ViewLoader.goPrev(currentStage);
     }
 }
