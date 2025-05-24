@@ -1,6 +1,5 @@
 package com.egradebook.frontend.controller.student;
 
-import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
@@ -29,5 +28,9 @@ public class StudentPageController {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
         ViewLoader.loadView(currentStage, "/fxml/student/StudentGrades.fxml", "Oceny");
     }
-
+    @FXML
+    public void handleShowAttendance() {
+        Stage currentStage = (Stage) logoutButton.getScene().getWindow();
+        ViewLoader.loadView(currentStage, "/fxml/student/StudentAttendance.fxml", "Obecność");
+    }
 }

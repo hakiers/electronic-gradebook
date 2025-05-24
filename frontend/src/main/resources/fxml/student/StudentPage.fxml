@@ -8,6 +8,8 @@
       alignment="CENTER" spacing="20">
     <Button text="Oceny" fx:id="showGradesButton"
             style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleShowGrades"/>
+    <Button text="Obecność" fx:id="showAttendanceButton"
+            style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleShowAttendance"/>
     <Button text="Plan lekcji" fx:id="showScheduleButton"
             style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleShowSchedule"/>
     <Button text="Zmień hasło" fx:id="changePasswordButton"

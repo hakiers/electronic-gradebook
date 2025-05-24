@@ -11,6 +11,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
+
 public class StudentService {
     private static final ObjectMapper mapper = new ObjectMapper();
     public static Pair<Integer, StudentGradesResponse> getStudentGrades() {
@@ -42,4 +43,5 @@ public class StudentService {
             return new Pair<>(500, new StudentGradesResponse("Internal server error"));
         }
     }
+
 }
