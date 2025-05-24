@@ -5,7 +5,6 @@ import com.egradebook.backend.request.UserChangePasswordRequest;
 import com.egradebook.backend.request.UserLoginRequest;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.InvalidCredentialsException;
-import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.User;
 import com.egradebook.backend.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
