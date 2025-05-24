@@ -17,6 +17,8 @@ import java.util.List;
 public class TeacherRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Integer> getTeacherSubjectsWithId(int teacher_id){
         String sql = "SELECT subject_id FROM teacher_subject WHERE teacher_id = ?";
@@ -126,11 +128,10 @@ public class TeacherRepository {
         List <Clazz> clazzes = jdbcTemplate.query(sql, new Object[]{teacher_id, subject_id}, (rs, rowNum) ->
                 new Clazz(
                         rs.getInt("class_id"),
-                        rs.getInt("class_profile"),
-                        rs.getInt("class_teacher"),
-                        rs.getString("class_year"),
+                        rs.getString("name"),
                         rs.getString("short_name"),
-                        rs.getString("name")
+                        rs.getString("class_year"),
+                        getTeacher(rs.getInt("class_teacher"))
                 )
         );
         return clazzes;
@@ -140,20 +141,19 @@ public class TeacherRepository {
         String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, teacher.getUsername(), teacher.getPassword(), "teacher");
 
-        int userId = getRepository.getUserId(teacher.getUsername());
+        int user_id = userRepository.getUserId(teacher.getUsername());
 
         sql = "INSERT INTO teachers (user_id) VALUES (?)";
-        jdbcTemplate.update(sql, userId);
+        jdbcTemplate.update(sql, user_id);
 
-        int teacherId = getRepository.getTeacherId(teacher.getUsername());
+        int teacher_id = getTeacherId(user_id);
         sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, userId, teacher.getName(), teacher.getSurname(), teacher.getPesel());
+        jdbcTemplate.update(sql, user_id, teacher.getName(), teacher.getSurname(), teacher.getPesel());
 
 
         sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
-        List<String> subjects = teacher.getSubjects();
-        for(String subject: subjects){
-            jdbcTemplate.update(sql, teacherId, getRepository.getSubjectId(subject));
+        for(Subject subject: teacher.getSubjects()){
+            jdbcTemplate.update(sql, teacher_id, subject.getSubject_id());
         }
 
     }

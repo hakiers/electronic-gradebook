@@ -3,6 +3,7 @@ package com.egradebook.backend.controller;
 import com.egradebook.backend.request.AddGradeRequest;
 import com.egradebook.backend.request.EditGradeRequest;
 import com.egradebook.backend.request.RemoveGradeRequest;
+import com.egradebook.backend.service.StudentService;
 import com.egradebook.backend.service.TeacherService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class TeacherController {
 
     @Autowired
     TeacherService teacherService;
+    @Autowired
+    private StudentService studentService;
 
     // /add-grade post
     @PostMapping("/add-grade")

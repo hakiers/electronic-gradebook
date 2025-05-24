@@ -1,6 +1,7 @@
 package com.egradebook.backend.service;
 
 import com.egradebook.backend.model.*;
+import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.request.AddGradeRequest;
 import com.egradebook.backend.request.EditGradeRequest;
@@ -20,6 +21,8 @@ public class TeacherService {
     UserRepository userRepository;
     @Autowired
     TeacherRepository teacherRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
     public void addGrade(AddGradeRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
@@ -86,6 +89,15 @@ public class TeacherService {
         }
         Teacher teacher = teacherRepository.getTeacher(teacher_id);
         return teacher.getClassesForSubject(subject_id);
+    }
+
+    public List<Grade> getGradesForStudentAndSubject(int student_id, int subject_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isTeacher()) {
+            throw new UnauthorizedException("User is not a teacher");
+        }
+        Student student = studentRepository.getStudent(student_id);
+        return student.getGrades(subject_id);
     }
 
 }

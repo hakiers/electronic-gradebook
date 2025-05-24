@@ -1,6 +1,5 @@
 package com.egradebook.backend.controller;
 
-import com.egradebook.backend.repository.utils.FindRepository;
 import com.egradebook.backend.service.DebugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

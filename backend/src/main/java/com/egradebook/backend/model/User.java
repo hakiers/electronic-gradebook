@@ -48,7 +48,7 @@ public class User {
     }
 
     public boolean isPasswordCorrect(String password) {
-        return passwordEncoder.matches(password, this.password);
+        return passwordEncoder.matches(password, this.password) && password != null;
     }
 
     public String getRole() {

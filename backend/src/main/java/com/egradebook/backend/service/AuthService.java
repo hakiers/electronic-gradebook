@@ -19,7 +19,7 @@ public class AuthService {
 
     public void loginUser(UserLoginRequest request, HttpSession session) {
         User user = userRepository.findUserByUsername(request.getUsername());
-        if(user.isPasswordCorrect(request.getPassword())) {
+        if(!user.isPasswordCorrect(request.getPassword())) {
             throw new InvalidCredentialsException("Invalid username or password");
         }
 
@@ -31,9 +31,6 @@ public class AuthService {
     public void changePassword(UserChangePasswordRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         User user = userRepository.findUserByUsername(request.getUsername());
-        if(loggedUser.isLoggedIn()) {
-            throw new UnauthorizedException("You are not logged in!");
-        }
         if(!loggedUser.isAdmin() && user.getId() != loggedUser.getId()) {
             throw new ForbiddenOperationException("You can change password only for yourself or for admin!");
         }
