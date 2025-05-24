@@ -1,5 +1,6 @@
 package com.egradebook.backend.repository;
 
+import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.request.EditGradeRequest;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Grade;
@@ -20,6 +21,16 @@ public class TeacherRepository {
     public List<Integer> getTeacherSubjectsWithId(int teacher_id){
         String sql = "SELECT subject_id FROM teacher_subject WHERE teacher_id = ?";
         return jdbcTemplate.queryForList(sql, Integer.class, teacher_id);
+    }
+
+    public int getTeacherId(int user_id) {
+        String sql = "SELECT teacher_id FROM teachers WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{user_id}, Integer.class);
+    }
+
+    public Teacher getTeacher(int teacher_id){
+        //to do;
+        return new Teacher();
     }
 
     public boolean canTeacherGradeStudent(int teacher_id, int student_id, int subject_id) {
@@ -123,5 +134,27 @@ public class TeacherRepository {
                 )
         );
         return clazzes;
+    }
+
+    public void saveTeacher(Teacher teacher) {
+        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, teacher.getUsername(), teacher.getPassword(), "teacher");
+
+        int userId = getRepository.getUserId(teacher.getUsername());
+
+        sql = "INSERT INTO teachers (user_id) VALUES (?)";
+        jdbcTemplate.update(sql, userId);
+
+        int teacherId = getRepository.getTeacherId(teacher.getUsername());
+        sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, userId, teacher.getName(), teacher.getSurname(), teacher.getPesel());
+
+
+        sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
+        List<String> subjects = teacher.getSubjects();
+        for(String subject: subjects){
+            jdbcTemplate.update(sql, teacherId, getRepository.getSubjectId(subject));
+        }
+
     }
 }

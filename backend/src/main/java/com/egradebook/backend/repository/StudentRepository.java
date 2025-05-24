@@ -1,8 +1,8 @@
 package com.egradebook.backend.repository;
 
 import com.egradebook.backend.model.Grade;
+import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Subject;
-import com.egradebook.backend.repository.utils.GetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,7 +14,12 @@ public class StudentRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
     @Autowired
-    GetRepository getRepository;
+    UserRepository userRepository;
+
+    public int getStudentId(int user_id) {
+        String sql = "SELECT student_id FROM students WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{user_id}, Integer.class);
+    }
 
     public List<Grade> getStudentsGrades(int subject_id, int student_id) {
         String sql = "SELECT * FROM grades WHERE subject_id = ? AND student_id = ?";
@@ -53,5 +58,22 @@ public class StudentRepository {
         String sql = "SELECT COUNT(*) FROM students WHERE student_id = ? AND class_id = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, student_id, class_id);
         return count != null && count > 0;
+    }
+
+    public void saveStudent(Student student) {
+        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, student.getUsername(), student.getPassword(), "student");
+
+        int user_id = userRepository.getUserId(student.getUsername());
+        sql = "INSERT INTO students (user_id, class_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, user_id, student.getClass_id());
+
+        sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, user_id, student.getName(), student.getSurname(), student.getPesel());
+    }
+
+    public Student getStudent(int student_id) {
+        //to do
+        return new Student();
     }
 }

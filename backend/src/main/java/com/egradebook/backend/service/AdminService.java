@@ -9,7 +9,6 @@ import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.model.User;
 import com.egradebook.backend.repository.UserRepository;
-import com.egradebook.backend.repository.utils.FindRepository;
 import com.egradebook.backend.utils.Generator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,10 @@ import org.springframework.stereotype.Service;
 public class AdminService {
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    FindRepository findRepository;
 
     public LoginData registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
-        User loggedUser = findRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
-        if(!loggedUser.isTeacher()) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
             throw new ForbiddenOperationException("Only admin can register new teacher!");
         }
         LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
@@ -37,7 +34,7 @@ public class AdminService {
     }
 
     public LoginData registerNewStudent(StudentRegistrationRequest request, HttpSession session) {
-        User loggedUser = findRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if(!loggedUser.isAdmin()) {
             throw new ForbiddenOperationException("Only admin can register new teacher!");
         }

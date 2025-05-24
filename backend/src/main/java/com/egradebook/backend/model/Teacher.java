@@ -4,7 +4,6 @@ import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.repository.UserRepository;
-import com.egradebook.backend.repository.utils.FindRepository;
 import com.egradebook.backend.request.AddGradeRequest;
 import com.egradebook.backend.request.EditGradeRequest;
 import com.egradebook.backend.request.RemoveGradeRequest;
@@ -26,7 +25,6 @@ public class Teacher {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final UserRepository userRepository = new UserRepository();
     private final TeacherRepository teacherRepository = new TeacherRepository();
-    private final FindRepository findRepository = new FindRepository();
 
     public Teacher() {};
 
@@ -80,14 +78,21 @@ public class Teacher {
     }
 
     public void register(){
-        if(findRepository.findUserByPeselAndRole(pesel, "teacher") == null){
+        if(userRepository.findUserByPeselAndRole(pesel, "teacher") == null){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
-        userRepository.saveTeacher(this);
+        teacherRepository.saveTeacher(this);
     }
 
     public List<Subject> getSubjects() {
         return subjects;
+    }
+
+    public List<Clazz> getClassesForSubject(int subject_id){
+        if(doesTeacherTeachSubject(subject_id)){
+            return teacherRepository.getTeacherClassesForSubject(teacher_id, subject_id);
+        }
+        return null;
     }
 
     public boolean doesTeacherTeachSubject(int subject_id) {

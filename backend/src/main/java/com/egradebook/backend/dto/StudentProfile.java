@@ -1,10 +1,12 @@
-package com.egradebook.backend.model;
+package com.egradebook.backend.dto;
 
 public class StudentProfile {
     private String name;
     private String surname;
     private String class_name;
     private String group_name;
+
+    public StudentProfile() {};
 
     public StudentProfile(String name, String surname, String class_name, String group_name) {
         this.name = name;

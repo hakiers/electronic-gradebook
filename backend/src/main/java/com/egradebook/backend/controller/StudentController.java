@@ -19,9 +19,15 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @GetMapping("/grades")
+
+    @GetMapping("/grades/{subject_id}")
     public ResponseEntity<?> getGrades(@PathVariable int subject_id, HttpSession session) {
-        return ResponseEntity.ok(studentService.getStudentsGradesBySubject(subject_id, session));
+        return ResponseEntity.ok(studentService.getStudentGradesBySubject(subject_id, session));
+    }
+
+    @GetMapping("/grades/all")
+    public ResponseEntity<?> getAllGrades(HttpSession session) {
+        return ResponseEntity.ok(studentService.getStudentGrades(session));
     }
 
 }

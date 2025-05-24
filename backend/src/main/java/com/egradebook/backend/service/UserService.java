@@ -1,11 +1,12 @@
 package com.egradebook.backend.service;
 
 
+import com.egradebook.backend.dto.UserContactData;
+import com.egradebook.backend.dto.UserPersonalData;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.UserRepository;
-import com.egradebook.backend.repository.utils.GetRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,42 +15,38 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private GetRepository getRepository;
 
     public UserContactData getUserContactInfo(HttpSession session) {
-        if(session.getAttribute("username") == null) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isLoggedIn()) {
             throw new UnauthorizedException("You are not logged in!");
         }
-        int user_id = (int) session.getAttribute("user_id");
-        return userRepository.getUserContactData(user_id);
+        return loggedUser.contactInfo();
     }
 
     public UserPersonalData getUserPersonalInfo(HttpSession session) {
-        if(session.getAttribute("username") == null) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isLoggedIn()) {
             throw new UnauthorizedException("You are not logged in!");
         }
-        int user_id = (int)session.getAttribute("userId");
-        return userRepository.getUserPersonalData(user_id);
+        return loggedUser.personalInfo();
     }
 
     public UserPersonalData getUserPersonalInfo(int user_id, HttpSession session) {
-        if(session.getAttribute("username") == null) {
-            throw new UnauthorizedException("You are not logged in!");
-        }
-        if(!session.getAttribute("role").equals("admin")){
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
             throw new ForbiddenOperationException("Only admin can access this user!");
         }
-        return userRepository.getUserPersonalData(user_id);
+        User user = userRepository.findUserById(user_id);
+        return user.personalInfo();
     }
 
     public UserContactData getUserContactInfo(int user_id, HttpSession session){
-        if(session.getAttribute("username") == null) {
-            throw new UnauthorizedException("You are not logged in!");
-        }
-        if(!session.getAttribute("role").equals("admin")){
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
             throw new ForbiddenOperationException("Only admin can access this user!");
         }
-        return userRepository.getUserContactData(user_id);
+        User user = userRepository.findUserById(user_id);
+        return user.contactInfo();
     }
 }

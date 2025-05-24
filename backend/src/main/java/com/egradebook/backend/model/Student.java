@@ -1,14 +1,12 @@
 package com.egradebook.backend.model;
 
+import com.egradebook.backend.dto.StudentProfile;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.StudentRepository;
-import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.repository.UserRepository;
-import com.egradebook.backend.repository.utils.FindRepository;
 import com.egradebook.backend.request.StudentRegistrationRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +23,6 @@ public class Student {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final StudentRepository studentRepository = new StudentRepository();
     private final UserRepository userRepository = new UserRepository();
-    private final FindRepository findRepository = new FindRepository();
 
     public Student() {};
 
@@ -86,10 +83,10 @@ public class Student {
     }
 
     public void register(){
-        if(findRepository.findUserByPeselAndRole(pesel, "student") == null){
+        if(userRepository.findUserByPeselAndRole(pesel, "student") == null){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
-        userRepository.saveStudent(this);
+        studentRepository.saveStudent(this);
     }
 
     public List<Subject> getSubjects() {
@@ -100,14 +97,18 @@ public class Student {
         return studentRepository.getStudentsGrades(subject_id, student_id);
     }
 
-    public Map<String, List<Grade>> getAllGrades(){
+    public Map<Subject, List<Grade>> getAllGrades(){
         List<Subject> subjects = getSubjects();
-        Map<String, List<Grade>> gradesList = new HashMap<>();
+        Map<Subject, List<Grade>> gradesList = new HashMap<>();
         for (Subject subject : subjects) {
-            gradesList.put(subject.getName(), getGrades(subject.getSubject_id()));
+            gradesList.put(subject, getGrades(subject.getSubject_id()));
         }
         return gradesList;
     }
 
+    public StudentProfile profile() {
+        //to do
+        return new StudentProfile();
+    }
 
 }

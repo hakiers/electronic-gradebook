@@ -1,60 +1,96 @@
 package com.egradebook.backend.repository;
 
+import com.egradebook.backend.dto.UserContactData;
 import com.egradebook.backend.model.*;
-import com.egradebook.backend.repository.utils.GetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
 public class UserRepository {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
-    @Autowired
-    GetRepository getRepository;
+
+
+    public int getUserId(String username) {
+        String sql = "SELECT user_id FROM users WHERE username = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
+    }
+
+    public User findUserById(int user_id) {
+        String sql = "SELECT user_id, username, password, role FROM users WHERE user_id = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{user_id}, (rs, rowNum) ->
+                    new User(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("role")
+                    )
+            );
+        }
+        catch (EmptyResultDataAccessException e) {
+            return new User();
+        }
+    }
+
+    public User findUserByUsername(String username) {
+        String sql = "SELECT user_id, username, password, role FROM users WHERE username = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{username}, (rs, rowNum) ->
+                    new User(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("role")
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new User();
+        }
+    }
+
+    public User findUserByPesel(String pesel){
+        String sql = "SELECT u.user_id, u.username, u.password, u.role FROM users u JOIN personal_data p ON u.user_id = p.user_id WHERE p.pesel = ?";
+        try{
+            return jdbcTemplate.queryForObject(sql, new Object[]{pesel}, (rs, rowNum) ->
+                    new User(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("role")
+                    )
+
+            );
+        } catch(EmptyResultDataAccessException e){
+            return new User();
+        }
+    }
+
+    public User findUserByPeselAndRole(String pesel, String role){
+        String sql = "SELECT u.user_id, u.username, u.password, u.role FROM users u JOIN personal_data p ON u.user_id = p.user_id WHERE p.pesel = ? AND u.role = ?";
+        try{
+            return jdbcTemplate.queryForObject(sql, new Object[]{pesel, role}, (rs, rowNum) ->
+                    new User(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("role")
+                    )
+
+            );
+        } catch(EmptyResultDataAccessException e){
+            return new User();
+        }
+    }
 
     public User saveUser(User user) {
         String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getRole());
         return user;
-    }
-
-    public void saveTeacher(Teacher teacher) {
-        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, teacher.getUsername(), teacher.getPassword(), "teacher");
-
-        int userId = getRepository.getUserId(teacher.getUsername());
-
-        sql = "INSERT INTO teachers (user_id) VALUES (?)";
-        jdbcTemplate.update(sql, userId);
-
-        int teacherId = getRepository.getTeacherId(teacher.getUsername());
-        sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, userId, teacher.getName(), teacher.getSurname(), teacher.getPesel());
-
-
-        sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
-        List<String> subjects = teacher.getSubjects();
-        for(String subject: subjects){
-            jdbcTemplate.update(sql, teacherId, getRepository.getSubjectId(subject));
-        }
-
-    }
-
-    public void saveStudent(Student student) {
-        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, student.getUsername(), student.getPassword(), "student");
-
-        int userId = getRepository.getUserId(student.getUsername());
-
-        sql = "INSERT INTO students (user_id, class_id) VALUES (?, ?)";
-        jdbcTemplate.update(sql, userId, student.getClassId());
-
-        sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, userId, student.getName(), student.getSurname(), student.getPesel());
     }
 
     public void changePassword(String username, String newPassword){
@@ -74,16 +110,5 @@ public class UserRepository {
         );
     }
 
-    public UserPersonalData getUserPersonalData(int user_id){
-        String sql = "SELECT name, surname, pesel FROM personal_data WHERE user_id = ?";
-
-        return (UserPersonalData) jdbcTemplate.query(sql, new Object[]{user_id}, (rs, rowNum) ->
-                    new UserPersonalData(
-                            rs.getString("name"),
-                            rs.getString("surname"),
-                            rs.getString("pesel")
-                    )
-                );
-    }
 
 }

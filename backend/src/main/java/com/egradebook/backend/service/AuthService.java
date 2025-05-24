@@ -8,23 +8,17 @@ import com.egradebook.backend.exception.InvalidCredentialsException;
 import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.User;
 import com.egradebook.backend.repository.UserRepository;
-import com.egradebook.backend.repository.utils.FindRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    FindRepository findRepository;
-
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public void loginUser(UserLoginRequest request, HttpSession session) {
-        User user = findRepository.findUserByUsername(request.getUsername());
+        User user = userRepository.findUserByUsername(request.getUsername());
         if(user.isPasswordCorrect(request.getPassword())) {
             throw new InvalidCredentialsException("Invalid username or password");
         }
@@ -35,8 +29,8 @@ public class AuthService {
     }
 
     public void changePassword(UserChangePasswordRequest request, HttpSession session) {
-        User loggedUser = findRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
-        User user = findRepository.findUserByUsername(request.getUsername());
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        User user = userRepository.findUserByUsername(request.getUsername());
         if(loggedUser.isLoggedIn()) {
             throw new UnauthorizedException("You are not logged in!");
         }
