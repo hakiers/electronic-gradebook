@@ -1,67 +1,59 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.dto.StudentProfile;
 import com.egradebook.backend.exception.UnauthorizedException;
-import com.egradebook.backend.model.Grade;
-import com.egradebook.backend.model.StudentProfile;
-import com.egradebook.backend.model.Subject;
+import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.StudentRepository;
-import com.egradebook.backend.repository.utils.FindRepository;
-import com.egradebook.backend.repository.utils.GetRepository;
+import com.egradebook.backend.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class StudentService {
+
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     StudentRepository studentRepository;
-    @Autowired
-    FindRepository findRepository;
-    @Autowired
-    GetRepository getRepository;
 
-    public List<Grade> getStudentsGradesBySubject(int subject_id, HttpSession session) {
-        if(session.getAttribute("username") == null){
-            throw new UnauthorizedException("You are not logged in!");
+
+    public List<Grade> getStudentGradesBySubject(int subject_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isStudent()) {
+            throw new UnauthorizedException("You are no student");
         }
-        int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
-        return studentRepository.getStudentsGrades(subject_id, student_id);
+        Student student = studentRepository.getStudent(loggedUser.getRoleId());
+        return student.getGrades(subject_id);
     }
 
     public List<Subject> getSubjectsByStudent(HttpSession session) {
-        if(session.getAttribute("username") == null){
-            throw new UnauthorizedException("You are not logged in!");
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isStudent()) {
+            throw new UnauthorizedException("You are no student");
         }
-        int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
-        return studentRepository.getStudentsSubjects(student_id);
+        Student student = studentRepository.getStudent(loggedUser.getRoleId());
+        return student.getSubjects();
     }
 
-    public Map<String, List<Grade>> getStudentsGrades(HttpSession session) {
-        if(session.getAttribute("username") == null){
-            throw new UnauthorizedException("You are not logged in!");
+    public Map<Subject, List<Grade>> getStudentGrades(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isStudent()) {
+            throw new UnauthorizedException("You are no student");
         }
-        int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
-        List<Subject> subjects = getSubjectsByStudent(session);
-        Map<String, List<Grade>> gradesList = new HashMap<>();
-        for (Subject subject : subjects) {
-            gradesList.put(subject.getName(), getStudentsGradesBySubject(subject.getSubject_id(), session));
-        }
-        return gradesList;
+        Student student = studentRepository.getStudent(loggedUser.getRoleId());
+        return student.getAllGrades();
     }
-
 
     public StudentProfile getStudentsProfile(HttpSession session) {
-        if(session.getAttribute("username") == null){
-            throw new UnauthorizedException("You are not logged in!");
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isStudent()) {
+            throw new UnauthorizedException("You are no student");
         }
-        int student_id = getRepository.getStudentId((String)session.getAttribute("username"));
-        String name = "xd";
-        return null;
+        Student student = studentRepository.getStudent(loggedUser.getRoleId());
+        return student.profile();
     }
-
 }

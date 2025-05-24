@@ -1,9 +1,11 @@
-package com.egradebook.backend.model;
+package com.egradebook.backend.dto;
 
 public class UserPersonalData {
     private String name;
     private String surname;
     private String pesel;
+
+    public UserPersonalData() {};
 
     public UserPersonalData(String name, String surname, String pesel) {
         this.name = name;

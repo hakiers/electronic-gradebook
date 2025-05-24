@@ -19,24 +19,15 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
-    // /grades -  pobierz swoje oceny get
-    // /subjects - pobierz swoje przedmioty get
-    // /attendance - obecność get
-    // /profile - dane osobowe get
+
     @GetMapping("/grades/{subject_id}")
     public ResponseEntity<?> getGrades(@PathVariable int subject_id, HttpSession session) {
-        return ResponseEntity.ok(studentService.getStudentsGradesBySubject(subject_id, session));
+        return ResponseEntity.ok(studentService.getStudentGradesBySubject(subject_id, session));
     }
 
     @GetMapping("/grades/all")
     public ResponseEntity<?> getAllGrades(HttpSession session) {
-        return ResponseEntity.ok(studentService.getStudentsGrades(session));
-    }
-
-    @GetMapping("/profile")
-    public ResponseEntity<?> getProfile(HttpSession session) {
-        return ResponseEntity.ok(studentService.getStudentsProfile(session));
-        //
+        return ResponseEntity.ok(studentService.getStudentGrades(session));
     }
 
 }

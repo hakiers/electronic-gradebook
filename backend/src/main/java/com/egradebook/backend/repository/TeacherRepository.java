@@ -1,9 +1,11 @@
 package com.egradebook.backend.repository;
 
-import com.egradebook.backend.dto.EditGradeRequest;
+import com.egradebook.backend.model.Teacher;
+import com.egradebook.backend.request.EditGradeRequest;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Grade;
 import com.egradebook.backend.model.Subject;
+import com.egradebook.backend.request.RemoveGradeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,10 +17,22 @@ import java.util.List;
 public class TeacherRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Integer> getTeacherSubjectsWithId(int teacher_id){
         String sql = "SELECT subject_id FROM teacher_subject WHERE teacher_id = ?";
         return jdbcTemplate.queryForList(sql, Integer.class, teacher_id);
+    }
+
+    public int getTeacherId(int user_id) {
+        String sql = "SELECT teacher_id FROM teachers WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{user_id}, Integer.class);
+    }
+
+    public Teacher getTeacher(int teacher_id){
+        //to do;
+        return new Teacher();
     }
 
     public boolean canTeacherGradeStudent(int teacher_id, int student_id, int subject_id) {
@@ -77,13 +91,13 @@ public class TeacherRepository {
         return updated > 0;
     }
 
-    public boolean deleteGrade(int grade_id, int teacher_id){
+    public boolean deleteGrade(RemoveGradeRequest request, int teacher_id){
         String sql = """
         DELETE FROM grades
         WHERE grade_id = ? AND teacher_id = ?
         """;
 
-        int deleted = jdbcTemplate.update(sql, grade_id, teacher_id);
+        int deleted = jdbcTemplate.update(sql, request.getGrade_id(), teacher_id);
 
         return deleted > 0;
     }
@@ -114,13 +128,33 @@ public class TeacherRepository {
         List <Clazz> clazzes = jdbcTemplate.query(sql, new Object[]{teacher_id, subject_id}, (rs, rowNum) ->
                 new Clazz(
                         rs.getInt("class_id"),
-                        rs.getInt("class_profile"),
-                        rs.getInt("class_teacher"),
-                        rs.getString("class_year"),
+                        rs.getString("name"),
                         rs.getString("short_name"),
-                        rs.getString("name")
+                        rs.getString("class_year"),
+                        getTeacher(rs.getInt("class_teacher"))
                 )
         );
         return clazzes;
+    }
+
+    public void saveTeacher(Teacher teacher) {
+        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, teacher.getUsername(), teacher.getPassword(), "teacher");
+
+        int user_id = userRepository.getUserId(teacher.getUsername());
+
+        sql = "INSERT INTO teachers (user_id) VALUES (?)";
+        jdbcTemplate.update(sql, user_id);
+
+        int teacher_id = getTeacherId(user_id);
+        sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, user_id, teacher.getName(), teacher.getSurname(), teacher.getPesel());
+
+
+        sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
+        for(Subject subject: teacher.getSubjects()){
+            jdbcTemplate.update(sql, teacher_id, subject.getSubject_id());
+        }
+
     }
 }

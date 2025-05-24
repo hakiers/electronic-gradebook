@@ -25,7 +25,7 @@ public class ClassRepository {
 
         List<Student> students = jdbcTemplate.query(sql, new Object[]{class_id}, (rs, rowNum) ->
                 new Student(
-                        rs.getLong("student_id"),
+                        rs.getInt("student_id"),
                         rs.getString("name"),
                         rs.getString("surname"),
                         rs.getString("pesel"),

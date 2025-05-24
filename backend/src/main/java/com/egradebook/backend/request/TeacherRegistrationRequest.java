@@ -1,4 +1,4 @@
-package com.egradebook.backend.dto;
+package com.egradebook.backend.request;
 
 import java.util.List;
 
