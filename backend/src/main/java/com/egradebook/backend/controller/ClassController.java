@@ -10,15 +10,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/class")
 public class ClassController {
     @Autowired
     private ClassService classService;
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllClasses(HttpSession session) {
+        return ResponseEntity.ok(classService.getAllClasses(session));
+    }
+
     @GetMapping("/{class_id}")
-    public ResponseEntity<?> getClass(@PathVariable Long class_id, HttpSession session) {
-        return null;
+    public ResponseEntity<?> getClass(@PathVariable int class_id, HttpSession session) {
+        return ResponseEntity.ok(classService.getClass(class_id, session));
     }
 
     @GetMapping("/{class_id}/students")
