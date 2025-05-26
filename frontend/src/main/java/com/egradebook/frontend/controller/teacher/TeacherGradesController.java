@@ -37,7 +37,7 @@ public class TeacherGradesController {
     @FXML private TextField descriptionField;
     @FXML private TextField newGradeField;
 
-    private final List<Student> students = TeacherService.getStudentInClass().getValue();
+    private final List<Student> students = TeacherService.getStudentInClass(1).getValue();
 
     Grade selected_grade;
 

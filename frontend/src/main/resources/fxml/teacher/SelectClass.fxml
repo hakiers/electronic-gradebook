@@ -13,7 +13,10 @@
             onAction="#back"/>
     <Label text="Wybierz klasę" fx:id="selectLabel" />
     <ComboBox fx:id="selectBox"/>
-    <Button text="Przejdź" fx:id="nextButton" defaultButton="true"
-            style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
-            onAction="#next"/>
+    <Button text="Sprawdź oceny" fx:id="gradesButton" defaultButton="true"
+            style="-fx-background-color: cyan; -fx-text-fill: white;"
+            onAction="#handleGrades"/>
+    <Button text="Sprawdź obecność" fx:id="attendanceButton" defaultButton="true"
+            style="-fx-background-color: cyan; -fx-text-fill: white;"
+            onAction="#handleAttendance"/>
 </VBox>

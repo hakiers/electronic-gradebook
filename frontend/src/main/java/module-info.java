@@ -19,6 +19,7 @@ module com.example.egradebook {
     opens com.egradebook.frontend.controller.teacher to javafx.fxml;
     opens com.egradebook.frontend.model to javafx.base;
     requires javafx.controls;
+    requires spring.security.crypto;
 
     exports com.egradebook.frontend.controller.student;
     exports com.egradebook.frontend.dto;

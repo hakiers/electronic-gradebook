@@ -38,8 +38,12 @@ public class SelectClassController {
         ViewLoader.goPrev(stage);
     }
 
-    public void next() {
+    public void handleGrades() {
         Stage stage=(Stage) returnButton.getScene().getWindow();
         ViewLoader.loadView(stage,"/fxml/teacher/TeacherGrades.fxml", "Oceny");
+    }
+    public void handleAttendance() {
+        Stage stage=(Stage) returnButton.getScene().getWindow();
+        ViewLoader.loadView(stage,"/fxml/teacher/TeacherAttendance.fxml", "Obecność");
     }
 }
