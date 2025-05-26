@@ -1,5 +1,7 @@
 package com.egradebook.backend.model;
 
+import com.egradebook.backend.repository.ClassRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +12,20 @@ public class Clazz {
     private String class_year;
     private Teacher classTeacher;
     private List<Student> students = new ArrayList<>();
-    private List<Lesson> lessons = new ArrayList<>();
+    private List<Lesson> scheulde = new ArrayList<>();
 
-    public Clazz(){};
+    private final ClassRepository classRepository = new ClassRepository();
+
+    public Clazz() {};
+
     public Clazz(int class_id, String name, String short_name, String class_year, Teacher classTeacher) {
         this.class_id = class_id;
         this.name = name;
         this.short_name = short_name;
         this.class_year = class_year;
         this.classTeacher = classTeacher;
+        students = classRepository.getStudentsInClass(class_id);
+        scheulde = classRepository.getScheulde(class_id);
     }
 
     public int getClass_id() {
@@ -42,6 +49,7 @@ public class Clazz {
     }
 
     public void addStudent(Student student) {
+        //update w bazie?
         students.add(student);
     }
 
@@ -50,10 +58,21 @@ public class Clazz {
     }
 
     public void addLesson(Lesson lesson) {
-        lessons.add(lesson);
+        //update w bazie?
+        scheulde.add(lesson);
     }
 
-    public List<Lesson> getLessons() {
+    public List<Lesson> getScheulde(int day_of_week) {
+        List<Lesson> lessons = new ArrayList<>();
+        for (Lesson lesson : scheulde) {
+            if(lesson.getDay_od_week() == day_of_week){
+                lessons.add(lesson);
+            }
+        }
         return lessons;
+    }
+
+    public List<Lesson> getScheulde() {
+        return scheulde;
     }
 }

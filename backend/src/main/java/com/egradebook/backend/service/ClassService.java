@@ -1,33 +1,45 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.dto.ClazzDto;
+import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Lesson;
 import com.egradebook.backend.model.Student;
 import com.egradebook.backend.repository.ClassRepository;
-import com.egradebook.backend.repository.StudentRepository;
-import com.egradebook.backend.repository.TeacherRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class ClassService {
     @Autowired
-    TeacherRepository teacherRepository;
-    @Autowired
     ClassRepository classRepository;
-    @Autowired
-    StudentRepository studentRepository;
 
-    public List<Student> getStudentsInClass(int class_id, HttpSession session){
-        //to do
-        return null;
+    public ClazzDto getClass(int class_id, HttpSession session) {
+        Clazz clazz = classRepository.getClazz(class_id);
+        return new ClazzDto(clazz);
     }
 
-    public Map<String, List<Lesson>> getScheulde(int class_id, HttpSession session) {
-        // to do
-        return null;
+    public List<ClazzDto> getAllClasses(HttpSession session) {
+        List<Integer> classes = classRepository.getAllClassId(String.valueOf((LocalDate.now().getYear())-5));
+        List<ClazzDto> clazzDtoList = new ArrayList<>();
+        for (Integer class_id : classes) {
+            Clazz clazz = classRepository.getClazz(class_id);
+            clazzDtoList.add(new ClazzDto(clazz));
+        }
+        return clazzDtoList;
+    }
+
+    public List<Student> getStudentsInClass(int class_id, HttpSession session){
+        Clazz clazz = classRepository.getClazz(class_id);
+        return clazz.getStudents();
+    }
+
+    public List<Lesson> getScheulde(int class_id, HttpSession session) {
+        Clazz clazz = classRepository.getClazz(class_id);
+        return clazz.getScheulde();
     }
 }
