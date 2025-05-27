@@ -1,13 +1,12 @@
 package com.egradebook.backend.model;
 
+import ch.qos.logback.core.joran.sanity.Pair;
+import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.repository.UserRepository;
-import com.egradebook.backend.request.AddGradeRequest;
-import com.egradebook.backend.request.EditGradeRequest;
-import com.egradebook.backend.request.RemoveGradeRequest;
-import com.egradebook.backend.request.TeacherRegistrationRequest;
+import com.egradebook.backend.request.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
@@ -128,4 +127,24 @@ public class Teacher {
             throw new ForbiddenOperationException("You can't delete this grade or it doesn't exist");
         }
     }
+
+    public void addAttendance(AddAttendanceRequest attendance){
+        //to do sprawdzenie czy nauczyciel moze dac obecnosc danemu uczniowi
+        teacherRepository.addAttendance(attendance);
+    }
+
+    public void editAttendance(EditAttendanceRequest attendance){
+        boolean updated = teacherRepository.editAttendance(attendance);
+        //to do sprawdzenie czy nauczyciel moze danemu uczniowi usprawiedliwic obecnosc
+        //edytowac na inny status moze kazdy nauczyciel ktory uczy w danej klasie
+        //lub jest na zastepstwie - potencjalny problem
+        if(!updated){
+            throw new ForbiddenOperationException("You can't edit this attendance or it doesn't exist");
+        }
+    }
+    //wyswietlanie frekwencji z biezacej lekcji
+    /*public List<Pair<Student,Attendance>> getAttendanceByClassAndLesson(GetAttendanceByClassAndLessonRequest attendance){
+        return teacherRepository.getAttendanceByClassAndLesson(attendance);
+    }*/
+
 }

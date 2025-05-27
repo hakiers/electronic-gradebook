@@ -78,7 +78,7 @@ CREATE TABLE attendance(
     student_id integer REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
     schedule_id integer REFERENCES class_schedule(schedule_id) ON DELETE SET NULL ON UPDATE CASCADE,
     "date" date not null,
-    status varchar(16) CHECK(status IN ('present', 'absent', 'late')) not null,
+    status varchar(16) CHECK(status IN ('presence', 'absence', 'late', 'excused absence')) not null,
     CONSTRAINT c2 UNIQUE(student_id, schedule_id, "date")
 );
 

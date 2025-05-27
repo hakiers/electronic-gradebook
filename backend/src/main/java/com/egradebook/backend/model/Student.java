@@ -1,5 +1,6 @@
 package com.egradebook.backend.model;
 
+import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.dto.StudentProfile;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.StudentRepository;
@@ -109,6 +110,17 @@ public class Student {
     public StudentProfile profile() {
         //to do
         return new StudentProfile();
+    }
+
+    //pobranie statusu obecnosci z danego dnia
+    //pobranie wszystkich nieobecnosci???
+    //
+    public List<Attendance> getAttendanceByDate(String date) {
+        return studentRepository.getStudentsAttendanceByDate(student_id, date);
+    }
+
+    public List<Attendance> getAllStudentsAbsences(){
+        return studentRepository.getAllStudentsAbsences(student_id);
     }
 
 }

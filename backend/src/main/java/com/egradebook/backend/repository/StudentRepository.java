@@ -1,5 +1,6 @@
 package com.egradebook.backend.repository;
 
+import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.model.Grade;
 import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Subject;
@@ -76,4 +77,44 @@ public class StudentRepository {
         //to do
         return new Student();
     }
+
+    public List<Attendance> getStudentsAttendanceByDate(int student_id, String date) {
+        String sql = """
+                SELECT * FROM attendance WHERE student_id = ? AND date = ? ORDER BY date;
+                """;
+        List<Attendance> attendance = jdbcTemplate.query(sql, new Object[]{student_id, date}, (rs, rowNum) ->
+                    new Attendance(
+                            rs.getInt("student_id"),
+                            rs.getInt("attendance_id"),
+                            rs.getInt("schedule_id"),
+                            rs.getString("status"),
+                            rs.getString("date")
+                    )
+                );
+        return null;
+    }
+
+    //to do: w funkcji getAllStudentsAbsences zmienic zapytanie tak zeby bralo dane z widoku attendance w aktualnym
+    //roku szkolnym
+
+    public List<Attendance> getAllStudentsAbsences(int student_id) {
+        String sql = """
+                SELECT * FROM attendance WHERE student_id = ? AND status IN('excused absence','absence')
+                ORDER BY date;
+                """;
+        List<Attendance> attendance = jdbcTemplate.query(sql, new Object[]{student_id}, (rs, rowNum) ->
+                new Attendance(
+                        rs.getInt("student_id"),
+                        rs.getInt("attendance_id"),
+                        rs.getInt("schedule_id"),
+                        rs.getString("status"),
+                        rs.getString("date")
+                )
+        );
+        return attendance;
+    }
+
+
+
+
 }
