@@ -129,7 +129,7 @@ public class Student {
         return studentRepository.getAllStudentsAbsences(student_id);
     }
 
-    public List<Lesson> getScheulde(){
-        return clazzRepository.getScheulde(student_id);
+    public List<Lesson> getSchedule(){
+        return clazzRepository.getSchedule(student_id);
     }
 }

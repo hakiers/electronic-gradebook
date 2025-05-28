@@ -6,8 +6,8 @@ import com.egradebook.backend.model.Subject;
 import java.util.List;
 
 public class SubjectsWithGradesDto {
-    Subject subject;
-    List<Grade> grades;
+    private Subject subject;
+    private List<Grade> grades;
 
     public SubjectsWithGradesDto(Subject subject, List<Grade> grades) {
         this.subject = subject;
@@ -18,5 +18,7 @@ public class SubjectsWithGradesDto {
         return subject;
     }
 
-    public List<Grade> getGrades() {return grades;}
+    public List<Grade> getGrades() {
+        return grades;
+    }
 }

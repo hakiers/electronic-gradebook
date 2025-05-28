@@ -14,7 +14,7 @@ public class Clazz {
     private String class_year;
     private Teacher classTeacher;
     private List<Student> students = new ArrayList<>();
-    private List<Lesson> scheulde = new ArrayList<>();
+    private List<Lesson> schedule = new ArrayList<>();
 
     private final ClassRepository classRepository = BeanUtil.getBean(ClassRepository.class);
     private final TeacherRepository teacherRepository = BeanUtil.getBean(TeacherRepository.class);
@@ -29,7 +29,7 @@ public class Clazz {
         if(class_id != 0) {
             this.classTeacher = teacherRepository.getClassTeacher(class_id);
             this.students = classRepository.getStudentsInClass(class_id);
-            this.scheulde = classRepository.getScheulde(class_id);
+            this.schedule = classRepository.getSchedule(class_id);
         }
     }
 
@@ -64,12 +64,12 @@ public class Clazz {
 
     public void addLesson(Lesson lesson) {
         //update w bazie?
-        scheulde.add(lesson);
+        schedule.add(lesson);
     }
 
     public List<Lesson> getScheulde(int day_of_week) {
         List<Lesson> lessons = new ArrayList<>();
-        for (Lesson lesson : scheulde) {
+        for (Lesson lesson : schedule) {
             if(lesson.getDay_od_week() == day_of_week){
                 lessons.add(lesson);
             }
@@ -77,8 +77,8 @@ public class Clazz {
         return lessons;
     }
 
-    public List<Lesson> getScheulde() {
-        return scheulde;
+    public List<Lesson> getSchedule() {
+        return schedule;
     }
 
 /*

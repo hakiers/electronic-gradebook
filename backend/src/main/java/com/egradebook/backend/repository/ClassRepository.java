@@ -35,7 +35,7 @@ public class ClassRepository {
         return students;
     }
 
-    public List<Lesson> getScheulde(int class_id){
+    public List<Lesson> getSchedule(int class_id){
         String sql = " SELECT * FROM class_schedule WHERE class_id = ?";
 
         List<Lesson> scheulde = jdbcTemplate.query(sql, new Object[]{class_id}, (rs, rowNum) -> new Lesson(
