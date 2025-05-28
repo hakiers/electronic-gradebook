@@ -1,6 +1,8 @@
 package com.egradebook.frontend.model;
 
 
+
+import com.egradebook.frontend.utils.Triple;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
@@ -11,19 +13,23 @@ public class Teacher {
     private String name;
     private String surname;
     private String pesel;
-    private List<Subject> subjects = new ArrayList<>();
+    private List<Subject> teachSubjects = new ArrayList<>();
+    private List<Triple<Clazz, Subject, Group>> teachClassSubject = new ArrayList<>();
     private String username;
     private String password;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public Teacher() {};
+    public Teacher() {
+    }
 
-    public Teacher(int teacher_id, String name, String surname, String pesel, List<Subject> subjects, String username, String password) {
+    ;
+
+    public Teacher(int teacher_id, String name, String surname, String pesel, String username, String password) {
         this.teacher_id = teacher_id;
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
-        this.subjects = subjects;
         this.username = username;
         this.password = password;
     }
@@ -41,6 +47,10 @@ public class Teacher {
         return surname;
     }
 
+    public String getFullName() {
+        return name + " " + surname;
+    }
+
     public String getPesel() {
         return pesel;
     }
@@ -53,14 +63,16 @@ public class Teacher {
         this.username = username;
     }
 
+    public String getPassword() {
+        return passwordEncoder.encode(password);
+    }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
 
-    public List<Subject> getSubjects() {
-        return subjects;
-    }
+
+
 }
 

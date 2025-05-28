@@ -44,6 +44,12 @@ CREATE TABLE subjects(
     subject_id serial PRIMARY KEY,
     name varchar(32) not null UNIQUE
 );
+CREATE TABLE subject_groups(
+   group_id serial PRIMARY KEY,
+   class_id integer REFERENCES classes(class_id) ON DELETE CASCADE ON UPDATE CASCADE,
+   subject_id integer REFERENCES subjects(subject_id) ON DELETE CASCADE ON UPDATE CASCADE,
+   group_number integer
+);
 
 CREATE TABLE class_schedule(
     schedule_id serial PRIMARY KEY,
@@ -99,12 +105,7 @@ CREATE TABLE events(
     class_id integer REFERENCES classes(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE subject_groups(
-    group_id serial PRIMARY KEY,
-    class_id integer REFERENCES classes(class_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    subject_id integer REFERENCES subjects(subject_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    group_number integer  
-);
+
 
 CREATE TABLE student_subject_group(
     student_id integer REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -238,9 +239,9 @@ BEGIN
       AND subject_id = NEW.subject_id
     LIMIT 1;
 
-    IF NOT FOUND THEN
+    /*IF NOT FOUND THEN
         RAISE EXCEPTION 'Nauczyciel nie uczy tego przedmiotu w tej klasie';
-    END IF;
+    END IF;*/
 
     RETURN NEW;
 END;

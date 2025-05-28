@@ -14,7 +14,7 @@ public class SubjectRepository {
     JdbcTemplate jdbcTemplate;
 
     public Subject getSubject(int subject_id) {
-        String sql = "SELECT subject_id, name FROM subject WHERE subject_id = ?";
+        String sql = "SELECT subject_id, name FROM subjects WHERE subject_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{subject_id}, (rs, rowNum) ->
                 new Subject(
                         rs.getInt("subject_id"),

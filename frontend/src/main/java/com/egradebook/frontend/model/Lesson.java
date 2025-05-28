@@ -1,5 +1,6 @@
 package com.egradebook.frontend.model;
 
+
 public class Lesson {
     private int schedule_id;
     private int class_id;
@@ -9,8 +10,12 @@ public class Lesson {
     private int day_od_week;
     private int lesson_number;
     private int room_number;
+    private Subject subject;
+    private Teacher teacher;
+    private Group group;
 
     public Lesson(){}
+
     public Lesson(int schedule_id, int class_id, int teacher_id, int subject_id, int group_id, int day_od_week, int lesson_number, int room_number) {
         this.schedule_id = schedule_id;
         this.class_id = class_id;
@@ -26,10 +31,14 @@ public class Lesson {
     public int getClass_id() { return class_id; }
     public int getTeacher_id() { return teacher_id; }
     public int getSubject_id() { return subject_id; }
-    public int getGroup() { return group_id; }
+    public int getGroup_id() { return group_id; }
     public int getDay_od_week() { return day_od_week; }
     public int getLesson_number() { return lesson_number; }
     public int getRoom_number() { return room_number; }
+    public String getSubjectName() { return subject.getName(); }
+    public String getTeacherFullName(){return teacher.getFullName();}
+    public int getGroupNumber(){return group.getGroup_number(); };
+
 
     public void setSchedule_id(int schedule_id) { this.schedule_id = schedule_id; }
     public void setClass_id(int class_id) { this.class_id = class_id; }
@@ -40,4 +49,3 @@ public class Lesson {
     public void setLesson_number(int lesson_number) { this.lesson_number = lesson_number; }
     public void setRoom_number(int room_number) { this.room_number = room_number; }
 }
-
