@@ -1,17 +1,21 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.dto.ClazzDto;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.StudentRepository;
+import com.egradebook.backend.repository.SubjectRepository;
 import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.request.AddGradeRequest;
 import com.egradebook.backend.request.EditGradeRequest;
 import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.request.RemoveGradeRequest;
+import com.egradebook.backend.utils.Triple;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +27,8 @@ public class TeacherService {
     TeacherRepository teacherRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private SubjectRepository subjectRepository;
 
     public void addGrade(AddGradeRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
@@ -61,7 +67,7 @@ public class TeacherService {
         }
 
         Teacher teacher = teacherRepository.getTeacher(loggedUser.getRoleId());
-        return teacher.getSubjects();
+        return teacher.getTeachSubjects();
     }
 
     public List<Subject> getSubjects(int teacher_id, HttpSession session) {
@@ -70,25 +76,60 @@ public class TeacherService {
             throw new UnauthorizedException("User is not a admin");
         }
         Teacher teacher = teacherRepository.getTeacher(teacher_id);
-        return teacher.getSubjects();
+        return teacher.getTeachSubjects();
     }
 
-    public List<Clazz> getClassesForSubject(int subject_id, HttpSession session) {
+    public List<Triple<ClazzDto, Subject, Group>> getClassSubjects(HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
-        if(!loggedUser.isTeacher()) {
+        if (!loggedUser.isTeacher()) {
             throw new UnauthorizedException("User is not a teacher");
         }
         Teacher teacher = teacherRepository.getTeacher(loggedUser.getRoleId());
-        return teacher.getClassesForSubject(subject_id);
+        List<Triple<ClazzDto, Subject, Group>> classSubjects = teacher.getTeachClassSubject()
+                .stream()
+                .map(teachClassSubject -> {return new Triple<>(new ClazzDto(teachClassSubject.getFirst()), teachClassSubject.getSecond(), teachClassSubject.getThird());}).toList();
+        return classSubjects;
     }
 
-    public List<Clazz> getClassesForSubject(int subject_id, int teacher_id, HttpSession session) {
+    public List<Triple<ClazzDto, Subject, Group>> getClassSubjects(int teacher_id, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if (!loggedUser.isAdmin()) {
             throw new UnauthorizedException("User is not a admin");
         }
         Teacher teacher = teacherRepository.getTeacher(teacher_id);
-        return teacher.getClassesForSubject(subject_id);
+        List<Triple<ClazzDto, Subject, Group>> classSubjects = teacher.getTeachClassSubject()
+                .stream()
+                .map(teachClassSubject -> {return new Triple<>(new ClazzDto(teachClassSubject.getFirst()), teachClassSubject.getSecond(), teachClassSubject.getThird());}).toList();
+        return classSubjects;
+    }
+
+    public List<ClazzDto> getClassesForSubject(int subject_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isTeacher()) {
+            throw new UnauthorizedException("User is not a teacher");
+        }
+        Teacher teacher = teacherRepository.getTeacher(loggedUser.getRoleId());
+        Subject subject = subjectRepository.getSubject(subject_id);
+
+        List<ClazzDto> classes = teacher.getClassesForSubject(subject)
+                .stream()
+                .map(clazz -> new ClazzDto(clazz))
+                .toList();
+        return classes;
+    }
+
+    public List<ClazzDto> getClassesForSubject(int subject_id, int teacher_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isAdmin()) {
+            throw new UnauthorizedException("User is not a admin");
+        }
+        Teacher teacher = teacherRepository.getTeacher(teacher_id);
+        Subject subject = subjectRepository.getSubject(subject_id);
+        List<ClazzDto> classes = teacher.getClassesForSubject(subject)
+                .stream()
+                .map(clazz -> new ClazzDto(clazz))
+                .toList();
+        return classes;
     }
 
     public List<Grade> getGradesForStudentAndSubject(int student_id, int subject_id, HttpSession session) {
@@ -97,7 +138,8 @@ public class TeacherService {
             throw new UnauthorizedException("User is not a teacher");
         }
         Student student = studentRepository.getStudent(student_id);
-        return student.getGrades(subject_id);
+        Subject subject = subjectRepository.getSubject(subject_id);
+        return student.getGrades(subject);
     }
 
 }

@@ -1,22 +1,27 @@
 package com.egradebook.backend.model;
 
+import ch.qos.logback.core.joran.sanity.Pair;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.request.*;
 import com.egradebook.backend.utils.BeanUtil;
+import com.egradebook.backend.utils.Triple;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class Teacher {
     private int teacher_id;
     private String name;
     private String surname;
     private String pesel;
-    private List<Subject> subjects = new ArrayList<>();
+    private List<Subject> teachSubjects = new ArrayList<>();
+    private List<Triple<Clazz, Subject, Group>> teachClassSubject = new ArrayList<>();
     private String username;
     private String password;
 
@@ -26,14 +31,18 @@ public class Teacher {
 
     public Teacher() {};
 
-    public Teacher(int teacher_id, String name, String surname, String pesel, List<Subject> subjects, String username, String password) {
+    public Teacher(int teacher_id, String name, String surname, String pesel, String username, String password) {
         this.teacher_id = teacher_id;
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
-        this.subjects = subjects;
         this.username = username;
         this.password = password;
+
+        if(this.teacher_id != 0) {
+            this.teachSubjects = teacherRepository.getTeacherSubjects(this.teacher_id);
+            this.teachClassSubject = teacherRepository.getTeacherClassesSubject(this.teacher_id);
+        }
     }
 
     public Teacher(TeacherRegistrationRequest teacher){
@@ -82,24 +91,23 @@ public class Teacher {
         teacherRepository.saveTeacher(this);
     }
 
-    public List<Subject> getSubjects() {
-        return subjects;
+    public List<Subject> getTeachSubjects() {
+        return teachSubjects;
     }
 
-    public List<Clazz> getClassesForSubject(int subject_id){
-        if(doesTeacherTeachSubject(subject_id)){
-            return teacherRepository.getTeacherClassesForSubject(teacher_id, subject_id);
+    public List<Triple<Clazz, Subject, Group>> getTeachClassSubject() {
+        return teachClassSubject;
+    }
+
+    public List<Clazz> getClassesForSubject(Subject subject){
+        if(doesTeacherTeachSubject(subject)){
+            return teacherRepository.getTeacherClassesForSubject(teacher_id, subject.getSubject_id());
         }
         return null;
     }
 
-    public boolean doesTeacherTeachSubject(int subject_id) {
-        for (Subject subject : subjects) {
-            if(subject.getSubject_id() == subject_id) {
-                return true;
-            }
-        }
-        return false;
+    public boolean doesTeacherTeachSubject(Subject subject) {
+        return teachSubjects.contains(subject);
     }
 
     public void addGrade(AddGradeRequest grade){

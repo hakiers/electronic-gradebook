@@ -1,6 +1,7 @@
 package com.egradebook.backend.model;
 
 import com.egradebook.backend.repository.ClassRepository;
+import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.utils.BeanUtil;
 
 import java.util.ArrayList;
@@ -16,17 +17,20 @@ public class Clazz {
     private List<Lesson> scheulde = new ArrayList<>();
 
     private final ClassRepository classRepository = BeanUtil.getBean(ClassRepository.class);
+    private final TeacherRepository teacherRepository = BeanUtil.getBean(TeacherRepository.class);
 
     public Clazz() {};
 
-    public Clazz(int class_id, String name, String short_name, String class_year, Teacher classTeacher) {
+    public Clazz(int class_id, String name, String short_name, String class_year) {
         this.class_id = class_id;
         this.name = name;
         this.short_name = short_name;
         this.class_year = class_year;
-        this.classTeacher = classTeacher;
-        students = classRepository.getStudentsInClass(class_id);
-        scheulde = classRepository.getScheulde(class_id);
+        if(class_id != 0) {
+            this.classTeacher = teacherRepository.getClassTeacher(class_id);
+            this.students = classRepository.getStudentsInClass(class_id);
+            this.scheulde = classRepository.getScheulde(class_id);
+        }
     }
 
     public int getClass_id() {
@@ -79,7 +83,7 @@ public class Clazz {
 
 /*
     public void assignTeacher(Teacher teacher, Subject subject, int group_id) {
-        if(!teacher.getSubjects().contains(subject)){
+        if(!teacher.getTeachSubjects().contains(subject)){
             throw new IllegalArgumentException("Subject does not exist");
         }
         boolean assigned = classRepository.assignTeacher(teacher.getTeacher_id(), class_id, subject.getSubject_id(), group_id);

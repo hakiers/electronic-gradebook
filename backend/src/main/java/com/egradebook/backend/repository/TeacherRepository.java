@@ -1,9 +1,8 @@
 package com.egradebook.backend.repository;
 
-import ch.qos.logback.core.joran.sanity.Pair;
-import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.request.*;
+import com.egradebook.backend.utils.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +16,12 @@ public class TeacherRepository {
     JdbcTemplate jdbcTemplate;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ClassRepository classRepository;
+    @Autowired
+    private SubjectRepository subjectRepository;
+    @Autowired
+    private GroupRepository groupRepository;
 
     public List<Integer> getTeacherSubjectsWithId(int teacher_id){
         String sql = "SELECT subject_id FROM teacher_subject WHERE teacher_id = ?";
@@ -29,8 +34,18 @@ public class TeacherRepository {
     }
 
     public Teacher getTeacher(int teacher_id){
-        //to do;
-        return new Teacher();
+        String sql = "SELECT t.teacher_id, p.name, p.surname, p.pesel FROM teachers t INNER JOIN personal_data p ON p.user_id = t.user_id WHERE teacher_id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[]{teacher_id}, (rs, rowNum) ->
+                new Teacher(
+                        rs.getInt("teacher_id"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getString("pesel"),
+                        null,
+                        null
+                        )
+        );
     }
 
     public boolean canTeacherGradeStudent(int teacher_id, int student_id, int subject_id) {
@@ -115,6 +130,13 @@ public class TeacherRepository {
         return subjects;
     }
 
+    public Teacher getClassTeacher(int class_id) {
+        String sql = "SELECT class_teacher FROM classes WHERE class_id = ?";
+        int teacher_id = jdbcTemplate.queryForObject(sql, Integer.class, class_id);
+
+        return getTeacher(teacher_id);
+    }
+
     public List<Clazz> getTeacherClassesForSubject(int teacher_id, int subject_id){
         String sql = """
         SELECT class_id, class_profile, class_teacher, class_year, short_name, name FROM classes 
@@ -128,8 +150,7 @@ public class TeacherRepository {
                         rs.getInt("class_id"),
                         rs.getString("name"),
                         rs.getString("short_name"),
-                        rs.getString("class_year"),
-                        getTeacher(rs.getInt("class_teacher"))
+                        rs.getString("class_year")
                 )
         );
         return clazzes;
@@ -150,7 +171,7 @@ public class TeacherRepository {
 
 
         sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
-        for(Subject subject: teacher.getSubjects()){
+        for(Subject subject: teacher.getTeachSubjects()){
             jdbcTemplate.update(sql, teacher_id, subject.getSubject_id());
         }
 
@@ -174,11 +195,16 @@ public class TeacherRepository {
         return updated > 0;
     }
 
-    /*public List<Pair<Student, Attendance>> getAttendanceByClassAndLesson(GetAttendanceByClassAndLessonRequest attendance){
-        String sql = """
-                
-                """;
+    public List<Triple<Clazz, Subject, Group>> getTeacherClassesSubject(int teacher_id){
+        String sql = " SELECT class_id, subject_id, group_id FROM teacher_class_subject WHERE teacher_id = ?";
 
-        return null;
-    }*/
+        List<Triple<Clazz, Subject, Group>> classSubject= (List<Triple<Clazz, Subject, Group>>) jdbcTemplate.queryForObject(sql, new Object[]{teacher_id}, (rs, rowNum) ->
+                new Triple<>(
+                     classRepository.getClazz(rs.getInt("class_id")),
+                     subjectRepository.getSubject(rs.getInt("subject_id")),
+                     groupRepository.getGroup(rs.getInt("group_id"))
+                )
+        );
+        return classSubject;
+    }
 }

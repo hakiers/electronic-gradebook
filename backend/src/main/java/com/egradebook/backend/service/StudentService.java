@@ -3,7 +3,9 @@ package com.egradebook.backend.service;
 import com.egradebook.backend.dto.StudentProfile;
 import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.*;
+import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.repository.StudentRepository;
+import com.egradebook.backend.repository.SubjectRepository;
 import com.egradebook.backend.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,10 @@ public class StudentService {
     UserRepository userRepository;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    private ClassRepository classRepository;
+    @Autowired
+    private SubjectRepository subjectRepository;
 
 
     public List<Grade> getStudentGradesBySubject(int subject_id, HttpSession session) {
@@ -27,7 +33,8 @@ public class StudentService {
             throw new UnauthorizedException("You are no student");
         }
         Student student = studentRepository.getStudent(loggedUser.getRoleId());
-        return student.getGrades(subject_id);
+        Subject subject = subjectRepository.getSubject(subject_id);
+        return student.getGrades(subject);
     }
 
     public List<Subject> getSubjectsByStudent(HttpSession session) {
@@ -55,5 +62,14 @@ public class StudentService {
         }
         Student student = studentRepository.getStudent(loggedUser.getRoleId());
         return student.profile();
+    }
+
+    public List<Lesson> getScheulde(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isStudent()) {
+            throw new UnauthorizedException("You are no student");
+        }
+        Student student = studentRepository.getStudent(loggedUser.getRoleId());
+        return student.getScheulde();
     }
 }
