@@ -6,6 +6,7 @@ import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.request.StudentRegistrationRequest;
+import com.egradebook.backend.utils.BeanUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashMap;
@@ -22,8 +23,8 @@ public class Student {
     private String password;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final StudentRepository studentRepository = new StudentRepository();
-    private final UserRepository userRepository = new UserRepository();
+    private final StudentRepository studentRepository = BeanUtil.getBean(StudentRepository.class);
+    private final UserRepository userRepository =  BeanUtil.getBean(UserRepository.class);
 
     public Student() {};
 

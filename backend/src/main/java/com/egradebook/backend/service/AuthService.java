@@ -22,7 +22,7 @@ public class AuthService {
             throw new InvalidCredentialsException("Invalid username or password");
         }
 
-        session.setAttribute("user_id", user.getId());
+        session.setAttribute("user_id", user.getUser_id());
         session.setAttribute("username", user.getUsername());
         session.setAttribute("role", user.getRole());
     }
@@ -30,7 +30,8 @@ public class AuthService {
     public void changePassword(UserChangePasswordRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         User user = userRepository.findUserByUsername(request.getUsername());
-        if(!loggedUser.isAdmin() && user.getId() != loggedUser.getId()) {
+
+        if(!loggedUser.isAdmin() && user.getUser_id() != loggedUser.getUser_id()) {
             throw new ForbiddenOperationException("You can change password only for yourself or for admin!");
         }
         if(!user.isLoggedIn()){
