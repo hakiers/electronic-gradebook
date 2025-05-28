@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class TeacherService {
+    static int selectedClassId;
+    static int selectedSubjectId;
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static Pair<Integer, List<Student>> getStudentInClass(int id) {

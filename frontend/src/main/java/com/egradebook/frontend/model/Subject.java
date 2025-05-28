@@ -8,7 +8,10 @@ public class Subject {
         this.name = name;
         this.subject_id = subject_id;
     }
-
+    @Override
+    public String toString() {
+        return name;
+    }
     public String getName() {
         return name;
     }

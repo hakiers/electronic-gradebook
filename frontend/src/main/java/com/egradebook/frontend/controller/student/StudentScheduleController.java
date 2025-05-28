@@ -28,7 +28,7 @@ public class StudentScheduleController {
             timetableGrid.add(dayLabel, i+1, 0);
         }
 
-        // Nagłówki numerów lekcji (zakładamy max 8 lekcji dziennie)
+        // Nagłówki numerów lekcji
         for (int lessonNum = 1; lessonNum <= 8; lessonNum++) {
             Label lessonLabel = createHeaderLabel("Lekcja " + lessonNum);
             timetableGrid.add(lessonLabel, 0, lessonNum);

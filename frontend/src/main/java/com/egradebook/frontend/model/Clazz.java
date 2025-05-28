@@ -57,5 +57,9 @@ public class Clazz {
     public List<Lesson> getScheulde() {
         return scheulde;
     }
+    @Override
+    public String toString() {
+        return name;
+    }
 }
 
