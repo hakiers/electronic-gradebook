@@ -31,7 +31,7 @@ CREATE TABLE classes(
     class_id serial PRIMARY KEY,
     class_profile integer REFERENCES class_profile(id) ON DELETE SET NULL,
     class_teacher integer REFERENCES teachers(teacher_id) ON DELETE SET NULL ON UPDATE CASCADE,
-    class_year char(4),
+    class_year char(4)
 );
 
 CREATE TABLE students(
@@ -86,7 +86,7 @@ CREATE TABLE tests(
     test_id serial PRIMARY KEY,
     title varchar(100) not null,
     subject_id integer REFERENCES subjects(subject_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    group_id integrer REFERENCES subject_groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    group_id integer REFERENCES subject_groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE,
     "date" date not null,
     class_id integer REFERENCES classes(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -107,10 +107,10 @@ CREATE TABLE subject_groups(
 );
 
 CREATE TABLE student_subject_group(
-    student_id REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    group_id REFERENCES subject_groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    student_id integer REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    group_id integer REFERENCES subject_groups(group_id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT pk3 PRIMARY KEY(student_id, group_id)
-)
+);
 
 CREATE TABLE teacher_subject(
     teacher_id integer REFERENCES teachers(teacher_id) ON DELETE CASCADE ON UPDATE CASCADE,
