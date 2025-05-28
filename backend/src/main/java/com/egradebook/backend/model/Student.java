@@ -2,6 +2,7 @@ package com.egradebook.backend.model;
 
 import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.dto.StudentProfile;
+import com.egradebook.backend.dto.SubjectsWithGradesDto;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.repository.StudentRepository;
@@ -10,6 +11,7 @@ import com.egradebook.backend.request.StudentRegistrationRequest;
 import com.egradebook.backend.utils.BeanUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,12 +103,13 @@ public class Student {
         return studentRepository.getStudentsGrades(subject.getSubject_id(), student_id);
     }
 
-    public Map<Subject, List<Grade>> getAllGrades(){
+    public List<SubjectsWithGradesDto> getAllGrades(){
         List<Subject> subjects = getSubjects();
-        Map<Subject, List<Grade>> gradesList = new HashMap<>();
+        List<SubjectsWithGradesDto> gradesList = new ArrayList<>();
         for (Subject subject : subjects) {
-            gradesList.put(subject, getGrades(subject));
+            gradesList.add(new SubjectsWithGradesDto(subject, getGrades(subject)));
         }
+
         return gradesList;
     }
 
