@@ -64,6 +64,10 @@ public class Teacher {
         return surname;
     }
 
+    public String getFullName(){
+        return name + " " + surname;
+    }
+
     public String getPesel() {
         return pesel;
     }

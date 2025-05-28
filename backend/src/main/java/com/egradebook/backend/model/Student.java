@@ -64,6 +64,10 @@ public class Student {
         return surname;
     }
 
+    public String getFullName(){
+        return name + " " + surname;
+    }
+
     public int getClass_id() {
         return class_id;
     }
