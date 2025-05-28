@@ -1,11 +1,9 @@
 package com.egradebook.backend.repository;
 
-import com.egradebook.backend.model.Teacher;
-import com.egradebook.backend.request.EditGradeRequest;
-import com.egradebook.backend.model.Clazz;
-import com.egradebook.backend.model.Grade;
-import com.egradebook.backend.model.Subject;
-import com.egradebook.backend.request.RemoveGradeRequest;
+import ch.qos.logback.core.joran.sanity.Pair;
+import com.egradebook.backend.dto.Attendance;
+import com.egradebook.backend.model.*;
+import com.egradebook.backend.request.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -157,4 +155,30 @@ public class TeacherRepository {
         }
 
     }
+
+    public void addAttendance(AddAttendanceRequest attendance){
+        String sql = "INSERT INTO attendance (student_id, schedule_id, status) VALUES (?, ?, ?)";
+
+        jdbcTemplate.update(sql, attendance.getStudent_id(), attendance.getSchedule_id(), attendance.getStatus());
+
+
+    }
+
+    public boolean editAttendance(EditAttendanceRequest attendance){
+        String sql = """
+                UPDATE attendance
+                SET status = ? 
+                WHERE attendance_id = ?
+                """;
+        int updated = jdbcTemplate.update(sql, attendance.getStatus(), attendance.getAttendance_id());
+        return updated > 0;
+    }
+
+    /*public List<Pair<Student, Attendance>> getAttendanceByClassAndLesson(GetAttendanceByClassAndLessonRequest attendance){
+        String sql = """
+                
+                """;
+
+        return null;
+    }*/
 }

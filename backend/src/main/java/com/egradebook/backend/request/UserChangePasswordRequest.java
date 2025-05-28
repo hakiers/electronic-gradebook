@@ -1,10 +1,10 @@
 package com.egradebook.backend.request;
 
 public class UserChangePasswordRequest {
-    final private String username;
-    final private String newPassword;
+    private final String username;
+    private final String newPassword;
 
-    UserChangePasswordRequest(String username, String newPassword) {
+    public UserChangePasswordRequest(String username, String newPassword) {
         this.username = username;
         this.newPassword = newPassword;
     }

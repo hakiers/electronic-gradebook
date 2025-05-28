@@ -67,4 +67,6 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.getGradesForStudentAndSubject(student_id, subject_id, session));
     }
 
+    //to do dodac obsluge frekwencji
+
 }

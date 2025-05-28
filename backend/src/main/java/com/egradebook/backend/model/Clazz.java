@@ -1,6 +1,7 @@
 package com.egradebook.backend.model;
 
 import com.egradebook.backend.repository.ClassRepository;
+import com.egradebook.backend.utils.BeanUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class Clazz {
     private List<Student> students = new ArrayList<>();
     private List<Lesson> scheulde = new ArrayList<>();
 
-    private final ClassRepository classRepository = new ClassRepository();
+    private final ClassRepository classRepository = BeanUtil.getBean(ClassRepository.class);
 
     public Clazz() {};
 

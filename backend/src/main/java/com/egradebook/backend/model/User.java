@@ -7,31 +7,32 @@ import com.egradebook.backend.repository.ParentRepository;
 import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.repository.UserRepository;
+import com.egradebook.backend.utils.BeanUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class User {
-    private int id;
+    private int user_id;
     private String username;
     private String password;
     private String role;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final UserRepository userRepository = new UserRepository();
-    private final TeacherRepository teacherRepository = new TeacherRepository();
-    private final StudentRepository studentRepository = new StudentRepository();
-    private final ParentRepository parentRepository = new ParentRepository();
+    private final UserRepository userRepository =  BeanUtil.getBean(UserRepository.class);
+    private final TeacherRepository teacherRepository =  BeanUtil.getBean(TeacherRepository.class);
+    private final StudentRepository studentRepository = BeanUtil.getBean(StudentRepository.class);
+    private final ParentRepository parentRepository = BeanUtil.getBean(ParentRepository.class);
 
     public User() {}
 
-    public User(int id, String username, String password, String role) {
-        this.id = id;
+    public User(int user_id, String username, String password, String role) {
+        this.user_id = user_id;
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public int getId() {
-        return id;
+    public int getUser_id() {
+        return user_id;
     }
 
     public String getUsername() {
@@ -43,7 +44,7 @@ public class User {
     }
 
     public void changePassword(String newPassword) {
-        password = newPassword;
+        this.password = newPassword;
         userRepository.changePassword(username, getPassword());
     }
 
@@ -77,16 +78,16 @@ public class User {
 
     public int getRoleId() {
         if(role.equals("teacher")){
-            return teacherRepository.getTeacherId(id);
+            return teacherRepository.getTeacherId(user_id);
         }
         else if(role.equals("student")){
-            return studentRepository.getStudentId(id);
+            return studentRepository.getStudentId(user_id);
         }
         else if(role.equals("parent")){
-            return parentRepository.getParentId(id);
+            return parentRepository.getParentId(user_id);
         }
         else if(role.equals("admin")){
-            return id;
+            return user_id;
         }
         return 0;
     }
