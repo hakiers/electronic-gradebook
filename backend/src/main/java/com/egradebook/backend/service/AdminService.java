@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminService {
     @Autowired
@@ -64,6 +66,15 @@ public class AdminService {
         Subject subject = subjectRepository.getSubject(request.getSubject_id());
 
         clazz.assignTeacher(teacher, subject, request.getGroup_id());
+    }
+
+    public List<Subject> getSubjects(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view subjects!");
+        }
+        return subjectRepository.getAllSubjects();
+
     }
 
 }
