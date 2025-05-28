@@ -5,6 +5,7 @@ import com.egradebook.frontend.dto.SubjectWithGrades;
 import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.utils.GradeButtonCellFactory;
 import com.egradebook.frontend.utils.ViewLoader;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,16 +29,19 @@ public class StudentGradesController {
     }
 
     private void configureTableColumns() {
-        subjectColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
-        gradesColumn.setCellValueFactory(new PropertyValueFactory<>("grades"));
+        // Wyciąga nazwę przedmiotu z Subject
+        subjectColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getSubject().getName()));
+
+        // Pusta wartość, bo nadpisujemy ją przyciskami
+        gradesColumn.setCellValueFactory(cellData -> new SimpleStringProperty(""));
 
         gradesColumn.setCellFactory(
-                new GradeButtonCellFactory<SubjectWithGrades>(
-                        subjectGrades -> {
-                            Map<String, List<Grade>> gradesBySubject = StudentService.getStudentGrades().getValue().gradesBySubject;
-                            return gradesBySubject.getOrDefault(subjectGrades.getSubject(), List.of());
+                new GradeButtonCellFactory<>(
+                        SubjectWithGrades::getGrades,
+                        grade -> {
+                            System.out.println("Kliknięto ocenę: " + grade.getGrade_value() + " (" + grade.getDescription() + ")");
                         },
-                        null,
                         grade -> false
                 ).create()
         );
@@ -45,17 +49,16 @@ public class StudentGradesController {
 
 
     private void loadGrades() {
-        List<SubjectWithGrades> gradesMap = StudentService.getStudentGrades().getValue().gradesBySubject;
-        ObservableList<SubjectWithGrades> subjectGradesList = FXCollections.observableArrayList();
+        List<SubjectWithGrades> subjectGrades = StudentService.getStudentGrades().getValue();
 
-        gradesMap.forEach((subject, grades) -> {
-            subjectGradesList.add(new SubjectWithGrades(subject, grades));
-        });
-
-        gradesTable.setItems(subjectGradesList);
+        if (subjectGrades != null) {
+            ObservableList<SubjectWithGrades> subjectGradesList = FXCollections.observableArrayList(subjectGrades);
+            gradesTable.setItems(subjectGradesList);
+        }
     }
 
     public void back() {
         Stage stage = (Stage) returnButton.getScene().getWindow();
-        ViewLoader.goPrev(stage);    }
+        ViewLoader.goPrev(stage);
+    }
 }

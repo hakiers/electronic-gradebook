@@ -18,7 +18,5 @@ public class SubjectsWithGradesDto {
         return subject;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
+    public List<Grade> getGrades() {return grades;}
 }

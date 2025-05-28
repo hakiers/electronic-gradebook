@@ -1,5 +1,6 @@
 package com.egradebook.frontend.controller.student;
 import com.egradebook.frontend.model.Lesson;
+import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -35,7 +36,7 @@ public class StudentScheduleController {
         }
 
         // Przykładowe dane - w praktyce pobierasz z bazy
-        List<Lesson> lessons = TimetableGenerator.generateSampleTimetable();
+        List<Lesson> lessons = StudentService.getSchedule().getValue();
 
         // Wypełnienie siatki danymi
         for (Lesson lesson : lessons) {
