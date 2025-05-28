@@ -21,6 +21,14 @@ public class StudentAttendanceRow {
         return fullName;
     }
 
+    public String getFullName() {
+        return fullName.get();
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName.set(fullName);
+    }
+
     public ObjectProperty<Status> statusProperty() {
         return status;
     }
@@ -31,5 +39,14 @@ public class StudentAttendanceRow {
 
     public void setStatus(Status status) {
         this.status.set(status);
+    }
+
+    @Override
+    public String toString() {
+        return "StudentAttendanceRow{" +
+                "studentId=" + studentId +
+                ", fullName=" + getFullName() +
+                ", status=" + getStatus() +
+                '}';
     }
 }

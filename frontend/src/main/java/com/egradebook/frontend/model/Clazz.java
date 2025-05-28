@@ -25,7 +25,7 @@ public class Clazz {
         this.class_year = class_year;
         this.classTeacher = classTeacher;
         students = TeacherService.getStudentInClass(class_id).getValue();
-        //scheulde = getScheulde(class_id);
+        List<Lesson> schedule = TeacherService.getScheduleForClass(class_id);
     }
 
     public int getClass_id() {

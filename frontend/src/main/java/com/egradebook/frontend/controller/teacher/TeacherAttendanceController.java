@@ -5,12 +5,11 @@ import com.egradebook.frontend.model.Attendance.Status;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.StudentAttendanceRow;
+import com.egradebook.frontend.utils.AttendanceTableConfigurer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxTableCell;
-import javafx.util.StringConverter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,44 +24,76 @@ public class TeacherAttendanceController {
     @FXML private TableColumn<StudentAttendanceRow, Status> statusColumn;
 
     private final ObservableList<StudentAttendanceRow> attendanceRows = FXCollections.observableArrayList();
-    private int selectedClassId=1; // ustawiany przez SelectClassController
+    private int selectedClassId = 1; // ustawiany z zewnątrz
 
     @FXML
     public void initialize() {
-        lessonComboBox.setItems(FXCollections.observableArrayList(1,2,3,4,5,6,7,8));
+        AttendanceTableConfigurer.configure(attendanceTable);
 
-        nameColumn.setCellValueFactory(data -> data.getValue().fullNameProperty());
-        statusColumn.setCellValueFactory(data -> data.getValue().statusProperty());
-        statusColumn.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(Status.values())));
+        // Załaduj comboBox lekcji po zmianie daty
+        datePicker.setOnAction(e -> {
+            updateLessonComboBox();
+            loadAttendanceTable();
+        });
 
-        attendanceTable.setItems(attendanceRows);
-
+        // Załaduj tabelę po wyborze lekcji
         lessonComboBox.setOnAction(e -> loadAttendanceTable());
-        datePicker.setOnAction(e -> loadAttendanceTable());
+
+        // Możesz na start ustawić domyślnie datę na dziś i uzupełnić comboBox, jeśli chcesz:
+        // datePicker.setValue(LocalDate.now());
+        // updateLessonComboBox();
+    }
+
+    private void updateLessonComboBox() {
+        LocalDate selectedDate = datePicker.getValue();
+        if (selectedDate == null) {
+            lessonComboBox.getItems().clear();
+            attendanceRows.clear();
+            return;
+        }
+
+        // Pobierz wszystkie lekcje zaplanowane na ten dzień dla wybranej klasy
+        List<Integer> lessons = TeacherService.getAllScheduledLessonsForDate(selectedClassId, selectedDate);
+
+        lessonComboBox.setItems(FXCollections.observableArrayList(lessons));
+        lessonComboBox.setValue(null);
+        attendanceRows.clear();
     }
 
     private void loadAttendanceTable() {
-        if (datePicker.getValue() == null || lessonComboBox.getValue() == null) return;
+        if (datePicker.getValue() == null || lessonComboBox.getValue() == null) {
+            attendanceRows.clear();
+            attendanceTable.setItems(attendanceRows);
+            return;
+        }
 
         attendanceRows.clear();
 
-        List<Student> students = TeacherService.getStudentsForClass(selectedClassId);
+        List<Student> students = TeacherService.getStudentInClass(selectedClassId).getValue();
+        if (students == null) return;
+
         List<Long> ids = students.stream().map(Student::getStudent_id).toList();
 
         List<Attendance> attendances = TeacherService.getAttendanceForDateAndLesson(
-                datePicker.getValue(), lessonComboBox.getValue(), ids
+                datePicker.getValue(),
+                lessonComboBox.getValue(),
+                ids
         );
 
         for (Attendance a : attendances) {
             Student s = students.stream()
                     .filter(st -> st.getStudent_id() == a.getStudentId())
                     .findFirst()
-                    .orElseThrow();
+                    .orElse(null);
+
+            if (s == null) continue;
 
             StudentAttendanceRow row = new StudentAttendanceRow(a.getStudentId(), s.getName(), s.getSurname());
             row.setStatus(a.getStatus());
             attendanceRows.add(row);
         }
+
+        attendanceTable.setItems(attendanceRows);
     }
 
     @FXML
@@ -75,7 +106,7 @@ public class TeacherAttendanceController {
         List<Attendance> saved = new ArrayList<>();
         for (StudentAttendanceRow row : attendanceRows) {
             Attendance att = new Attendance(
-                    0, // ID - tymczasowe
+                    0, // tymczasowe ID
                     row.getStudentId(),
                     null, // scheduleId - opcjonalne
                     datePicker.getValue(),
@@ -85,7 +116,6 @@ public class TeacherAttendanceController {
             saved.add(att);
         }
 
-        // Tylko na potrzeby demonstracji
         TeacherService.saveMockAttendance(saved);
         showAlert("Obecność zapisana!");
     }
