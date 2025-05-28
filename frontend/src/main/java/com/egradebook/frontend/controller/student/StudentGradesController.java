@@ -1,7 +1,7 @@
 package com.egradebook.frontend.controller.student;
 
 import com.egradebook.frontend.model.Grade;
-import com.egradebook.frontend.model.SubjectGrades;
+import com.egradebook.frontend.dto.SubjectWithGrades;
 import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.utils.GradeButtonCellFactory;
 import com.egradebook.frontend.utils.ViewLoader;
@@ -18,9 +18,9 @@ import java.util.Map;
 public class StudentGradesController {
     @FXML private Button returnButton;
 
-    @FXML private TableView<SubjectGrades> gradesTable;
-    @FXML private TableColumn<SubjectGrades, String> subjectColumn;
-    @FXML private TableColumn<SubjectGrades, String> gradesColumn;
+    @FXML private TableView<SubjectWithGrades> gradesTable;
+    @FXML private TableColumn<SubjectWithGrades, String> subjectColumn;
+    @FXML private TableColumn<SubjectWithGrades, String> gradesColumn;
 
     public void initialize() {
         configureTableColumns();
@@ -32,7 +32,7 @@ public class StudentGradesController {
         gradesColumn.setCellValueFactory(new PropertyValueFactory<>("grades"));
 
         gradesColumn.setCellFactory(
-                new GradeButtonCellFactory<SubjectGrades>(
+                new GradeButtonCellFactory<SubjectWithGrades>(
                         subjectGrades -> {
                             Map<String, List<Grade>> gradesBySubject = StudentService.getStudentGrades().getValue().gradesBySubject;
                             return gradesBySubject.getOrDefault(subjectGrades.getSubject(), List.of());
@@ -45,11 +45,11 @@ public class StudentGradesController {
 
 
     private void loadGrades() {
-        Map<String, List<Grade>> gradesMap = StudentService.getStudentGrades().getValue().gradesBySubject;
-        ObservableList<SubjectGrades> subjectGradesList = FXCollections.observableArrayList();
+        List<SubjectWithGrades> gradesMap = StudentService.getStudentGrades().getValue().gradesBySubject;
+        ObservableList<SubjectWithGrades> subjectGradesList = FXCollections.observableArrayList();
 
         gradesMap.forEach((subject, grades) -> {
-            subjectGradesList.add(new SubjectGrades(subject, grades));
+            subjectGradesList.add(new SubjectWithGrades(subject, grades));
         });
 
         gradesTable.setItems(subjectGradesList);

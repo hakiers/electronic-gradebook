@@ -1,6 +1,7 @@
 package com.egradebook.frontend.service;
 
 import com.egradebook.frontend.dto.StudentGradesResponse;
+import com.egradebook.frontend.dto.SubjectWithGrades;
 import com.egradebook.frontend.model.Grade;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,10 +15,10 @@ import java.util.Map;
 
 public class StudentService {
     private static final ObjectMapper mapper = new ObjectMapper();
-    public static Pair<Integer, StudentGradesResponse> getStudentGrades() {
+    public static Pair<Integer, List<SubjectWithGrades>> getStudentGrades() {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
-                return new Pair<>(401, new StudentGradesResponse("User not authenticated"));
+                return new Pair<>(401, null);
             }
 
             HttpRequest request = HttpRequest.newBuilder()
@@ -29,19 +30,19 @@ public class StudentService {
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                Map<String, List<Grade>> gradesMap = mapper.readValue(
+                List<SubjectWithGrades> subjectGrades = mapper.readValue(
                         response.body(),
-                        new TypeReference<Map<String, List<Grade>>>() {}
+                        new TypeReference<List<SubjectWithGrades>>() {}
                 );
-                return new Pair<>(response.statusCode(), new StudentGradesResponse(gradesMap));
+                return new Pair<>(response.statusCode(), subjectGrades);
             } else {
-                return new Pair<>(response.statusCode(),
-                        new StudentGradesResponse("Error: " + response.body()));
+                return new Pair<>(response.statusCode(), null);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new Pair<>(500, new StudentGradesResponse("Internal server error"));
+            return new Pair<>(500, null);
         }
     }
+
 
 }
