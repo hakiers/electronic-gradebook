@@ -19,4 +19,23 @@ public class ClazzDto {
         this.class_teacher = clazz.getClassTeacher().getTeacher_id();
     }
 
+    public int getClass_id() {
+        return class_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getShort_name() {
+        return short_name;
+    }
+
+    public String getClass_year() {
+        return class_year;
+    }
+
+    public int getClass_teacher() {
+        return class_teacher;
+    }
 }

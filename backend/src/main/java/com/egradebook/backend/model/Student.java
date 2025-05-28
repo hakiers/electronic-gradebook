@@ -3,6 +3,7 @@ package com.egradebook.backend.model;
 import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.dto.StudentProfile;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
+import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.request.StudentRegistrationRequest;
@@ -24,6 +25,7 @@ public class Student {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final StudentRepository studentRepository = BeanUtil.getBean(StudentRepository.class);
+    private final ClassRepository clazzRepository = BeanUtil.getBean(ClassRepository.class);
     private final UserRepository userRepository =  BeanUtil.getBean(UserRepository.class);
 
     public Student() {};
@@ -95,15 +97,15 @@ public class Student {
         return studentRepository.getStudentsSubjects(student_id);
     }
 
-    public List<Grade> getGrades(int subject_id) {
-        return studentRepository.getStudentsGrades(subject_id, student_id);
+    public List<Grade> getGrades(Subject subject) {
+        return studentRepository.getStudentsGrades(subject.getSubject_id(), student_id);
     }
 
     public Map<Subject, List<Grade>> getAllGrades(){
         List<Subject> subjects = getSubjects();
         Map<Subject, List<Grade>> gradesList = new HashMap<>();
         for (Subject subject : subjects) {
-            gradesList.put(subject, getGrades(subject.getSubject_id()));
+            gradesList.put(subject, getGrades(subject));
         }
         return gradesList;
     }
@@ -124,4 +126,7 @@ public class Student {
         return studentRepository.getAllStudentsAbsences(student_id);
     }
 
+    public List<Lesson> getScheulde(){
+        return clazzRepository.getScheulde(student_id);
+    }
 }

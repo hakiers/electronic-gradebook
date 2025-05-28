@@ -3,6 +3,7 @@ package com.egradebook.backend.repository;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Lesson;
 import com.egradebook.backend.model.Student;
+import com.egradebook.backend.utils.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,8 +14,6 @@ import java.util.List;
 public class ClassRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
-    @Autowired
-    private TeacherRepository teacherRepository;
 
     public List<Student> getStudentsInClass(int class_id){
         String sql = """
@@ -56,15 +55,14 @@ public class ClassRepository {
 
     public Clazz getClazz(int class_id){
         String sql = """
-                SELECT cl.class_id, cl_p.name, cl_p.short_name, cl.class_year, cl.class_teacher FROM classes cl 
+                SELECT cl.class_id, cl_p.name, cl_p.short_name, cl.class_year FROM classes cl 
                 INNER JOIN class_profile cl_p ON cl_p.id = cl.class_id WHERE cl.class_id = ?
                 """;
         return jdbcTemplate.queryForObject(sql, new Object[]{class_id}, (rs, rowNum) -> new Clazz(
                 rs.getInt("class_id"),
                 rs.getString("name"),
                 rs.getString("short_name"),
-                rs.getString("class_year"),
-                teacherRepository.getTeacher(rs.getInt("class_teacher"))
+                rs.getString("class_year")
                 )
         );
     }

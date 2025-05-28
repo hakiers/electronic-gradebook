@@ -67,6 +67,16 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.getGradesForStudentAndSubject(student_id, subject_id, session));
     }
 
+    @GetMapping("/class_subject")
+    public ResponseEntity<?> getClassSubjects(HttpSession session) {
+        return ResponseEntity.ok(teacherService.getClassSubjects(session));
+    }
+
+    @GetMapping("/{teacher_id}/class_subject")
+    public ResponseEntity<?> getClassSubjects(@PathVariable int teacher_id, HttpSession session) {
+        return ResponseEntity.ok(teacherService.getClassSubjects(teacher_id, session));
+    }
+
     //to do dodac obsluge frekwencji
 
 }

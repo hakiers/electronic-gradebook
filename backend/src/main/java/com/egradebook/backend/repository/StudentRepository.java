@@ -75,8 +75,19 @@ public class StudentRepository {
     }
 
     public Student getStudent(int student_id) {
-        //to do
-        return new Student();
+        String sql = "SELECT s.student_id, p.name, p.surname, p.pesel, s.class_id FROM students s INNER JOIN personal_data p ON s.user_id = p.user_id WHERE s.student_id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[]{student_id}, (rs, rowNum) ->
+                new Student(
+                        rs.getInt("student_id"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getString("pesel"),
+                        rs.getInt("class_id"),
+                        null,
+                        null
+                )
+        );
     }
 
     public List<Attendance> getStudentsAttendanceByDate(int student_id, String date) {
