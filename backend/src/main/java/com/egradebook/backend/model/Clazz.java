@@ -76,4 +76,15 @@ public class Clazz {
     public List<Lesson> getScheulde() {
         return scheulde;
     }
+
+
+    public void assignTeacher(Teacher teacher, Subject subject, int group_id) {
+        if(!teacher.getSubjects().contains(subject)){
+            throw new IllegalArgumentException("Subject does not exist");
+        }
+        boolean assigned = classRepository.assignTeacher(teacher.getTeacher_id(), class_id, subject.getSubject_id(), group_id);
+        if(!assigned){
+            throw new IllegalArgumentException("Teacher already assigned");
+        }
+    }
 }

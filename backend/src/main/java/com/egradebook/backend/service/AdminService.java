@@ -1,23 +1,32 @@
 package com.egradebook.backend.service;
 
 
+import com.egradebook.backend.model.*;
+import com.egradebook.backend.repository.ClassRepository;
+import com.egradebook.backend.repository.SubjectRepository;
+import com.egradebook.backend.repository.TeacherRepository;
+import com.egradebook.backend.request.AssignTeacherRequest;
 import com.egradebook.backend.request.StudentRegistrationRequest;
 import com.egradebook.backend.request.TeacherRegistrationRequest;
 import com.egradebook.backend.exception.ForbiddenOperationException;
-import com.egradebook.backend.model.LoginData;
-import com.egradebook.backend.model.Student;
-import com.egradebook.backend.model.Teacher;
-import com.egradebook.backend.model.User;
 import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.utils.Generator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
+    @Autowired
+    private ClassRepository classRepository;
+    @Autowired
+    private SubjectRepository subjectRepository;
 
     public LoginData registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
@@ -45,6 +54,27 @@ public class AdminService {
         newstudent.setPassword(loggedUser.getPassword());
         newstudent.register();
         return loginData;
+    }
+
+    public void assignTeacher(AssignTeacherRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can assign teacher to class!");
+        }
+        Clazz clazz = classRepository.getClazz(request.getClass_id());
+        Teacher teacher = teacherRepository.getTeacher(request.getTeacher_id());
+        Subject subject = subjectRepository.getSubject(request.getSubject_id());
+
+        clazz.assignTeacher(teacher, subject, request.getGroup_id());
+    }
+
+    public List<Subject> getSubjects(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view subjects!");
+        }
+        return subjectRepository.getAllSubjects();
+
     }
 
 }
