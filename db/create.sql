@@ -22,7 +22,7 @@ CREATE TABLE teachers(
 
 CREATE TABLE class_profile(
     id serial PRIMARY KEY,
-    profile_shortcut varchar(16) not null UNIQUE,
+    short_name varchar(16) not null UNIQUE,
     name varchar(32) not null
 );
 
