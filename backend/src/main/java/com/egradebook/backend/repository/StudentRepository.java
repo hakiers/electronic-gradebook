@@ -46,6 +46,7 @@ public class StudentRepository {
                 JOIN subjects ON class_schedule.subject_id = subjects.subject_id
                 WHERE students.student_id = ?;
                 """;
+
         List<Subject> subjects = jdbcTemplate.query(sql, new Object[]{student_id}, (rs, rowNum) ->
                 new Subject(
                         rs.getInt("subject_id"),
@@ -91,7 +92,8 @@ public class StudentRepository {
                             rs.getString("date")
                     )
                 );
-        return null;
+
+        return attendance;
     }
 
     //to do: w funkcji getAllStudentsAbsences zmienic zapytanie tak zeby bralo dane z widoku attendance w aktualnym

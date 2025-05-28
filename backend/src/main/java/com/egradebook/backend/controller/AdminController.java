@@ -1,5 +1,6 @@
 package com.egradebook.backend.controller;
 
+import com.egradebook.backend.request.AssignTeacherRequest;
 import com.egradebook.backend.request.StudentRegistrationRequest;
 import com.egradebook.backend.request.TeacherRegistrationRequest;
 import com.egradebook.backend.service.AdminService;
@@ -26,6 +27,12 @@ public class AdminController {
     @PostMapping("/register/student")
     public ResponseEntity<?> registerStudent(@RequestBody StudentRegistrationRequest request, HttpSession session) {
             return ResponseEntity.ok(adminService.registerNewStudent(request, session));
+    }
+
+    @PostMapping("/teacher/assign")
+    public ResponseEntity<?> assignTeacher(@RequestBody AssignTeacherRequest request, HttpSession session) {
+        adminService.assignTeacher(request, session);
+        return ResponseEntity.ok("Teacher assigned successfully");
     }
 
 }
