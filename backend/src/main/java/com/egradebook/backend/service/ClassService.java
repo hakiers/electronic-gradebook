@@ -38,8 +38,8 @@ public class ClassService {
         return clazz.getStudents();
     }
 
-    public List<Lesson> getScheulde(int class_id, HttpSession session) {
+    public List<Lesson> getSchedule(int class_id, HttpSession session) {
         Clazz clazz = classRepository.getClazz(class_id);
-        return clazz.getScheulde();
+        return clazz.getSchedule();
     }
 }

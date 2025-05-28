@@ -65,12 +65,12 @@ public class StudentService {
         return student.profile();
     }
 
-    public List<Lesson> getScheulde(HttpSession session) {
+    public List<Lesson> getSchedule(HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if(!loggedUser.isStudent()) {
             throw new UnauthorizedException("You are no student");
         }
         Student student = studentRepository.getStudent(loggedUser.getRoleId());
-        return student.getScheulde();
+        return student.getSchedule();
     }
 }

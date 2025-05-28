@@ -30,9 +30,9 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudentGrades(session));
     }
 
-    @GetMapping("/scheulde")
-    public ResponseEntity<?> getScheule(HttpSession session) {
-        return ResponseEntity.ok(studentService.getScheulde(session));
+    @GetMapping("/schedule")
+    public ResponseEntity<?> getSchedule(HttpSession session) {
+        return ResponseEntity.ok(studentService.getSchedule(session));
     }
 
     @GetMapping("/attendance")
