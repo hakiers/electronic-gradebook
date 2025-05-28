@@ -1,22 +1,41 @@
 package com.egradebook.frontend.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Subject {
-    private int subject_id;
+    @JsonProperty("subject_id")
+    private int subjectId;
+
+    @JsonProperty("name")
     private String name;
 
-    public Subject(int subject_id, String name) {
+    // Konstruktor bezargumentowy wymagany przez Jacksona
+    public Subject() {}
+
+    public Subject(int subjectId, String name) {
+        this.subjectId = subjectId;
         this.name = name;
-        this.subject_id = subject_id;
     }
+
+    // Gettery i settery
+    public int getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return name;
     }
-    public String getName() {
-        return name;
-    }
-    public int getSubject_id() {
-        return subject_id;
-    }
-
 }

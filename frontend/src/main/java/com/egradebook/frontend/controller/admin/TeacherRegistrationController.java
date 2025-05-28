@@ -1,6 +1,7 @@
 package com.egradebook.frontend.controller.admin;
 
 import com.egradebook.frontend.model.LoginData;
+import com.egradebook.frontend.model.Subject;
 import com.egradebook.frontend.service.RegisterService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.util.Pair;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TeacherRegistrationController {
 
@@ -24,7 +26,7 @@ public class TeacherRegistrationController {
     @FXML private TextField peselField;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
-    @FXML private CheckComboBox<String> subjectsCheckComboBox;
+    @FXML private CheckComboBox<Subject> subjectsCheckComboBox;
 
     //napisy
     @FXML private Label errorLabel;
@@ -34,11 +36,10 @@ public class TeacherRegistrationController {
 
     public void initialize() {
         hide();
-        subjectsCheckComboBox.getItems().addAll(
-                "Matematyka","Informatyka"/*, "Fizyka", "Chemia", "Biologia",
-                 "Geografia", "Historia","Angielski","Polski","WF"*/
-        );
-    }
+        List<Subject> allSubjects=RegisterService.getSubjects();
+        for (Subject subject : allSubjects) {
+            subjectsCheckComboBox.getItems().add(subject);
+        }    }
 
     @FXML
     public void back() {
@@ -62,8 +63,11 @@ public class TeacherRegistrationController {
         String name = nameField.getText();
         String surname = surnameField.getText();
         String pesel = peselField.getText();
-        List<String > subjects = subjectsCheckComboBox.getCheckModel().getCheckedItems();
-        Pair<Integer, LoginData> RegistrationInfo= RegisterService.registerTeacher(name,surname,pesel,subjects);
+        List<Subject > subjects = subjectsCheckComboBox.getCheckModel().getCheckedItems();
+        List<String> subjectNames = subjects.stream()
+                .map(Subject::toString)
+                .collect(Collectors.toList());
+        Pair<Integer, LoginData> RegistrationInfo= RegisterService.registerTeacher(name,surname,pesel,subjectNames);
         LoginData loginData=RegistrationInfo.getValue();
         if(RegistrationInfo.getKey()==200){
             clear();

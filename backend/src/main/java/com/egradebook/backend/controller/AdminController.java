@@ -25,12 +25,12 @@ public class AdminController {
     public ResponseEntity<?> registerStudent(@RequestBody StudentRegistrationRequest request, HttpSession session) {
             return ResponseEntity.ok(adminService.registerNewStudent(request, session));
     }
-
+/*
     @PostMapping("/teacher/assign")
     public ResponseEntity<?> assignTeacher(@RequestBody AssignTeacherRequest request, HttpSession session) {
         adminService.assignTeacher(request, session);
         return ResponseEntity.ok("Teacher assigned successfully");
-    }
+    }*/
 
     @GetMapping("/subjects")
     public ResponseEntity<?> getSubjects(HttpSession session) {

@@ -56,7 +56,7 @@ public class AdminService {
         return loginData;
     }
 
-    public void assignTeacher(AssignTeacherRequest request, HttpSession session) {
+    /*public void assignTeacher(AssignTeacherRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if(!loggedUser.isAdmin()) {
             throw new ForbiddenOperationException("Only admin can assign teacher to class!");
@@ -66,7 +66,7 @@ public class AdminService {
         Subject subject = subjectRepository.getSubject(request.getSubject_id());
 
         clazz.assignTeacher(teacher, subject, request.getGroup_id());
-    }
+    }*/
 
     public List<Subject> getSubjects(HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
