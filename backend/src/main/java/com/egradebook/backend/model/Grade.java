@@ -63,7 +63,4 @@ public class Grade {
         this.teacher_id = teacher_id;
     }
 
-    public boolean isPassed() {
-        return grade_value >= 2;
-    }
 }
