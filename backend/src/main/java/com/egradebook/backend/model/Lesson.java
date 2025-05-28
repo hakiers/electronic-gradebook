@@ -1,5 +1,10 @@
 package com.egradebook.backend.model;
 
+import com.egradebook.backend.repository.GroupRepository;
+import com.egradebook.backend.repository.SubjectRepository;
+import com.egradebook.backend.repository.TeacherRepository;
+import com.egradebook.backend.utils.BeanUtil;
+
 public class Lesson {
     private int schedule_id;
     private int class_id;
@@ -9,6 +14,13 @@ public class Lesson {
     private int day_od_week;
     private int lesson_number;
     private int room_number;
+    private Subject subject;
+    private Teacher teacher;
+    private Group group;
+
+    private final TeacherRepository teacherRepository =  BeanUtil.getBean(TeacherRepository.class);
+    private final GroupRepository groupRepository =  BeanUtil.getBean(GroupRepository.class);
+    private final SubjectRepository subjectRepository =  BeanUtil.getBean(SubjectRepository.class);
 
     public Lesson(){}
 
@@ -21,6 +33,12 @@ public class Lesson {
         this.day_od_week = day_od_week;
         this.lesson_number = lesson_number;
         this.room_number = room_number;
+
+        if(schedule_id != 0){
+            subject = subjectRepository.getSubject(subject_id);
+            teacher = teacherRepository.getTeacher(teacher_id);
+            group = groupRepository.getGroup(group_id);
+        }
     }
 
     public int getSchedule_id() { return schedule_id; }
@@ -31,6 +49,10 @@ public class Lesson {
     public int getDay_od_week() { return day_od_week; }
     public int getLesson_number() { return lesson_number; }
     public int getRoom_number() { return room_number; }
+    public String getSubjectName() { return subject.getName(); }
+    public String getTeacherFullName(){return teacher.getFullName();}
+    public int getGroupNumber(){return group.getGroup_number(); };
+
 
     public void setSchedule_id(int schedule_id) { this.schedule_id = schedule_id; }
     public void setClass_id(int class_id) { this.class_id = class_id; }
