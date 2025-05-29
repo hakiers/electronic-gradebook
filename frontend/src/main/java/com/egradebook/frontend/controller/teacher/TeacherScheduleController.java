@@ -1,7 +1,6 @@
 package com.egradebook.frontend.controller.teacher;
 
 import com.egradebook.frontend.model.Lesson;
-import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherScheduleController {
@@ -32,9 +30,10 @@ public class TeacherScheduleController {
             Label lessonLabel = createHeaderLabel("Lekcja " + lessonNum);
             timetableGrid.add(lessonLabel, 0, lessonNum);
         }
-        
+
         //TODO KORZYSTAM ZE ZHARDKODOWANEJ MAPY
         List<Lesson> lessons= TeacherService.getScheduleForClass(1);
+       // List<Lesson> lessons=TeacherService.getSchedule();
         for (Lesson lesson : lessons) {
             int dayIndex = lesson.getDay_od_week(); // 1-5 (Pon-Pt)
             int lessonIndex = lesson.getLesson_number(); // 1-8

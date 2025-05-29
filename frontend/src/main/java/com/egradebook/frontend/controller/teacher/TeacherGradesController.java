@@ -206,6 +206,7 @@ public class TeacherGradesController {
         } catch (NumberFormatException e) {
             showAlert("Wprowadź poprawną wartość oceny");
         }
+        refreshGrades();
     }
     private void refreshGrades() {
         loadGrades();
@@ -214,7 +215,8 @@ public class TeacherGradesController {
     @FXML
     private void delete() {
         RemoveGradeRequest request = new RemoveGradeRequest(selected_grade.getGrade_id());
-        //GradeService
+        GradeService.deleteGrade(request);
+        refreshGrades();
     }
     @FXML
     private void back() {

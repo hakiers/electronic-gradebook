@@ -9,7 +9,6 @@ public class StudentGradesResponse {
     public Map<String, List<Grade>> gradesBySubject;
     private String error;
 
-    // Konstruktory
     public StudentGradesResponse() {}
 
     public StudentGradesResponse(Map<String, List<Grade>> gradesBySubject) {
@@ -20,7 +19,6 @@ public class StudentGradesResponse {
         this.error = error;
     }
 
-    // Gettery i settery
     public Map<String, List<Grade>> getGradesBySubject() {
         return gradesBySubject;
     }
