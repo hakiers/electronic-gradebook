@@ -37,7 +37,7 @@ public class AdminController {
     }
 
     @GetMapping("/teachers")
-    public ResponseEntity<List<Teacher>> getTeachers(HttpSession session) {
+    public ResponseEntity<?> getTeachers(HttpSession session) {
         return ResponseEntity.ok(adminService.getTeachers(session));
     }
 
