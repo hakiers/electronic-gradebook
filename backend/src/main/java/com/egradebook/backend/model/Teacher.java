@@ -1,10 +1,10 @@
 package com.egradebook.backend.model;
 
 import ch.qos.logback.core.joran.sanity.Pair;
+import com.egradebook.backend.dto.ClazzDto;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
-import com.egradebook.backend.repository.TeacherRepository;
-import com.egradebook.backend.repository.UserRepository;
+import com.egradebook.backend.repository.*;
 import com.egradebook.backend.request.*;
 import com.egradebook.backend.utils.BeanUtil;
 import com.egradebook.backend.utils.Triple;
@@ -28,6 +28,9 @@ public class Teacher {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final UserRepository userRepository = BeanUtil.getBean(UserRepository.class);
     private final TeacherRepository teacherRepository =  BeanUtil.getBean(TeacherRepository.class);
+    private final GroupRepository groupRepository = BeanUtil.getBean(GroupRepository.class);
+    private final SubjectRepository subjectRepository = BeanUtil.getBean(SubjectRepository.class);
+    private final ClassRepository classRepository = BeanUtil.getBean(ClassRepository.class);
 
     public Teacher() {};
 
@@ -38,11 +41,6 @@ public class Teacher {
         this.pesel = pesel;
         this.username = username;
         this.password = password;
-
-        if(this.teacher_id != 0) {
-            this.teachSubjects = teacherRepository.getTeacherSubjects(this.teacher_id);
-            this.teachClassSubject = teacherRepository.getTeacherClassesSubject(this.teacher_id);
-        }
     }
 
     public Teacher(TeacherRegistrationRequest teacher){
@@ -95,11 +93,33 @@ public class Teacher {
         teacherRepository.saveTeacher(this);
     }
 
+    public void loadTeacherSubjects(){
+        if(teacher_id == 0) return;
+        this.teachSubjects = teacherRepository.getTeacherSubjects(this.teacher_id);
+    }
+
+    public void loadTeacherClassesSubjects(){
+        if(teacher_id == 0) return;
+        this.teachClassSubject = teacherRepository.getTeacherClassesSubject(this.teacher_id);
+        /*
+                .stream()
+                .map(teachClassSubject ->
+                {
+                    return new Triple<>(classRepository.getClazz(teachClassSubject.getFirst()),
+                            subjectRepository.getSubject(teachClassSubject.getSecond()),
+                            groupRepository.getGroup(teachClassSubject.getThird()));
+                }).toList();
+
+         */
+    }
+
     public List<Subject> getTeachSubjects() {
+        loadTeacherSubjects();
         return teachSubjects;
     }
 
     public List<Triple<Clazz, Subject, Group>> getTeachClassSubject() {
+        loadTeacherClassesSubjects();
         return teachClassSubject;
     }
 
@@ -111,6 +131,7 @@ public class Teacher {
     }
 
     public boolean doesTeacherTeachSubject(Subject subject) {
+        loadTeacherSubjects();
         return teachSubjects.contains(subject);
     }
 
@@ -157,5 +178,4 @@ public class Teacher {
     /*public List<Pair<Student,Attendance>> getAttendanceByClassAndLesson(GetAttendanceByClassAndLessonRequest attendance){
         return teacherRepository.getAttendanceByClassAndLesson(attendance);
     }*/
-
 }

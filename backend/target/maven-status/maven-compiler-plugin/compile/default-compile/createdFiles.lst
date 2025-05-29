@@ -4,6 +4,7 @@ com/egradebook/backend/dto/TeacherClassSubjectDto.class
 com/egradebook/backend/request/AddAttendanceRequest.class
 com/egradebook/backend/service/ClassService.class
 com/egradebook/backend/model/Clazz.class
+com/egradebook/backend/dto/SubjectsWithGradesDto.class
 com/egradebook/backend/utils/Triple.class
 com/egradebook/backend/request/RemoveGradeRequest.class
 com/egradebook/backend/request/EditAttendanceRequest.class

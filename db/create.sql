@@ -2,6 +2,12 @@ CREATE DATABASE egradebook;
 
 \c egradebook
 
+CREATE TABLE class_profile(
+    id serial PRIMARY KEY,
+    short_name varchar(16) not null UNIQUE,
+    name varchar(32) not null
+);
+
 CREATE TABLE users(
     user_id serial PRIMARY KEY,
     username varchar(32) not null UNIQUE,
@@ -9,23 +15,10 @@ CREATE TABLE users(
     role varchar(16) not null CHECK(role IN ('admin', 'teacher', 'student', 'parent'))
 );
 
-
-CREATE TABLE parents(
-    parent_id serial PRIMARY KEY,
-    user_id integer REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 CREATE TABLE teachers(
     teacher_id serial PRIMARY KEY,
     user_id integer REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-CREATE TABLE class_profile(
-    id serial PRIMARY KEY,
-    short_name varchar(16) not null UNIQUE,
-    name varchar(32) not null
-);
-
 
 CREATE TABLE classes(
     class_id serial PRIMARY KEY,
@@ -34,21 +27,27 @@ CREATE TABLE classes(
     class_year char(4)
 );
 
-CREATE TABLE students(
-    student_id serial PRIMARY KEY,
-    user_id integer REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    class_id integer REFERENCES classes(class_id) ON DELETE SET NULL ON UPDATE CASCADE
-);
-
 CREATE TABLE subjects(
     subject_id serial PRIMARY KEY,
     name varchar(32) not null UNIQUE
 );
+
 CREATE TABLE subject_groups(
    group_id serial PRIMARY KEY,
    class_id integer REFERENCES classes(class_id) ON DELETE CASCADE ON UPDATE CASCADE,
    subject_id integer REFERENCES subjects(subject_id) ON DELETE CASCADE ON UPDATE CASCADE,
    group_number integer
+);
+
+CREATE TABLE parents(
+    parent_id serial PRIMARY KEY,
+    user_id integer REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE students(
+    student_id serial PRIMARY KEY,
+    user_id integer REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    class_id integer REFERENCES classes(class_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE class_schedule(
@@ -104,8 +103,6 @@ CREATE TABLE events(
     "date" date not null,
     class_id integer REFERENCES classes(class_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-
 
 CREATE TABLE student_subject_group(
     student_id integer REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -226,7 +223,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- sprawdzenie czy nauczyciel moze wstawic ocene 
+-- sprawdzenie czy nauczyciel moze wstawic ocene
+/*
 CREATE OR REPLACE FUNCTION check_teacher_permission()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -239,18 +237,21 @@ BEGIN
       AND subject_id = NEW.subject_id
     LIMIT 1;
 
-    /*IF NOT FOUND THEN
+    IF NOT FOUND THEN
         RAISE EXCEPTION 'Nauczyciel nie uczy tego przedmiotu w tej klasie';
-    END IF;*/
+    END IF;
 
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
+
 CREATE TRIGGER trg_check_teacher_permission
 BEFORE INSERT ON grades
 FOR EACH ROW EXECUTE FUNCTION check_teacher_permission();
 
+
+ */
 -- wypisz oceny ucznia z przedmiotu 
 CREATE OR REPLACE FUNCTION get_student_grades(student INT)
 RETURNS TABLE(subject_name TEXT, grade NUMERIC, description TEXT, "date" DATE) AS $$

@@ -200,9 +200,9 @@ public class TeacherRepository {
 
         List<Triple<Clazz, Subject, Group>> classSubject= (List<Triple<Clazz, Subject, Group>>) jdbcTemplate.queryForObject(sql, new Object[]{teacher_id}, (rs, rowNum) ->
                 new Triple<>(
-                     classRepository.getClazz(rs.getInt("class_id")),
-                     subjectRepository.getSubject(rs.getInt("subject_id")),
-                     groupRepository.getGroup(rs.getInt("group_id"))
+                        classRepository.getClazz(rs.getInt("class_id")),
+                        subjectRepository.getSubject(rs.getInt("subject_id")),
+                        groupRepository.getGroup(rs.getInt("group_id"))
                 )
         );
         return classSubject;
