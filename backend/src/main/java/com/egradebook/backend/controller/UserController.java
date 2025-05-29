@@ -38,4 +38,5 @@ public class UserController {
     public ResponseEntity<?> getUserContactInfo(@PathVariable int id, HttpSession session) {
         return ResponseEntity.ok(userService.getUserContactInfo(id, session));
     }
+
 }
