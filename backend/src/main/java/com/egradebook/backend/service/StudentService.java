@@ -1,5 +1,6 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.dto.LessonDto;
 import com.egradebook.backend.dto.StudentProfile;
 import com.egradebook.backend.dto.SubjectsWithGradesDto;
@@ -78,5 +79,23 @@ public class StudentService {
                     return new LessonDto(lesson);
                 }).toList();
         return schedule;
+    }
+
+    public List<Attendance> getAllAbsences(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isStudent()) {
+            throw new UnauthorizedException("You are no student");
+        }
+        Student student = studentRepository.getStudent(loggedUser.getRoleId());
+        return student.getAllStudentsAbsences();
+    }
+
+    public List<Attendance> getAttendanceByDate(HttpSession session, String date) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isStudent()) {
+            throw new UnauthorizedException("You are no student");
+        }
+        Student student = studentRepository.getStudent(loggedUser.getRoleId());
+        return student.getAttendanceByDate(date);
     }
 }

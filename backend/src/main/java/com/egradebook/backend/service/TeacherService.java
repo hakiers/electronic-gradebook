@@ -5,11 +5,9 @@ import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.SubjectRepository;
 import com.egradebook.backend.repository.UserRepository;
-import com.egradebook.backend.request.AddGradeRequest;
-import com.egradebook.backend.request.EditGradeRequest;
+import com.egradebook.backend.request.*;
 import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.repository.TeacherRepository;
-import com.egradebook.backend.request.RemoveGradeRequest;
 import com.egradebook.backend.utils.Triple;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,6 +138,24 @@ public class TeacherService {
         Student student = studentRepository.getStudent(student_id);
         Subject subject = subjectRepository.getSubject(subject_id);
         return student.getGrades(subject);
+    }
+
+    public void addAttendance(AddAttendanceRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isTeacher()) {
+            throw new UnauthorizedException("User is not a teacher");
+        }
+        Teacher teacher = teacherRepository.getTeacher(loggedUser.getRoleId());
+        teacher.addAttendance(request);
+    }
+
+    public void editAttendance(EditAttendanceRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isTeacher()) {
+            throw new UnauthorizedException("User is not a teacher");
+        }
+        Teacher teacher = teacherRepository.getTeacher(loggedUser.getRoleId());
+        teacher.editAttendance(request);
     }
 
 }

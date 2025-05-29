@@ -5,15 +5,16 @@ com/egradebook/backend/request/AddAttendanceRequest.class
 com/egradebook/backend/service/ClassService.class
 com/egradebook/backend/model/Clazz.class
 com/egradebook/backend/dto/SubjectsWithGradesDto.class
-com/egradebook/backend/utils/Triple.class
 com/egradebook/backend/request/RemoveGradeRequest.class
+com/egradebook/backend/utils/Triple.class
 com/egradebook/backend/request/EditAttendanceRequest.class
 com/egradebook/backend/repository/ParentRepository.class
 com/egradebook/backend/dto/ClazzDto.class
 com/egradebook/backend/request/StudentRegistrationRequest.class
-com/egradebook/backend/model/ClassTeacher.class
 com/egradebook/backend/request/UserChangePasswordRequest.class
+com/egradebook/backend/model/ClassTeacher.class
 com/egradebook/backend/request/EditGradeRequest.class
+com/egradebook/backend/dto/LessonDto.class
 com/egradebook/backend/request/UserLoginRequest.class
 com/egradebook/backend/model/Group.class
 com/egradebook/backend/service/AuthService.class
@@ -28,6 +29,7 @@ com/egradebook/backend/model/Lesson.class
 com/egradebook/backend/dto/UserPersonalData.class
 com/egradebook/backend/request/AssignTeacherRequest.class
 com/egradebook/backend/request/GetAttendanceByClassAndLessonRequest.class
+com/egradebook/backend/utils/BeanUtil.class
 com/egradebook/backend/dto/TeacherDto.class
 com/egradebook/backend/request/AddGradeRequest.class
 com/egradebook/backend/repository/SubjectRepository.class
