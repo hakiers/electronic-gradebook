@@ -6,12 +6,12 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
 <?import com.egradebook.frontend.utils.IntegerField?>
-<VBox xmlns="http://javafx.com/javafx/8.0.171"
+<VBox fx:id="mainContainer" xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.egradebook.frontend.controller.admin.StudentRegistrationController"
       alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f4;">
     <Button text="wróć" fx:id="returnButton" defaultButton="true"
-            alignment="TOP_LEFT"/>
+            alignment="TOP_LEFT" onAction="#back"/>
     <fx:define>
         <ToggleGroup fx:id="sendTypeGroup"/>
     </fx:define>
@@ -40,12 +40,20 @@
 
         <Label text="Klasa:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
         <IntegerField fx:id="class_idField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label fx:id="usernameLabel" text="Nazwa użytkownika:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+        <TextField fx:id="usernameField" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+
+        <Label fx:id="passwordLabel" text="Hasło" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+        <TextField fx:id="passwordField" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER">
         <Button text="Dodaj" fx:id="submitButton" defaultButton="true"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
+                onAction="#handle"/>
         <Button text="Wyczyść" fx:id="clearButton"
-                style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                style="-fx-background-color: #f44336; -fx-text-fill: white;"
+                onAction="#clear"/>
     </HBox>
 </VBox>

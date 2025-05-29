@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.egradebook.frontend.controller.teacher.SelectClassController"
+      alignment="CENTER" spacing="20">
+    <Button text="wróć" fx:id="returnButton" defaultButton="true"
+            onAction="#back"/>
+    <Label text="Wybierz klasę" fx:id="selectLabel" />
+    <ComboBox fx:id="selectBox"/>
+    <Button text="Sprawdź oceny" fx:id="gradesButton" defaultButton="true"
+            style="-fx-background-color: cyan; -fx-text-fill: white;"
+            onAction="#handleGrades"/>
+    <Button text="Sprawdź obecność" fx:id="attendanceButton" defaultButton="true"
+            style="-fx-background-color: cyan; -fx-text-fill: white;"
+            onAction="#handleAttendance"/>
+</VBox>

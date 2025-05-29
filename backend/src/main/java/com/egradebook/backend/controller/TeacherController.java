@@ -1,8 +1,6 @@
 package com.egradebook.backend.controller;
 
-import com.egradebook.backend.request.AddGradeRequest;
-import com.egradebook.backend.request.EditGradeRequest;
-import com.egradebook.backend.request.RemoveGradeRequest;
+import com.egradebook.backend.request.*;
 import com.egradebook.backend.service.StudentService;
 import com.egradebook.backend.service.TeacherService;
 import jakarta.servlet.http.HttpSession;
@@ -77,6 +75,19 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.getClassSubjects(teacher_id, session));
     }
 
-    //to do dodac obsluge frekwencji
+
+    @PostMapping("/add-attendance")
+    public ResponseEntity<?> addAttendance(@RequestBody AddAttendanceRequest request, HttpSession session) {
+        teacherService.addAttendance(request, session);
+        return ResponseEntity.ok("Attendance added successfully");
+    }
+
+    @PutMapping("/edit-attendance")
+    public ResponseEntity<?> editAttendance(@RequestBody EditAttendanceRequest request, HttpSession session) {
+        teacherService.editAttendance(request, session);
+        return ResponseEntity.ok("Attendance edited successfully");
+    }
+
+
 
 }

@@ -35,9 +35,14 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getSchedule(session));
     }
 
-    @GetMapping("/attendance")
+    @GetMapping("/attendance-absences")
     public ResponseEntity<?> getAttendance(HttpSession session) {
-        return null;
+        return ResponseEntity.ok(studentService.getAllAbsences(session));
+    }
+
+    @GetMapping("/attendance/{date}")
+    public ResponseEntity<?> getAttendance(@PathVariable String date, HttpSession session) {
+        return ResponseEntity.ok(studentService.getAttendanceByDate(session, date));
     }
 
 }

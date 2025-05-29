@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.egradebook.frontend.controller.student.StudentAttendanceController">
+    <Button fx:id="returnButton" onAction="#back" text="Wróć" />
+
+    <TableView fx:id="attendanceTable">
+        <columns>
+            <TableColumn fx:id="dateColumn" editable="false" text="Data" />
+            <TableColumn fx:id="lesson1Column" editable="false" text="1" />
+            <TableColumn fx:id="lesson2Column" editable="false" text="2" />
+            <TableColumn fx:id="lesson3Column" editable="false" text="3" />
+            <TableColumn fx:id="lesson4Column" editable="false" text="4" />
+            <TableColumn fx:id="lesson5Column" editable="false" text="5" />
+            <TableColumn fx:id="lesson6Column" editable="false" text="6" />
+            <TableColumn fx:id="lesson7Column" editable="false" text="7" />
+            <TableColumn fx:id="lesson8Column" editable="false" text="8" />
+            <TableColumn fx:id="lesson9Column" editable="false" text="9" />
+            <TableColumn fx:id="lesson10Column" editable="false" text="10" />
+        </columns>
+    </TableView>
+</VBox>

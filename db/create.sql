@@ -182,14 +182,16 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- wyciaganie klasy z rocznika
-CREATE OR REPLACE FUNCTION get_class_by_year(year CHAR(4))
-RETURNS TABLE(class_id INT, class_name TEXT) AS $$
+CREATE OR REPLACE FUNCTION get_class_number_by_year(year CHAR(4))
+RETURNS INTEGER AS $$
+DECLARE r INTEGER;
 BEGIN
-    RETURN QUERY
-    SELECT c.class_id, cp.name
-    FROM classes c
-    JOIN class_profile cp ON cp.id = c.class_profile
-    WHERE c.class_year = year;
+    IF EXTRACT(MONTH FROM CURRENT_DATE) > 8 THEN
+       r := EXTRACT(YEAR FROM CURRENT_DATE) - year::INTEGER + 1;
+    ELSE
+       r := EXTRACT(YEAR FROM CURRENT_DATE) - year::INTEGER;
+    END IF;
+    RETURN r;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -208,6 +210,20 @@ CREATE TRIGGER trg_set_grade_date
 BEFORE INSERT ON grades
 FOR EACH ROW EXECUTE FUNCTION set_grade_date();
 
+--automatyczne wstawianie daty przy obecnosci
+CREATE OR REPLACE FUNCTION set_attendance_date()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW."date" IS NULL THEN
+       NEW."date" := CURRENT_DATE;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trg_set_attendance_date
+BEFORE INSERT ON attendance
+FOR EACH ROW EXECUTE FUNCTION set_attendance_date();
 
 -- liczba nieusprawiedliownych godzin
 CREATE OR REPLACE FUNCTION unexcused_hours(student INT)
@@ -371,3 +387,5 @@ SELECT
 FROM grades g
 JOIN subjects s ON s.subject_id = g.subject_id
 GROUP BY g.student_id, s.name;
+
+

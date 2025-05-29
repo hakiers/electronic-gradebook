@@ -84,7 +84,7 @@ public class TeacherRepository {
             INSERT INTO grades (student_id, subject_id, teacher_id, grade_value, date, description)
             VALUES (?, ?, ?, ?, CURRENT_DATE, ?)
         """;
-        jdbcTemplate.update(sql, grade.getStudent_id(), grade.getSubject_id(), grade.getTeacher_id(), grade.getDate(), grade.getDescription());
+        jdbcTemplate.update(sql, grade.getStudent_id(), grade.getSubject_id(), grade.getTeacher_id(), grade.getGrade_value(), grade.getDescription());
     }
 
     public boolean updateGrade(EditGradeRequest request, int teacher_id){

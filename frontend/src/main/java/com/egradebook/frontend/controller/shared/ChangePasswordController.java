@@ -8,28 +8,23 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class ChangePasswordController {
+    //przyciski
     @FXML Button returnButton;
+
+    //pola
     @FXML PasswordField checkField;
     @FXML PasswordField newPasswordField;
-    @FXML Button changeButton;
+    //napisy
     @FXML Label errorLabel;
     @FXML Label successLabel;
-    Pair<Integer,String> ChangeInfo;
 
-    public void initialize() {
-        returnButton.setOnAction(event -> back());
-        changeButton.setOnAction(event -> handleChange());
-    }
+    Pair<Integer,String> ChangeInfo;
+    @FXML
     public void back() {
         Stage stage = (Stage) returnButton.getScene().getWindow();
-        String role= UserService.getCurrentRole();
-        if(role.equals("student")) {
-            ViewLoader.loadView(stage, "/fxml/student/StudentPage.fxml", "Strona Główna");
-        }
-        else if(role.equals("admin")) {
-            ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna");
-        }
+         ViewLoader.goPrev(stage);
     }
+    @FXML
     public void handleChange() {
         String check = checkField.getText();
         String newPassword = newPasswordField.getText();
@@ -39,14 +34,12 @@ public class ChangePasswordController {
             return;
         }
         ChangeInfo=UserService.changePassword(newPassword);
-        if(ChangeInfo.getKey()!=200)
-        {
+        if(ChangeInfo.getKey()!=200) {
             successLabel.setVisible(false);
             errorLabel.setVisible(true);
             errorLabel.setText("Nowe hasło jest niepoprawne");
         }
-        else
-        {
+        else {
             errorLabel.setVisible(false);
             successLabel.setVisible(true);
             successLabel.setText("Hasło zmienione");

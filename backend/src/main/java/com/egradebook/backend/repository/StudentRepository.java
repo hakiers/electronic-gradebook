@@ -92,8 +92,9 @@ public class StudentRepository {
 
     public List<Attendance> getStudentsAttendanceByDate(int student_id, String date) {
         String sql = """
-                SELECT * FROM attendance WHERE student_id = ? AND date = ? ORDER BY date;
+                SELECT * FROM attendance WHERE student_id = ? AND date = ?::date ORDER BY date;
                 """;
+
         List<Attendance> attendance = jdbcTemplate.query(sql, new Object[]{student_id, date}, (rs, rowNum) ->
                     new Attendance(
                             rs.getInt("student_id"),
@@ -112,7 +113,7 @@ public class StudentRepository {
 
     public List<Attendance> getAllStudentsAbsences(int student_id) {
         String sql = """
-                SELECT * FROM attendance WHERE student_id = ? AND status IN('excused absence','absence')
+                SELECT * FROM attendance WHERE student_id = ? AND status != 'presence'
                 ORDER BY date;
                 """;
         List<Attendance> attendance = jdbcTemplate.query(sql, new Object[]{student_id}, (rs, rowNum) ->
@@ -126,8 +127,5 @@ public class StudentRepository {
         );
         return attendance;
     }
-
-
-
 
 }
