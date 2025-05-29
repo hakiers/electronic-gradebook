@@ -99,6 +99,35 @@ public class TeacherService {
             return new Pair<>(500, null);
         }
     }
+    public static Pair<Integer,List<Lesson>> getSchedule() {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    // TODO NIE MA METODY W BACKENDZIE
+                    .uri(new URI("http://localhost:8080/api/teacher/"))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Lesson> lessons = mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Lesson>>() {}
+                );
+                return new Pair<>(response.statusCode(), lessons);
+            } else {
+                return new Pair<>(response.statusCode(), null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, null);
+        }
+    }
     private static final Map<String, List<Attendance>> attendanceDatabase = new HashMap<>();
 
     static {
@@ -152,9 +181,9 @@ public class TeacherService {
     static {
         // Przykład: Klasa ID = 1 ma zajęcia w poniedziałek i środę
         classSchedules.put(1, List.of(
-                new Lesson(1, 1, 1, 1, 1, 1, 2, 101), // Poniedziałek, lekcja 2
-                new Lesson(2, 1, 1, 2, 1, 1, 4, 102), // Poniedziałek, lekcja 4
-                new Lesson(3, 1, 1, 3, 1, 3, 3, 103)  // Środa, lekcja 3
+                new Lesson(1, 1, 1, 1, 1, 1, 2, 101,"A B","Matematyka",2), // Poniedziałek, lekcja 2
+                new Lesson(2, 1, 1, 2, 1, 1, 4, 102,"A B","Matematyka",2), // Poniedziałek, lekcja 4
+                new Lesson(3, 1, 1, 3, 1, 3, 3, 103,"A B","Matematyka",2)  // Środa, lekcja 3
         ));
     }
 

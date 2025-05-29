@@ -24,13 +24,9 @@ public class SelectClassController {
     @FXML private ComboBox<Triple> selectBox;
 
     public void initialize() {
-        //TODO ADD LOGIC
         TeacherService.selectedClassId=-1;
         List<Triple<Clazz, Subject, Group>> classes= TeacherService.getClassSubjects().getValue();
-        for(Triple<Clazz,Subject,Group> triple: classes) {
-            selectBox.getItems().add(triple);
-        }
-
+        selectBox.getItems().addAll(classes);
     }
     public void back() {
         Stage stage=(Stage) returnButton.getScene().getWindow();

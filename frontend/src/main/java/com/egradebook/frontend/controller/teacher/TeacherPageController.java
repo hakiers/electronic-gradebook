@@ -23,4 +23,9 @@ public class TeacherPageController {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
         ViewLoader.loadView(currentStage, "/fxml/teacher/SelectClass.fxml", "Wybór klasy");
     }
+    @FXML
+    public void handleShowSchedule() {
+        Stage currentStage = (Stage) logoutButton.getScene().getWindow();
+        ViewLoader.loadView(currentStage, "/fxml/teacher/TeacherSchedule.fxml", "Plan zajęć");
+    }
 }

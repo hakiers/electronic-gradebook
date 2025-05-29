@@ -8,7 +8,8 @@
       alignment="CENTER" spacing="20">
     <Button text="Zarządzaj klasami" fx:id="manageClassButton"
             style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleManageClass"/>
-    <Button text="Plan zajęć" fx:id="showSchedule" style="-fx-background-color: #00d9ff;-fx-text-fill: black;"/>
+    <Button text="Plan zajęć" fx:id="showSchedule"
+            style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleShowSchedule"/>
     <Button text="Zmień hasło" fx:id="changePasswordButton"
             style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleChange"/>
     <Button text="Wyloguj" fx:id="logoutButton"
