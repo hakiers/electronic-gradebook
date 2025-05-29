@@ -25,7 +25,7 @@ public class Student {
     public String getName() { return name; }
     public String getSurname() { return surname; }
     public String getPesel() { return pesel; }
-    public Integer getClassId() { return class_id; }
+    public Integer getClass_id() { return class_id; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
 
@@ -33,7 +33,7 @@ public class Student {
     public void setName(String name) { this.name = name; }
     public void setSurname(String surname) { this.surname = surname; }
     public void setPesel(String pesel) { this.pesel = pesel; }
-    public void setClassId(Integer classId) { this.class_id = classId; }
+    public void setClass_id(Integer class_id) { this.class_id = class_id; }
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password; }
     public String getFullName() {
