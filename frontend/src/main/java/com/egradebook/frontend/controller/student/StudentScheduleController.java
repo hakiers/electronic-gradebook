@@ -22,23 +22,20 @@ public class StudentScheduleController {
 
     @FXML
     public void initialize() {
-        // Nagłówki dni tygodnia
+
         String[] days = {"PON", "WT", "ŚR", "CZW", "PT"};
         for (int i = 0; i < days.length; i++) {
             Label dayLabel = createHeaderLabel(days[i]);
             timetableGrid.add(dayLabel, i+1, 0);
         }
 
-        // Nagłówki numerów lekcji
         for (int lessonNum = 1; lessonNum <= 8; lessonNum++) {
             Label lessonLabel = createHeaderLabel("Lekcja " + lessonNum);
             timetableGrid.add(lessonLabel, 0, lessonNum);
         }
 
-        // Przykładowe dane - w praktyce pobierasz z bazy
         List<Lesson> lessons = StudentService.getSchedule().getValue();
 
-        // Wypełnienie siatki danymi
         for (Lesson lesson : lessons) {
             int dayIndex = lesson.getDay_od_week(); // 1-5 (Pon-Pt)
             int lessonIndex = lesson.getLesson_number(); // 1-8
@@ -61,9 +58,8 @@ public class StudentScheduleController {
         VBox box = new VBox(3);
         box.setStyle("-fx-padding: 5; -fx-background-color: #e8f4f8; -fx-border-color: #d0d0d0;");
 
-        // Tutaj warto dodać mapowanie ID na nazwy
-        Label subject = new Label("Przedmiot: " + lesson.getSubject_id());
-        Label teacher = new Label("Nauczyciel: " + lesson.getTeacher_id());
+        Label subject = new Label("Przedmiot:\n" + lesson.getSubject_name());
+        Label teacher = new Label("Nauczyciel:\n" + lesson.getTeacher_fullname());
         Label room = new Label("Sala: " + lesson.getRoom_number());
 
         box.getChildren().addAll(subject, teacher, room);

@@ -48,6 +48,6 @@ public class ViewLoader {
     }
 
     public static void loadView(Stage stage, String fxmlPath, String title) {
-        loadView(stage, fxmlPath, title, 800, 600);
+        loadView(stage, fxmlPath, title, 1280, 800);
     }
 }

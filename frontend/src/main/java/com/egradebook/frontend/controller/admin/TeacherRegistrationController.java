@@ -39,7 +39,8 @@ public class TeacherRegistrationController {
         List<Subject> allSubjects=RegisterService.getSubjects();
         for (Subject subject : allSubjects) {
             subjectsCheckComboBox.getItems().add(subject);
-        }    }
+        }
+    }
 
     @FXML
     public void back() {
@@ -64,8 +65,7 @@ public class TeacherRegistrationController {
         String surname = surnameField.getText();
         String pesel = peselField.getText();
         List<Subject > subjects = subjectsCheckComboBox.getCheckModel().getCheckedItems();
-        List<String> subjectNames = subjects.stream()
-                .map(Subject::toString)
+        List<Subject> subjectNames = subjects.stream()
                 .collect(Collectors.toList());
         Pair<Integer, LoginData> RegistrationInfo= RegisterService.registerTeacher(name,surname,pesel,subjectNames);
         LoginData loginData=RegistrationInfo.getValue();

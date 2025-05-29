@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Attendance {
     private int attendanceId;
     private int studentId;
-    private Integer scheduleId; // może być null (ON DELETE SET NULL)
+    private Integer scheduleId;
     private LocalDate date;
     private Status status;
     int lessonNumber;

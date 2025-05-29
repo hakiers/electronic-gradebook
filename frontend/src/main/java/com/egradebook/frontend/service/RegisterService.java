@@ -37,7 +37,7 @@ public class RegisterService {
             return new Pair<>(0,null);
         }
     }
-    public static Pair<Integer, LoginData> registerTeacher(String name, String surname, String pesel, List<String> subjects)
+    public static Pair<Integer, LoginData> registerTeacher(String name, String surname, String pesel, List<Subject> subjects)
     {
         try{
             TeacherRegistrationRequest request= new TeacherRegistrationRequest(name, surname, pesel, subjects);
