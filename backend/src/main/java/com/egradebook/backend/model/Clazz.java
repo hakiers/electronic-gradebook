@@ -94,7 +94,7 @@ public class Clazz {
         return schedule;
     }
 
-/*
+
     public void assignTeacher(Teacher teacher, Subject subject, int group_id) {
         if(!teacher.getTeachSubjects().contains(subject)){
             throw new IllegalArgumentException("Subject does not exist");
@@ -103,5 +103,5 @@ public class Clazz {
         if(!assigned){
             throw new IllegalArgumentException("Teacher already assigned");
         }
-    }*/
+    }
 }

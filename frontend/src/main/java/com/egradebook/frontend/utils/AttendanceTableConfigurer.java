@@ -24,18 +24,20 @@ public class AttendanceTableConfigurer {
                 @Override
                 public String toString(Status status) {
                     return switch (status) {
-                        case PRESENT -> "Obecny";
-                        case ABSENT -> "Nieobecny";
+                        case PRESENCE -> "Obecny";
+                        case ABSENCE -> "Nieobecny";
                         case LATE -> "Spóźniony";
+                        case EXCUSED_ABSCENCE -> "Usprawiedliwiony";
                     };
                 }
 
                 @Override
                 public Status fromString(String string) {
                     return switch (string) {
-                        case "Obecny" -> Status.PRESENT;
-                        case "Nieobecny" -> Status.ABSENT;
+                        case "Obecny" -> Status.PRESENCE;
+                        case "Nieobecny" -> Status.ABSENCE;
                         case "Spóźniony" -> Status.LATE;
+                        case "Usprawiedliwiony" ->Status.EXCUSED_ABSCENCE ;
                         default -> throw new IllegalArgumentException("Nieznany status: " + string);
                     };
                 }

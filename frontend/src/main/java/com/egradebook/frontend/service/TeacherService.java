@@ -77,9 +77,9 @@ public class TeacherService {
     static {
         // Klucz: data+lekcja -> Lista obecności
         attendanceDatabase.put("2025-05-24_2", List.of(
-                new Attendance(1, 1, null, LocalDate.of(2025, 5, 24), 2, Attendance.Status.PRESENT),
-                new Attendance(2, 2, null, LocalDate.of(2025, 5, 24), 2, Attendance.Status.ABSENT),
-                new Attendance(3, 9, null, LocalDate.of(2025, 5, 24), 2, Attendance.Status.LATE)
+                new Attendance(1, 1, null, LocalDate.of(2025, 5, 24).toString(), 2, Attendance.Status.PRESENCE),
+                new Attendance(2, 2, null, LocalDate.of(2025, 5, 24).toString(), 2, Attendance.Status.ABSENCE),
+                new Attendance(3, 9, null, LocalDate.of(2025, 5, 24).toString(), 2, Attendance.Status.LATE)
         ));
     }
 
@@ -95,7 +95,7 @@ public class TeacherService {
                     .findFirst();
 
             fullList.add(match.orElse(
-                    new Attendance(0, studentId.intValue(), null, date, lessonNumber, Attendance.Status.PRESENT)
+                    new Attendance(0, studentId.intValue(), null, date.toString(), lessonNumber, Attendance.Status.PRESENCE)
             ));
         }
         return fullList;

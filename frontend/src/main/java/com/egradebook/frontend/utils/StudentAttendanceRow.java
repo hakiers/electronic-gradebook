@@ -6,7 +6,7 @@ import javafx.beans.property.*;
 public class StudentAttendanceRow {
     private final int studentId;
     private final StringProperty fullName = new SimpleStringProperty();
-    private final ObjectProperty<Status> status = new SimpleObjectProperty<>(Status.PRESENT);
+    private final ObjectProperty<Status> status = new SimpleObjectProperty<>(Status.PRESENCE);
 
     public StudentAttendanceRow(int studentId, String firstName, String lastName) {
         this.studentId = studentId;

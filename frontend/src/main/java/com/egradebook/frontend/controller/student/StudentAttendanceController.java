@@ -36,8 +36,7 @@ public class StudentAttendanceController {
     @FXML
     public void initialize() {
         configureTableColumns();
-        loadSampleData(); // Zamień na loadData() z prawdziwymi danymi
-        //loadData(StudentService.getAttendance().getValue());
+        loadData(StudentService.getAttendance().getValue());
     }
 
     private void configureTableColumns() {
@@ -72,25 +71,16 @@ public class StudentAttendanceController {
 
     private String getStatusSymbol(Attendance.Status status) {
         return switch (status) {
-            case PRESENT -> "✓";
-            case ABSENT -> "✗";
+            case PRESENCE -> "✓";
+            case ABSENCE -> "✗";
             case LATE -> "⌚";
+            case EXCUSED_ABSCENCE -> "U";
         };
     }
 
-    private void loadSampleData() {
-        List<Attendance> rawData = Arrays.asList(
-                new Attendance(1, 1, 1, LocalDate.now(), 1, Attendance.Status.PRESENT),
-                new Attendance(2, 1, 2, LocalDate.now(), 3, Attendance.Status.LATE),
-                new Attendance(3, 1, 1, LocalDate.now().minusDays(1), 2, Attendance.Status.ABSENT),
-                new Attendance(4, 1, 3, LocalDate.now().minusDays(1), 4, Attendance.Status.PRESENT)
-        );
-
-        loadData(rawData);
-    }
 
     private void loadData(List<Attendance> rawData) {
-        Map<LocalDate, AttendanceRow> grouped = new TreeMap<>(); // posortowane po dacie
+        Map<String, AttendanceRow> grouped = new TreeMap<>(); // posortowane po dacie
 
         for (Attendance att : rawData) {
             grouped.putIfAbsent(att.getDate(), new AttendanceRow(att.getDate()));
@@ -109,20 +99,20 @@ public class StudentAttendanceController {
 
     // Pomocnicza klasa do reprezentacji pojedynczego wiersza w tabeli
     public static class AttendanceRow {
-        private final LocalDate date;
+        private final String date;
         private final String[] statuses = new String[10];
 
-        public AttendanceRow(LocalDate date) {
+        public AttendanceRow(String  date) {
             this.date = date;
         }
 
         public void setStatus(int lessonNumber, String symbol) {
-            if (lessonNumber >= 1 && lessonNumber <= 10) {
-                statuses[lessonNumber - 1] = symbol;
+            if (lessonNumber >= 0 && lessonNumber < 10) {
+                statuses[lessonNumber] = symbol;
             }
         }
 
-        public LocalDate getDate() {
+        public String getDate() {
             return date;
         }
 

@@ -109,7 +109,7 @@ public class TeacherAttendanceController {
                     0, // tymczasowe ID
                     row.getStudentId(),
                     null, // scheduleId - opcjonalne
-                    datePicker.getValue(),
+                    datePicker.getValue().toString(),
                     lessonComboBox.getValue(),
                     row.getStatus()
             );
