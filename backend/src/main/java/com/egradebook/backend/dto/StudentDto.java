@@ -36,4 +36,11 @@ public class StudentDto {
     public String getSurname() {
         return surname;
     }
+
+    public String getPesel() {
+        return pesel;
+    }
+    public int getClass_id() {
+        return class_id;
+    }
 }

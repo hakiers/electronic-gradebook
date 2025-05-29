@@ -87,9 +87,9 @@ public class Teacher {
     }
 
     public void register(){
-        /*if(userRepository.findUserByPeselAndRole(pesel, "teacher") == null){
+        if(userRepository.existUserByPeselAndRole(pesel, "teacher")){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
-        }*/
+        }
         teacherRepository.saveTeacher(this);
     }
 

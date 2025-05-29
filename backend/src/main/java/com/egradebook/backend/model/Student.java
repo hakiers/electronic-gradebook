@@ -93,7 +93,7 @@ public class Student {
     }
 
     public void register(){
-        if(userRepository.findUserByPeselAndRole(pesel, "student") == null){
+        if(userRepository.existUserByPeselAndRole(pesel, "student")){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
         studentRepository.saveStudent(this);

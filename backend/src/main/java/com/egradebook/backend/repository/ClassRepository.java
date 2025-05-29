@@ -3,7 +3,6 @@ package com.egradebook.backend.repository;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Lesson;
 import com.egradebook.backend.model.Student;
-import com.egradebook.backend.utils.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
