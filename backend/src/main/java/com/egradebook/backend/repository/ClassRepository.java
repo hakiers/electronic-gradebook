@@ -81,4 +81,14 @@ public class ClassRepository {
         int assigned = jdbcTemplate.update(sql, new Object[]{teacher_id, class_id, subject_id, group_id});
         return assigned > 0;
     }
+
+    public void addLesson(Lesson lesson) {
+        String sql = """
+                INSERT INTO class_schedule (class_id, teacher_id, subject_id, group_id, day_of_week, lesson_number, room_number)
+                VALUES (?,?,?,?,?,?,?)
+                """;
+       jdbcTemplate.update(sql, lesson.getClass_id(), lesson.getTeacher_id(),
+               lesson.getSubject_id(), lesson.getGroup_id(), lesson.getDay_od_week(),
+               lesson.getLesson_number(), lesson.getRoom_number());
+    }
 }

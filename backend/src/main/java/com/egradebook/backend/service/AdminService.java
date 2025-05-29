@@ -77,4 +77,12 @@ public class AdminService {
 
     }
 
+    public List<Teacher> getTeachers(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view teachers!");
+        }
+        return teacherRepository.getAllTeachers();
+    }
+
 }

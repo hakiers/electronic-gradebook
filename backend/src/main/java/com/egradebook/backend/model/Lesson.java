@@ -3,7 +3,9 @@ package com.egradebook.backend.model;
 import com.egradebook.backend.repository.GroupRepository;
 import com.egradebook.backend.repository.SubjectRepository;
 import com.egradebook.backend.repository.TeacherRepository;
+import com.egradebook.backend.request.AddScheduleRequest;
 import com.egradebook.backend.utils.BeanUtil;
+import jakarta.servlet.http.HttpSession;
 
 public class Lesson {
     private int schedule_id;
@@ -23,6 +25,16 @@ public class Lesson {
     private final SubjectRepository subjectRepository =  BeanUtil.getBean(SubjectRepository.class);
 
     public Lesson(){}
+
+    public Lesson(AddScheduleRequest request) {
+        class_id = request.getClass_id();
+        teacher_id = request.getTeacher_id();
+        subject_id = request.getSubject_id();
+        group_id = request.getGroup_id();
+        day_od_week = request.getDay_of_week();
+        lesson_number = request.getLesson_number();
+        room_number = request.getRoom_number();
+    }
 
     public Lesson(int schedule_id, int class_id, int teacher_id, int subject_id, int group_id, int day_od_week, int lesson_number, int room_number) {
         this.schedule_id = schedule_id;
