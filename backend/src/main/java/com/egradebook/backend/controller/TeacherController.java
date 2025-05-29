@@ -75,7 +75,7 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.getClassSubjects(teacher_id, session));
     }
 
-    //to do dodac obsluge frekwencji
+
     @PostMapping("/add-attendance")
     public ResponseEntity<?> addAttendance(@RequestBody AddAttendanceRequest request, HttpSession session) {
         teacherService.addAttendance(request, session);
