@@ -8,6 +8,8 @@
 
 <?import javafx.collections.FXCollections?>
 <VBox spacing="10" alignment="TOP_CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.egradebook.frontend.controller.teacher.TeacherAttendanceController">
+    <Button text="wróć" fx:id="backButton" defaultButton="true"
+            onAction="#back"/>
     <DatePicker fx:id="datePicker" />
     <ComboBox fx:id="lessonComboBox" promptText="Wybierz lekcję" />
 

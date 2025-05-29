@@ -1,5 +1,10 @@
 package com.egradebook.frontend.controller.teacher;
 
+import com.egradebook.frontend.model.Clazz;
+import com.egradebook.frontend.model.Group;
+import com.egradebook.frontend.model.Subject;
+import com.egradebook.frontend.service.TeacherService;
+import com.egradebook.frontend.utils.Triple;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,30 +13,24 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
 
+import java.util.List;
+
 public class SelectClassController {
 
     //buttons
     @FXML private Button returnButton;
 
     //combobox
-    @FXML private ComboBox<Pair<String ,String>> selectBox;
+    @FXML private ComboBox<Triple> selectBox;
 
     public void initialize() {
         //TODO ADD LOGIC
-        selectBox.getItems().addAll(new Pair<>("1A", "Matematyka"),new Pair<>("1A","Informatyka"),
-                new Pair<>("2B","Informatyka"));
-        selectBox.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Pair<String, String> pair) {
-                if (pair == null) return "";
-                return pair.getKey() + " " + pair.getValue();
-            }
+        TeacherService.selectedClassId=-1;
+        List<Triple<Clazz, Subject, Group>> classes= TeacherService.getClassSubjects().getValue();
+        for(Triple<Clazz,Subject,Group> triple: classes) {
+            selectBox.getItems().add(triple);
+        }
 
-            @Override
-            public Pair<String, String> fromString(String string) {
-                return null;
-            }
-        });
     }
     public void back() {
         Stage stage=(Stage) returnButton.getScene().getWindow();
@@ -39,11 +38,31 @@ public class SelectClassController {
     }
 
     public void handleGrades() {
+
         Stage stage=(Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(stage,"/fxml/teacher/TeacherGrades.fxml", "Oceny");
+        if(selectBox.getSelectionModel().getSelectedItem()!=null) {
+            Clazz selectedCl=(Clazz)selectBox.getValue().getFirst();
+            TeacherService.selectedClassId=selectedCl.getClass_id();
+            Subject selectedSub=(Subject)selectBox.getValue().getSecond();
+            TeacherService.selectedSubjectId=selectedSub.getSubjectId();
+            Group selectedGroup=(Group)selectBox.getValue().getThird();
+            TeacherService.selectedGroupId=selectedGroup.getGroup_id();
+            ViewLoader.loadView(stage,"/fxml/teacher/TeacherGrades.fxml", "Oceny");
+        }
+
     }
     public void handleAttendance() {
+
         Stage stage=(Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(stage,"/fxml/teacher/TeacherAttendance.fxml", "Obecność");
+        if(selectBox.getValue()!=null) {
+            Clazz selectedCl=(Clazz)selectBox.getValue().getFirst();
+            TeacherService.selectedClassId=selectedCl.getClass_id();
+            Subject selectedSub=(Subject)selectBox.getValue().getSecond();
+            TeacherService.selectedSubjectId=selectedSub.getSubjectId();
+            Group selectedGroup=(Group)selectBox.getValue().getThird();
+            TeacherService.selectedGroupId=selectedGroup.getGroup_id();
+            ViewLoader.loadView(stage,"/fxml/teacher/TeacherAttendance.fxml", "Obecność");
+        }
     }
+
 }

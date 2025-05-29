@@ -37,7 +37,7 @@ public class TeacherGradesController {
     @FXML private TextField descriptionField;
     @FXML private TextField newGradeField;
 
-    private final List<Student> students = TeacherService.getStudentInClass(1).getValue();
+    private final List<Student> students = TeacherService.getStudentInClass(TeacherService.selectedClassId).getValue();
 
     Grade selected_grade;
 
@@ -134,7 +134,7 @@ public class TeacherGradesController {
         alert.showAndWait();
     }
 
-    private Long getStudentId(String fullName) {
+    private Integer getStudentId(String fullName) {
         return students.stream()
                 .filter(s -> s.getFullName().equals(fullName))
                 .findFirst()
@@ -155,13 +155,12 @@ public class TeacherGradesController {
         // Tworzymy mapę student_id -> Student dla łatwego wyszukiwania
         Map<Integer, Student> studentMap = students.stream()
                 .collect(Collectors.toMap(
-                        student -> student.getStudent_id().intValue(),
+                        student -> student.getStudent_id(),
                         student -> student
                 ));
 
         for(Student student : studentMap.values()) {
-            //TODO przedmiot wpisany na sztywno!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            List<Grade> studentGrades=TeacherService.getGradesForStudent(student.getStudent_id().intValue(),1).getValue();
+            List<Grade> studentGrades=TeacherService.getGradesForStudent(student.getStudent_id(),TeacherService.selectedSubjectId).getValue();
             if(studentGrades!=null && !studentGrades.isEmpty()) {
                 grades.addAll(studentGrades);
             }
@@ -173,7 +172,7 @@ public class TeacherGradesController {
 
         students.forEach(student -> {
             String fullName = student.getName() + " " + student.getSurname();
-            List<Grade> studentGrades = gradesByStudentId.getOrDefault(student.getStudent_id().intValue(), new ArrayList<>());
+            List<Grade> studentGrades = gradesByStudentId.getOrDefault(student.getStudent_id(), new ArrayList<>());
             studentGradesList.add(new StudentGrades(fullName, studentGrades));
         });
 
@@ -209,8 +208,8 @@ public class TeacherGradesController {
         }
     }
     private void refreshGrades() {
-        loadGrades(); // Ponownie ładuje dane
-        gradesTable.refresh(); // Wymusza odświeżenie widoku tabeli
+        loadGrades();
+        gradesTable.refresh();
     }
     @FXML
     private void delete() {

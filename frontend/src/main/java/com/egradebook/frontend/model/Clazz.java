@@ -12,18 +12,18 @@ public class Clazz {
     private String name;
     private String short_name;
     private String class_year;
-    private Teacher classTeacher;
+    private int class_teacher;
     private List<Student> students = new ArrayList<>();
     private List<Lesson> scheulde = new ArrayList<>();
 
     public Clazz() {};
 
-    public Clazz(int class_id, String name, String short_name, String class_year, Teacher classTeacher) {
+    public Clazz(int class_id, String name, String short_name, String class_year, int classTeacher) {
         this.class_id = class_id;
         this.name = name;
         this.short_name = short_name;
         this.class_year = class_year;
-        this.classTeacher = classTeacher;
+        this.class_teacher = classTeacher;
         students = TeacherService.getStudentInClass(class_id).getValue();
         List<Lesson> schedule = TeacherService.getScheduleForClass(class_id);
     }
@@ -44,8 +44,8 @@ public class Clazz {
         return class_year;
     }
 
-    public Teacher getClassTeacher() {
-        return classTeacher;
+    public int getClass_teacher() {
+        return class_teacher;
     }
 
 

@@ -1,10 +1,8 @@
 package com.egradebook.frontend.service;
 
-import com.egradebook.frontend.model.Attendance;
-import com.egradebook.frontend.model.Grade;
-import com.egradebook.frontend.model.Lesson;
-import com.egradebook.frontend.model.Student;
+import com.egradebook.frontend.model.*;
 import com.egradebook.frontend.utils.StudentConverter;
+import com.egradebook.frontend.utils.Triple;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.util.Pair;
@@ -16,8 +14,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class TeacherService {
-    static int selectedClassId;
-    static int selectedSubjectId;
+    public static int selectedClassId;
+    public static int selectedSubjectId;
+    public static int selectedGroupId;
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static Pair<Integer, List<Student>> getStudentInClass(int id) {
@@ -71,7 +70,35 @@ public class TeacherService {
             return new Pair<>(500, null);
         }
     }
+    public static Pair<Integer, List<Triple<Clazz, Subject,Group>>> getClassSubjects() {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
 
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/teacher/class_subject"))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                List<Triple<Clazz,Subject,Group>> lista = mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Triple<Clazz, Subject,Group>>>() {
+                        }
+                );
+                return new Pair<>(response.statusCode(), lista);
+            } else {
+                return new Pair<>(response.statusCode(),
+                        null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, null);
+        }
+    }
     private static final Map<String, List<Attendance>> attendanceDatabase = new HashMap<>();
 
     static {
@@ -82,25 +109,25 @@ public class TeacherService {
                 new Attendance(3, 9, null, LocalDate.of(2025, 5, 24).toString(), 2, Attendance.Status.LATE)
         ));
     }
-
-    public static List<Attendance> getAttendanceForDateAndLesson(LocalDate date, int lessonNumber, List<Long> studentIds) {
+    // TODO PRZEROBIĆ NA MODELE BAZY
+    public static List<Attendance> getAttendanceForDateAndLesson(LocalDate date, int lessonNumber, List<Integer> studentIds) {
         String key = date.toString() + "_" + lessonNumber;
         List<Attendance> records = attendanceDatabase.getOrDefault(key, new ArrayList<>());
 
         // Uzupełnij obecności — jeśli brak, to daj domyślnie PRESENT
         List<Attendance> fullList = new ArrayList<>();
-        for (Long studentId : studentIds) {
+        for (Integer studentId : studentIds) {
             Optional<Attendance> match = records.stream()
                     .filter(a -> a.getStudentId() == studentId)
                     .findFirst();
 
             fullList.add(match.orElse(
-                    new Attendance(0, studentId.intValue(), null, date.toString(), lessonNumber, Attendance.Status.PRESENCE)
+                    new Attendance(0, studentId, null, date.toString(), lessonNumber, Attendance.Status.PRESENCE)
             ));
         }
         return fullList;
     }
-
+    // TODO: PRZEROBIĆ NA NORMALNY ZAPIS
     public static void saveMockAttendance(List<Attendance> list) {
         if (list.isEmpty()) return;
         Attendance example = list.get(0);

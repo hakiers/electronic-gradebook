@@ -198,7 +198,7 @@ public class TeacherRepository {
     public List<Triple<Clazz, Subject, Group>> getTeacherClassesSubject(int teacher_id){
         String sql = " SELECT class_id, subject_id, group_id FROM teacher_class_subject WHERE teacher_id = ?";
 
-        List<Triple<Clazz, Subject, Group>> classSubject= (List<Triple<Clazz, Subject, Group>>) jdbcTemplate.queryForObject(sql, new Object[]{teacher_id}, (rs, rowNum) ->
+        List<Triple<Clazz, Subject, Group>> classSubject= (List<Triple<Clazz, Subject, Group>>) jdbcTemplate.query(sql, new Object[]{teacher_id}, (rs, rowNum) ->
                 new Triple<>(
                         classRepository.getClazz(rs.getInt("class_id")),
                         subjectRepository.getSubject(rs.getInt("subject_id")),

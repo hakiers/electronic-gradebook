@@ -6,17 +6,19 @@ import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.StudentAttendanceRow;
 import com.egradebook.frontend.utils.AttendanceTableConfigurer;
+import com.egradebook.frontend.utils.ViewLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherAttendanceController {
-
+    @FXML private Button backButton;
     @FXML private DatePicker datePicker;
     @FXML private ComboBox<Integer> lessonComboBox;
     @FXML private TableView<StudentAttendanceRow> attendanceTable;
@@ -40,7 +42,7 @@ public class TeacherAttendanceController {
         lessonComboBox.setOnAction(e -> loadAttendanceTable());
 
         // Możesz na start ustawić domyślnie datę na dziś i uzupełnić comboBox, jeśli chcesz:
-        // datePicker.setValue(LocalDate.now());
+         datePicker.setValue(LocalDate.now());
         // updateLessonComboBox();
     }
 
@@ -52,7 +54,7 @@ public class TeacherAttendanceController {
             return;
         }
 
-        // Pobierz wszystkie lekcje zaplanowane na ten dzień dla wybranej klasy
+        // TODO Pobierz wszystkie lekcje zaplanowane na ten dzień dla wybranej klasy
         List<Integer> lessons = TeacherService.getAllScheduledLessonsForDate(selectedClassId, selectedDate);
 
         lessonComboBox.setItems(FXCollections.observableArrayList(lessons));
@@ -72,7 +74,7 @@ public class TeacherAttendanceController {
         List<Student> students = TeacherService.getStudentInClass(selectedClassId).getValue();
         if (students == null) return;
 
-        List<Long> ids = students.stream().map(Student::getStudent_id).toList();
+        List<Integer> ids = students.stream().map(Student::getStudent_id).toList();
 
         List<Attendance> attendances = TeacherService.getAttendanceForDateAndLesson(
                 datePicker.getValue(),
@@ -129,5 +131,9 @@ public class TeacherAttendanceController {
 
     public void setSelectedClassId(int classId) {
         this.selectedClassId = classId;
+    }
+    public void back() {
+        Stage stage=(Stage) backButton.getScene().getWindow();
+        ViewLoader.goPrev(stage);
     }
 }
