@@ -171,7 +171,7 @@ public class TeacherRepository {
 
 
         sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
-        for(Subject subject: teacher.getTeachSubjects()){
+        for(Subject subject: teacher.getInitSubjects()){
             jdbcTemplate.update(sql, teacher_id, subject.getSubject_id());
         }
 
@@ -206,5 +206,13 @@ public class TeacherRepository {
                 )
         );
         return classSubject;
+    }
+
+    public List<Teacher> getAllTeachers() {
+        String sql = "SELECT teacher_id FROM teachers";
+        List<Teacher> teachers = (List<Teacher>) jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                getTeacher(rs.getInt("teacher_id"))
+        );
+        return teachers;
     }
 }

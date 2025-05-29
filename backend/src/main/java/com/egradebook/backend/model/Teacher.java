@@ -47,7 +47,7 @@ public class Teacher {
         this.name = teacher.getName();
         this.surname = teacher.getSurname();
         this.pesel = teacher.getPesel();
-        //sub list to do
+        this.teachSubjects = teacher.getSubjects();
     }
 
     public int getTeacher_id() {
@@ -101,16 +101,10 @@ public class Teacher {
     public void loadTeacherClassesSubjects(){
         if(teacher_id == 0) return;
         this.teachClassSubject = teacherRepository.getTeacherClassesSubject(this.teacher_id);
-        /*
-                .stream()
-                .map(teachClassSubject ->
-                {
-                    return new Triple<>(classRepository.getClazz(teachClassSubject.getFirst()),
-                            subjectRepository.getSubject(teachClassSubject.getSecond()),
-                            groupRepository.getGroup(teachClassSubject.getThird()));
-                }).toList();
+    }
 
-         */
+    public List<Subject> getInitSubjects() {
+        return teachSubjects;
     }
 
     public List<Subject> getTeachSubjects() {

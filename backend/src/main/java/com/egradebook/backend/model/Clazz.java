@@ -75,8 +75,7 @@ public class Clazz {
     }
 
     public void addLesson(Lesson lesson) {
-        //update w bazie?
-        schedule.add(lesson);
+        classRepository.addLesson(lesson);
     }
 
     public List<Lesson> getScheulde(int day_of_week) {
