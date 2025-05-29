@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Subject {
     @JsonProperty("subject_id")
-    private int subjectId;
+    private int subject_id;
 
     @JsonProperty("name")
     private String name;
@@ -13,17 +13,17 @@ public class Subject {
     public Subject() {}
 
     public Subject(int subjectId, String name) {
-        this.subjectId = subjectId;
+        this.subject_id = subjectId;
         this.name = name;
     }
 
     // Gettery i settery
-    public int getSubjectId() {
-        return subjectId;
+    public int getSubject_id() {
+        return subject_id;
     }
 
-    public void setSubjectId(int subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject_id(int subject_id) {
+        this.subject_id = subject_id;
     }
 
     public String getName() {
