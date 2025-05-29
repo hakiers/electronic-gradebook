@@ -33,12 +33,6 @@ public class Lesson {
         this.day_od_week = day_od_week;
         this.lesson_number = lesson_number;
         this.room_number = room_number;
-
-        if(schedule_id != 0){
-            subject = subjectRepository.getSubject(subject_id);
-            teacher = teacherRepository.getTeacher(teacher_id);
-            group = groupRepository.getGroup(group_id);
-        }
     }
 
     public int getSchedule_id() { return schedule_id; }
@@ -49,10 +43,36 @@ public class Lesson {
     public int getDay_od_week() { return day_od_week; }
     public int getLesson_number() { return lesson_number; }
     public int getRoom_number() { return room_number; }
-    public String getSubjectName() { return subject.getName(); }
-    public String getTeacherFullName(){return teacher.getFullName();}
-    public int getGroupNumber(){return group.getGroup_number(); };
 
+    public String getSubjectName() {
+        loadSubject();
+        return subject.getName();
+    }
+
+    public String getTeacherFullName(){
+        loadTeacher();
+        return teacher.getFullName();
+    }
+
+    public int getGroupNumber(){
+        loadGroup();
+        return group.getGroup_number();
+    };
+
+    public void loadSubject(){
+        if(subject_id == 0) return;
+        subject = subjectRepository.getSubject(subject_id);
+    }
+
+    public void loadTeacher(){
+        if(teacher_id == 0) return;
+        teacher = teacherRepository.getTeacher(teacher_id);
+    }
+
+    public void loadGroup(){
+        if(group_id == 0) return;
+        group = groupRepository.getGroup(group_id);
+    }
 
     public void setSchedule_id(int schedule_id) { this.schedule_id = schedule_id; }
     public void setClass_id(int class_id) { this.class_id = class_id; }

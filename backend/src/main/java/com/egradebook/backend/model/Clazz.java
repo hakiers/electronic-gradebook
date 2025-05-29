@@ -26,11 +26,21 @@ public class Clazz {
         this.name = name;
         this.short_name = short_name;
         this.class_year = class_year;
-        if(class_id != 0) {
-            this.classTeacher = teacherRepository.getClassTeacher(class_id);
-            this.students = classRepository.getStudentsInClass(class_id);
-            this.schedule = classRepository.getSchedule(class_id);
-        }
+    }
+
+    public void loadTeacher(){
+        if(class_id == 0) return;
+        this.classTeacher = teacherRepository.getClassTeacher(class_id);
+    }
+
+    public void loadStudent(){
+        if(class_id == 0) return;
+        this.students = classRepository.getStudentsInClass(class_id);
+    }
+
+    public void loadSchedule(){
+        if(class_id == 0) return;
+        this.schedule = classRepository.getSchedule(class_id);
     }
 
     public int getClass_id() {
@@ -50,6 +60,7 @@ public class Clazz {
     }
 
     public Teacher getClassTeacher() {
+        loadTeacher();
         return classTeacher;
     }
 
@@ -59,6 +70,7 @@ public class Clazz {
     }
 
     public List<Student> getStudents() {
+        loadStudent();
         return students;
     }
 
@@ -68,6 +80,7 @@ public class Clazz {
     }
 
     public List<Lesson> getScheulde(int day_of_week) {
+        loadSchedule();
         List<Lesson> lessons = new ArrayList<>();
         for (Lesson lesson : schedule) {
             if(lesson.getDay_od_week() == day_of_week){
@@ -78,6 +91,7 @@ public class Clazz {
     }
 
     public List<Lesson> getSchedule() {
+        loadSchedule();
         return schedule;
     }
 

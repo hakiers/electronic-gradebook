@@ -1,5 +1,6 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.dto.LessonDto;
 import com.egradebook.backend.dto.StudentProfile;
 import com.egradebook.backend.dto.SubjectsWithGradesDto;
 import com.egradebook.backend.exception.UnauthorizedException;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,12 +67,16 @@ public class StudentService {
         return student.profile();
     }
 
-    public List<Lesson> getSchedule(HttpSession session) {
+    public List<LessonDto> getSchedule(HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if(!loggedUser.isStudent()) {
             throw new UnauthorizedException("You are no student");
         }
         Student student = studentRepository.getStudent(loggedUser.getRoleId());
-        return student.getSchedule();
+        List<LessonDto> schedule = student.getSchedule().stream()
+                .map(lesson -> {
+                    return new LessonDto(lesson);
+                }).toList();
+        return schedule;
     }
 }
