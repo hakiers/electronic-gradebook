@@ -32,8 +32,8 @@ public class TeacherScheduleController {
             Label lessonLabel = createHeaderLabel("Lekcja " + lessonNum);
             timetableGrid.add(lessonLabel, 0, lessonNum);
         }
-
-        //List<Lesson> lessons = StudentService.getSchedule().getValue();
+        
+        //TODO KORZYSTAM ZE ZHARDKODOWANEJ MAPY
         List<Lesson> lessons= TeacherService.getScheduleForClass(1);
         for (Lesson lesson : lessons) {
             int dayIndex = lesson.getDay_od_week(); // 1-5 (Pon-Pt)
