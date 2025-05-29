@@ -157,5 +157,4 @@ public class Teacher {
     /*public List<Pair<Student,Attendance>> getAttendanceByClassAndLesson(GetAttendanceByClassAndLessonRequest attendance){
         return teacherRepository.getAttendanceByClassAndLesson(attendance);
     }*/
-
 }
