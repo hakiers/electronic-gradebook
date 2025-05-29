@@ -46,8 +46,8 @@ public class UserRepository {
 
     public boolean existUserByPesel(String pesel) {
         String sql = "SELECT u.user_id, u.username, u.password, u.role FROM users u JOIN personal_data p ON u.user_id = p.user_id WHERE p.pesel = ?";
-        int count = jdbcTemplate.queryForObject(sql, new Object[]{pesel}, Integer.class);
-        return count > 0;
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{pesel}, Integer.class);
+        return count != null && count > 0;
     }
 
     public User findUserByPesel(String pesel){
@@ -87,8 +87,8 @@ public class UserRepository {
                 FROM users u JOIN personal_data p ON u.user_id = p.user_id 
                 WHERE p.pesel = ? AND u.role = ?
                 """;
-        int count = jdbcTemplate.queryForObject(sql, new Object[]{pesel, role}, Integer.class);
-        return count > 0;
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{pesel, role}, Integer.class);
+        return count != null && count > 0;
     }
 
     public User saveUser(User user) {
