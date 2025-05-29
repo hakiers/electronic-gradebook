@@ -92,8 +92,9 @@ public class StudentRepository {
 
     public List<Attendance> getStudentsAttendanceByDate(int student_id, String date) {
         String sql = """
-                SELECT * FROM attendance WHERE student_id = ? AND date = ? ORDER BY date;
+                SELECT * FROM attendance WHERE student_id = ? AND date = ?::date ORDER BY date;
                 """;
+
         List<Attendance> attendance = jdbcTemplate.query(sql, new Object[]{student_id, date}, (rs, rowNum) ->
                     new Attendance(
                             rs.getInt("student_id"),
