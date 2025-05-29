@@ -158,4 +158,13 @@ public class TeacherService {
         teacher.editAttendance(request);
     }
 
+    public List<Lesson> getSchedule(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isTeacher()) {
+            throw new UnauthorizedException("User is not a teacher");
+        }
+        Teacher teacher = teacherRepository.getTeacher(loggedUser.getRoleId());
+        return teacher.getSchedule();
+    }
+
 }

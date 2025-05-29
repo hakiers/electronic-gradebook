@@ -178,4 +178,10 @@ public class Teacher {
     public List<Pair<Student, Attendance>> getAttendanceByClassAndLesson(GetAttendanceByLessonRequest attendance){
         return teacherRepository.getAttendanceByLesson(attendance);
     }
+
+
+    //pobieranie planu zajec dla nauczyciela
+    public List<Lesson> getSchedule(){
+        return teacherRepository.getSchedule(teacher_id);
+    }
 }

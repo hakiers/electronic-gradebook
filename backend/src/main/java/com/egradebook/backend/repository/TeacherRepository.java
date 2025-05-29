@@ -232,4 +232,23 @@ public class TeacherRepository {
                     )
                 );
     }
+
+    public List<Lesson> getSchedule(int teacher_id){
+        String sql = """
+                SELECT * FROM class_schedule WHERE teacher_id = ?
+                """;
+        return jdbcTemplate.query(sql, new Object[]{teacher_id}, (rs, rowNum) ->
+                new Lesson(
+                        rs.getInt("schedule_id"),
+                        rs.getInt("class_id"),
+                        rs.getInt("teacher_id"),
+                        rs.getInt("subject_id"),
+                        rs.getInt("group_id"),
+                        rs.getInt("day_of_week"),
+                        rs.getInt("lesson_number"),
+                        rs.getInt("room_number")
+
+                )
+        );
+    }
 }

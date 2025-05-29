@@ -88,6 +88,8 @@ public class TeacherController {
         return ResponseEntity.ok("Attendance edited successfully");
     }
 
-
-
+    @GetMapping("/schedule")
+    public ResponseEntity<?> getSchedule(HttpSession session) {
+        return ResponseEntity.ok(teacherService.getSchedule(session));
+    }
 }
