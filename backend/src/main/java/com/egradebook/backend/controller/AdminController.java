@@ -1,8 +1,6 @@
 package com.egradebook.backend.controller;
 
-import com.egradebook.backend.request.AssignTeacherRequest;
-import com.egradebook.backend.request.StudentRegistrationRequest;
-import com.egradebook.backend.request.TeacherRegistrationRequest;
+import com.egradebook.backend.request.*;
 import com.egradebook.backend.service.AdminService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +33,23 @@ public class AdminController {
     @GetMapping("/subjects")
     public ResponseEntity<?> getSubjects(HttpSession session) {
         return ResponseEntity.ok(adminService.getSubjects(session));
+    }
+
+    @PostMapping("/add-classprofile")
+    public ResponseEntity<?> addClassProfile(@RequestBody AddClassProfileRequest request, HttpSession session) {
+        adminService.addNewClassProfile(request, session);
+        return ResponseEntity.ok("Class profile added successfully");
+    }
+
+    @PostMapping("/add-class")
+    public ResponseEntity<?> addClass(@RequestBody AddClassRequest request, HttpSession session){
+        adminService.addNewClass(request, session);
+        return ResponseEntity.ok("Class added successfully");
+    }
+
+    @PostMapping("/add-subject/{name}")
+    public ResponseEntity<?> addSubject(HttpSession session, @PathVariable String name){
+        adminService.addNewSubject(session, name);
+        return ResponseEntity.ok("Subject added successfully");
     }
 }

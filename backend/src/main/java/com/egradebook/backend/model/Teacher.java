@@ -1,12 +1,12 @@
 package com.egradebook.backend.model;
 
-import ch.qos.logback.core.joran.sanity.Pair;
-import com.egradebook.backend.dto.ClazzDto;
+import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.*;
 import com.egradebook.backend.request.*;
 import com.egradebook.backend.utils.BeanUtil;
+import com.egradebook.backend.utils.Pair;
 import com.egradebook.backend.utils.Triple;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -175,7 +175,7 @@ public class Teacher {
         }
     }
     //wyswietlanie frekwencji z biezacej lekcji
-    /*public List<Pair<Student,Attendance>> getAttendanceByClassAndLesson(GetAttendanceByClassAndLessonRequest attendance){
-        return teacherRepository.getAttendanceByClassAndLesson(attendance);
-    }*/
+    public List<Pair<Student, Attendance>> getAttendanceByClassAndLesson(GetAttendanceByLessonRequest attendance){
+        return teacherRepository.getAttendanceByLesson(attendance);
+    }
 }

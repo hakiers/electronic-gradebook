@@ -3,7 +3,10 @@ package com.egradebook.backend.repository;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Lesson;
 import com.egradebook.backend.model.Student;
+import com.egradebook.backend.request.AddClassProfileRequest;
+import com.egradebook.backend.request.AddClassRequest;
 import com.egradebook.backend.utils.BeanUtil;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -80,5 +83,21 @@ public class ClassRepository {
                 """;
         int assigned = jdbcTemplate.update(sql, new Object[]{teacher_id, class_id, subject_id, group_id});
         return assigned > 0;
+    }
+
+    public void addNewClassProfile(AddClassProfileRequest request){
+        String sql = """
+                INSERT INTO class_profile (short_name, name)
+                VALUES (?, ?)
+                """;
+        jdbcTemplate.update(sql, new Object[]{request.getProfile_shortcut(), request.getDescription()});
+    }
+
+    public void addNewClass(AddClassRequest request){
+        String sql = """
+                INSERT INTO classes (class_profile, class_teacher, class_year)
+                VALUES (?, ?, ?)
+                """;
+        jdbcTemplate.update(sql, new Object[]{request.getClass_profile(), request.getClass_teacher(), request.getClass_year()});
     }
 }
