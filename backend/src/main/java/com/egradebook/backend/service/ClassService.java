@@ -4,7 +4,6 @@ import com.egradebook.backend.dto.ClazzDto;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Lesson;
 import com.egradebook.backend.model.Student;
-import com.egradebook.backend.model.User;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.request.AddScheduleRequest;
 import jakarta.servlet.http.HttpSession;
