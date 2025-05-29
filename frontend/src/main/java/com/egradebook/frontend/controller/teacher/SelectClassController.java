@@ -10,8 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import javafx.util.StringConverter;
 
 import java.util.List;
 
@@ -40,7 +38,7 @@ public class SelectClassController {
             Clazz selectedCl=(Clazz)selectBox.getValue().getFirst();
             TeacherService.selectedClassId=selectedCl.getClass_id();
             Subject selectedSub=(Subject)selectBox.getValue().getSecond();
-            TeacherService.selectedSubjectId=selectedSub.getSubjectId();
+            TeacherService.selectedSubjectId=selectedSub.getSubject_id();
             Group selectedGroup=(Group)selectBox.getValue().getThird();
             TeacherService.selectedGroupId=selectedGroup.getGroup_id();
             ViewLoader.loadView(stage,"/fxml/teacher/TeacherGrades.fxml", "Oceny");
@@ -54,7 +52,7 @@ public class SelectClassController {
             Clazz selectedCl=(Clazz)selectBox.getValue().getFirst();
             TeacherService.selectedClassId=selectedCl.getClass_id();
             Subject selectedSub=(Subject)selectBox.getValue().getSecond();
-            TeacherService.selectedSubjectId=selectedSub.getSubjectId();
+            TeacherService.selectedSubjectId=selectedSub.getSubject_id();
             Group selectedGroup=(Group)selectBox.getValue().getThird();
             TeacherService.selectedGroupId=selectedGroup.getGroup_id();
             ViewLoader.loadView(stage,"/fxml/teacher/TeacherAttendance.fxml", "Obecność");
