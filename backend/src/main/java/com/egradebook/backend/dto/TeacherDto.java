@@ -1,5 +1,34 @@
 package com.egradebook.backend.dto;
 
-public class TeacherDto {
+import com.egradebook.backend.model.Subject;
+import com.egradebook.backend.model.Teacher;
 
+public class TeacherDto {
+    private int teacher_id;
+    private String name;
+    private String surname;
+    private String pesel;
+
+    public TeacherDto(Teacher teacher) {
+        this.name = teacher.getName();
+        this.surname = teacher.getSurname();
+        this.pesel = teacher.getPesel();
+        this.teacher_id = teacher.getTeacher_id();
+    }
+
+    public int getTeacher_id() {
+        return teacher_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getPesel() {
+        return pesel;
+    }
 }
