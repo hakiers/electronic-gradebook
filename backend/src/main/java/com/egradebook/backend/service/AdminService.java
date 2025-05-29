@@ -36,8 +36,8 @@ public class AdminService {
         LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
 
         Teacher newteacher = new Teacher(request);
-        newteacher.setUsername(loggedUser.getUsername());
-        newteacher.setPassword(loggedUser.getPassword());
+        newteacher.setUsername(loginData.getUsername());
+        newteacher.setPassword(loginData.getPassword());
         newteacher.register();
         return loginData;
     }
@@ -50,8 +50,8 @@ public class AdminService {
 
         LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
         Student newstudent = new Student(request);
-        newstudent.setUsername(loggedUser.getUsername());
-        newstudent.setPassword(loggedUser.getPassword());
+        newstudent.setUsername(loginData.getUsername());
+        newstudent.setPassword(loginData.getPassword());
         newstudent.register();
         return loginData;
     }
