@@ -39,7 +39,7 @@
         <TextField fx:id="peselField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
         <Label text="Klasa:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <IntegerField fx:id="class_idField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <ComboBox fx:id="class_idBox" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
         <Label fx:id="usernameLabel" text="Nazwa użytkownika:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
         <TextField fx:id="usernameField" GridPane.rowIndex="1" GridPane.columnIndex="2"/>

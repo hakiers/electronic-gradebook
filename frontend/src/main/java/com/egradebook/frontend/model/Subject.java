@@ -3,7 +3,6 @@ package com.egradebook.frontend.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Subject {
-    @JsonProperty("subject_id")
     private int subject_id;
 
     @JsonProperty("name")
@@ -12,8 +11,8 @@ public class Subject {
     // Konstruktor bezargumentowy wymagany przez Jacksona
     public Subject() {}
 
-    public Subject(int subjectId, String name) {
-        this.subject_id = subjectId;
+    public Subject(int subject_id, String name) {
+        this.subject_id = subject_id;
         this.name = name;
     }
 

@@ -1,6 +1,8 @@
 package com.egradebook.frontend.controller.admin;
 
+import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.LoginData;
+import com.egradebook.frontend.service.ClassService;
 import com.egradebook.frontend.service.RegisterService;
 import com.egradebook.frontend.utils.IntegerField;
 import com.egradebook.frontend.utils.ViewLoader;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.util.List;
 
 public class StudentRegistrationController {
     @FXML private VBox mainContainer;
@@ -29,7 +32,7 @@ public class StudentRegistrationController {
     @FXML private TextField peselField;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
-    @FXML private IntegerField class_idField;
+    @FXML private ComboBox<Clazz> class_idBox;
 
     //napisy
     @FXML private Label errorLabel;
@@ -49,6 +52,8 @@ public class StudentRegistrationController {
             }
             isChangeMode = (newVal == changeButton);
         });
+        List<Clazz> classes= ClassService.getAllClasses().getValue();
+        class_idBox.getItems().addAll(classes);
         Platform.runLater(() -> {
             Scene scene = mainContainer.getScene();
             URL cssUrl = getClass().getResource("/css/styles.css");
@@ -72,7 +77,7 @@ public class StudentRegistrationController {
         nameField.clear();
         surnameField.clear();
         peselField.clear();
-        class_idField.clear();
+        class_idBox.setValue(null);
         errorLabel.setText("");
         correctLabel.setText("");
     }
@@ -81,7 +86,7 @@ public class StudentRegistrationController {
         String name = nameField.getText();
         String surname = surnameField.getText();
         String pesel = peselField.getText();
-        Integer class_id = class_idField.getValue();
+        Integer class_id = class_idBox.getValue().getClass_id();
         Pair<Integer, LoginData> RegistrationInfo= RegisterService.registerStudent(name,surname,pesel,class_id);
         LoginData loginData = RegistrationInfo.getValue();
         if(RegistrationInfo.getKey()==200){
@@ -101,7 +106,7 @@ public class StudentRegistrationController {
         String name = nameField.getText();
         String surname = surnameField.getText();
         String pesel = peselField.getText();
-        Integer class_id = class_idField.getValue();
+        //Integer class_id = class_idField.getValue();
         clear();
         correctLabel.setVisible(true);
         correctLabel.setText("Zmieniono dane ucznia");
