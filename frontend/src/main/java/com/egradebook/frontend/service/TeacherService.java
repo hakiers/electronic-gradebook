@@ -107,7 +107,7 @@ public class TeacherService {
 
             HttpRequest request = HttpRequest.newBuilder()
                     // TODO NIE MA METODY W BACKENDZIE
-                    .uri(new URI("http://localhost:8080/api/teacher/"))
+                    .uri(new URI("http://localhost:8080/api/teacher/schedule"))
                     .header("Content-Type", "application/json")
                     .GET()
                     .build();
