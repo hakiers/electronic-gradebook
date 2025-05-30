@@ -6,9 +6,7 @@ import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.repository.SubjectRepository;
 import com.egradebook.backend.repository.TeacherRepository;
-import com.egradebook.backend.request.AssignTeacherRequest;
-import com.egradebook.backend.request.StudentRegistrationRequest;
-import com.egradebook.backend.request.TeacherRegistrationRequest;
+import com.egradebook.backend.request.*;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.utils.Generator;
@@ -86,6 +84,30 @@ public class AdminService {
         }
         List<TeacherDto> teachers = teacherRepository.getAllTeachers().stream().map(TeacherDto::new).collect(Collectors.toList());
         return teachers;
+    }
+
+    public void addNewClassProfile(AddClassProfileRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can add class profile!");
+        }
+        classRepository.addNewClassProfile(request);
+    }
+
+    public void addNewClass(AddClassRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can add class!");
+        }
+        classRepository.addNewClass(request);
+    }
+
+    public void addNewSubject(HttpSession session, String name) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can add subject!");
+        }
+        subjectRepository.addNewSubject(name);
     }
 
 }

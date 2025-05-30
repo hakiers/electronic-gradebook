@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.egradebook.frontend.controller.teacher.TeacherScheduleController">
+    <HBox style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+        <Button text="wróć" onAction="#back" style="-fx-font-weight: bold;"/>
+        <Label text="Plan lekcji" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-padding: 0 0 0 10;"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true">
+        <GridPane fx:id="timetableGrid" gridLinesVisible="true" style="-fx-padding: 10;">
+        </GridPane>
+    </ScrollPane>
+</VBox>

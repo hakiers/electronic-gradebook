@@ -1,6 +1,7 @@
 package com.egradebook.backend.repository;
 
 import com.egradebook.backend.dto.UserContactData;
+import com.egradebook.backend.dto.UserPersonalData;
 import com.egradebook.backend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -103,13 +104,26 @@ public class UserRepository {
     }
 
     public UserContactData getUserContactData(int user_id){
-        String sql = "SELECT phone_number, email, adress FROM contact_info WHERE user_id = ?";
+        String sql = "SELECT phone_number, email, address FROM contact_info WHERE user_id = ?";
 
-        return (UserContactData) jdbcTemplate.query(sql, new Object[]{user_id}, (rs, rowNum) ->
+        return jdbcTemplate.queryForObject(sql, new Object[]{user_id}, (rs, rowNum) ->
                 new UserContactData(
                         rs.getString("phone_number"),
                         rs.getString("email"),
-                        rs.getString("adress")
+                        rs.getString("address")
+                )
+        );
+    }
+
+    public UserPersonalData getUserPersonalData(int user_id){
+        String sql = """
+                SELECT name, surname, pesel FROM personal_data WHERE user_id = ?
+                """;
+        return jdbcTemplate.queryForObject(sql, new Object[]{user_id}, (rs, rowNum) ->
+                new UserPersonalData(
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getString("pesel")
                 )
         );
     }

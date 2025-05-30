@@ -40,7 +40,7 @@ public class GradeService {
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(new URI("http://localhost:8080/api/teacher/remove-grade"))
                     .header("Content-Type", "application/json")
-                    .DELETE()
+                    .method("DELETE", HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = UserService.client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
             //System.out.println(response.statusCode());

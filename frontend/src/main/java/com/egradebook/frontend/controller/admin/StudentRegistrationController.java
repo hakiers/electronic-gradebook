@@ -4,7 +4,6 @@ import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.LoginData;
 import com.egradebook.frontend.service.ClassService;
 import com.egradebook.frontend.service.RegisterService;
-import com.egradebook.frontend.utils.IntegerField;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

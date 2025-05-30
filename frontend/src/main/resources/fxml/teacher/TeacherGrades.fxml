@@ -32,6 +32,6 @@
     <HBox style="-fx-padding: 10 0 0 0;">
         <TextField fx:id="newGradeField" promptText="Nowa ocena" HBox.hgrow="ALWAYS"/>
         <Button fx:id="editGradeButton" text="edytuj" style="-fx-base: green;" onAction="#edit"/>
-        <Button fx:id="eraseGradeButton" text="usuń" style="-fx-base: red;"/>
+        <Button fx:id="eraseGradeButton" text="usuń" style="-fx-base: red;" onAction="#delete"/>
     </HBox>
 </VBox>

@@ -1,8 +1,10 @@
 package com.egradebook.backend.repository;
 
-import ch.qos.logback.core.joran.sanity.Pair;
+import com.egradebook.backend.dto.Attendance;
+import com.egradebook.backend.dto.StudentDto;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.request.*;
+import com.egradebook.backend.utils.Pair;
 import com.egradebook.backend.utils.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -23,6 +25,8 @@ public class TeacherRepository {
     private SubjectRepository subjectRepository;
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
     public List<Integer> getTeacherSubjectsWithId(int teacher_id){
         String sql = "SELECT subject_id FROM teacher_subject WHERE teacher_id = ?";
@@ -207,6 +211,45 @@ public class TeacherRepository {
                 )
         );
         return classSubject;
+    }
+
+
+    public List<Pair<Student, Attendance>> getAttendanceByLesson(GetAttendanceByLessonRequest attendance){
+        String sql = """
+                SELECT * FROM attendance WHERE schedule_id = ? AND date = ?;                
+                """;
+
+        return jdbcTemplate.query(sql, new Object[]{attendance.getSchedule_id(), attendance.getDate()}, (rs, rowNum) ->
+                    new Pair<>(
+                            studentRepository.getStudent(rs.getInt("student_id")),
+                            new Attendance(
+                                    rs.getInt("student_id"),
+                                    rs.getInt("attendane_id"),
+                                    rs.getInt("schedule_id"),
+                                    rs.getString("status"),
+                                    rs.getString("date")
+                            )
+                    )
+                );
+    }
+
+    public List<Lesson> getSchedule(int teacher_id){
+        String sql = """
+                SELECT * FROM class_schedule WHERE teacher_id = ?
+                """;
+        return jdbcTemplate.query(sql, new Object[]{teacher_id}, (rs, rowNum) ->
+                new Lesson(
+                        rs.getInt("schedule_id"),
+                        rs.getInt("class_id"),
+                        rs.getInt("teacher_id"),
+                        rs.getInt("subject_id"),
+                        rs.getInt("group_id"),
+                        rs.getInt("day_of_week"),
+                        rs.getInt("lesson_number"),
+                        rs.getInt("room_number")
+
+                )
+        );
     }
 
     public List<Teacher> getAllTeachers() {

@@ -1,5 +1,6 @@
 package com.egradebook.backend.controller;
 
+import com.egradebook.backend.request.*;
 import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.request.AddScheduleRequest;
@@ -50,6 +51,24 @@ public class AdminController {
     @GetMapping("/subjects")
     public ResponseEntity<?> getSubjects(HttpSession session) {
         return ResponseEntity.ok(adminService.getSubjects(session));
+    }
+
+    @PostMapping("/add-classprofile")
+    public ResponseEntity<?> addClassProfile(@RequestBody AddClassProfileRequest request, HttpSession session) {
+        adminService.addNewClassProfile(request, session);
+        return ResponseEntity.ok("Class profile added successfully");
+    }
+
+    @PostMapping("/add-class")
+    public ResponseEntity<?> addClass(@RequestBody AddClassRequest request, HttpSession session){
+        adminService.addNewClass(request, session);
+        return ResponseEntity.ok("Class added successfully");
+    }
+
+    @PostMapping("/add-subject/{name}")
+    public ResponseEntity<?> addSubject(HttpSession session, @PathVariable String name){
+        adminService.addNewSubject(session, name);
+        return ResponseEntity.ok("Subject added successfully");
     }
 
     @PutMapping("/schedule/add")

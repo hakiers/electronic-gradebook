@@ -1,7 +1,5 @@
 package com.egradebook.frontend.model;
 
-import com.egradebook.frontend.model.Student;
-
 public class Student {
     private int student_id;
     private String name;

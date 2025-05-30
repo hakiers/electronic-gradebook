@@ -1,10 +1,12 @@
 package com.egradebook.backend.repository;
 
 import com.egradebook.backend.model.Subject;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -38,5 +40,10 @@ public class SubjectRepository {
     public String getSubjectName(int subject_id){
         String sql = "SELECT subject FROM subjects WHERE subject_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{subject_id}, String.class);
+    }
+
+    public void addNewSubject(String name){
+        String sql = "INSERT INTO subjects (name) VALUES (?)";
+        jdbcTemplate.update(sql, name);
     }
 }
