@@ -98,6 +98,12 @@ public class AdminController {
         return ResponseEntity.ok("Schedule added successfully");
     }
 
+    @DeleteMapping("/schedule/remove/{schedule_id}")
+    public ResponseEntity<?> removeSchedule(@PathVariable int schedule_id, HttpSession session) {
+        classService.removeLesson(schedule_id, session);
+        return ResponseEntity.ok("Schedule removed successfully");
+    }
+
     @PutMapping("/edit-personaldata/{user_id}")
     public ResponseEntity<?> editPersonalInfo(@RequestBody EditUserPersonalDataRequest request, @PathVariable int user_id, HttpSession session){
         return ResponseEntity.ok(adminService.editUserPersonalInfo(request, user_id, session));
@@ -107,5 +113,7 @@ public class AdminController {
     public ResponseEntity<?> getTeachers(@PathVariable int subject_id, HttpSession session){
         return ResponseEntity.ok(adminService.getTeachersForSubject(subject_id, session));
     }
+
+
 
 }

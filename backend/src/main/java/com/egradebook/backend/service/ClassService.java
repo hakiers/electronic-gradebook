@@ -54,5 +54,9 @@ public class ClassService {
         clazz.addLesson(lesson);
     }
 
+    public void removeLesson(int schedule_id, HttpSession session) {
+        classRepository.removeLesson(schedule_id);
+    }
+
 
 }

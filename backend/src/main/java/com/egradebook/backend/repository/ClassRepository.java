@@ -116,4 +116,11 @@ public class ClassRepository {
                lesson.getLesson_number(), lesson.getRoom_number());
     }
 
+    public void removeLesson(int schedule_id) {
+        String sql = """
+                DELETE FROM class_schedule WHERE schedule_id = ?
+                """;
+        jdbcTemplate.update(sql, new Object[]{schedule_id});
+    }
+
 }
