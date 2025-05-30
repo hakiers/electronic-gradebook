@@ -124,6 +124,7 @@ public class TeacherGradesController {
             showAlert("Nie dodano żadnych ocen. Wprowadź oceny w odpowiednie pola.");
         }
         descriptionField.clear();
+        refreshGrades();
     }
 
     private void showSuccessAlert(String message) {
@@ -141,13 +142,7 @@ public class TeacherGradesController {
                 .map(Student::getStudent_id).orElse(null);
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Uwaga");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 
     private void loadGrades() {
         List<Grade> grades = new ArrayList<>();
@@ -186,7 +181,9 @@ public class TeacherGradesController {
             showAlert("Wybierz ocenę do edycji");
             return;
         }
-
+        if (!showConfirmation("Czy na pewno chcesz edytować ocenę?")) {
+            return;
+        }
         try {
             float newGradeValue = Float.parseFloat(newGradeField.getText());
             if (newGradeValue < 1 || newGradeValue > 6) {
@@ -214,6 +211,9 @@ public class TeacherGradesController {
     }
     @FXML
     private void delete() {
+        if (!showConfirmation("Czy na pewno chcesz usunąć ocenę?")) {
+            return;
+        }
         RemoveGradeRequest request = new RemoveGradeRequest(selected_grade.getGrade_id());
         GradeService.deleteGrade(request);
         refreshGrades();
@@ -223,4 +223,25 @@ public class TeacherGradesController {
         Stage currentStage = (Stage) returnButton.getScene().getWindow();
         ViewLoader.goPrev(currentStage);
     }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Uwaga");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    private boolean showConfirmation(String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Potwierdzenie");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        ButtonType okButton = new ButtonType("Tak", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButton = new ButtonType("Nie", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(okButton, cancelButton);
+
+        return alert.showAndWait().orElse(cancelButton) == okButton;
+    }
+
 }
