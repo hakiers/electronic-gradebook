@@ -21,13 +21,18 @@ public class AdminPageController {
         ViewLoader.loadView(currentStage, "/fxml/shared/Login.fxml", "eGradeBook - Logowanie");
     }
 
-    public void handleAddStudent() {
+    public void handleManageStudents() {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage, "/fxml/admin/StudentRegistration.fxml", "eGradeBook - Dodaj ucznia");
+        ViewLoader.loadView(currentStage, "/fxml/admin/ManageStudents.fxml", "Zarządanie ucznami");
     }
 
-    public void handleAddTeacher() {
+    public void handleManageTeachers() {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage,"/fxml/admin/TeacherRegistration.fxml", "eGradeBook - Dodaj nauczyciela");
+        ViewLoader.loadView(currentStage, "/fxml/admin/ManageTeachers.fxml", "Zarządanie nauczycielami");
+    }
+
+    public void handleManageClasses() {
+        Stage currentStage = (Stage) logoutButton.getScene().getWindow();
+        ViewLoader.loadView(currentStage, "/fxml/admin/ManageClasses.fxml", "Zarządanie klasami");
     }
 }

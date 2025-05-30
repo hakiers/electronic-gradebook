@@ -1,7 +1,5 @@
 package com.egradebook.frontend.model;
 
-
-
 import com.egradebook.frontend.utils.Triple;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

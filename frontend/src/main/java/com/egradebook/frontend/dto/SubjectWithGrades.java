@@ -9,7 +9,6 @@ public class SubjectWithGrades {
     private Subject subject;
     private List<Grade> grades;
 
-    // ❗️Bezargumentowy konstruktor wymagany przez Jacksona
     public SubjectWithGrades() {}
 
     public SubjectWithGrades(Subject subject, List<Grade> gradesList) {
