@@ -12,6 +12,7 @@ import com.egradebook.backend.utils.Pair;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,6 +122,14 @@ public class AdminService {
             throw new ForbiddenOperationException("Only admin can add class!");
         }
         classRepository.addNewClass(request);
+    }
+
+    public void deleteClass(int class_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can delete class!");
+        }
+        classRepository.deleteClass(class_id);
     }
 
     public void addNewSubject(HttpSession session, String name) {

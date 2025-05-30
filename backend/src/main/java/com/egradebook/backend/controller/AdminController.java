@@ -86,6 +86,12 @@ public class AdminController {
         return ResponseEntity.ok("Class added successfully");
     }
 
+    @DeleteMapping("/delete-class/{class_id}")
+    public ResponseEntity<?> deleteClass(@PathVariable int class_id, HttpSession session) {
+        adminService.deleteClass(class_id, session);
+        return ResponseEntity.ok("Class deleted successfully");
+    }
+
     @PostMapping("/add-subject/{name}")
     public ResponseEntity<?> addSubject(HttpSession session, @PathVariable String name){
         adminService.addNewSubject(session, name);
@@ -98,6 +104,12 @@ public class AdminController {
         return ResponseEntity.ok("Schedule added successfully");
     }
 
+    @DeleteMapping("/schedule/remove/{schedule_id}")
+    public ResponseEntity<?> removeSchedule(@PathVariable int schedule_id, HttpSession session) {
+        classService.removeLesson(schedule_id, session);
+        return ResponseEntity.ok("Schedule removed successfully");
+    }
+
     @PutMapping("/edit-personaldata/{user_id}")
     public ResponseEntity<?> editPersonalInfo(@RequestBody EditUserPersonalDataRequest request, @PathVariable int user_id, HttpSession session){
         return ResponseEntity.ok(adminService.editUserPersonalInfo(request, user_id, session));
@@ -107,5 +119,7 @@ public class AdminController {
     public ResponseEntity<?> getTeachers(@PathVariable int subject_id, HttpSession session){
         return ResponseEntity.ok(adminService.getTeachersForSubject(subject_id, session));
     }
+
+
 
 }

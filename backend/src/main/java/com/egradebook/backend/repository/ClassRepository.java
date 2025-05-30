@@ -106,6 +106,13 @@ public class ClassRepository {
         jdbcTemplate.update(sql, new Object[]{request.getClass_profile(), request.getClass_teacher(), request.getClass_year()});
     }
 
+    public void deleteClass(int class_id){
+        String sql = """
+                DELETE FROM classes WHERE class_id = ?
+                """;
+        jdbcTemplate.update(sql, new Object[]{class_id});
+    }
+
     public void addLesson(Lesson lesson) {
         String sql = """
                 INSERT INTO class_schedule (class_id, teacher_id, subject_id, group_id, day_of_week, lesson_number, room_number)
@@ -114,6 +121,13 @@ public class ClassRepository {
        jdbcTemplate.update(sql, lesson.getClass_id(), lesson.getTeacher_id(),
                lesson.getSubject_id(), lesson.getGroup_id(), lesson.getDay_od_week(),
                lesson.getLesson_number(), lesson.getRoom_number());
+    }
+
+    public void removeLesson(int schedule_id) {
+        String sql = """
+                DELETE FROM class_schedule WHERE schedule_id = ?
+                """;
+        jdbcTemplate.update(sql, new Object[]{schedule_id});
     }
 
 }
