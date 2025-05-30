@@ -1,9 +1,8 @@
 package com.egradebook.frontend.controller.admin.manage.classes;
 
-import com.egradebook.frontend.model.Lesson;
-import com.egradebook.frontend.model.Clazz;
-import com.egradebook.frontend.model.Subject;
-import com.egradebook.frontend.model.Teacher;
+import com.egradebook.frontend.dto.AddScheduleRequest;
+import com.egradebook.frontend.model.*;
+import com.egradebook.frontend.service.AdminService;
 import com.egradebook.frontend.service.ClassService;
 import com.egradebook.frontend.service.SubjectService;
 import com.egradebook.frontend.service.TeacherService;
@@ -18,9 +17,10 @@ import java.util.List;
 
 public class AddOrEditScheduleDialogController {
 
-    @FXML private ComboBox<String> dayCombo;
+    @FXML private ComboBox<Integer> dayCombo;
     @FXML private ComboBox<Integer> lessonCombo;
     @FXML private ComboBox<Subject> subjectCombo;
+    @FXML private ComboBox<Integer> groupCombo;
     @FXML private ComboBox<Teacher> teacherCombo;
     @FXML private TextField roomField;
     @FXML private Label errorLabel;
@@ -45,9 +45,10 @@ public class AddOrEditScheduleDialogController {
     }
 
     private void fillCombos() {
-        dayCombo.setItems(FXCollections.observableArrayList("Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek"));
+        dayCombo.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5));
         lessonCombo.setItems(FXCollections.observableArrayList(1,2,3,4,5,6,7,8));
         subjectCombo.setItems(FXCollections.observableArrayList(SubjectService.getAllSubjects().getValue()));
+        groupCombo.setItems(FXCollections.observableArrayList(1, 2, 3, 4));
         subjectCombo.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 List<Teacher> teachers = TeacherService.getTeachersForSubject(newVal.getSubject_id()).getValue();
@@ -85,11 +86,11 @@ public class AddOrEditScheduleDialogController {
                 VBox lessonBox = new VBox(3);
                 lessonBox.setStyle("-fx-padding: 4; -fx-background-color: #e0f3e0; -fx-border-color: #c0c0c0;");
                 Label subj = new Label(lesson.getSubject_name());
+                Label group = new Label("Grupa: " + lesson.getGroup_number());
                 Label teach = new Label(lesson.getTeacher_fullname());
                 Label room = new Label("Sala: " + lesson.getRoom_number());
-                lessonBox.getChildren().addAll(subj, teach, room);
+                lessonBox.getChildren().addAll(subj, group, teach, room);
 
-                // Pozwól zaznaczać do usuwania przez kliknięcie
                 lessonBox.setOnMouseClicked(e -> {
                     selectedLesson = lesson;
                     for (javafx.scene.Node n : timetableGrid.getChildren())
@@ -118,8 +119,18 @@ public class AddOrEditScheduleDialogController {
                 return;
             }
         }
-        // Tutaj wywołujesz dodanie do backendu:
-        // ClassService.addLessonToSchedule(...);
+
+        AdminService.addLessonToSchedule(
+                new AddScheduleRequest(
+                        clazz.getClass_id(),
+                        teacherCombo.getValue().getTeacher_id(),
+                        subjectCombo.getValue().getSubject_id(),
+                        groupCombo.getValue(),
+                        dayCombo.getValue(),
+                        lessonCombo.getValue(),
+                        Integer.parseInt(roomField.getText())
+                )
+        );
         reloadPlan();
         showScheduleGrid();
     }
@@ -130,8 +141,7 @@ public class AddOrEditScheduleDialogController {
             errorLabel.setText("Najpierw kliknij lekcję do usunięcia w siatce!");
             return;
         }
-        // Wywołaj backend do usunięcia:
-        // ClassService.deleteLessonFromSchedule(selectedLesson.getId());
+        //ClassService.deleteLessonFromSchedule(selectedLesson.getSchedule_id());
         reloadPlan();
         showScheduleGrid();
         selectedLesson = null;

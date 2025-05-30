@@ -13,6 +13,8 @@
         <ComboBox fx:id="lessonCombo"/>
         <Label text="Przedmiot:"/>
         <ComboBox fx:id="subjectCombo"/>
+        <Label text="Grupa:"/>
+        <ComboBox fx:id="groupCombo"/>
         <Label text="Nauczyciel:"/>
         <ComboBox fx:id="teacherCombo"/>
         <Label text="Sala:"/>

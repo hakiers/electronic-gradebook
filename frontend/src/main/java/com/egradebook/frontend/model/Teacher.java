@@ -16,8 +16,6 @@ public class Teacher {
     private String username;
     private String password;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
     public Teacher() {
     }
 
@@ -53,24 +51,9 @@ public class Teacher {
         return pesel;
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public String toString() {
+        return getFullName();
     }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return passwordEncoder.encode(password);
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-
-
 }
 
