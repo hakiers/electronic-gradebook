@@ -13,6 +13,7 @@ com/egradebook/backend/request/EditAttendanceRequest.class
 com/egradebook/backend/repository/ParentRepository.class
 com/egradebook/backend/dto/ClazzDto.class
 com/egradebook/backend/request/StudentRegistrationRequest.class
+com/egradebook/backend/request/EditUserPersonalDataRequest.class
 com/egradebook/backend/request/UserChangePasswordRequest.class
 com/egradebook/backend/model/ClassTeacher.class
 com/egradebook/backend/request/AddClassRequest.class
@@ -30,6 +31,7 @@ com/egradebook/backend/repository/GroupRepository.class
 com/egradebook/backend/dto/UserContactData.class
 com/egradebook/backend/DataInitializer.class
 com/egradebook/backend/model/Lesson.class
+com/egradebook/backend/request/EditUserContactDataRequest.class
 com/egradebook/backend/dto/UserPersonalData.class
 com/egradebook/backend/request/AssignTeacherRequest.class
 com/egradebook/backend/utils/BeanUtil.class
