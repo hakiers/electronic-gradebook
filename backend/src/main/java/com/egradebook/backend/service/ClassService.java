@@ -1,6 +1,7 @@
 package com.egradebook.backend.service;
 
 import com.egradebook.backend.dto.ClazzDto;
+import com.egradebook.backend.dto.LessonDto;
 import com.egradebook.backend.dto.StudentDto;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Lesson;
@@ -42,9 +43,10 @@ public class ClassService {
         return students;
     }
 
-    public List<Lesson> getSchedule(int class_id, HttpSession session) {
+    public List<LessonDto> getSchedule(int class_id, HttpSession session) {
         Clazz clazz = classRepository.getClazz(class_id);
-        return clazz.getSchedule();
+        List<LessonDto> schedule = clazz.getSchedule().stream().map(LessonDto::new).collect(Collectors.toList());
+        return schedule;
     }
 
     public void addLesson(AddScheduleRequest request, HttpSession session) {

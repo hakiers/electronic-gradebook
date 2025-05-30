@@ -19,6 +19,32 @@ public class TeacherService {
     public static int selectedGroupId;
     private static final ObjectMapper mapper = new ObjectMapper();
 
+    public static Pair<Integer ,Teacher> getTeacher(int id) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/admin/teacher/" + id))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if(response.statusCode() == 200) {
+                Teacher teacher = mapper.readValue(response.body(), Teacher.class);
+            }
+
+            return new Pair<>(response.statusCode(), new Teacher());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, new Teacher());
+        }
+    }
+
     public static Pair<Integer, List<Student>> getStudentInClass(int id) {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
@@ -215,5 +241,36 @@ public class TeacherService {
     public static boolean isAttendanceAlreadySaved(LocalDate date, int lessonNumber) {
         String key = date.toString() + "_" + lessonNumber;
         return attendanceDatabase.containsKey(key);
+    }
+
+    public static Pair<Integer, List<Teacher>> getTeachersForSubject(int subject_id) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/admin/teachers/subject/" + subject_id))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if(response.statusCode() == 200) {
+                List<Teacher> teachers = mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Teacher>>() {}
+                );
+                return new Pair<>(response.statusCode(), teachers);
+            }
+            else {
+                return new Pair<>(response.statusCode(), null);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, null);
+        }
     }
 }

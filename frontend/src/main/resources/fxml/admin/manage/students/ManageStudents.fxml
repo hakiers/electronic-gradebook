@@ -10,17 +10,6 @@
             fx:controller="com.egradebook.frontend.controller.admin.manage.students.StudentManageController"
             prefWidth="700" prefHeight="500">
 
-<top>
-    <HBox spacing="10" style="-fx-padding: 10;">
-        <Button fx:id="returnButton" text="Wróć" onAction="#back"/>
-        <Button text="Dodaj ucznia" onAction="#handleAddStudent"/>
-        <Button text="Edytuj" onAction="#handleEditStudent"/>
-        <Button text="Usuń" onAction="#handleDeleteStudent"/>
-        <Button text="Zmień klasę" onAction="#handleChangeClass"/>
-        <Button text="Przypisz do grupy" onAction="#handleAssignToGroup"/>
-    </HBox>
-</top>
-
 <center>
     <VBox spacing="10" style="-fx-padding: 10;">
         <Label text="Lista uczniów:"/>
@@ -45,4 +34,16 @@
         </GridPane>
     </VBox>
 </center>
+
+
+<bottom>
+    <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px;">
+        <Button text="Dodaj ucznia" onAction="#handleAddStudent"/>
+        <Button text="Edytuj" onAction="#handleEditStudent"/>
+        <Button text="Usuń" onAction="#handleDeleteStudent"/>
+        <Button text="Zmień klasę" onAction="#handleChangeClass"/>
+        <Button text="Przypisz do grupy" onAction="#handleAssignToGroup"/>
+        <Button fx:id="returnButton" text="Wróć" onAction="#back"/>
+    </HBox>
+</bottom>
 </BorderPane>

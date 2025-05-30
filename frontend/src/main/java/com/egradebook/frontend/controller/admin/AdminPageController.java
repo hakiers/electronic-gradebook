@@ -33,6 +33,6 @@ public class AdminPageController {
 
     public void handleManageClasses() {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage, "/fxml/admin/ManageClasses.fxml", "Zarządanie klasami");
+        ViewLoader.loadView(currentStage, "/fxml/admin/manage/classes/ManageClasses.fxml", "Zarządanie klasami");
     }
 }

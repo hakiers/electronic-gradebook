@@ -3,6 +3,7 @@ package com.egradebook.frontend.service;
 import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.Grade;
 import com.egradebook.frontend.model.Lesson;
+import com.egradebook.frontend.model.Teacher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -90,6 +91,35 @@ public class ClassService {
                         new TypeReference<List<Lesson>>() {}
                 );
                 return new Pair<>(response.statusCode(), lessons);
+            } else {
+                return new Pair<>(response.statusCode(), null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, null);
+        }
+    }
+
+    public static Pair<Integer,List<Teacher>> getTeachers(int class_id) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/class/"+class_id+"/teachers"))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Teacher> teachers = mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Teacher>>() {}
+                );
+                return new Pair<>(response.statusCode(), teachers);
             } else {
                 return new Pair<>(response.statusCode(), null);
             }
