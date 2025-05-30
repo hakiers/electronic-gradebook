@@ -20,8 +20,5 @@ public class Subject {
         return subject_id;
     }
 
-    public List<Integer> getSubjectGroups(int class_id, int subject_id) {
-        return null;
-    }
 
 }

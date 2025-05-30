@@ -1,15 +1,14 @@
 package com.egradebook.backend.service;
 
 
+import com.egradebook.backend.dto.StudentDto;
 import com.egradebook.backend.dto.TeacherDto;
 import com.egradebook.backend.model.*;
-import com.egradebook.backend.repository.ClassRepository;
-import com.egradebook.backend.repository.SubjectRepository;
-import com.egradebook.backend.repository.TeacherRepository;
+import com.egradebook.backend.repository.*;
 import com.egradebook.backend.request.*;
 import com.egradebook.backend.exception.ForbiddenOperationException;
-import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.utils.Generator;
+import com.egradebook.backend.utils.Pair;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,10 @@ public class AdminService {
     private ClassRepository classRepository;
     @Autowired
     private SubjectRepository subjectRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private GroupRepository groupRepository;
 
     public LoginData registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
@@ -84,6 +87,24 @@ public class AdminService {
         }
         List<TeacherDto> teachers = teacherRepository.getAllTeachers().stream().map(TeacherDto::new).collect(Collectors.toList());
         return teachers;
+    }
+
+    public List<StudentDto> getStudents(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view students!");
+        }
+
+        return studentRepository.getAllStudents().stream().map(StudentDto::new).collect(Collectors.toList());
+    }
+
+    public List<Pair<Subject, Group>> getSubjectGroups(int class_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view subject groups!");
+        }
+
+        return groupRepository.getAllSubjectGroups(class_id);
     }
 
     public void addNewClassProfile(AddClassProfileRequest request, HttpSession session) {

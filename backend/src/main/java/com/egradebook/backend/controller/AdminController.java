@@ -42,6 +42,16 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getTeachers(session));
     }
 
+    @GetMapping("/students")
+    public ResponseEntity<?> getStudents(HttpSession session) {
+        return ResponseEntity.ok(adminService.getStudents(session));
+    }
+
+    @GetMapping("/subjectgroups/{class_id}")
+    public ResponseEntity<?> getSubjectGroups(@PathVariable int class_id, HttpSession session) {
+        return ResponseEntity.ok(adminService.getSubjectGroups(class_id, session));
+    }
+
     @PostMapping("/teacher/assign")
     public ResponseEntity<?> assignTeacher(@RequestBody AssignTeacherRequest request, HttpSession session) {
         adminService.assignTeacher(request, session);
