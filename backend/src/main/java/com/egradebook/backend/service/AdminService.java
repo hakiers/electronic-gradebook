@@ -155,4 +155,12 @@ public class AdminService {
         }
         return new TeacherDto(teacherRepository.getTeacher(teacher_id));
     }
+
+    public List<TeacherDto> getTeachersForSubject(int subject_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view teachers!");
+        }
+        return teacherRepository.getTeachersForSubject(subject_id).stream().map(TeacherDto::new).collect(Collectors.toList());
+    }
 }

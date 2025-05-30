@@ -103,4 +103,9 @@ public class AdminController {
         return ResponseEntity.ok(adminService.editUserPersonalInfo(request, user_id, session));
     }
 
+    @GetMapping("/teachers/subject/{subject_id}")
+    public ResponseEntity<?> getTeachers(@PathVariable int subject_id, HttpSession session){
+        return ResponseEntity.ok(adminService.getTeachersForSubject(subject_id, session));
+    }
+
 }

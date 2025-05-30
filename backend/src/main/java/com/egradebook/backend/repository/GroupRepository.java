@@ -2,6 +2,7 @@ package com.egradebook.backend.repository;
 
 import com.egradebook.backend.model.Group;
 import com.egradebook.backend.model.Subject;
+import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.utils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

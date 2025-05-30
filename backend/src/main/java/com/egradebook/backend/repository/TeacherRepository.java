@@ -6,6 +6,7 @@ import com.egradebook.backend.model.*;
 import com.egradebook.backend.request.*;
 import com.egradebook.backend.utils.Pair;
 import com.egradebook.backend.utils.Triple;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -258,5 +259,12 @@ public class TeacherRepository {
                 getTeacher(rs.getInt("teacher_id"))
         );
         return teachers;
+    }
+
+    public List<Teacher> getTeachersForSubject(int subject_id){
+        String sql = "SELECT teacher_id FROM teacher_subject WHERE subject_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{subject_id}, (rs, rowNum) ->
+                getTeacher(rs.getInt("teacher_id"))
+        );
     }
 }

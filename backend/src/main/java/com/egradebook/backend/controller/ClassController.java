@@ -37,4 +37,5 @@ public class ClassController {
     public ResponseEntity<?> getScheulde(@PathVariable int class_id, HttpSession session){
         return ResponseEntity.ok(classService.getSchedule(class_id, session));
     }
+
 }

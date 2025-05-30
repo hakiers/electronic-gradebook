@@ -2,11 +2,12 @@ package com.egradebook.backend.service;
 
 import com.egradebook.backend.dto.ClazzDto;
 import com.egradebook.backend.dto.StudentDto;
-import com.egradebook.backend.model.Clazz;
-import com.egradebook.backend.model.Lesson;
-import com.egradebook.backend.model.Student;
+import com.egradebook.backend.dto.TeacherDto;
+import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.request.AddScheduleRequest;
+import com.egradebook.backend.utils.Pair;
+import com.egradebook.backend.utils.Triple;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -52,4 +53,6 @@ public class ClassService {
         Clazz clazz = classRepository.getClazz(lesson.getClass_id());
         clazz.addLesson(lesson);
     }
+
+
 }

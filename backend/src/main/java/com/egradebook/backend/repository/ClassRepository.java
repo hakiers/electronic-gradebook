@@ -1,13 +1,13 @@
 package com.egradebook.backend.repository;
 
-import com.egradebook.backend.model.Clazz;
-import com.egradebook.backend.model.Lesson;
-import com.egradebook.backend.model.Student;
+import com.egradebook.backend.model.*;
 import com.egradebook.backend.request.AddClassProfileRequest;
 import com.egradebook.backend.request.AddClassRequest;
 import com.egradebook.backend.utils.BeanUtil;
+import com.egradebook.backend.utils.Pair;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +17,11 @@ import java.util.List;
 public class ClassRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Lazy
+    @Autowired
+    TeacherRepository teacherRepository;
+    @Autowired
+    SubjectRepository subjectRepository;
 
     public List<Student> getStudentsInClass(int class_id){
         String sql = """
@@ -110,4 +115,5 @@ public class ClassRepository {
                lesson.getSubject_id(), lesson.getGroup_id(), lesson.getDay_od_week(),
                lesson.getLesson_number(), lesson.getRoom_number());
     }
+
 }
