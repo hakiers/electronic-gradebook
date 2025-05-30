@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.students.EditStudentDialogController"
+      spacing="10" alignment="CENTER" padding="20">
+    <HBox spacing="10">
+        <Label text="Imię:"/>
+        <TextField fx:id="firstNameField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Nazwisko:"/>
+        <TextField fx:id="lastNameField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Klasa:"/>
+        <ComboBox fx:id="clazzField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Grupy (przedzielaj przecinkami):"/>
+        <ComboBox fx:id="groupsField"/>
+    </HBox>
+    <Label fx:id="statusLabel" textFill="red"/>
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Zapisz" onAction="#save"/>
+        <Button text="Anuluj" onAction="#cancel"/>
+    </HBox>
+</VBox>

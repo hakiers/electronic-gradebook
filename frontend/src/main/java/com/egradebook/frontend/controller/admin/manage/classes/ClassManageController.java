@@ -1,11 +1,11 @@
-package com.egradebook.frontend.controller.admin;
+package com.egradebook.frontend.controller.admin.manage.classes;
 
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class StudentManageController {
+public class ClassManageController {
     @FXML private Button returnButton;
 
     @FXML
@@ -13,10 +13,4 @@ public class StudentManageController {
         Stage stage=(Stage) returnButton.getScene().getWindow();
         ViewLoader.goPrev(stage);
     }
-
-    public void handleAddStudent() {
-        Stage currentStage = (Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage, "/fxml/admin/StudentRegistration.fxml", "eGradeBook - Dodaj ucznia");
-    }
-
 }

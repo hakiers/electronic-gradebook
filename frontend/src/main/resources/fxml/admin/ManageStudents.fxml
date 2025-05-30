@@ -1,12 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="238.0" prefWidth="158.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.egradebook.frontend.controller.admin.StudentManageController">
-    <Button fx:id="addStudentButton" onAction="#handleAddStudent" style="-fx-background-color: #00d9ff;-fx-text-fill: black;" text="Dodaj ucznia" />
-    <Button text="wróć" fx:id="returnButton" defaultButton="true" alignment="TOP_LEFT" onAction="#back"/>
-</VBox>
+
+
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.egradebook.frontend.controller.admin.manage.students.StudentManageController"
+            prefWidth="700" prefHeight="500">
+
+<top>
+    <HBox spacing="10" style="-fx-padding: 10;">
+        <Button fx:id="returnButton" text="Wróć" onAction="#back"/>
+        <Button text="Dodaj ucznia" onAction="#handleAddStudent"/>
+        <Button text="Edytuj" onAction="#handleEditStudent"/>
+        <Button text="Usuń" onAction="#handleDeleteStudent"/>
+        <Button text="Zmień klasę" onAction="#handleChangeClass"/>
+        <Button text="Przypisz do grupy" onAction="#handleAssignToGroup"/>
+    </HBox>
+</top>
+
+<center>
+    <VBox spacing="10" style="-fx-padding: 10;">
+        <Label text="Lista uczniów:"/>
+        <TableView fx:id="studentsTable" prefHeight="250">
+            <columns>
+                <TableColumn text="Imię" fx:id="colFirstName"/>
+                <TableColumn text="Nazwisko" fx:id="colLastName"/>
+                <TableColumn text="Klasa" fx:id="colClass"/>
+            </columns>
+        </TableView>
+
+        <Label text="Szczegóły ucznia:"/>
+        <GridPane hgap="10" vgap="5">
+            <Label text="Imię:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="detailFirstName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Nazwisko:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="detailLastName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Klasa:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="detailClass" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Grupy:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label fx:id="detailGroups" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        </GridPane>
+    </VBox>
+</center>
+</BorderPane>

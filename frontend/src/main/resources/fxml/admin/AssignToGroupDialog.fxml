@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.students.AssignToGroupDialogController"
+      spacing="10" alignment="CENTER" padding="20">
+    <Label text="Wybierz grupy przedmiotowe:"/>
+    <ListView fx:id="groupListView" prefHeight="150" prefWidth="200"/>
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Zapisz" onAction="#save"/>
+        <Button text="Anuluj" onAction="#cancel"/>
+    </HBox>
+</VBox>

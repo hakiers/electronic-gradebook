@@ -1,4 +1,4 @@
-package com.egradebook.frontend.controller.admin;
+package com.egradebook.frontend.controller.admin.manage.students;
 
 import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.LoginData;
