@@ -24,4 +24,5 @@ module com.example.egradebook {
     exports com.egradebook.frontend.controller.student;
     exports com.egradebook.frontend.dto;
     opens com.egradebook.frontend.dto to com.fasterxml.jackson.databind, javafx.base;
+    exports com.egradebook.frontend.controller.admin;
 }
