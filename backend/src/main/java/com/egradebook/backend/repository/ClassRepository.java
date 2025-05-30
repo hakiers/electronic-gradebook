@@ -106,6 +106,13 @@ public class ClassRepository {
         jdbcTemplate.update(sql, new Object[]{request.getClass_profile(), request.getClass_teacher(), request.getClass_year()});
     }
 
+    public void deleteClass(int class_id){
+        String sql = """
+                DELETE FROM classes WHERE class_id = ?
+                """;
+        jdbcTemplate.update(sql, new Object[]{class_id});
+    }
+
     public void addLesson(Lesson lesson) {
         String sql = """
                 INSERT INTO class_schedule (class_id, teacher_id, subject_id, group_id, day_of_week, lesson_number, room_number)

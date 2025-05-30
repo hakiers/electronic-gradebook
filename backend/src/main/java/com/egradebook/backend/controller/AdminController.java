@@ -86,6 +86,12 @@ public class AdminController {
         return ResponseEntity.ok("Class added successfully");
     }
 
+    @DeleteMapping("/delete-class/{class_id}")
+    public ResponseEntity<?> deleteClass(@PathVariable int class_id, HttpSession session) {
+        adminService.deleteClass(class_id, session);
+        return ResponseEntity.ok("Class deleted successfully");
+    }
+
     @PostMapping("/add-subject/{name}")
     public ResponseEntity<?> addSubject(HttpSession session, @PathVariable String name){
         adminService.addNewSubject(session, name);
