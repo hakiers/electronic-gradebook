@@ -48,6 +48,7 @@
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddClassRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddGradeRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddScheduleRequest.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AssignStudentToGroupsRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AssignTeacherRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditAttendanceRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditGradeRequest.java

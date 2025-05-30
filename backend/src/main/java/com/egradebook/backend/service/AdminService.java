@@ -139,5 +139,14 @@ public class AdminService {
         return userRepository.editPersonalInfo(request, user_id);
     }
 
+    public void assignStudentToGroups(AssignStudentToGroupsRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can assign student to groups!");
+        }
+
+        studentRepository.assignStudentToGroups(request);
+    }
+
 
 }
