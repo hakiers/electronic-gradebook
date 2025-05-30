@@ -148,5 +148,11 @@ public class AdminService {
         studentRepository.assignStudentToGroups(request);
     }
 
-
+    public TeacherDto getTeacher(int teacher_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view teacher!");
+        }
+        return new TeacherDto(teacherRepository.getTeacher(teacher_id));
+    }
 }

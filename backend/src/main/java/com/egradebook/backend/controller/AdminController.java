@@ -48,6 +48,11 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getTeachers(session));
     }
 
+    @GetMapping("/teacher/{teacher_id}")
+    public ResponseEntity<?> getTeacher(@PathVariable int teacher_id, HttpSession session) {
+        return ResponseEntity.ok(adminService.getTeacher(teacher_id, session));
+    }
+
     @GetMapping("/students")
     public ResponseEntity<?> getStudents(HttpSession session) {
         return ResponseEntity.ok(adminService.getStudents(session));

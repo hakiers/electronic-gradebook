@@ -8,6 +8,7 @@ import com.egradebook.backend.request.*;
 import com.egradebook.backend.utils.BeanUtil;
 import com.egradebook.backend.utils.Pair;
 import com.egradebook.backend.utils.Triple;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
