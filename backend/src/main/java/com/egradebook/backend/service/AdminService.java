@@ -110,4 +110,13 @@ public class AdminService {
         subjectRepository.addNewSubject(name);
     }
 
+    public boolean editUserPersonalInfo(EditUserPersonalDataRequest request, int user_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can edit personal information!");
+        }
+        return userRepository.editPersonalInfo(request, user_id);
+    }
+
+
 }

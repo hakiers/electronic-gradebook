@@ -72,9 +72,15 @@ public class AdminController {
     }
 
     @PutMapping("/schedule/add")
-    public ResponseEntity<?> addSchedule(AddScheduleRequest request, HttpSession session) {
+    public ResponseEntity<?> addSchedule(@RequestBody AddScheduleRequest request, HttpSession session) {
         classService.addLesson(request, session);
         return ResponseEntity.ok("Schedule added successfully");
+    }
+
+    //todo: dodac w bazie trigger ktory nie pozwoli na zmiane na null (obu lub jednego)
+    @PutMapping("/edit-personaldata/{user_id}")
+    public ResponseEntity<?> editPersonalInfo(@RequestBody EditUserPersonalDataRequest request, @PathVariable int user_id, HttpSession session){
+        return ResponseEntity.ok(adminService.editUserPersonalInfo(request, user_id, session));
     }
 
 }
