@@ -23,12 +23,12 @@ public class AdminPageController {
 
     public void handleManageStudents() {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage, "/fxml/admin/ManageStudents.fxml", "Zarządanie ucznami");
+        ViewLoader.loadView(currentStage, "/fxml/admin/manage/students/ManageStudents.fxml", "Zarządanie ucznami");
     }
 
     public void handleManageTeachers() {
         Stage currentStage = (Stage) logoutButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage, "/fxml/admin/ManageTeachers.fxml", "Zarządanie nauczycielami");
+        ViewLoader.loadView(currentStage, "/fxml/admin/manage/teachers/ManageTeachers.fxml", "Zarządanie nauczycielami");
     }
 
     public void handleManageClasses() {

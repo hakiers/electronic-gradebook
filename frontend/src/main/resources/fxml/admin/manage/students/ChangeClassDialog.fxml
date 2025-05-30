@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.students.ChangeClassDialogController"
+      spacing="10" alignment="CENTER">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+    <HBox spacing="10">
+        <Label text="Wybierz klasę:"/>
+        <ComboBox fx:id="classComboBox" prefWidth="150"/>
+    </HBox>
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Zmień" onAction="#save"/>
+        <Button text="Anuluj" onAction="#cancel"/>
+    </HBox>
+</VBox>
