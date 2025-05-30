@@ -18,7 +18,7 @@ public class StudentManageController {
     @FXML private TableView<Student> studentsTable;
     @FXML private TableColumn<Student, String> colFirstName;
     @FXML private TableColumn<Student, String> colLastName;
-    @FXML private TableColumn<Clazz, String> colClass;
+    @FXML private TableColumn<Student, String> colClass;
 
     @FXML private Label detailFirstName;
     @FXML private Label detailLastName;
@@ -31,7 +31,10 @@ public class StudentManageController {
     public void initialize() {
         colFirstName.setCellValueFactory(data->  new SimpleStringProperty(data.getValue().getName()));
         colLastName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSurname()));
-        colClass.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getShort_name()));
+        colClass.setCellValueFactory(data -> {
+            Clazz clazz = ClassService.getClazz(data.getValue().getClass_id()).getValue();
+            return new SimpleStringProperty(clazz != null ? clazz.getShort_name() : "");
+        });
 
         students = StudentService.getAllStudents().getValue();
         studentsTable.setItems(FXCollections.observableArrayList(students));
@@ -67,8 +70,9 @@ public class StudentManageController {
 
     @FXML
     public void handleAddStudent() {
-        Stage currentStage = (Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage, "/fxml/admin/StudentRegistration.fxml", "eGradeBook - Dodaj ucznia");
+        StudentRegistrationDialog dialog = new StudentRegistrationDialog();
+        dialog.showAndWait();
+        reloadStudents();
     }
 
     @FXML

@@ -1,5 +1,6 @@
-package com.egradebook.frontend.controller.admin;
+package com.egradebook.frontend.controller.admin.manage.teachers;
 
+import com.egradebook.frontend.controller.admin.manage.students.ChangeClassDialog;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,7 +16,8 @@ public class TeacherManageController {
     }
 
     public void handleAddTeacher() {
-        Stage currentStage = (Stage) returnButton.getScene().getWindow();
-        ViewLoader.loadView(currentStage,"/fxml/admin/TeacherRegistration.fxml", "eGradeBook - Dodaj nauczyciela");
+        TeacherRegistrationDialog dialog = new TeacherRegistrationDialog();
+        dialog.showAndWait();
+        //reload teachers
     }
 }

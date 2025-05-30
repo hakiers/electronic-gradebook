@@ -1,23 +1,22 @@
 package com.egradebook.frontend.controller.admin.manage.students;
 
-import com.egradebook.frontend.model.Student;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AssignToGroupDialog extends Stage {
-    public AssignToGroupDialog(Student student) {
+public class StudentRegistrationDialog extends Stage {
+    public StudentRegistrationDialog() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/manage/students/AssignToGroupDialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/manage/students/StudentRegistrationDialog.fxml"));
             setScene(new Scene(loader.load()));
-            setTitle("Przypisz do grupy");
+            setTitle("Dodaj ucznia");
             initModality(Modality.APPLICATION_MODAL);
             setResizable(false);
 
-            AssignToGroupDialogController controller = loader.getController();
-            controller.setStudent(student);
+            StudentRegistrationDialogController controller = loader.getController();
             controller.setDialogStage(this);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

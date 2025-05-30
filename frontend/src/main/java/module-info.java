@@ -29,4 +29,6 @@ module com.example.egradebook {
     opens com.egradebook.frontend.controller.admin.manage.students to javafx.fxml;
     exports com.egradebook.frontend.controller.admin.manage.classes;
     opens com.egradebook.frontend.controller.admin.manage.classes to javafx.fxml;
+    exports com.egradebook.frontend.controller.admin.manage.teachers;
+    opens com.egradebook.frontend.controller.admin.manage.teachers to javafx.fxml;
 }

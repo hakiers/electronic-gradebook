@@ -3,27 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
-<?import com.egradebook.frontend.utils.IntegerField?>
-<VBox fx:id="mainContainer" xmlns="http://javafx.com/javafx/8.0.171"
+<?import org.controlsfx.control.CheckComboBox?>
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.egradebook.frontend.controller.admin.manage.students.StudentRegistrationController"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.teachers.TeacherRegistrationDialogController"
       alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f4;">
-    <Button text="wróć" fx:id="returnButton" defaultButton="true"
-            alignment="TOP_LEFT" onAction="#back"/>
-    <fx:define>
-        <ToggleGroup fx:id="sendTypeGroup"/>
-    </fx:define>
-    <HBox spacing="10" alignment="CENTER">
-        <ToggleButton text="Dodaj" fx:id="addButton"
-                      toggleGroup="$sendTypeGroup" selected="true"
-                      styleClass="toggle-button"/>
-        <ToggleButton text="Zmień dane" fx:id="changeButton"
-                      toggleGroup="$sendTypeGroup"
-                      styleClass="toggle-button"/>
-    </HBox>
-    <Text text="Dodaj ucznia" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
     <Label fx:id="errorLabel" textFill="RED" visible="false" />
     <Label fx:id="correctLabel" textFill="GREEN" visible="false" />
     <GridPane hgap="10" vgap="10" alignment="CENTER">
@@ -38,8 +23,8 @@
         <Label text="(wymagane) PESEL:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="peselField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-        <Label text="Klasa:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="class_idBox" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <Label text="Przedmioty:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <CheckComboBox fx:id="subjectsCheckComboBox" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
         <Label fx:id="usernameLabel" text="Nazwa użytkownika:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
         <TextField fx:id="usernameField" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
@@ -47,13 +32,14 @@
         <Label fx:id="passwordLabel" text="Hasło" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
         <TextField fx:id="passwordField" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
     </GridPane>
-
     <HBox spacing="10" alignment="CENTER">
-        <Button text="Dodaj" fx:id="submitButton" defaultButton="true"
+        <Button text="Wyślij" fx:id="submitButton" defaultButton="true"
                 style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
-                onAction="#handle"/>
+                onAction="#add"/>
         <Button text="Wyczyść" fx:id="clearButton"
                 style="-fx-background-color: #f44336; -fx-text-fill: white;"
                 onAction="#clear"/>
+        <Button text="Cancel" fx:id="returnButton" defaultButton="true"
+                alignment="TOP_LEFT" onAction="#cancel"/>
     </HBox>
 </VBox>

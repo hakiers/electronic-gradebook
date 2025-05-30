@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class EditStudentDialog extends Stage {
     public EditStudentDialog(Student student) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/egradebook/frontend/view/admin/EditStudentDialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/manage/students/EditStudentDialog.fxml"));
             setScene(new Scene(loader.load()));
             setTitle(student == null ? "Dodaj ucznia" : "Edytuj ucznia");
             initModality(Modality.APPLICATION_MODAL);

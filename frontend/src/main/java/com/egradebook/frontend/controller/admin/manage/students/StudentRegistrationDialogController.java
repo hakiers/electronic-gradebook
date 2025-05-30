@@ -1,24 +1,27 @@
-package com.egradebook.frontend.controller.admin;
+package com.egradebook.frontend.controller.admin.manage.students;
 
+import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.LoginData;
-import com.egradebook.frontend.model.Subject;
+import com.egradebook.frontend.service.ClassService;
 import com.egradebook.frontend.service.RegisterService;
 import com.egradebook.frontend.utils.ViewLoader;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.controlsfx.control.CheckComboBox;
 
+import java.net.URL;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class TeacherRegistrationController {
+public class StudentRegistrationDialogController {
+    @FXML private VBox mainContainer;
 
     //przyciski
-    @FXML private Button returnButton;
+    @FXML private ToggleGroup sendTypeGroup;
+    //@FXML private ToggleButton addButton;
 
     //pola
     @FXML private TextField nameField;
@@ -26,7 +29,7 @@ public class TeacherRegistrationController {
     @FXML private TextField peselField;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
-    @FXML private CheckComboBox<Subject> subjectsCheckComboBox;
+    @FXML private ComboBox<Clazz> class_idBox;
 
     //napisy
     @FXML private Label errorLabel;
@@ -34,65 +37,67 @@ public class TeacherRegistrationController {
     @FXML private Label usernameLabel;
     @FXML private Label passwordLabel;
 
+    private Stage dialogStage;
+
     public void initialize() {
         hide();
-        List<Subject> allSubjects=RegisterService.getSubjects();
-        for (Subject subject : allSubjects) {
-            subjectsCheckComboBox.getItems().add(subject);
-        }
+        List<Clazz> classes= ClassService.getAllClasses().getValue();
+        class_idBox.getItems().addAll(classes);
+        Platform.runLater(() -> {
+            Scene scene = mainContainer.getScene();
+            URL cssUrl = getClass().getResource("/css/styles.css");
+            scene.getStylesheets().add(cssUrl.toExternalForm());
+        });
+    }
+
+    public void setDialogStage(Stage s) {
+        this.dialogStage = s;
     }
 
     @FXML
-    public void back() {
-        Stage stage=(Stage) returnButton.getScene().getWindow();
-        ViewLoader.goPrev(stage);
+    public void cancel() {
+        dialogStage.close();
     }
+
     @FXML
     public void clear() {
         hide();
         nameField.clear();
         surnameField.clear();
         peselField.clear();
-        subjectsCheckComboBox.getCheckModel().clearChecks();
-
+        class_idBox.setValue(null);
         errorLabel.setText("");
         correctLabel.setText("");
     }
-
     @FXML
     public void add() {
         String name = nameField.getText();
         String surname = surnameField.getText();
         String pesel = peselField.getText();
-        List<Subject > subjects = subjectsCheckComboBox.getCheckModel().getCheckedItems();
-        List<Subject> subjectNames = subjects.stream()
-                .collect(Collectors.toList());
-        Pair<Integer, LoginData> RegistrationInfo= RegisterService.registerTeacher(name,surname,pesel,subjectNames);
-        LoginData loginData=RegistrationInfo.getValue();
+        Integer class_id = class_idBox.getValue().getClass_id();
+        Pair<Integer, LoginData> RegistrationInfo= RegisterService.registerStudent(name,surname,pesel,class_id);
+        LoginData loginData = RegistrationInfo.getValue();
         if(RegistrationInfo.getKey()==200){
             clear();
             show();
             usernameField.setText(loginData.getUsername());
             passwordField.setText(loginData.getPassword());
             correctLabel.setVisible(true);
-            correctLabel.setText("Pomyślnie dodano nauczyciela");
+            correctLabel.setText("Pomyślnie dodano ucznia");
         }
         else{
-            clear();
             errorLabel.setVisible(true);
-            errorLabel.setText("Dane są niepoprawne, albo nauczyciel już istnieje");
+            errorLabel.setText("Dane są niepoprawne, albo uczeń już istnieje");
         }
     }
-    @FXML
     void hide() {
-        usernameField.setVisible(false);
         usernameField.setEditable(false);
+        usernameField.setVisible(false);
+        usernameLabel.setVisible(false);
         passwordField.setVisible(false);
         passwordField.setEditable(false);
-        usernameLabel.setVisible(false);
         passwordLabel.setVisible(false);
     }
-    @FXML
     void show() {
         usernameField.setVisible(true);
         passwordField.setVisible(true);

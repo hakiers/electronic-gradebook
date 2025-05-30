@@ -108,7 +108,7 @@ public class StudentService {
             }
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/admin/student/all"))
+                    .uri(new URI("http://localhost:8080/api/admin/students"))
                     .header("Content-Type", "application/json")
                     .GET()
                     .build();

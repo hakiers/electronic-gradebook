@@ -3,9 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.egradebook.frontend.controller.admin.manage.students.AssignToGroupDialogController"
-      spacing="10" alignment="CENTER" padding="20">
+<?import javafx.geometry.Insets?>
+    <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.egradebook.frontend.controller.admin.manage.students.AssignToGroupDialogController"
+          spacing="10" alignment="CENTER">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
     <Label text="Wybierz grupy przedmiotowe:"/>
     <ListView fx:id="groupListView" prefHeight="150" prefWidth="200"/>
     <HBox spacing="10" alignment="CENTER">
