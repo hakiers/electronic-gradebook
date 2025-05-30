@@ -93,12 +93,10 @@ public class User {
     }
 
     public UserContactData contactInfo(){
-        //to do
-        return new UserContactData();
+        return userRepository.getUserContactData(user_id);
     }
 
     public UserPersonalData personalInfo() {
-        // to do
-        return new UserPersonalData();
+        return userRepository.getUserPersonalData(user_id);
     }
 }

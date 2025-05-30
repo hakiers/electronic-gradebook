@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="20" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.egradebook.frontend.controller.admin.AdminPageController">
-    <Button fx:id="addStudentButton" onAction="#handleAddStudent" prefWidth="85.0" style="-fx-background-color: #00d9ff;-fx-text-fill: black;" text="Dodaj ucznia" />
+<VBox alignment="CENTER" prefHeight="238.0" prefWidth="158.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.egradebook.frontend.controller.admin.AdminPageController">
+    <Button fx:id="addStudentButton" onAction="#handleAddStudent" prefHeight="29.0" prefWidth="89.0" style="-fx-background-color: #00d9ff;-fx-text-fill: black;" text="Dodaj ucznia" />
     <Button fx:id="addTeacherButton" onAction="#handleAddTeacher" style="-fx-background-color: #00d9ff;-fx-text-fill: black;" text="Dodaj nauzcyciela" />
     <Button fx:id="changePasswordButton" onAction="#handleChange" style="-fx-background-color: #00d9ff;-fx-text-fill: black;" text="Zmień hasło" />
     <Button fx:id="logoutButton" onAction="#handleLogout" style="-fx-background-color: red; -fx-text-fill: white;" text="Wyloguj" />

@@ -44,11 +44,15 @@
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/UserRepository.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/repository/utils/CountRepository.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddAttendanceRequest.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddClassProfileRequest.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddClassRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddGradeRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AssignTeacherRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditAttendanceRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditGradeRequest.java
-/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/GetAttendanceByClassAndLessonRequest.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditUserContactDataRequest.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditUserPersonalDataRequest.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/GetAttendanceByLessonRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/RemoveGradeRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/StudentRegistrationRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/TeacherRegistrationRequest.java
@@ -64,4 +68,5 @@
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/utils/BeanUtil.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/utils/Generator.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/utils/GlobalExceptionHandler.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/utils/Pair.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/utils/Triple.java
