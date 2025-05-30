@@ -23,6 +23,7 @@ com/egradebook/backend/dto/LessonDto.class
 com/egradebook/backend/request/UserLoginRequest.class
 com/egradebook/backend/model/Group.class
 com/egradebook/backend/request/GetAttendanceByLessonRequest.class
+com/egradebook/backend/request/AssignStudentToGroupsRequest.class
 com/egradebook/backend/service/AuthService.class
 com/egradebook/backend/dto/StudentDto.class
 com/egradebook/backend/dto/StudentProfile.class

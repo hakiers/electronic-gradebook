@@ -388,4 +388,30 @@ FROM grades g
 JOIN subjects s ON s.subject_id = g.subject_id
 GROUP BY g.student_id, s.name;
 
+--trigger blokuje mozliwosc zmiany danych osobowych na null
+
+CREATE OR REPLACE FUNCTION avoid_nulls_in_personal_data()
+RETURNS TRIGGER AS $$
+BEGIN
+IF NEW.name IS NULL AND NEW.surname IS NULL
+    THEN RETURN OLD;
+END IF;
+
+IF NEW.name IS NULL
+    THEN NEW.name := OLD.name;
+END IF;
+
+IF NEW.surname IS NULL
+   THEN NEW.surname := OLD.surname;
+END IF;
+
+RETURN NEW;
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trg_avoid_nulls_in_personal_data
+BEFORE UPDATE ON personal_data
+FOR EACH ROW EXECUTE FUNCTION avoid_nulls_in_personal_data();
+
 

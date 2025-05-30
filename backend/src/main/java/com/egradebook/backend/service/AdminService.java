@@ -139,5 +139,28 @@ public class AdminService {
         return userRepository.editPersonalInfo(request, user_id);
     }
 
+    public void assignStudentToGroups(AssignStudentToGroupsRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can assign student to groups!");
+        }
 
+        studentRepository.assignStudentToGroups(request);
+    }
+
+    public TeacherDto getTeacher(int teacher_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view teacher!");
+        }
+        return new TeacherDto(teacherRepository.getTeacher(teacher_id));
+    }
+
+    public List<TeacherDto> getTeachersForSubject(int subject_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view teachers!");
+        }
+        return teacherRepository.getTeachersForSubject(subject_id).stream().map(TeacherDto::new).collect(Collectors.toList());
+    }
 }
