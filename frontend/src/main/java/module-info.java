@@ -9,10 +9,19 @@ module com.example.egradebook {
     opens fxml.shared to javafx.fxml;
     opens fxml.student to javafx.fxml;
     opens com.egradebook.frontend to javafx.fxml;
-    opens com.egradebook.frontend.dto to com.fasterxml.jackson.databind;
     exports com.egradebook.frontend;
     exports com.egradebook.frontend.utils to javafx.fxml;
     opens com.egradebook.frontend.controller.admin to javafx.fxml;
     opens com.egradebook.frontend.controller.shared to javafx.fxml;
     opens com.egradebook.frontend.controller.student to javafx.fxml;
+    opens com.egradebook.frontend.controller.teacher to javafx.fxml;
+    opens com.egradebook.frontend.utils to com.fasterxml.jackson.databind;
+    opens com.egradebook.frontend.model to com.fasterxml.jackson.databind, javafx.base;
+
+    requires javafx.controls;
+    requires spring.security.crypto;
+
+    exports com.egradebook.frontend.controller.student;
+    exports com.egradebook.frontend.dto;
+    opens com.egradebook.frontend.dto to com.fasterxml.jackson.databind, javafx.base;
 }

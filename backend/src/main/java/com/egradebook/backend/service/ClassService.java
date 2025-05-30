@@ -1,10 +1,12 @@
 package com.egradebook.backend.service;
 
 import com.egradebook.backend.dto.ClazzDto;
+import com.egradebook.backend.dto.StudentDto;
 import com.egradebook.backend.model.Clazz;
 import com.egradebook.backend.model.Lesson;
 import com.egradebook.backend.model.Student;
 import com.egradebook.backend.repository.ClassRepository;
+import com.egradebook.backend.request.AddScheduleRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class ClassService {
@@ -33,13 +36,20 @@ public class ClassService {
         return clazzDtoList;
     }
 
-    public List<Student> getStudentsInClass(int class_id, HttpSession session){
+    public List<StudentDto> getStudentsInClass(int class_id, HttpSession session){
         Clazz clazz = classRepository.getClazz(class_id);
-        return clazz.getStudents();
+        List<StudentDto> students = clazz.getStudents().stream().map(StudentDto::new).collect(Collectors.toList());
+        return students;
     }
 
     public List<Lesson> getSchedule(int class_id, HttpSession session) {
         Clazz clazz = classRepository.getClazz(class_id);
         return clazz.getSchedule();
+    }
+
+    public void addLesson(AddScheduleRequest request, HttpSession session) {
+        Lesson lesson = new Lesson(request);
+        Clazz clazz = classRepository.getClazz(lesson.getClass_id());
+        clazz.addLesson(lesson);
     }
 }

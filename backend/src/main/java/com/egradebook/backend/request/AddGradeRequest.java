@@ -3,11 +3,11 @@ package com.egradebook.backend.request;
 public class AddGradeRequest {
     private final int student_id;
     private final int subject_id;
-    private final float grade_value;
+    private final int grade_value;
     private final String date;
     private final String description;
 
-    public AddGradeRequest(int student_id, int subject_id, float grade_value, String date, String description) {
+    public AddGradeRequest(int student_id, int subject_id, int grade_value, String date, String description) {
         this.student_id = student_id;
         this.subject_id = subject_id;
         this.grade_value = grade_value;

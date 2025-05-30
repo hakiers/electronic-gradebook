@@ -16,26 +16,32 @@ import java.net.URL;
 
 public class LoginController {
     @FXML
-    private VBox mainContainer; // musi odpowiadać fx:id z FXML
-    @FXML private TextField usernameField;
-    @FXML private PasswordField passwordField;
+    private VBox mainContainer;
+
+    //przyciski
     @FXML private Button loginButton;
-    @FXML private Button clearButton;
+
+    @FXML private ToggleGroup loginTypeGroup;
     @FXML private ToggleButton asStudentButton;
     @FXML private ToggleButton asWorkerButton;
-    @FXML private ToggleGroup loginTypeGroup;
+
+    //pola
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+
+
+    //napisy
     @FXML private Label errorLabel;
+
     Stage stage;
     String username;
     String password;
     Pair<Integer,String> LoginInfo;
     private boolean isWorkerMode = false;
+
     @FXML
     private void initialize() {
-
         asStudentButton.setSelected(true);
-        loginButton.setOnAction(event -> handleLogin());
-        clearButton.setOnAction(event -> clearFields());
         loginTypeGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal == null) {
                 if (oldVal != null) oldVal.setSelected(true);
@@ -48,17 +54,21 @@ public class LoginController {
             URL cssUrl = getClass().getResource("/css/styles.css");
             scene.getStylesheets().add(cssUrl.toExternalForm());
         });
-
     }
+
+    @FXML
     private void clearFields() {
         usernameField.clear();
         passwordField.clear();
         errorLabel.setText("");
     }
+
+    @FXML
     private void handleLogin(){
         if(isWorkerMode) handleWorkerLogin();
         else handleStudentLogin();
     }
+
     private void handleStudentLogin(){
         collect();
         if(LoginInfo.getKey()==200){
@@ -89,9 +99,12 @@ public class LoginController {
                     ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna"));
                 delay.play();
             }
-            else {
-                errorLabel.setText("Niepoprawny login lub hasło");
-                errorLabel.setVisible(true);
+            else{
+                ViewLoader.loadView(stage, "/fxml/shared/MainPage.fxml","Strona główna");
+                PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                delay.setOnFinished(event ->
+                        ViewLoader.loadView(stage, "/fxml/teacher/TeacherPage.fxml", "Strona Główna"));
+                delay.play();
             }
         }
         //dodaj konto nauczyciela
@@ -100,8 +113,8 @@ public class LoginController {
             errorLabel.setVisible(true);
         }
     }
-    private void collect()
-    {
+
+    private void collect() {
         stage=(Stage) loginButton.getScene().getWindow();
         username = usernameField.getText();
         password = passwordField.getText();

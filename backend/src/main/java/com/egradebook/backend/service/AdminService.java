@@ -1,6 +1,7 @@
 package com.egradebook.backend.service;
 
 
+import com.egradebook.backend.dto.TeacherDto;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.repository.SubjectRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -34,8 +36,8 @@ public class AdminService {
         LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
 
         Teacher newteacher = new Teacher(request);
-        newteacher.setUsername(loggedUser.getUsername());
-        newteacher.setPassword(loggedUser.getPassword());
+        newteacher.setUsername(loginData.getUsername());
+        newteacher.setPassword(loginData.getPassword());
         newteacher.register();
         return loginData;
     }
@@ -48,8 +50,8 @@ public class AdminService {
 
         LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
         Student newstudent = new Student(request);
-        newstudent.setUsername(loggedUser.getUsername());
-        newstudent.setPassword(loggedUser.getPassword());
+        newstudent.setUsername(loginData.getUsername());
+        newstudent.setPassword(loginData.getPassword());
         newstudent.register();
         return loginData;
     }
@@ -73,6 +75,15 @@ public class AdminService {
         }
         return subjectRepository.getAllSubjects();
 
+    }
+
+    public List<TeacherDto> getTeachers(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view teachers!");
+        }
+        List<TeacherDto> teachers = teacherRepository.getAllTeachers().stream().map(TeacherDto::new).collect(Collectors.toList());
+        return teachers;
     }
 
     public void addNewClassProfile(AddClassProfileRequest request, HttpSession session) {

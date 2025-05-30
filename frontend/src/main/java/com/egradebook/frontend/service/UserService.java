@@ -9,12 +9,11 @@ import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class UserService {
     private static String currentRole;
     private static String currentUsername;
-    private static final HttpClient client;
+    public static final HttpClient client;
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final CookieManager cookieManager = new CookieManager();
     static {
@@ -23,6 +22,7 @@ public class UserService {
                 .cookieHandler(CookieHandler.getDefault())
                 .build();
     }
+
     public static String getCurrentRole() {
         return currentRole;
     }
@@ -59,24 +59,23 @@ public class UserService {
         }
     }
     public static void logout() {
-        try
-        {
+        try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://localhost:8080/api/auth/logout"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.statusCode());
+            //System.out.println(response.statusCode());
             System.out.println(response.body());
             currentRole = null;
             currentUsername = null;
         }catch (Exception e) {
         }
     }
+
     public static Pair<Integer,String> changePassword(String newPassword) {
-        try
-        {
+        try {
             UserChangePasswordRequest request = new UserChangePasswordRequest(currentUsername,newPassword);
             String json =mapper.writeValueAsString(request);
             HttpRequest httpRequest = HttpRequest.newBuilder()
@@ -85,7 +84,7 @@ public class UserService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.statusCode());
+            //System.out.println(response.statusCode());
             System.out.println(response.body());
             return new Pair<>(response.statusCode(), response.body());
         }catch (Exception e) {

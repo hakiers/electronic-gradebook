@@ -11,3 +11,71 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
+.header {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.student-name {
+    -fx-font-size: 18px;
+    -fx-text-fill: #555;
+}
+
+/* Tabela z ocenami */
+.grades-table {
+    -fx-font-size: 14px;
+    -fx-table-cell-border-color: transparent;
+}
+
+.subject-column {
+    -fx-pref-width: 200;
+}
+
+.grades-column {
+    -fx-pref-width: 300;
+}
+
+.average-column {
+    -fx-pref-width: 80;
+    -fx-alignment: CENTER;
+}
+
+/* Style dla komórek z ocenami */
+.grade-cell {
+    -fx-background-radius: 15;
+    -fx-padding: 3 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.grade-cell:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.grade-1 { -fx-background-color: #ff6b6b; -fx-text-fill: white; }
+.grade-2 { -fx-background-color: #ffa502; -fx-text-fill: white; }
+.grade-3 { -fx-background-color: #ffd32a; }
+.grade-4 { -fx-background-color: #7bed9f; }
+.grade-5 { -fx-background-color: #2ed573; -fx-text-fill: white; }
+.grade-6 { -fx-background-color: #1e90ff; -fx-text-fill: white; }
+
+/* Statystyki */
+.stat-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+}
+
+.stat-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Tooltip */
+.grade-tooltip {
+    -fx-font-size: 13px;
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+}

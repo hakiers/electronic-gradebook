@@ -33,8 +33,9 @@
 
     <HBox spacing="10" alignment="CENTER">
         <Button text="Zaloguj" fx:id="loginButton" defaultButton="true"
+                onAction="#handleLogin"
                 style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-        <Button text="Wyczyść" fx:id="clearButton"
+        <Button text="Wyczyść" fx:id="clearButton" onAction="#clearFields"
                 style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
     </HBox>
 </VBox>

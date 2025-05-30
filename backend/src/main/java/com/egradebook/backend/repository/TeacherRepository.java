@@ -89,7 +89,7 @@ public class TeacherRepository {
             INSERT INTO grades (student_id, subject_id, teacher_id, grade_value, date, description)
             VALUES (?, ?, ?, ?, CURRENT_DATE, ?)
         """;
-        jdbcTemplate.update(sql, grade.getStudent_id(), grade.getSubject_id(), grade.getTeacher_id(), grade.getDate(), grade.getDescription());
+        jdbcTemplate.update(sql, grade.getStudent_id(), grade.getSubject_id(), grade.getTeacher_id(), grade.getGrade_value(), grade.getDescription());
     }
 
     public boolean updateGrade(EditGradeRequest request, int teacher_id){
@@ -176,7 +176,7 @@ public class TeacherRepository {
 
 
         sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
-        for(Subject subject: teacher.getTeachSubjects()){
+        for(Subject subject: teacher.getInitSubjects()){
             jdbcTemplate.update(sql, teacher_id, subject.getSubject_id());
         }
 
@@ -203,7 +203,7 @@ public class TeacherRepository {
     public List<Triple<Clazz, Subject, Group>> getTeacherClassesSubject(int teacher_id){
         String sql = " SELECT class_id, subject_id, group_id FROM teacher_class_subject WHERE teacher_id = ?";
 
-        List<Triple<Clazz, Subject, Group>> classSubject= (List<Triple<Clazz, Subject, Group>>) jdbcTemplate.queryForObject(sql, new Object[]{teacher_id}, (rs, rowNum) ->
+        List<Triple<Clazz, Subject, Group>> classSubject= (List<Triple<Clazz, Subject, Group>>) jdbcTemplate.query(sql, new Object[]{teacher_id}, (rs, rowNum) ->
                 new Triple<>(
                         classRepository.getClazz(rs.getInt("class_id")),
                         subjectRepository.getSubject(rs.getInt("subject_id")),
@@ -250,5 +250,13 @@ public class TeacherRepository {
 
                 )
         );
+    }
+
+    public List<Teacher> getAllTeachers() {
+        String sql = "SELECT teacher_id FROM teachers";
+        List<Teacher> teachers = (List<Teacher>) jdbcTemplate.query(sql, (rs, rowNum) ->
+                getTeacher(rs.getInt("teacher_id"))
+        );
+        return teachers;
     }
 }

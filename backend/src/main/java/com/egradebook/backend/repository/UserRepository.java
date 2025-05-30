@@ -45,6 +45,12 @@ public class UserRepository {
         );
     }
 
+    public boolean existUserByPesel(String pesel) {
+        String sql = "SELECT COUNT(*) FROM users u JOIN personal_data p ON u.user_id = p.user_id WHERE p.pesel = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{pesel}, Integer.class);
+        return count != null && count > 0;
+    }
+
     public User findUserByPesel(String pesel){
         String sql = "SELECT u.user_id, u.username, u.password, u.role FROM users u JOIN personal_data p ON u.user_id = p.user_id WHERE p.pesel = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{pesel}, (rs, rowNum) ->
@@ -74,6 +80,16 @@ public class UserRepository {
                 )
 
         );
+    }
+
+    public boolean existUserByPeselAndRole(String pesel, String role){
+        String sql = """
+                SELECT COUNT(*) 
+                FROM users u JOIN personal_data p ON u.user_id = p.user_id 
+                WHERE p.pesel = ? AND u.role = ?
+                """;
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{pesel, role}, Integer.class);
+        return count != null && count > 0;
     }
 
     public User saveUser(User user) {
