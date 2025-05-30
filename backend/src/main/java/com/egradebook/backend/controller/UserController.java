@@ -1,13 +1,11 @@
 package com.egradebook.backend.controller;
 
+import com.egradebook.backend.request.EditUserContactDataRequest;
 import com.egradebook.backend.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -37,6 +35,11 @@ public class UserController {
     @GetMapping("/{id}/contact")
     public ResponseEntity<?> getUserContactInfo(@PathVariable int id, HttpSession session) {
         return ResponseEntity.ok(userService.getUserContactInfo(id, session));
+    }
+
+    @PutMapping("/me/contact/edit")
+    public ResponseEntity<?> editUserContactInfo(@RequestBody EditUserContactDataRequest request, HttpSession session) {
+        return ResponseEntity.ok(userService.editUserContactInfo(request, session));
     }
 
 }

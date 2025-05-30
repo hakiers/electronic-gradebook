@@ -3,6 +3,8 @@ package com.egradebook.backend.repository;
 import com.egradebook.backend.dto.UserContactData;
 import com.egradebook.backend.dto.UserPersonalData;
 import com.egradebook.backend.model.*;
+import com.egradebook.backend.request.EditUserContactDataRequest;
+import com.egradebook.backend.request.EditUserPersonalDataRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -126,5 +128,23 @@ public class UserRepository {
                         rs.getString("pesel")
                 )
         );
+    }
+
+    public boolean editContactInfo(EditUserContactDataRequest request, int user_id) {
+        String sql = """
+                UPDATE contact_info SET phone_number = ?, email = ?, address = ? 
+                WHERE user_id = ?
+                """;
+        int updated = jdbcTemplate.update(sql, new Object[]{request.getPhone_number(), request.getEmail(), request.getAddress(), user_id});
+        return updated > 0;
+    }
+
+    public boolean editPersonalInfo(EditUserPersonalDataRequest request, int user_id) {
+        String sql = """
+                UPDATE personal_data SET name = ?, surname = ?
+                WHERE user_id = ?
+                """;
+        int updated = jdbcTemplate.update(sql, request.getName(), request.getSurname(), user_id);
+        return updated > 0;
     }
 }

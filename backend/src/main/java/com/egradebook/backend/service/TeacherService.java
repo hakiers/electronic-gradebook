@@ -1,6 +1,7 @@
 package com.egradebook.backend.service;
 
 import com.egradebook.backend.dto.ClazzDto;
+import com.egradebook.backend.dto.LessonDto;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.SubjectRepository;
@@ -157,13 +158,17 @@ public class TeacherService {
         teacher.editAttendance(request);
     }
 
-    public List<Lesson> getSchedule(HttpSession session) {
+    public List<LessonDto> getSchedule(HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if (!loggedUser.isTeacher()) {
             throw new UnauthorizedException("User is not a teacher");
         }
         Teacher teacher = teacherRepository.getTeacher(loggedUser.getRoleId());
-        return teacher.getSchedule();
+        List<LessonDto> schedule = teacher.getSchedule().stream()
+                .map(lesson -> {
+                    return new LessonDto(lesson);
+                }).toList();
+        return schedule;
     }
 
 }

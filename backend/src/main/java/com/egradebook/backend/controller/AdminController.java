@@ -42,6 +42,16 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getTeachers(session));
     }
 
+    @GetMapping("/students")
+    public ResponseEntity<?> getStudents(HttpSession session) {
+        return ResponseEntity.ok(adminService.getStudents(session));
+    }
+
+    @GetMapping("/subjectgroups/{class_id}")
+    public ResponseEntity<?> getSubjectGroups(@PathVariable int class_id, HttpSession session) {
+        return ResponseEntity.ok(adminService.getSubjectGroups(class_id, session));
+    }
+
     @PostMapping("/teacher/assign")
     public ResponseEntity<?> assignTeacher(@RequestBody AssignTeacherRequest request, HttpSession session) {
         adminService.assignTeacher(request, session);
@@ -72,9 +82,15 @@ public class AdminController {
     }
 
     @PutMapping("/schedule/add")
-    public ResponseEntity<?> addSchedule(AddScheduleRequest request, HttpSession session) {
+    public ResponseEntity<?> addSchedule(@RequestBody AddScheduleRequest request, HttpSession session) {
         classService.addLesson(request, session);
         return ResponseEntity.ok("Schedule added successfully");
+    }
+
+    //todo: dodac w bazie trigger ktory nie pozwoli na zmiane na null (obu lub jednego)
+    @PutMapping("/edit-personaldata/{user_id}")
+    public ResponseEntity<?> editPersonalInfo(@RequestBody EditUserPersonalDataRequest request, @PathVariable int user_id, HttpSession session){
+        return ResponseEntity.ok(adminService.editUserPersonalInfo(request, user_id, session));
     }
 
 }

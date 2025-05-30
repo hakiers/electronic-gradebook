@@ -128,4 +128,13 @@ public class StudentRepository {
         return attendance;
     }
 
+    public List<Student> getAllStudents(){
+        String sql = """
+                SELECT student_id FROM students;
+                """;
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                getStudent(rs.getInt("student_id"))
+        );
+    }
+
 }
