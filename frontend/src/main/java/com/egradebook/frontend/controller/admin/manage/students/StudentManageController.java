@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentManageController {
@@ -37,6 +38,9 @@ public class StudentManageController {
         });
 
         students = StudentService.getAllStudents().getValue();
+        if(students == null) {
+            students = new ArrayList<>();
+        }
         studentsTable.setItems(FXCollections.observableArrayList(students));
 
         // Obsługa wyboru ucznia
@@ -120,6 +124,9 @@ public class StudentManageController {
 
     private void reloadStudents() {
         students = StudentService.getAllStudents().getValue();
+        if(students == null) {
+            students = new ArrayList<>();
+        }
         studentsTable.setItems(FXCollections.observableArrayList(students));
     }
 }

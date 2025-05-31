@@ -65,7 +65,7 @@ public class ClassRepository {
     public Clazz getClazz(int class_id){
         String sql = """
                 SELECT cl.class_id, cl_p.name, cl_p.short_name, cl.class_year FROM classes cl 
-                INNER JOIN class_profile cl_p ON cl_p.id = cl.class_id WHERE cl.class_id = ?
+                INNER JOIN class_profile cl_p ON cl_p.id = cl.class_profile WHERE cl.class_id = ?
                 """;
         return jdbcTemplate.queryForObject(sql, new Object[]{class_id}, (rs, rowNum) -> new Clazz(
                 rs.getInt("class_id"),

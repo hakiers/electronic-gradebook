@@ -1,109 +1,177 @@
 package com.egradebook.frontend.service;
 
-import com.egradebook.frontend.model.*;
+
+import com.egradebook.frontend.dto.AddClassProfileRequest;
+import com.egradebook.frontend.dto.AddClassRequest;
+import com.egradebook.frontend.dto.AddScheduleRequest;
+import com.egradebook.frontend.model.Teacher;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.util.Pair;
 
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-public class ClassService {
-
+public class AdminService {
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static Pair<Integer, List<Clazz>> getAllClasses() {
+    public static void addLessonToSchedule(AddScheduleRequest scheduleRequest) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(scheduleRequest);
+
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/class/all"))
+                    .uri(new URI("http://localhost:8080/api/admin/schedule/add"))
                     .header("Content-Type", "application/json")
-                    .GET()
+                    .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
+
+
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+
             if (response.statusCode() == 200) {
-                List<Clazz> lista = mapper.readValue(
-                        response.body(),
-                        new TypeReference<List<Clazz>>() {
-                        }
-                );
-                return new Pair<>(response.statusCode(), lista);
+                System.out.println("Dodano lekcję do planu!");
             } else {
-                return new Pair<>(response.statusCode(),
-                        null);
+                System.out.println("Błąd: " + response.body());
             }
+
         } catch (Exception e) {
-            return new Pair<>(500, null);
+            e.printStackTrace();
         }
     }
 
-    public static Pair<Integer, Clazz> getClazz(int class_id) {
+    public static void deleteLessonFromSchedule(int schedule_id) {
         try {
-            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
-                return new Pair<>(401, null);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/admin/schedule/remove/"+schedule_id))
+                    .header("Content-Type", "application/json").DELETE()
+                    .build();
+
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                System.out.println("Usunięto lekcję z planu!");
+            } else {
+                System.out.println("Błąd: " + response.body());
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void addClassProfile(AddClassProfileRequest profile) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return;
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(profile);
+
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/class/"+class_id))
+                    .uri(new URI("http://localhost:8080/api/admin/add-classprofile"))
                     .header("Content-Type", "application/json")
-                    .GET()
+                    .PUT(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                System.out.println("Dodano lekcję do planu!");
+            } else {
+                System.out.println("Błąd: " + response.body());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteClassProfile(int profile_id) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/admin/delete-classprofile/"+profile_id))
+                    .header("Content-Type", "application/json").DELETE()
                     .build();
 
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                Clazz clazz = mapper.readValue(
-                        response.body(),
-                        new TypeReference<Clazz>() {}
-                );
-                return new Pair<>(response.statusCode(), clazz);
+                System.out.println("Usunięto Profil Klasy!");
             } else {
-                return new Pair<>(response.statusCode(), null);
+                System.out.println("Błąd: " + response.body());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new Pair<>(500, null);
         }
     }
 
-    public static Pair<Integer,List<Lesson>> getSchedule(int class_id) {
+    public static void addClass(AddClassRequest clazz) {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
-                return new Pair<>(401, null);
+                return;
             }
 
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(clazz);
+
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/class/schedule/"+class_id))
+                    .uri(new URI("http://localhost:8080/api/admin/add-class"))
                     .header("Content-Type", "application/json")
-                    .GET()
+                    .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
-
             if (response.statusCode() == 200) {
-                List<Lesson> lessons = mapper.readValue(
-                        response.body(),
-                        new TypeReference<List<Lesson>>() {}
-                );
-                return new Pair<>(response.statusCode(), lessons);
+                System.out.println("Dodano klase!");
             } else {
-                return new Pair<>(response.statusCode(), null);
+                System.out.println("Błąd: " + response.body());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static boolean deleteClass(int class_id) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return false;
+            }
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/admin/delete-class/" + class_id))
+                    .header("Content-Type", "application/json")
+                    .DELETE()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                System.out.println("Usunięto klase!");
+            } else {
+                System.out.println("Błąd: " + response.body());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new Pair<>(500, null);
+            return false;
         }
+        return true;
     }
 
-    public static Pair<Integer,List<Teacher>> getTeachers(int class_id) {
+
+    public static Pair<Integer, List<Teacher>> getAllTeachers() {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
                 return new Pair<>(401, null);
             }
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/class/"+class_id+"/teachers"))
+                    .uri(new URI("http://localhost:8080/api/admin/teachers"))
                     .header("Content-Type", "application/json")
                     .GET()
                     .build();
@@ -124,63 +192,4 @@ public class ClassService {
             return new Pair<>(500, null);
         }
     }
-
-    public static Pair<Integer, List<Student>> getStudents(int class_id) {
-        try {
-            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
-                return new Pair<>(401, null);
-            }
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/class/"+class_id+"/students"))
-                    .header("Content-Type", "application/json")
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() == 200) {
-                List<Student> students = mapper.readValue(
-                        response.body(),
-                        new TypeReference<List<Student>>() {}
-                );
-                return new Pair<>(response.statusCode(), students);
-            } else {
-                return new Pair<>(response.statusCode(), null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Pair<>(500, null);
-        }
-    }
-
-    public static Pair<Integer, List<ClassProfile>> getAllProfiles() {
-        try {
-            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
-                return new Pair<>(401, null);
-            }
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/class/profiles"))
-                    .header("Content-Type", "application/json")
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() == 200) {
-                List<ClassProfile> classProfiles = mapper.readValue(
-                        response.body(),
-                        new TypeReference<List<ClassProfile>>() {}
-                );
-                return new Pair<>(response.statusCode(), classProfiles);
-            } else {
-                return new Pair<>(response.statusCode(), null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Pair<>(500, null);
-        }
-    }
-
 }

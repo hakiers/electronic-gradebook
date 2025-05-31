@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="565.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.egradebook.frontend.controller.admin.manage.classes.ClassManageController">
+
+    <top>
+        <Label text="Zarządzanie klasami" style="-fx-font-size: 20px; -fx-padding: 10px;"/>
+    </top>
+    <center>
+        <TableView fx:id="classesTable" prefHeight="200.0" prefWidth="200.0">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colYear" text="Rocznik" prefWidth="90"/>
+                <TableColumn fx:id="colName" text="Nazwa klasy" prefWidth="120"/>
+                <TableColumn fx:id="colProfile" text="Profil" prefWidth="100"/>
+                <TableColumn fx:id="colTeacher" text="Wychowawca" prefWidth="120"/>
+                <TableColumn fx:id="colStudentCount" text="Liczba uczniów" prefWidth="90"/>
+            </columns>
+        </TableView>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px;">
+            <Button onAction="#onAddClass" text="Dodaj klasę"/>
+            <Button onAction="#onEditClass" text="Edytuj klasę"/>
+            <Button onAction="#onDeleteClass" text="Usuń klasę"/>
+            <Button onAction="#onSetSchedule" text="Ustal plan lekcji"/>
+            <Button onAction="#onManageProfiles" text="Profile klas"/>
+            <Button fx:id="returnButton" text="Wróć" onAction="#back"/>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -47,7 +47,7 @@ public class EditStudentDialogController {
         }
         if (student == null)
             return;
-            //todo student = new Student(0, fname, lname, clazz, Arrays.asList(groups));
+            //todo student = new Student(0, fname, lname, clazz, Arrays.aasListsList(groups));
         else {
             //todo zrobić requesta do bazy zapisujaca now imie naziwsko klase i liste grup przedmitowych studenta
             //

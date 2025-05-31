@@ -10,7 +10,7 @@ public class Group {
     }
     @Override
     public String toString() {
-        return "grupa " + group_id;
+        return "Grupa " + group_id;
     }
 
     public int getGroup_id() {

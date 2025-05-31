@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<HBox spacing="24" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.classes.AddOrEditScheduleDialogController">
+
+    <VBox spacing="12" alignment="TOP_LEFT" prefWidth="260">
+        <Label text="Dodaj wpis do planu lekcji" style="-fx-font-size: 16;"/>
+        <Label text="Dzień tygodnia:"/>
+        <ComboBox fx:id="dayCombo"/>
+        <Label text="Nr lekcji:"/>
+        <ComboBox fx:id="lessonCombo"/>
+        <Label text="Przedmiot:"/>
+        <ComboBox fx:id="subjectCombo"/>
+        <Label text="Grupa:"/>
+        <ComboBox fx:id="groupCombo"/>
+        <Label text="Nauczyciel:"/>
+        <ComboBox fx:id="teacherCombo"/>
+        <Label text="Sala:"/>
+        <TextField fx:id="roomField"/>
+        <HBox spacing="10">
+            <Button text="Dodaj" onAction="#onAdd"/>
+            <Button text="Usuń zaznaczony" onAction="#onDelete"/>
+        </HBox>
+        <Label fx:id="errorLabel" textFill="red"/>
+        <Button text="Zamknij" onAction="#close"/>
+    </VBox>
+
+    <VBox spacing="8" prefWidth="500">
+        <Label fx:id="classLabel" text="Podgląd planu lekcji:" style="-fx-font-size: 15;"/>
+        <ScrollPane fitToWidth="true">
+            <GridPane fx:id="timetableGrid" gridLinesVisible="true" style="-fx-padding: 10;"/>
+        </ScrollPane>
+    </VBox>
+</HBox>

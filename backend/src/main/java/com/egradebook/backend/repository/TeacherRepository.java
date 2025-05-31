@@ -255,10 +255,10 @@ public class TeacherRepository {
 
     public List<Teacher> getAllTeachers() {
         String sql = "SELECT teacher_id FROM teachers";
-        List<Teacher> teachers = (List<Teacher>) jdbcTemplate.query(sql, (rs, rowNum) ->
+
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
                 getTeacher(rs.getInt("teacher_id"))
         );
-        return teachers;
     }
 
     public List<Teacher> getTeachersForSubject(int subject_id){

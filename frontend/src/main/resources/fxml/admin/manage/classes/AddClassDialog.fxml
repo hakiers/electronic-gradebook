@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.egradebook.frontend.controller.admin.manage.classes.AddClassDialogController"
+            prefHeight="300.0" prefWidth="400.0">
+
+    <VBox spacing="16" alignment="CENTER" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20">
+        <Label text="Dodaj klasę" style="-fx-font-size: 18;"/>
+
+        <HBox spacing="10">
+            <Label text="Profil:" minWidth="120"/>
+            <ComboBox fx:id="profileField"/>
+        </HBox>
+
+        <HBox spacing="10">
+            <Label text="Wychowawca:" minWidth="120"/>
+            <ComboBox fx:id="teacherCombo" prefWidth="200"/>
+        </HBox>
+
+        <HBox spacing="10">
+            <Label text="Rocznik:" minWidth="120"/>
+            <ComboBox fx:id="groupsCombo" prefWidth="80"/>
+        </HBox>
+
+        <Label fx:id="errorLabel" textFill="red"/>
+
+        <HBox spacing="12" alignment="CENTER">
+            <Button text="Zapisz" onAction="#save"/>
+            <Button text="Anuluj" onAction="#cancel"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
