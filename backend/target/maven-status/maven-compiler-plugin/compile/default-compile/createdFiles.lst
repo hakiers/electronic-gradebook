@@ -36,6 +36,7 @@ com/egradebook/backend/DataInitializer.class
 com/egradebook/backend/model/Lesson.class
 com/egradebook/backend/request/EditUserContactDataRequest.class
 com/egradebook/backend/dto/UserPersonalData.class
+com/egradebook/backend/model/ClassProfile.class
 com/egradebook/backend/request/AssignTeacherRequest.class
 com/egradebook/backend/utils/BeanUtil.class
 com/egradebook/backend/dto/TeacherDto.class

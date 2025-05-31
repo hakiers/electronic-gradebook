@@ -25,6 +25,7 @@
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/exception/PeselAlreadyExistsException.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/exception/UnauthorizedException.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/exception/UsernameAlreadyExistsException.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/ClassProfile.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/ClassTeacher.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/Clazz.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/Grade.java
@@ -48,6 +49,7 @@
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddClassRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddGradeRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddScheduleRequest.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddSubjectGroupRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AssignStudentToGroupsRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AssignTeacherRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditAttendanceRequest.java

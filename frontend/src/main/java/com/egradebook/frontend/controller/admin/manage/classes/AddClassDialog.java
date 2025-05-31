@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class AddClassDialog extends Stage {
     public AddClassDialog() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/manage/classes/AddOrEditScheduleDialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/manage/classes/AddClassDialog.fxml"));
             setScene(new Scene(loader.load()));
             setTitle("Dodaj klase");
             initModality(Modality.APPLICATION_MODAL);

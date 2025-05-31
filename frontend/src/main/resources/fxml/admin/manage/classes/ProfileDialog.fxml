@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.classes.ProfileDialogController"
+      spacing="10" alignment="CENTER" style="-fx-padding:20;">
+    <HBox spacing="10">
+        <Label text="Nazwa profilu:"/>
+        <TextField fx:id="nameField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Skrót:"/>
+        <TextField fx:id="shortNameField"/>
+    </HBox>
+    <Label fx:id="statusLabel" textFill="red"/>
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="saveButton" text="Zapisz" onAction="#save"/>
+        <Button fx:id="cancelButton" text="Anuluj" onAction="#cancel"/>
+    </HBox>
+</VBox>

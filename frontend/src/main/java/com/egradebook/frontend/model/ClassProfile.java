@@ -1,13 +1,13 @@
 package com.egradebook.frontend.model;
 
-public class Profile {
+public class ClassProfile {
     private int id;
     private String name;
     private String short_name;
 
-    public Profile() {}
+    public ClassProfile() {}
 
-    public Profile(int id, String name, String short_name) {
+    public ClassProfile(int id, String name, String short_name) {
         this.id = id;
         this.name = name;
         this.short_name = short_name;

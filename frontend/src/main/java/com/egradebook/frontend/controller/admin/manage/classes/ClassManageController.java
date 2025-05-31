@@ -3,6 +3,7 @@ package com.egradebook.frontend.controller.admin.manage.classes;
 import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.model.Teacher;
+import com.egradebook.frontend.service.AdminService;
 import com.egradebook.frontend.service.ClassService;
 import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.service.TeacherService;
@@ -72,18 +73,49 @@ public class ClassManageController {
 
     @FXML
     public void onAddClass() {
-        // Otwórz dialog dodawania klasy
-        // np. DialogUtils.openClassDialog(null)
+        AddClassDialog dialog = new AddClassDialog();
+        dialog.showAndWait();
+        reloadClasses();
     }
 
     @FXML
     public void onEditClass() {
-        // Pobierz zaznaczoną klasę i otwórz dialog edycji
+        //todo
     }
 
     @FXML
     public void onDeleteClass() {
-        // Usuń zaznaczoną klasę
+        Clazz selected = classesTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Brak wyboru");
+            alert.setHeaderText("Nie wybrano klasy do usunięcia");
+            alert.setContentText("Proszę zaznaczyć klasę na liście.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Usuwanie klasy");
+        confirm.setHeaderText("Czy na pewno chcesz usunąć klasę: " + selected.getShort_name() + "?");
+        confirm.setContentText("Tej operacji nie można cofnąć!");
+        confirm.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                boolean success = AdminService.deleteClass(selected.getClass_id());
+                if (success) {
+                    reloadClasses();
+                    Alert info = new Alert(Alert.AlertType.INFORMATION, "Klasa została usunięta!");
+                    info.setTitle("Sukces");
+                    info.showAndWait();
+                } else {
+                    Alert error = new Alert(Alert.AlertType.ERROR, "Nie udało się usunąć klasy!");
+                    error.setTitle("Błąd");
+                    error.showAndWait();
+                }
+            }
+        });
     }
 
     @FXML

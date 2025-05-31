@@ -1,7 +1,7 @@
 package com.egradebook.frontend.controller.admin.manage.classes;
 
-import com.egradebook.frontend.model.Profile;
-import com.egradebook.frontend.utils.ViewLoader;
+import com.egradebook.frontend.model.ClassProfile;
+import com.egradebook.frontend.service.ClassService;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -14,16 +14,16 @@ import java.util.List;
 public class ProfileManageDialogController {
 
     @FXML private Button returnButton;
-    @FXML private TableView<Profile> profilesTable;
-    @FXML private TableColumn<Profile, Integer> colId;
-    @FXML private TableColumn<Profile, String> colName;
-    @FXML private TableColumn<Profile, String> colShortName;
+    @FXML private TableView<ClassProfile> profilesTable;
+    @FXML private TableColumn<ClassProfile, Integer> colId;
+    @FXML private TableColumn<ClassProfile, String> colName;
+    @FXML private TableColumn<ClassProfile, String> colShortName;
 
     @FXML private Label detailId;
     @FXML private Label detailName;
     @FXML private Label detailDescription;
 
-    private List<Profile> profiles;
+    private List<ClassProfile> classProfiles;
     private Stage dialogStage;
 
 
@@ -40,31 +40,30 @@ public class ProfileManageDialogController {
         );
     }
 
-    private void showProfileDetails(Profile profile) {
-        if (profile == null) {
+    private void showProfileDetails(ClassProfile classProfile) {
+        if (classProfile == null) {
             detailId.setText("");
             detailName.setText("");
             colShortName.setText("");
             return;
         }
-        detailId.setText(String.valueOf(profile.getId()));
-        detailName.setText(profile.getName());
-        colShortName.setText(profile.getShort_name());
+        detailId.setText(String.valueOf(classProfile.getId()));
+        detailName.setText(classProfile.getName());
+        colShortName.setText(classProfile.getShort_name());
     }
 
     @FXML
     public void handleAddProfile() {
-        // Tutaj otwierasz okno/dialog do dodania profilu
-        // ProfileDialog dialog = new ProfileDialog(null);
-        // dialog.showAndWait();
-        // if (dialog.isSaved()) { reloadProfiles(); }
-        // Demo:
-        System.out.println("Dodaj profil");
+        ProfileDialog dialog = new ProfileDialog(null);
+        dialog.showAndWait();
+        if (dialog.isSaved()) {
+            reloadProfiles();
+        }
     }
 
     @FXML
     public void handleEditProfile() {
-        Profile selected = profilesTable.getSelectionModel().getSelectedItem();
+        ClassProfile selected = profilesTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
         // Tutaj otwierasz okno/dialog do edycji profilu
         // ProfileDialog dialog = new ProfileDialog(selected);
@@ -76,7 +75,7 @@ public class ProfileManageDialogController {
 
     @FXML
     public void handleDeleteProfile() {
-        Profile selected = profilesTable.getSelectionModel().getSelectedItem();
+        ClassProfile selected = profilesTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Na pewno usunąć profil?");
         alert.showAndWait().ifPresent(response -> {
@@ -93,8 +92,8 @@ public class ProfileManageDialogController {
     }
 
     private void reloadProfiles() {
-        //profiles = ProfileService.getAllProfiles().getValue();
-        profilesTable.setItems(FXCollections.observableArrayList(profiles));
+        classProfiles = ClassService.getAllProfiles().getValue();
+        profilesTable.setItems(FXCollections.observableArrayList(classProfiles));
     }
 
     public void setDialogStage(Stage s) {
