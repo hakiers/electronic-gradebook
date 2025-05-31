@@ -19,14 +19,14 @@ public class TeacherService {
     public static int selectedGroupId;
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static Pair<Integer ,Teacher> getTeacher(int id) {
+    public static Pair<Integer ,Teacher> getTeacher(int teacher_id) {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
                 return new Pair<>(401, null);
             }
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/admin/teacher/" + id))
+                    .uri(new URI("http://localhost:8080/api/admin/teacher/" + teacher_id))
                     .header("Content-Type", "application/json")
                     .GET()
                     .build();
@@ -35,9 +35,11 @@ public class TeacherService {
 
             if(response.statusCode() == 200) {
                 Teacher teacher = mapper.readValue(response.body(), Teacher.class);
+                return new Pair<>(response.statusCode(), teacher);
             }
-
-            return new Pair<>(response.statusCode(), new Teacher());
+            else {
+                return new Pair<>(response.statusCode(), new Teacher());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

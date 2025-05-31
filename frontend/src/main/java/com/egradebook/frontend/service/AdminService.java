@@ -39,4 +39,27 @@ public class AdminService {
             e.printStackTrace();
         }
     }
+
+    public static void deleteLessonFromSchedule(int schedule_id) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/admin/schedule/remove/"+schedule_id))
+                    .header("Content-Type", "application/json").DELETE()
+                    .build();
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                System.out.println("Usunięto lekcję z planu!");
+            } else {
+                System.out.println("Błąd: " + response.body());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

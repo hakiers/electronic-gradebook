@@ -1,24 +1,24 @@
 package com.egradebook.frontend.controller.admin.manage.classes;
 
-import com.egradebook.frontend.model.Clazz;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AddClassDialog extends Stage {
-    public AddClassDialog() {
+public class ProfileManageDialog extends Stage {
+    public ProfileManageDialog() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/manage/classes/AddOrEditScheduleDialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/manage/classes/ProfileManageDialog.fxml"));
             setScene(new Scene(loader.load()));
-            setTitle("Dodaj klase");
+            setTitle("Profile Klas");
             initModality(Modality.APPLICATION_MODAL);
             setResizable(false);
 
-            AddClassDialogController controller = loader.getController();
+            ProfileManageDialogController controller = loader.getController();
             controller.setDialogStage(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
+

@@ -4,6 +4,7 @@ import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.model.Teacher;
 import com.egradebook.frontend.service.ClassService;
+import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -25,6 +26,7 @@ public class ClassManageController {
     @FXML private TableColumn<Clazz, String> colYear;
     @FXML private TableColumn<Clazz, String> colProfile;
     @FXML private TableColumn<Clazz, String> colTeacher;
+    @FXML private TableColumn<Clazz, Integer> colStudentCount;
 
     private List<Clazz> classes;
 
@@ -44,7 +46,7 @@ public class ClassManageController {
         );
         colTeacher.setCellValueFactory(data -> {
                     Teacher teacher = TeacherService.getTeacher(data.getValue().getClass_teacher()).getValue();
-                    return new SimpleStringProperty(teacher.getName());
+                    return new SimpleStringProperty(teacher.toString());
                 }
         );
         classes = ClassService.getAllClasses().getValue();
@@ -54,6 +56,11 @@ public class ClassManageController {
                 (obs, oldSel, newSel) ->
                         showClassDetails(newSel)
         );
+
+        colStudentCount.setCellValueFactory(data -> {
+            List<Student> students = ClassService.getStudents(data.getValue().getClass_id()).getValue();
+            return new SimpleIntegerProperty(students.size()).asObject();
+        });
     }
 
     private void showClassDetails(Clazz clazz) {
@@ -89,7 +96,9 @@ public class ClassManageController {
 
     @FXML
     public void onManageProfiles() {
-        // Otwórz okno dialogowe do zarządzania profilami klas
+        ProfileManageDialog dialog = new ProfileManageDialog();
+        dialog.showAndWait();
+        reloadClasses();
     }
 
     @FXML

@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddOrEditScheduleDialogController {
@@ -29,7 +30,7 @@ public class AddOrEditScheduleDialogController {
 
     private Clazz clazz;
     private List<Lesson> schedule;
-    private Lesson selectedLesson = null; // zaznaczony wpis (do usunięcia)
+    private List<Lesson> selectedLessons = new ArrayList<>();
     private Stage dialogStage;
 
     public void setDialogStage(Stage s) {
@@ -91,11 +92,28 @@ public class AddOrEditScheduleDialogController {
                 Label room = new Label("Sala: " + lesson.getRoom_number());
                 lessonBox.getChildren().addAll(subj, group, teach, room);
 
+                if (selectedLessons.contains(lesson)) {
+                    lessonBox.setStyle("-fx-background-color: #ffcccc; -fx-border-color: #a00;");
+                }
+
                 lessonBox.setOnMouseClicked(e -> {
-                    selectedLesson = lesson;
-                    for (javafx.scene.Node n : timetableGrid.getChildren())
-                        n.setStyle(n == lessonBox ? "-fx-background-color: #ffcccc; -fx-border-color: #a00;" : n.getStyle());
+                    if (e.isControlDown()) {
+                        if (selectedLessons.contains(lesson)) {
+                            selectedLessons.remove(lesson);
+                        } else {
+                            selectedLessons.add(lesson);
+                        }
+                    } else {
+                        if (selectedLessons.size() == 1 && selectedLessons.contains(lesson)) {
+                            selectedLessons.clear();
+                        } else {
+                            selectedLessons.clear();
+                            selectedLessons.add(lesson);
+                        }
+                    }
+                    showScheduleGrid();
                 });
+
 
                 timetableGrid.add(lessonBox, dayIndex, lessonIndex);
             }
@@ -113,9 +131,11 @@ public class AddOrEditScheduleDialogController {
         }
         int day = dayCombo.getSelectionModel().getSelectedIndex() + 1;
         int lessonNum = lessonCombo.getValue();
+
+        int group = groupCombo.getValue();
         for (Lesson l : schedule) {
-            if (l.getDay_od_week() == day && l.getLesson_number() == lessonNum) {
-                errorLabel.setText("Ten slot jest już zajęty!");
+            if (l.getDay_od_week() == day && l.getLesson_number() == lessonNum && l.getGroup_number() == group) {
+                errorLabel.setText("Ten slot dla tej grupy jest już zajęty!");
                 return;
             }
         }
@@ -137,14 +157,16 @@ public class AddOrEditScheduleDialogController {
 
     @FXML
     private void onDelete() {
-        if (selectedLesson == null) {
+        if (selectedLessons.isEmpty()) {
             errorLabel.setText("Najpierw kliknij lekcję do usunięcia w siatce!");
             return;
         }
-        //ClassService.deleteLessonFromSchedule(selectedLesson.getSchedule_id());
+        for (Lesson lesson : selectedLessons) {
+            AdminService.deleteLessonFromSchedule(lesson.getSchedule_id());
+        }
+        selectedLessons.clear();
         reloadPlan();
         showScheduleGrid();
-        selectedLesson = null;
     }
 
     @FXML

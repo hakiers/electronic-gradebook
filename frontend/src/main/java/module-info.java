@@ -20,6 +20,7 @@ module com.example.egradebook {
 
     requires javafx.controls;
     requires spring.security.crypto;
+    requires spring.context;
 
     exports com.egradebook.frontend.controller.student;
     exports com.egradebook.frontend.dto;
