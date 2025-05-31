@@ -6,6 +6,7 @@ import com.egradebook.backend.dto.TeacherDto;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.request.AddScheduleRequest;
+import com.egradebook.backend.request.AddSubjectGroupRequest;
 import com.egradebook.backend.utils.Pair;
 import com.egradebook.backend.utils.Triple;
 import jakarta.servlet.http.HttpSession;
@@ -54,8 +55,13 @@ public class ClassService {
         clazz.addLesson(lesson);
     }
 
+
     public void removeLesson(int schedule_id, HttpSession session) {
         classRepository.removeLesson(schedule_id);
+    }
+
+    public void addSubjectGroup(AddSubjectGroupRequest request, HttpSession session) {
+        classRepository.addSubjectGroup(request);
     }
 
 
