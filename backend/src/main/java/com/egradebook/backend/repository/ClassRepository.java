@@ -96,7 +96,7 @@ public class ClassRepository {
                 INSERT INTO class_profile (short_name, name)
                 VALUES (?, ?)
                 """;
-        jdbcTemplate.update(sql, new Object[]{request.getProfile_shortcut(), request.getDescription()});
+        jdbcTemplate.update(sql, new Object[]{request.getShortName(), request.getName()});
     }
 
     public void addNewClass(AddClassRequest request){
@@ -137,6 +137,19 @@ public class ClassRepository {
                 VALUES (?, ?, ?)
                 """;
         jdbcTemplate.update(sql, new Object[]{request.getClass_id(), request.getSubject_id(), request.getGroup_number()});
+    }
+
+    public List<ClassProfile> getAllClassProfiles(){
+        String sql = """
+                    SELECT * FROM class_profile
+                """;
+        return jdbcTemplate.query(sql, new Object[]{}, (rs, rowNum) ->
+                new ClassProfile(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("short_name")
+                )
+        );
     }
 
 }

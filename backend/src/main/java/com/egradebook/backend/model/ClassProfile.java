@@ -1,20 +1,20 @@
 package com.egradebook.backend.model;
 
 public class ClassProfile {
-    private int profile_id;
-    private String profile_shortcut;
-    private String description;
+    private int id;
+    private String name;
+    private String short_name;
 
     public ClassProfile(){
 
     }
-    public ClassProfile(int profile_id, String profile_shortcut, String description) {
-        this.profile_id = profile_id;
-        this.profile_shortcut = profile_shortcut;
-        this.description = description;
+    public ClassProfile(int id, String name, String short_name) {
+        this.id = id;
+        this.name = name;
+        this.short_name = short_name;
     }
 
-    public int getProfile_id() { return profile_id; }
-    public String getProfile_shortcut() { return profile_shortcut; }
-    public String getDescription() { return description; }
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public String getShortName() { return short_name; }
 }

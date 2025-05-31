@@ -41,4 +41,9 @@ public class ClassController {
         classService.addSubjectGroup(request, session);
         return ResponseEntity.ok("Subject group added successfully");
     }
+
+    @GetMapping("/profiles")
+    public ResponseEntity<?> getAllClassProfiles(HttpSession session){
+        return ResponseEntity.ok(classService.getAllClassProfiles(session));
+    }
 }
