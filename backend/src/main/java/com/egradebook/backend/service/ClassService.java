@@ -64,5 +64,9 @@ public class ClassService {
         classRepository.addSubjectGroup(request);
     }
 
+    public List<ClassProfile> getAllClassProfiles(HttpSession session) {
+        return classRepository.getAllClassProfiles();
+    }
+
 
 }

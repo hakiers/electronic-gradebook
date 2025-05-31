@@ -25,6 +25,7 @@
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/exception/PeselAlreadyExistsException.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/exception/UnauthorizedException.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/exception/UsernameAlreadyExistsException.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/ClassProfile.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/ClassTeacher.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/Clazz.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/Grade.java

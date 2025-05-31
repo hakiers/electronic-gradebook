@@ -1,14 +1,17 @@
 package com.egradebook.backend.request;
 
 public class AddClassProfileRequest {
-    String profile_shortcut;
-    String description;
+    String short_name;
+    String name;
 
-    public AddClassProfileRequest(String profile_shortcut, String description) {
-        this.profile_shortcut = profile_shortcut;
-        this.description = description;
+    public AddClassProfileRequest(String short_name, String name) {
+        this.short_name = short_name;
+        this.name = name;
     }
 
-    public String getProfile_shortcut() { return profile_shortcut; }
-    public String getDescription() { return description; }
+    public String getShortName() { return short_name; }
+    public String getName() { return name; }
+
 }
+
+
