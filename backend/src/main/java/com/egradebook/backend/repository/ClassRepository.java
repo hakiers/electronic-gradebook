@@ -99,6 +99,13 @@ public class ClassRepository {
         jdbcTemplate.update(sql, new Object[]{request.getShortName(), request.getName()});
     }
 
+    public void deleteClassProfile(int id){
+        String sql = """
+                DELETE FROM class_profile WHERE id = ?
+                """;
+        jdbcTemplate.update(sql, new Object[]{id});
+    }
+
     public void addNewClass(AddClassRequest request){
         String sql = """
                 INSERT INTO classes (class_profile, class_teacher, class_year)
@@ -151,5 +158,6 @@ public class ClassRepository {
                 )
         );
     }
+
 
 }

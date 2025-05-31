@@ -80,6 +80,13 @@ public class AdminController {
         return ResponseEntity.ok("Class profile added successfully");
     }
 
+    @DeleteMapping("/delete-classprofile/{id}")
+    public ResponseEntity<?> deleteClassProfile(@PathVariable int id, HttpSession session) {
+        adminService.deleteClassProfile(id, session);
+        return ResponseEntity.ok("Class profile deleted successfully");
+    }
+
+    @PostMapping("/add-class")
     @PutMapping("/add-class")
     public ResponseEntity<?> addClass(@RequestBody AddClassRequest request, HttpSession session){
         adminService.addNewClass(request, session);
