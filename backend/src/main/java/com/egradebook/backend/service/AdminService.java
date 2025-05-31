@@ -1,18 +1,18 @@
 package com.egradebook.backend.service;
 
 
+import com.egradebook.backend.dto.StudentDto;
 import com.egradebook.backend.dto.TeacherDto;
 import com.egradebook.backend.model.*;
-import com.egradebook.backend.repository.ClassRepository;
-import com.egradebook.backend.repository.SubjectRepository;
-import com.egradebook.backend.repository.TeacherRepository;
+import com.egradebook.backend.repository.*;
 import com.egradebook.backend.request.*;
 import com.egradebook.backend.exception.ForbiddenOperationException;
-import com.egradebook.backend.repository.UserRepository;
 import com.egradebook.backend.utils.Generator;
+import com.egradebook.backend.utils.Pair;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +27,10 @@ public class AdminService {
     private ClassRepository classRepository;
     @Autowired
     private SubjectRepository subjectRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private GroupRepository groupRepository;
 
     public LoginData registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
@@ -86,12 +90,38 @@ public class AdminService {
         return teachers;
     }
 
+    public List<StudentDto> getStudents(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view students!");
+        }
+
+        return studentRepository.getAllStudents().stream().map(StudentDto::new).collect(Collectors.toList());
+    }
+
+    public List<Pair<Subject, Group>> getSubjectGroups(int class_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view subject groups!");
+        }
+
+        return groupRepository.getAllSubjectGroups(class_id);
+    }
+
     public void addNewClassProfile(AddClassProfileRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if(!loggedUser.isAdmin()) {
             throw new ForbiddenOperationException("Only admin can add class profile!");
         }
         classRepository.addNewClassProfile(request);
+    }
+
+    public void deleteClassProfile(int id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can delete class profile!");
+        }
+        classRepository.deleteClassProfile(id);
     }
 
     public void addNewClass(AddClassRequest request, HttpSession session) {
@@ -102,6 +132,14 @@ public class AdminService {
         classRepository.addNewClass(request);
     }
 
+    public void deleteClass(int class_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can delete class!");
+        }
+        classRepository.deleteClass(class_id);
+    }
+
     public void addNewSubject(HttpSession session, String name) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if(!loggedUser.isAdmin()) {
@@ -110,4 +148,36 @@ public class AdminService {
         subjectRepository.addNewSubject(name);
     }
 
+    public boolean editUserPersonalInfo(EditUserPersonalDataRequest request, int user_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can edit personal information!");
+        }
+        return userRepository.editPersonalInfo(request, user_id);
+    }
+
+    public void assignStudentToGroups(AssignStudentToGroupsRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can assign student to groups!");
+        }
+
+        studentRepository.assignStudentToGroups(request);
+    }
+
+    public TeacherDto getTeacher(int teacher_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view teacher!");
+        }
+        return new TeacherDto(teacherRepository.getTeacher(teacher_id));
+    }
+
+    public List<TeacherDto> getTeachersForSubject(int subject_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view teachers!");
+        }
+        return teacherRepository.getTeachersForSubject(subject_id).stream().map(TeacherDto::new).collect(Collectors.toList());
+    }
 }

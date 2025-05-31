@@ -10,6 +10,7 @@ import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.SubjectRepository;
 import com.egradebook.backend.repository.UserRepository;
+import com.egradebook.backend.request.AssignStudentToGroupsRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,4 +99,5 @@ public class StudentService {
         Student student = studentRepository.getStudent(loggedUser.getRoleId());
         return student.getAttendanceByDate(date);
     }
+
 }

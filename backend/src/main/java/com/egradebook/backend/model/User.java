@@ -7,6 +7,7 @@ import com.egradebook.backend.repository.ParentRepository;
 import com.egradebook.backend.repository.StudentRepository;
 import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.repository.UserRepository;
+import com.egradebook.backend.request.EditUserContactDataRequest;
 import com.egradebook.backend.utils.BeanUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -98,5 +99,9 @@ public class User {
 
     public UserPersonalData personalInfo() {
         return userRepository.getUserPersonalData(user_id);
+    }
+
+    public boolean editContactInfo(EditUserContactDataRequest request) {
+        return userRepository.editContactInfo(request, user_id);
     }
 }

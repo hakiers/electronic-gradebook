@@ -1,13 +1,14 @@
 package com.egradebook.backend.repository;
 
-import com.egradebook.backend.model.Clazz;
-import com.egradebook.backend.model.Lesson;
-import com.egradebook.backend.model.Student;
+import com.egradebook.backend.model.*;
 import com.egradebook.backend.request.AddClassProfileRequest;
 import com.egradebook.backend.request.AddClassRequest;
+import com.egradebook.backend.request.AddSubjectGroupRequest;
 import com.egradebook.backend.utils.BeanUtil;
+import com.egradebook.backend.utils.Pair;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,11 @@ import java.util.List;
 public class ClassRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Lazy
+    @Autowired
+    TeacherRepository teacherRepository;
+    @Autowired
+    SubjectRepository subjectRepository;
 
     public List<Student> getStudentsInClass(int class_id){
         String sql = """
@@ -90,7 +96,14 @@ public class ClassRepository {
                 INSERT INTO class_profile (short_name, name)
                 VALUES (?, ?)
                 """;
-        jdbcTemplate.update(sql, new Object[]{request.getProfile_shortcut(), request.getDescription()});
+        jdbcTemplate.update(sql, new Object[]{request.getShortName(), request.getName()});
+    }
+
+    public void deleteClassProfile(int id){
+        String sql = """
+                DELETE FROM class_profile WHERE id = ?
+                """;
+        jdbcTemplate.update(sql, new Object[]{id});
     }
 
     public void addNewClass(AddClassRequest request){
@@ -99,6 +112,13 @@ public class ClassRepository {
                 VALUES (?, ?, ?)
                 """;
         jdbcTemplate.update(sql, new Object[]{request.getClass_profile(), request.getClass_teacher(), request.getClass_year()});
+    }
+
+    public void deleteClass(int class_id){
+        String sql = """
+                DELETE FROM classes WHERE class_id = ?
+                """;
+        jdbcTemplate.update(sql, new Object[]{class_id});
     }
 
     public void addLesson(Lesson lesson) {
@@ -110,4 +130,34 @@ public class ClassRepository {
                lesson.getSubject_id(), lesson.getGroup_id(), lesson.getDay_od_week(),
                lesson.getLesson_number(), lesson.getRoom_number());
     }
+
+    public void removeLesson(int schedule_id) {
+        String sql = """
+                DELETE FROM class_schedule WHERE schedule_id = ?
+                """;
+        jdbcTemplate.update(sql, new Object[]{schedule_id});
+    }
+
+    public void addSubjectGroup(AddSubjectGroupRequest request){
+        String sql = """
+                INSERT INTO subject_groups (class_id, subject_id, group_number)
+                VALUES (?, ?, ?)
+                """;
+        jdbcTemplate.update(sql, new Object[]{request.getClass_id(), request.getSubject_id(), request.getGroup_number()});
+    }
+
+    public List<ClassProfile> getAllClassProfiles(){
+        String sql = """
+                    SELECT * FROM class_profile
+                """;
+        return jdbcTemplate.query(sql, new Object[]{}, (rs, rowNum) ->
+                new ClassProfile(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("short_name")
+                )
+        );
+    }
+
+
 }

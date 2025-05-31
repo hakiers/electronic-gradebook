@@ -4,6 +4,8 @@ import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.model.Grade;
 import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Subject;
+import com.egradebook.backend.request.AssignStudentToGroupsRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -126,6 +128,23 @@ public class StudentRepository {
                 )
         );
         return attendance;
+    }
+
+    public List<Student> getAllStudents(){
+        String sql = """
+                SELECT student_id FROM students;
+                """;
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                getStudent(rs.getInt("student_id"))
+        );
+    }
+
+    public void assignStudentToGroups(AssignStudentToGroupsRequest request) {
+        String sql = "INSERT INTO student_subject_group (student_id, group_id) VALUES (?, ?)";
+
+        for (int i = 0; i < request.getGroups().size(); i++) {
+            jdbcTemplate.update(sql, request.getStudent_id(), request.getGroups().get(i).getGroup_id());
+        }
     }
 
 }

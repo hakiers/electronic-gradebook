@@ -25,6 +25,7 @@
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/exception/PeselAlreadyExistsException.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/exception/UnauthorizedException.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/exception/UsernameAlreadyExistsException.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/ClassProfile.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/ClassTeacher.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/Clazz.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/model/Grade.java
@@ -47,6 +48,9 @@
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddClassProfileRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddClassRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddGradeRequest.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddScheduleRequest.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddSubjectGroupRequest.java
+/home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AssignStudentToGroupsRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AssignTeacherRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditAttendanceRequest.java
 /home/wiiktoria/zadania/projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditGradeRequest.java

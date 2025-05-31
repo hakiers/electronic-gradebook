@@ -1,7 +1,6 @@
 package com.egradebook.backend.controller;
 
 import com.egradebook.backend.request.*;
-import com.egradebook.backend.model.Teacher;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.request.AddScheduleRequest;
 import com.egradebook.backend.request.AssignTeacherRequest;
@@ -9,23 +8,24 @@ import com.egradebook.backend.request.StudentRegistrationRequest;
 import com.egradebook.backend.request.TeacherRegistrationRequest;
 import com.egradebook.backend.service.AdminService;
 import com.egradebook.backend.service.ClassService;
+import com.egradebook.backend.service.StudentService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
 
     @Autowired
-    AdminService adminService;
+    private AdminService adminService;
     @Autowired
     private ClassRepository classRepository;
     @Autowired
     private ClassService classService;
+    @Autowired
+    private StudentService studentService;
 
     @PostMapping("/register/teacher")
     public ResponseEntity<?> registerTeacher(@RequestBody TeacherRegistrationRequest request, HttpSession session) {
@@ -37,9 +37,30 @@ public class AdminController {
             return ResponseEntity.ok(adminService.registerNewStudent(request, session));
     }
 
+    @PostMapping("/assign-to-groups")
+    public ResponseEntity<?> assignToGroups(@RequestBody AssignStudentToGroupsRequest request, HttpSession session) {
+        adminService.assignStudentToGroups(request, session);
+        return ResponseEntity.ok("Students assigned to groups successfully");
+    }
+
     @GetMapping("/teachers")
     public ResponseEntity<?> getTeachers(HttpSession session) {
         return ResponseEntity.ok(adminService.getTeachers(session));
+    }
+
+    @GetMapping("/teacher/{teacher_id}")
+    public ResponseEntity<?> getTeacher(@PathVariable int teacher_id, HttpSession session) {
+        return ResponseEntity.ok(adminService.getTeacher(teacher_id, session));
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<?> getStudents(HttpSession session) {
+        return ResponseEntity.ok(adminService.getStudents(session));
+    }
+
+    @GetMapping("/subjectgroups/{class_id}")
+    public ResponseEntity<?> getSubjectGroups(@PathVariable int class_id, HttpSession session) {
+        return ResponseEntity.ok(adminService.getSubjectGroups(class_id, session));
     }
 
     @PostMapping("/teacher/assign")
@@ -59,10 +80,22 @@ public class AdminController {
         return ResponseEntity.ok("Class profile added successfully");
     }
 
+    @DeleteMapping("/delete-classprofile/{id}")
+    public ResponseEntity<?> deleteClassProfile(@PathVariable int id, HttpSession session) {
+        adminService.deleteClassProfile(id, session);
+        return ResponseEntity.ok("Class profile deleted successfully");
+    }
+
     @PostMapping("/add-class")
     public ResponseEntity<?> addClass(@RequestBody AddClassRequest request, HttpSession session){
         adminService.addNewClass(request, session);
         return ResponseEntity.ok("Class added successfully");
+    }
+
+    @DeleteMapping("/delete-class/{class_id}")
+    public ResponseEntity<?> deleteClass(@PathVariable int class_id, HttpSession session) {
+        adminService.deleteClass(class_id, session);
+        return ResponseEntity.ok("Class deleted successfully");
     }
 
     @PostMapping("/add-subject/{name}")
@@ -72,9 +105,27 @@ public class AdminController {
     }
 
     @PutMapping("/schedule/add")
-    public ResponseEntity<?> addSchedule(AddScheduleRequest request, HttpSession session) {
+    public ResponseEntity<?> addSchedule(@RequestBody AddScheduleRequest request, HttpSession session) {
         classService.addLesson(request, session);
         return ResponseEntity.ok("Schedule added successfully");
     }
+
+    @DeleteMapping("/schedule/remove/{schedule_id}")
+    public ResponseEntity<?> removeSchedule(@PathVariable int schedule_id, HttpSession session) {
+        classService.removeLesson(schedule_id, session);
+        return ResponseEntity.ok("Schedule removed successfully");
+    }
+
+    @PutMapping("/edit-personaldata/{user_id}")
+    public ResponseEntity<?> editPersonalInfo(@RequestBody EditUserPersonalDataRequest request, @PathVariable int user_id, HttpSession session){
+        return ResponseEntity.ok(adminService.editUserPersonalInfo(request, user_id, session));
+    }
+
+    @GetMapping("/teachers/subject/{subject_id}")
+    public ResponseEntity<?> getTeachers(@PathVariable int subject_id, HttpSession session){
+        return ResponseEntity.ok(adminService.getTeachersForSubject(subject_id, session));
+    }
+
+
 
 }

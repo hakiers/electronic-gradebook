@@ -3,6 +3,7 @@ package com.egradebook.backend.model;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.utils.BeanUtil;
+import com.egradebook.backend.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,4 +105,5 @@ public class Clazz {
             throw new IllegalArgumentException("Teacher already assigned");
         }
     }
+
 }

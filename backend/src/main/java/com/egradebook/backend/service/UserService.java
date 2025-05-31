@@ -7,6 +7,7 @@ import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.UserRepository;
+import com.egradebook.backend.request.EditUserContactDataRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +49,13 @@ public class UserService {
         }
         User user = userRepository.findUserById(user_id);
         return user.contactInfo();
+    }
+
+    public boolean editUserContactInfo(EditUserContactDataRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isLoggedIn()) {
+            throw new UnauthorizedException("You are not logged in!");
+        }
+        return loggedUser.editContactInfo(request);
     }
 }
