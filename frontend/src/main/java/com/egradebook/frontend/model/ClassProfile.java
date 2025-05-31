@@ -22,4 +22,8 @@ public class ClassProfile {
     public String getShort_name() {
         return short_name;
     }
+
+    public String toString() {
+        return name + " " + short_name;
+    }
 }

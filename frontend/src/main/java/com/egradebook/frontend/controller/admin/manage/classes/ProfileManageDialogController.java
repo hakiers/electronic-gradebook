@@ -1,6 +1,7 @@
 package com.egradebook.frontend.controller.admin.manage.classes;
 
 import com.egradebook.frontend.model.ClassProfile;
+import com.egradebook.frontend.service.AdminService;
 import com.egradebook.frontend.service.ClassService;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,7 +22,7 @@ public class ProfileManageDialogController {
 
     @FXML private Label detailId;
     @FXML private Label detailName;
-    @FXML private Label detailDescription;
+    @FXML private Label detailShortName;
 
     private List<ClassProfile> classProfiles;
     private Stage dialogStage;
@@ -44,12 +45,12 @@ public class ProfileManageDialogController {
         if (classProfile == null) {
             detailId.setText("");
             detailName.setText("");
-            colShortName.setText("");
+            detailShortName.setText("");
             return;
         }
         detailId.setText(String.valueOf(classProfile.getId()));
         detailName.setText(classProfile.getName());
-        colShortName.setText(classProfile.getShort_name());
+        detailShortName.setText(classProfile.getShort_name());
     }
 
     @FXML
@@ -80,7 +81,7 @@ public class ProfileManageDialogController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Na pewno usunąć profil?");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                //ProfileService.deleteProfile(selected.getId());
+                AdminService.deleteClassProfile(selected.getId());
                 reloadProfiles();
             }
         });

@@ -74,13 +74,13 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getSubjects(session));
     }
 
-    @PostMapping("/add-classprofile")
+    @PutMapping("/add-classprofile")
     public ResponseEntity<?> addClassProfile(@RequestBody AddClassProfileRequest request, HttpSession session) {
         adminService.addNewClassProfile(request, session);
         return ResponseEntity.ok("Class profile added successfully");
     }
 
-    @PostMapping("/add-class")
+    @PutMapping("/add-class")
     public ResponseEntity<?> addClass(@RequestBody AddClassRequest request, HttpSession session){
         adminService.addNewClass(request, session);
         return ResponseEntity.ok("Class added successfully");

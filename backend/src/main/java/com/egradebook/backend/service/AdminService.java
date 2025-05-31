@@ -86,8 +86,8 @@ public class AdminService {
         if(!loggedUser.isAdmin()) {
             throw new ForbiddenOperationException("Only admin can view teachers!");
         }
-        List<TeacherDto> teachers = teacherRepository.getAllTeachers().stream().map(TeacherDto::new).collect(Collectors.toList());
-        return teachers;
+
+        return teacherRepository.getAllTeachers().stream().map(TeacherDto::new).collect(Collectors.toList());
     }
 
     public List<StudentDto> getStudents(HttpSession session) {

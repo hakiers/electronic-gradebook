@@ -45,7 +45,7 @@ public class AddClassDialogController {
         int currentYear = LocalDate.now().getYear();
         List<String> years = new ArrayList<>();
         for (int y = currentYear - 4; y <= currentYear + 4; y++) {
-            years.add(y + "/" + (y + 1));
+            years.add(String.valueOf(y));
         }
 
         groupsCombo.setItems(FXCollections.observableArrayList(years));

@@ -12,8 +12,6 @@ public class ProfileDialogController {
     @FXML private TextField nameField;
     @FXML private TextField shortNameField;
     @FXML private Label statusLabel;
-    @FXML private Button saveButton;
-    @FXML private Button cancelButton;
 
     private Stage dialogStage;
     private ClassProfile classProfile;
@@ -47,7 +45,7 @@ public class ProfileDialogController {
 
         if (classProfile == null) {
             AddClassProfileRequest newProfile = new AddClassProfileRequest(name, shortName);
-            AdminService.addProfile(newProfile);
+            AdminService.addClassProfile(newProfile);
         } else {
             //todo query do update profilu
         }

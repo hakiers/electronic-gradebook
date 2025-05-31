@@ -3,8 +3,6 @@ package com.egradebook.frontend.service;
 import com.egradebook.frontend.dto.AddClassProfileRequest;
 import com.egradebook.frontend.dto.AddClassRequest;
 import com.egradebook.frontend.dto.AddScheduleRequest;
-import com.egradebook.frontend.model.ClassProfile;
-import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.Teacher;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,7 +64,7 @@ public class AdminService {
 
     }
 
-    public static void addProfile(AddClassProfileRequest profile) {
+    public static void addClassProfile(AddClassProfileRequest profile) {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
                 return;
@@ -88,6 +86,26 @@ public class AdminService {
                 System.out.println("Błąd: " + response.body());
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteClassProfile(int profile_id) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/admin/delete-classprofile/"+profile_id))
+                    .header("Content-Type", "application/json").DELETE()
+                    .build();
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                System.out.println("Usunięto Profil Klasy!");
+            } else {
+                System.out.println("Błąd: " + response.body());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

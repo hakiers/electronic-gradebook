@@ -16,5 +16,5 @@ public class ClassProfile {
 
     public int getId() { return id; }
     public String getName() { return name; }
-    public String getShortName() { return short_name; }
+    public String getShort_name() { return short_name; }
 }
