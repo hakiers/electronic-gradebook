@@ -116,6 +116,14 @@ public class AdminService {
         classRepository.addNewClassProfile(request);
     }
 
+    public void deleteClassProfile(int id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can delete class profile!");
+        }
+        classRepository.deleteClassProfile(id);
+    }
+
     public void addNewClass(AddClassRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if(!loggedUser.isAdmin()) {
