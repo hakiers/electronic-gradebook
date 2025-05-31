@@ -3,6 +3,7 @@ package com.egradebook.backend.repository;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.request.AddClassProfileRequest;
 import com.egradebook.backend.request.AddClassRequest;
+import com.egradebook.backend.request.AddSubjectGroupRequest;
 import com.egradebook.backend.utils.BeanUtil;
 import com.egradebook.backend.utils.Pair;
 import jakarta.servlet.http.HttpSession;
@@ -128,6 +129,14 @@ public class ClassRepository {
                 DELETE FROM class_schedule WHERE schedule_id = ?
                 """;
         jdbcTemplate.update(sql, new Object[]{schedule_id});
+    }
+
+    public void addSubjectGroup(AddSubjectGroupRequest request){
+        String sql = """
+                INSERT INTO subject_groups (class_id, subject_id, group_number)
+                VALUES (?, ?, ?)
+                """;
+        jdbcTemplate.update(sql, new Object[]{request.getClass_id(), request.getSubject_id(), request.getGroup_number()});
     }
 
 }
