@@ -134,7 +134,6 @@ public class TeacherService {
             }
 
             HttpRequest request = HttpRequest.newBuilder()
-                    // TODO NIE MA METODY W BACKENDZIE
                     .uri(new URI("http://localhost:8080/api/teacher/schedule"))
                     .header("Content-Type", "application/json")
                     .GET()
@@ -192,31 +191,12 @@ public class TeacherService {
         attendanceDatabase.put(key, new ArrayList<>(list));
     }
 
-    public static List<Integer> getAvailableLessonsForDate(LocalDate date) {
-        String datePrefix = date.toString(); // np. "2025-05-24"
-
-        return attendanceDatabase.keySet().stream()
-                .filter(key -> key.startsWith(datePrefix))
-                .map(key -> key.split("_")[1])              // pobierz numer lekcji jako String
-                .map(Integer::parseInt)                     // zamień na int
-                .distinct()
-                .sorted()
-                .toList();
-    }
-
-    private static final Map<Integer, List<Lesson>> classSchedules = new HashMap<>();
-
-    static {
-        // Przykład: Klasa ID = 1 ma zajęcia w poniedziałek i środę
-        classSchedules.put(1, List.of(
-                new Lesson(1, 1, 1, 1, 1, 1, 2, 101,"A B","Matematyka",2), // Poniedziałek, lekcja 2
-                new Lesson(2, 1, 1, 2, 1, 1, 4, 102,"A B","Matematyka",2), // Poniedziałek, lekcja 4
-                new Lesson(3, 1, 1, 3, 1, 3, 3, 103,"A B","Matematyka",2)  // Środa, lekcja 3
-        ));
-    }
+    private static List<Lesson> classSchedules = new ArrayList<>();
 
     public static List<Lesson> getScheduleForClass(int classId) {
-        return classSchedules.getOrDefault(classId, new ArrayList<>());
+        //TODO NIE UWZGLĘDNIA KLASY I PRZEDMIOTU
+        classSchedules=getSchedule().getValue();
+        return classSchedules;
     }
 
     public static List<Integer> getLessonsFromSchedule(int classId, LocalDate date) {
@@ -232,10 +212,6 @@ public class TeacherService {
                 .toList();
     }
 
-    /**
-     * Zwraca WSZYSTKIE lekcje z planu danej klasy na podany dzień,
-     * niezależnie czy obecność już jest zapisana.
-     */
     public static List<Integer> getAllScheduledLessonsForDate(int classId, LocalDate date) {
         return getLessonsFromSchedule(classId, date);
     }
