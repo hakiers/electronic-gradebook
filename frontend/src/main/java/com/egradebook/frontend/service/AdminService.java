@@ -1,5 +1,6 @@
 package com.egradebook.frontend.service;
 
+
 import com.egradebook.frontend.dto.AddClassProfileRequest;
 import com.egradebook.frontend.dto.AddClassRequest;
 import com.egradebook.frontend.dto.AddScheduleRequest;
@@ -28,8 +29,8 @@ public class AdminService {
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
-            HttpClient client = HttpClient.newHttpClient();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
                 System.out.println("Dodano lekcję do planu!");
@@ -49,8 +50,8 @@ public class AdminService {
                     .header("Content-Type", "application/json").DELETE()
                     .build();
 
-            HttpClient client = HttpClient.newHttpClient();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
                 System.out.println("Usunięto lekcję z planu!");
@@ -98,8 +99,7 @@ public class AdminService {
                     .header("Content-Type", "application/json").DELETE()
                     .build();
 
-            HttpClient client = HttpClient.newHttpClient();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
                 System.out.println("Usunięto Profil Klasy!");

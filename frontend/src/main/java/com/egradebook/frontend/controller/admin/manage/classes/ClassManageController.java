@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClassManageController {
@@ -51,6 +52,9 @@ public class ClassManageController {
                 }
         );
         classes = ClassService.getAllClasses().getValue();
+        if(classes == null) {
+            classes = new ArrayList<>();
+        }
         classesTable.setItems(FXCollections.observableArrayList(classes));
 
         classesTable.getSelectionModel().selectedItemProperty().addListener(

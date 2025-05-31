@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileManageDialogController {
@@ -81,6 +82,7 @@ public class ProfileManageDialogController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Na pewno usunąć profil?");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
+                System.out.println("Profil: " + selected.getId());
                 AdminService.deleteClassProfile(selected.getId());
                 reloadProfiles();
             }
@@ -94,6 +96,9 @@ public class ProfileManageDialogController {
 
     private void reloadProfiles() {
         classProfiles = ClassService.getAllProfiles().getValue();
+        if(classProfiles == null) {
+            classProfiles = new ArrayList<>();
+        }
         profilesTable.setItems(FXCollections.observableArrayList(classProfiles));
     }
 
