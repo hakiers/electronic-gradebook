@@ -22,7 +22,7 @@ CREATE TABLE teachers(
 
 CREATE TABLE classes(
     class_id serial PRIMARY KEY,
-    class_profile integer REFERENCES class_profile(id) ON DELETE SET NULL,
+    class_profile integer REFERENCES class_profile(id) ON DELETE CASCADE,
     class_teacher integer REFERENCES teachers(teacher_id) ON DELETE SET NULL ON UPDATE CASCADE,
     class_year char(4)
 );
