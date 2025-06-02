@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.egradebook.frontend.controller.student.StudentPageController"
-      alignment="CENTER" spacing="20">
-    <Button text="Oceny" fx:id="showGradesButton"
-            style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleShowGrades"/>
-    <Button text="Obecność" fx:id="showAttendanceButton"
-            style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleShowAttendance"/>
-    <Button text="Plan lekcji" fx:id="showScheduleButton"
-            style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleShowSchedule"/>
-    <Button text="Zmień hasło" fx:id="changePasswordButton"
-            style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleChange"/>
-    <Button text="Wyloguj" fx:id="logoutButton"
-            style="-fx-background-color: red; -fx-text-fill: white;" onAction="#handleLogout"/>
+<BorderPane fx:id="mainContainer" id="mainContainer" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.egradebook.frontend.controller.student.StudentPageController">
 
-</VBox>
+    <top>
+        <HBox alignment="CENTER_RIGHT">
+            <children>
+                <Button text="WYLOGUJ" fx:id="logoutButton"
+                        styleClass="logoutButton" onAction="#handleLogout"/>
+            </children>
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <children>
+                <Button text="OCENY" fx:id="showGradesButton"
+                        styleClass="toggle-button"
+                        onAction="#handleShowGrades"/>
+                <Button text="FREKWENCJA" fx:id="showAttendanceButton"
+                        styleClass="toggle-button"
+                        onAction="#handleShowAttendance"/>
+                <Button text="PLAN LEKCJI" fx:id="showScheduleButton"
+                        styleClass="toggle-button"
+                        onAction="#handleShowSchedule"/>
+                <Button text="ZMIANA HASŁA" fx:id="changePasswordButton"
+                        styleClass="toggle-button"
+                        onAction="#handleChange"/>
+            </children>
+        </VBox>
+    </center>
+
+</BorderPane>

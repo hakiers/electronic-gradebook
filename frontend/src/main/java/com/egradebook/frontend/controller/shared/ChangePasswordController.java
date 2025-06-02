@@ -2,8 +2,12 @@ package com.egradebook.frontend.controller.shared;
 
 import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.ViewLoader;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -19,6 +23,19 @@ public class ChangePasswordController {
     @FXML Label successLabel;
 
     Pair<Integer,String> ChangeInfo;
+
+    @FXML
+    private VBox mainContainer;
+
+    @FXML
+    private void initialize() {
+        Platform.runLater(() -> {
+            Scene scene = mainContainer.getScene();
+            scene.getStylesheets().add(getClass().getResource("/css/base.css").toExternalForm());
+        });
+
+    }
+
     @FXML
     public void back() {
         Stage stage = (Stage) returnButton.getScene().getWindow();
@@ -30,19 +47,19 @@ public class ChangePasswordController {
         String newPassword = newPasswordField.getText();
         if(!check.equals(newPassword)) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Hasła nie są takie same");
+            errorLabel.setText("HASŁA NIE SĄ TAKIE SAME");
             return;
         }
         ChangeInfo=UserService.changePassword(newPassword);
         if(ChangeInfo.getKey()!=200) {
             successLabel.setVisible(false);
             errorLabel.setVisible(true);
-            errorLabel.setText("Nowe hasło jest niepoprawne");
+            errorLabel.setText("NOWE HASŁO JEST NIEPOPRAWNE");
         }
         else {
             errorLabel.setVisible(false);
             successLabel.setVisible(true);
-            successLabel.setText("Hasło zmienione");
+            successLabel.setText("HASŁO ZMIENIONE!");
         }
     }
 }

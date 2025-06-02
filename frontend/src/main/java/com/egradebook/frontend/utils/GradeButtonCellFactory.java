@@ -40,12 +40,21 @@ public class GradeButtonCellFactory<T> {
                     HBox hbox = new HBox(5);
                     for (Grade grade : grades) {
                         Button gradeButton = new Button(String.valueOf(grade.getGrade_value()));
-                        gradeButton.setTooltip(new Tooltip("Data: " + grade.getDate() + "\nOpis: " + grade.getDescription()));
+
+                        gradeButton.getStyleClass().add("grade-button");
+                        gradeButton.getStyleClass().add("grade-" + (int) grade.getGrade_value());
+
+                        //gradeButton.setTooltip(new Tooltip("Data: " + grade.getDate() + "\nOpis: " + grade.getDescription()));
+                        Tooltip tooltip = new Tooltip("Data: " + grade.getDate() + "\nOpis: " + grade.getDescription());
+                        Tooltip.install(gradeButton, tooltip);
+
 
                         if (isSelected != null && isSelected.apply(grade)) {
-                            gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6; -fx-background-color: #d3d3d3;");
+                            //gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6; -fx-background-color: #d3d3d3;");
+                            gradeButton.getStyleClass().add("grade-selected");
+
                         } else {
-                            gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6;");
+                            //gradeButton.setStyle("-fx-font-size: 12; -fx-padding: 3 6;");
                         }
 
                         if (onGradeClick != null) {
