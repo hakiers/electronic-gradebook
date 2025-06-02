@@ -93,4 +93,9 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.getSchedule(session));
     }
 
+    @GetMapping("/{class_id}/{subject_id}/schedule/{dayOfWeek}")
+    public ResponseEntity<?> getClassSubjectSchedule(@PathVariable int class_id,@PathVariable int subject_id,@PathVariable int dayOfWeek,   HttpSession session) {
+        return ResponseEntity.ok(teacherService.getClassSubjectSchedule(class_id, subject_id,dayOfWeek, session));
+    }
+
 }

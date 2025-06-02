@@ -267,4 +267,13 @@ public class TeacherRepository {
                 getTeacher(rs.getInt("teacher_id"))
         );
     }
+
+    public List<Integer> getClassSubjectSchedule(int teacher_id, int class_id, int subject_id,int day_of_week) {
+        String sql = """
+                SELECT lesson_number FROM class_schedule WHERE teacher_id = ? and class_id = ? and subject_id = ? and day_of_week = ?
+                """;
+        return jdbcTemplate.query(sql, new Object[]{teacher_id,class_id,subject_id,day_of_week}, (rs, rowNum) ->
+                        rs.getInt("lesson_number")
+        );
+    }
 }

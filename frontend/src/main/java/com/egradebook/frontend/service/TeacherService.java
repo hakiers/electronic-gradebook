@@ -155,6 +155,35 @@ public class TeacherService {
             return new Pair<>(500, null);
         }
     }
+    public static Pair<Integer,List<Integer>> getSelectedSchedule(int dayOfWeek) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/teacher/"+selectedClassId+"/"+selectedSubjectId+"/schedule/"+dayOfWeek))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Integer> lessons = mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Integer>>() {}
+                );
+                return new Pair<>(response.statusCode(), lessons);
+            } else {
+                return new Pair<>(response.statusCode(), null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, null);
+        }
+    }
+
     private static final Map<String, List<Attendance>> attendanceDatabase = new HashMap<>();
 
     static {
@@ -212,9 +241,6 @@ public class TeacherService {
                 .toList();
     }
 
-    public static List<Integer> getAllScheduledLessonsForDate(int classId, LocalDate date) {
-        return getLessonsFromSchedule(classId, date);
-    }
 
     public static boolean isAttendanceAlreadySaved(LocalDate date, int lessonNumber) {
         String key = date.toString() + "_" + lessonNumber;

@@ -26,7 +26,6 @@ public class TeacherAttendanceController {
     @FXML private TableColumn<StudentAttendanceRow, Status> statusColumn;
 
     private final ObservableList<StudentAttendanceRow> attendanceRows = FXCollections.observableArrayList();
-    private int selectedClassId = 1; // ustawiany z zewnątrz
 
     @FXML
     public void initialize() {
@@ -41,7 +40,6 @@ public class TeacherAttendanceController {
         // Załaduj tabelę po wyborze lekcji
         lessonComboBox.setOnAction(e -> loadAttendanceTable());
 
-        // Możesz na start ustawić domyślnie datę na dziś i uzupełnić comboBox, jeśli chcesz:
          datePicker.setValue(LocalDate.now());
         // updateLessonComboBox();
     }
@@ -53,9 +51,7 @@ public class TeacherAttendanceController {
             attendanceRows.clear();
             return;
         }
-
-        // TODO Pobierz wszystkie lekcje zaplanowane na ten dzień dla wybranej klasy
-        List<Integer> lessons = TeacherService.getAllScheduledLessonsForDate(selectedClassId, selectedDate);
+        List<Integer> lessons = TeacherService.getSelectedSchedule(selectedDate.getDayOfWeek().getValue()).getValue();
 
         lessonComboBox.setItems(FXCollections.observableArrayList(lessons));
         lessonComboBox.setValue(null);
@@ -71,7 +67,7 @@ public class TeacherAttendanceController {
 
         attendanceRows.clear();
 
-        List<Student> students = TeacherService.getStudentInClass(selectedClassId).getValue();
+        List<Student> students = TeacherService.getStudentInClass(TeacherService.selectedClassId).getValue();
         if (students == null) return;
 
         List<Integer> ids = students.stream().map(Student::getStudent_id).toList();
@@ -127,10 +123,6 @@ public class TeacherAttendanceController {
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
-    }
-
-    public void setSelectedClassId(int classId) {
-        this.selectedClassId = classId;
     }
     public void back() {
         Stage stage=(Stage) backButton.getScene().getWindow();
