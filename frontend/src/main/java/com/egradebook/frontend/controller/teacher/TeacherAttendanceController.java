@@ -3,6 +3,8 @@ package com.egradebook.frontend.controller.teacher;
 import com.egradebook.frontend.model.Attendance;
 import com.egradebook.frontend.model.Attendance.Status;
 import com.egradebook.frontend.model.Student;
+import com.egradebook.frontend.request.AddAttendanceRequest;
+import com.egradebook.frontend.request.EditAttendanceRequest;
 import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.StudentAttendanceRow;
 import com.egradebook.frontend.utils.AttendanceTableConfigurer;
@@ -26,24 +28,21 @@ public class TeacherAttendanceController {
     @FXML private TableColumn<StudentAttendanceRow, Status> statusColumn;
 
     private final ObservableList<StudentAttendanceRow> attendanceRows = FXCollections.observableArrayList();
-    private int selectedClassId = 1; // ustawiany z zewnątrz
 
     @FXML
     public void initialize() {
         AttendanceTableConfigurer.configure(attendanceTable);
 
-        // Załaduj comboBox lekcji po zmianie daty
         datePicker.setOnAction(e -> {
             updateLessonComboBox();
             loadAttendanceTable();
         });
 
-        // Załaduj tabelę po wyborze lekcji
         lessonComboBox.setOnAction(e -> loadAttendanceTable());
 
-        // Możesz na start ustawić domyślnie datę na dziś i uzupełnić comboBox, jeśli chcesz:
          datePicker.setValue(LocalDate.now());
-        // updateLessonComboBox();
+        updateLessonComboBox();
+        loadAttendanceTable();
     }
 
     private void updateLessonComboBox() {
@@ -53,9 +52,7 @@ public class TeacherAttendanceController {
             attendanceRows.clear();
             return;
         }
-
-        // TODO Pobierz wszystkie lekcje zaplanowane na ten dzień dla wybranej klasy
-        List<Integer> lessons = TeacherService.getAllScheduledLessonsForDate(selectedClassId, selectedDate);
+        List<Integer> lessons = TeacherService.getSelectedSchedule(selectedDate.getDayOfWeek().getValue()).getValue();
 
         lessonComboBox.setItems(FXCollections.observableArrayList(lessons));
         lessonComboBox.setValue(null);
@@ -71,12 +68,12 @@ public class TeacherAttendanceController {
 
         attendanceRows.clear();
 
-        List<Student> students = TeacherService.getStudentInClass(selectedClassId).getValue();
+        List<Student> students = TeacherService.getStudentInClass(TeacherService.selectedClassId).getValue();
         if (students == null) return;
 
         List<Integer> ids = students.stream().map(Student::getStudent_id).toList();
 
-        List<Attendance> attendances = TeacherService.getAttendanceForDateAndLesson(
+        List<Attendance> attendances = TeacherService.getProcessedAttendance(
                 datePicker.getValue(),
                 lessonComboBox.getValue(),
                 ids
@@ -90,7 +87,7 @@ public class TeacherAttendanceController {
 
             if (s == null) continue;
 
-            StudentAttendanceRow row = new StudentAttendanceRow(a.getStudentId(), s.getName(), s.getSurname());
+            StudentAttendanceRow row = new StudentAttendanceRow(a.getScheduleId(),a.getAttendanceId(), a.getStudentId(), s.getName(), s.getSurname());
             row.setStatus(a.getStatus());
             attendanceRows.add(row);
         }
@@ -107,18 +104,15 @@ public class TeacherAttendanceController {
 
         List<Attendance> saved = new ArrayList<>();
         for (StudentAttendanceRow row : attendanceRows) {
-            Attendance att = new Attendance(
-                    0, // tymczasowe ID
-                    row.getStudentId(),
-                    null, // scheduleId - opcjonalne
-                    datePicker.getValue().toString(),
-                    lessonComboBox.getValue(),
-                    row.getStatus()
-            );
-            saved.add(att);
+            if(row.getAttendanceId()==0) {
+                AddAttendanceRequest request=new AddAttendanceRequest(row.getStudentId(), row.getScheduleId(),row.getStatus().toString().toLowerCase());
+                TeacherService.addAttendance(request);
+            }
+            else{
+                EditAttendanceRequest request=new EditAttendanceRequest(row.getAttendanceId(), row.getStatus().toString().toLowerCase());
+                TeacherService.editAttendance(request);
+            }
         }
-
-        TeacherService.saveMockAttendance(saved);
         showAlert("Obecność zapisana!");
     }
 
@@ -127,10 +121,6 @@ public class TeacherAttendanceController {
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
-    }
-
-    public void setSelectedClassId(int classId) {
-        this.selectedClassId = classId;
     }
     public void back() {
         Stage stage=(Stage) backButton.getScene().getWindow();

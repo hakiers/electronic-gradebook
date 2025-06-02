@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -180,5 +181,9 @@ public class Teacher {
     //pobieranie planu zajec dla nauczyciela
     public List<Lesson> getSchedule(){
         return teacherRepository.getSchedule(teacher_id);
+    }
+
+    public List<Integer> getClassSubjectSchedule(int class_id,int subject_id,int dayOfWeek) {
+        return teacherRepository.getClassSubjectSchedule(teacher_id,class_id,subject_id,dayOfWeek);
     }
 }

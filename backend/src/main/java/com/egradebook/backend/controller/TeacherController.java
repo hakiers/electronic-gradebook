@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/teacher")
 public class TeacherController {
@@ -93,4 +95,16 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.getSchedule(session));
     }
 
+    @GetMapping("/{class_id}/{subject_id}/schedule/{dayOfWeek}")
+    public ResponseEntity<?> getClassSubjectSchedule(@PathVariable int class_id,@PathVariable int subject_id,@PathVariable int dayOfWeek,   HttpSession session) {
+        return ResponseEntity.ok(teacherService.getClassSubjectSchedule(class_id, subject_id,dayOfWeek, session));
+    }
+
+    @GetMapping("/attendance")
+    public ResponseEntity<?> getAttendanceForDateAndLesson(
+            @RequestParam String date,
+            @RequestParam int lessonNumber,
+            @RequestParam List<Integer> studentIds) {
+        return ResponseEntity.ok(teacherService.getAttendanceForDateAndLesson(date, lessonNumber, studentIds));
+    }
 }

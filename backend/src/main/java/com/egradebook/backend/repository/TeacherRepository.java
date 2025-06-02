@@ -12,7 +12,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class TeacherRepository {
@@ -277,4 +281,89 @@ public class TeacherRepository {
                 getTeacher(rs.getInt("teacher_id"))
         );
     }
+
+    public List<Integer> getClassSubjectSchedule(int teacher_id, int class_id, int subject_id,int day_of_week) {
+        String sql = """
+                SELECT lesson_number FROM class_schedule WHERE teacher_id = ? and class_id = ? and subject_id = ? and day_of_week = ?
+                """;
+        return jdbcTemplate.query(sql, new Object[]{teacher_id,class_id,subject_id,day_of_week}, (rs, rowNum) ->
+                        rs.getInt("lesson_number")
+        );
+    }
+
+    public List<Attendance> getAttendanceForDateAndLesson(LocalDate date, int lessonNumber, List<Integer> studentIds) {
+        if (studentIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        Integer classId = null;
+        try {
+            String classIdSql = "SELECT class_id FROM students WHERE student_id = ? LIMIT 1";
+            classId = jdbcTemplate.queryForObject(classIdSql, new Object[]{studentIds.get(0)}, Integer.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>(); // nie można kontynuować bez class_id
+        }
+
+// --- POBIERZ SCHEDULE_ID DLA TEJ KLASY ---
+        Integer scheduleId = null;
+        try {
+            String sqlSchedule = """
+        SELECT schedule_id
+        FROM class_schedule
+        WHERE day_of_week = ? AND lesson_number = ? AND class_id = ?
+        LIMIT 1
+    """;
+            int dayOfWeek = date.getDayOfWeek().getValue();
+            scheduleId = jdbcTemplate.queryForObject(
+                    sqlSchedule,
+                    new Object[]{dayOfWeek, lessonNumber, classId},
+                    Integer.class
+            );
+        } catch (Exception e) {
+            scheduleId = null; // brak planu lekcji też OK
+        }
+
+        // --- POBIERZ ISTNIEJĄCE OBECNOŚCI ---
+        String sql = String.format("""
+        SELECT attendance_id, student_id, schedule_id, date, status
+        FROM attendance NATURAL JOIN class_schedule
+        WHERE date = CAST(? AS DATE)
+          AND lesson_number = ?
+          AND student_id IN (%s)
+    """, studentIds.stream().map(id -> "?").collect(Collectors.joining(",")));
+
+        List<Object> params = new ArrayList<>();
+        params.add(date.toString());
+        params.add(lessonNumber);
+        params.addAll(studentIds);
+
+        List<Attendance> found = jdbcTemplate.query(sql, params.toArray(), (rs, rowNum) -> new Attendance(
+                rs.getInt("attendance_id"),
+                rs.getInt("student_id"),
+                rs.getObject("schedule_id") != null ? rs.getInt("schedule_id") : null,
+                rs.getString("status"),
+                rs.getString("date")
+        ));
+
+        // --- DODAJ BRAKUJĄCE DOMYŚLNE (PRESENCE) ---
+        Set<Integer> foundIds = found.stream()
+                .map(Attendance::getStudent_id)
+                .collect(Collectors.toSet());
+
+        for (Integer id : studentIds) {
+            if (!foundIds.contains(id)) {
+                found.add(new Attendance(
+                        0,
+                        id,
+                        scheduleId,                    // <-- tutaj używamy pobranego schedule_id
+                        "presence",
+                        date.toString()
+                ));
+            }
+        }
+
+        return found;
+    }
+
 }

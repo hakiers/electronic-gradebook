@@ -84,7 +84,7 @@ public class Attendance {
     }
     public void setLessonNumber(int lessonNumber) { this.lessonNumber = lessonNumber; }
     public enum Status {
-        PRESENCE("present"),
+        PRESENCE("presence"),
         ABSENCE("absence"),
         LATE("late"),
         EXCUSED_ABSCENCE("excused absence");

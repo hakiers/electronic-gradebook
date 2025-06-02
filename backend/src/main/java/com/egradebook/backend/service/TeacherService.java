@@ -1,5 +1,6 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.dto.ClazzDto;
 import com.egradebook.backend.dto.LessonDto;
 import com.egradebook.backend.model.*;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -171,4 +173,19 @@ public class TeacherService {
         return schedule;
     }
 
+    public List<Integer> getClassSubjectSchedule(int class_id,int subject_id,int dayOfWeek,HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if (!loggedUser.isTeacher()) {
+            throw new UnauthorizedException("User is not a teacher");
+        }
+        Teacher teacher = teacherRepository.getTeacher(loggedUser.getRoleId());
+        List<Integer> schedule = teacher.getClassSubjectSchedule(class_id,subject_id,dayOfWeek).stream()
+                .toList();
+        return schedule;
+
+    }
+    public List<Attendance> getAttendanceForDateAndLesson(String date, int lessonNumber, List<Integer> studentIds) {
+        LocalDate parsedDate = LocalDate.parse(date);
+        return teacherRepository.getAttendanceForDateAndLesson(parsedDate, lessonNumber, studentIds);
+    }
 }
