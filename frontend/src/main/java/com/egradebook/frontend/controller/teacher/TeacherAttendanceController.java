@@ -33,17 +33,16 @@ public class TeacherAttendanceController {
     public void initialize() {
         AttendanceTableConfigurer.configure(attendanceTable);
 
-        // Załaduj comboBox lekcji po zmianie daty
         datePicker.setOnAction(e -> {
             updateLessonComboBox();
             loadAttendanceTable();
         });
 
-        // Załaduj tabelę po wyborze lekcji
         lessonComboBox.setOnAction(e -> loadAttendanceTable());
 
          datePicker.setValue(LocalDate.now());
-        // updateLessonComboBox();
+        updateLessonComboBox();
+        loadAttendanceTable();
     }
 
     private void updateLessonComboBox() {
