@@ -51,7 +51,7 @@ public class LoginController {
         });
         Platform.runLater(() -> {
             Scene scene = mainContainer.getScene();
-            URL cssUrl = getClass().getResource("/css/styles.css");
+            URL cssUrl = getClass().getResource("/css/base.css");
             scene.getStylesheets().add(cssUrl.toExternalForm());
         });
     }

@@ -3,21 +3,45 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.egradebook.frontend.controller.student.StudentGradesController">
-    <Button fx:id="returnButton" alignment="TOP_LEFT" defaultButton="true" onAction="#back" text="wróć" />
-    <HBox alignment="CENTER" spacing="20">
-        <Label styleClass="header" text="Twoje oceny" />
-        <Label fx:id="studentNameLabel" styleClass="student-name" />
-    </HBox>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.14-internal"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.egradebook.frontend.controller.student.StudentGradesController">
 
-    <TableView fx:id="gradesTable">
-        <columns>
-            <TableColumn fx:id="subjectColumn" text="Przedmiot" />
-            <TableColumn fx:id="gradesColumn" editable="false" text="Oceny" />
-        </columns>
-    </TableView>
+    <top>
+        <HBox alignment="TOP_LEFT" style="-fx-background-color: #f4f4f4;">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+            <Button fx:id="returnButton" id="returnButton"
+                    text="wróć"
+                    onAction="#back"/>
+        </HBox>
+    </top>
 
-    <fx:define>
-        <Tooltip fx:id="gradeTooltip" styleClass="grade-tooltip" />
-    </fx:define>
-</VBox>
+    <center>
+        <VBox fx:id="mainContainer" id="mainContainer" spacing="10">
+
+            <HBox alignment="CENTER" spacing="20">
+                <Label styleClass="header" text="TWOJE OCENY" />
+                <Label fx:id="studentNameLabel" styleClass="student-name" />
+            </HBox>
+
+            <ScrollPane fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
+                <content>
+                    <TableView fx:id="gradesTable" prefHeight="400.0" minWidth="600.0">
+                        <columns>
+                            <TableColumn fx:id="subjectColumn" resizable="false" text="PRZEDMIOT" prefWidth="200.0" />
+                            <TableColumn fx:id="gradesColumn" resizable="true" text="OCENY" minWidth="1100.0" prefWidth="1500.0"/>
+                        </columns>
+                    </TableView>
+                </content>
+            </ScrollPane>
+
+            <fx:define>
+                <Tooltip fx:id="gradeTooltip" styleClass="grade-tooltip" />
+            </fx:define>
+
+        </VBox>
+    </center>
+</BorderPane>

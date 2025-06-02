@@ -1,0 +1,70 @@
+/* Styl ogólny dla przycisku z oceną */
+.grade-button {
+    -fx-background-radius: 0;
+    -fx-text-fill: black;
+    -fx-padding: 3 6;
+}
+
+
+/* Styl dla konkretnych ocen */
+.grade-1 {
+    -fx-background-color: #e57373; /* czerwony */
+}
+
+.grade-2 {
+    -fx-background-color: #f06292; /* różowy */
+}
+
+.grade-3 {
+    -fx-background-color: #fff176; /* żółty */
+}
+
+.grade-4 {
+    -fx-background-color: #aed581; /* jasna zieleń */
+}
+
+.grade-5 {
+    -fx-background-color: #81c784; /* zieleń */
+}
+
+.grade-6 {
+    -fx-background-color: #4db6ac; /* turkus */
+}
+
+.grade-selected {
+    -fx-background-color: #d3d3d3;
+}
+
+
+.tooltip {
+    -fx-background-color: #333;
+    -fx-text-fill: white;
+    -fx-opacity: 1.0;
+    -fx-font-size: 12px;
+}
+
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-table-cell-border-color: #e0e0e0;
+    -fx-padding: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #3088c3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.header{
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+

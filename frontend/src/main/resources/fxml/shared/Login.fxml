@@ -5,37 +5,61 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="mainContainer" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+<VBox fx:id="mainContainer" id="mainContainer" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.egradebook.frontend.controller.shared.LoginController"
-      alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f4;">
+      alignment="CENTER" spacing="10" maxWidth="600">
+
     <fx:define>
         <ToggleGroup fx:id="loginTypeGroup"/>
     </fx:define>
+
     <HBox spacing="10" alignment="CENTER">
-        <ToggleButton text="Zaloguj jako uczeń/rodzic" fx:id="asStudentButton"
-                      toggleGroup="$loginTypeGroup" selected="true"
-                      styleClass="toggle-button"/>
-        <ToggleButton text="Zaloguj jako pracownik" fx:id="asWorkerButton"
-                      toggleGroup="$loginTypeGroup"
-                      styleClass="toggle-button"/>
+        <ToggleButton fx:id="asStudentButton" toggleGroup="$loginTypeGroup" selected="true"
+                      styleClass="toggle-button">
+            <graphic>
+                <VBox alignment="CENTER">
+                    <Label text="ZALOGUJ SIĘ JAKO" styleClass="toggle-label"/>
+                    <Label text="UCZEŃ/RODZIC" styleClass="toggle-label"/>
+                </VBox>
+            </graphic>
+        </ToggleButton>
+
+        <ToggleButton fx:id="asWorkerButton" toggleGroup="$loginTypeGroup"
+                      styleClass="toggle-button">
+            <graphic>
+                <VBox alignment="CENTER">
+                    <Label text="ZALOGUJ SIĘ JAKO" styleClass="toggle-label"/>
+                    <Label text="PRACOWNIK" styleClass="toggle-label"/>
+                </VBox>
+            </graphic>
+        </ToggleButton>
+
+
     </HBox>
 
-    <Text text="System logowania" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <Text text="ZALOGUJ SIĘ DO SYSTEMU" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
     <Label fx:id="errorLabel" textFill="RED" visible="false" />
 
-    <GridPane hgap="10" vgap="10" alignment="CENTER">
-        <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-        <Label text="Login:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="usernameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-        <Label text="Hasło:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <PasswordField fx:id="passwordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-    </GridPane>
+    <VBox spacing="10" alignment="CENTER">
+        <VBox spacing="10" alignment="CENTER_LEFT" maxWidth="300">
+
+            <Label text="Login" styleClass="form-label"/>
+
+            <HBox alignment="CENTER" styleClass="input-container">
+                <TextField fx:id="usernameField" promptText="Wpisz login" styleClass="input-field"/>
+            </HBox>
+
+            <Label text="Hasło" styleClass="form-label"/>
+            <HBox alignment="CENTER" styleClass="input-container">
+                <PasswordField fx:id="passwordField" promptText="Wpisz hasło" styleClass="input-field"/>
+            </HBox>
+
+        </VBox>
+    </VBox>
 
     <HBox spacing="10" alignment="CENTER">
-        <Button text="Zaloguj" fx:id="loginButton" defaultButton="true"
-                onAction="#handleLogin"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-        <Button text="Wyczyść" fx:id="clearButton" onAction="#clearFields"
-                style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        <Button text="ZALOGUJ" fx:id="loginButton" defaultButton="true" onAction="#handleLogin"/>
+        <Button text="WYCZYŚĆ" fx:id="clearButton" onAction="#clearFields"/>
     </HBox>
 </VBox>

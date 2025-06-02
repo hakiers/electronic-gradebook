@@ -1,0 +1,155 @@
+/* podzialem tego na sensowne pliki zajme sie pozniej*/
+
+/* Główne tło aplikacji */
+#mainContainer {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 30;
+    -fx-spacing: 20;
+}
+
+/* Przyciski główne */
+#loginButton {
+    -fx-background-color: #3088c3;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-border-color: #3088c3;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+#loginButton:hover {
+    -fx-background-color: #0b5585;
+}
+
+.logoutButton{
+    -fx-background-color: #a60000;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-border-color: #770000;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+.loginButton:hover{
+    -fx-background-color: #6e0000;
+}
+
+
+/* Przyciski dodatkowe (np. Wyczyść) */
+#clearButton {
+    -fx-background-color: #716b6b;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-border-color: #393636;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+}
+
+#clearButton:hover {
+    -fx-background-color: #423f3f;
+}
+
+/* Styl toggle-buttonów */
+.toggle-button {
+    -fx-background-color: #3088c3;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 8 16;
+    -fx-background-radius: 0;
+    -fx-border-color: #3088c3;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+    -fx-cursor: hand;
+    -fx-wrap-text: true;
+
+}
+
+.toggle-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-alignment: center;
+}
+
+
+.toggle-button:selected {
+    -fx-background-color: #0b5585;
+    -fx-text-fill: #ffffff;
+}
+
+/* Styl etykiet błędu */
+#errorLabel {
+    -fx-text-fill: #d32f2f;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+
+/* Etykieta nad polami */
+.form-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Kontener pola (np. HBox wokół TextField) */
+.input-container {
+    -fx-background-color: #e3e9ee;
+    -fx-padding: 8;
+    -fx-background-radius: 0;
+    -fx-border-color: black;
+    -fx-border-width: 0;
+    -fx-border-radius: 0;
+    -fx-pref-width: 300px;
+    -fx-max-width: 300px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+}
+
+/* Samo pole tekstowe wewnątrz kontenera */
+.input-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-font-size: 14px;
+    -fx-pref-width: 250px;
+    -fx-max-width: 250px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+}
+
+#returnButton{
+    -fx-background-color: #a39d9d;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-border-color: #393636;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+}
+
+

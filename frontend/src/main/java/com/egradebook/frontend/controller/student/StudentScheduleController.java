@@ -2,14 +2,14 @@ package com.egradebook.frontend.controller.student;
 import com.egradebook.frontend.model.Lesson;
 import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.utils.ViewLoader;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -19,6 +19,7 @@ import java.util.List;
 
 public class StudentScheduleController {
     @FXML private GridPane timetableGrid;
+    @FXML private VBox mainContainer;
 
     @FXML
     public void initialize() {
@@ -45,16 +46,47 @@ public class StudentScheduleController {
                 timetableGrid.add(lessonBox, dayIndex, lessonIndex);
             }
         }
+
+        for (int i = 0; i <= 5; i++) { // 0 to nagłówki dni (pon-pt)
+            ColumnConstraints col = new ColumnConstraints();
+            col.setPercentWidth(100.0 / 6); // 6 kolumn: 1 na lekcje, 5 na dni
+            col.setFillWidth(true);
+            timetableGrid.getColumnConstraints().add(col);
+        }
+
+        for (int i = 0; i <= 8; i++) { // 0 to nagłówki godzin (1–8 lekcji)
+            RowConstraints row = new RowConstraints();
+            row.setPercentHeight(100.0 / 9); // 9 wierszy: 1 na nagłówki + 8 lekcji
+            row.setFillHeight(true);
+            timetableGrid.getRowConstraints().add(row);
+        }
+
+        Platform.runLater(() -> {
+            Scene scene = mainContainer.getScene();
+            scene.getStylesheets().add(getClass().getResource("/css/base.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/student.css").toExternalForm());
+        });
+
     }
 
-    private Label createHeaderLabel(String text) {
+    /*private Label createHeaderLabel(String text) {
         Label label = new Label(text);
         label.setFont(Font.font("System", FontWeight.BOLD, 12));
         label.setStyle("-fx-padding: 5; -fx-alignment: center;");
         return label;
+    }*/
+    private Label createHeaderLabel(String text) {
+        Label label = new Label(text);
+        label.setFont(Font.font("System", FontWeight.BOLD, 14));
+        label.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-alignment: center; "
+                + "-fx-padding: 8; -fx-border-color: #2980b9;");
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setMaxHeight(Double.MAX_VALUE);
+        return label;
     }
 
-    private VBox createLessonBox(Lesson lesson) {
+
+    /*private VBox createLessonBox(Lesson lesson) {
         VBox box = new VBox(3);
         box.setStyle("-fx-padding: 5; -fx-background-color: #e8f4f8; -fx-border-color: #d0d0d0;");
 
@@ -64,7 +96,26 @@ public class StudentScheduleController {
 
         box.getChildren().addAll(subject, teacher, room);
         return box;
+    }*/
+    private VBox createLessonBox(Lesson lesson) {
+        VBox box = new VBox(3);
+        box.setStyle("-fx-background-color: #aed581; -fx-border-color: #7cb342; -fx-padding: 6;"
+                + "-fx-border-radius: 5; -fx-background-radius: 5;");
+
+        Label subject = new Label(lesson.getSubject_name());
+        subject.setStyle("-fx-font-weight: bold; -fx-font-size: 13;");
+
+        Label teacher = new Label(lesson.getTeacher_fullname());
+        teacher.setStyle("-fx-font-size: 11;");
+
+        Label room = new Label("s. " + lesson.getRoom_number());
+        room.setStyle("-fx-font-size: 11;");
+
+        box.getChildren().addAll(subject, teacher, room);
+        box.setPrefSize(120, 60);
+        return box;
     }
+
 
     @FXML
     private void back() {

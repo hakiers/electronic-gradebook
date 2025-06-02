@@ -3,11 +3,14 @@ package com.egradebook.frontend.controller.student;
 import com.egradebook.frontend.model.Attendance;
 import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.utils.ViewLoader;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -18,6 +21,7 @@ public class StudentAttendanceController {
     @FXML private Button returnButton;
     @FXML private TableView<AttendanceRow> attendanceTable;
     @FXML private TableColumn<AttendanceRow, String> dateColumn;
+    @FXML private VBox mainContainer;
 
     // Kolumny dla lekcji 1-10
     @FXML private TableColumn<AttendanceRow, String> lesson1Column;
@@ -37,6 +41,13 @@ public class StudentAttendanceController {
     public void initialize() {
         configureTableColumns();
         loadData(StudentService.getAttendance().getValue());
+        Platform.runLater(() -> {
+            Scene scene = mainContainer.getScene();
+            scene.getStylesheets().add(getClass().getResource("/css/base.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/student.css").toExternalForm());
+            attendanceTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+        });
     }
 
     private void configureTableColumns() {
