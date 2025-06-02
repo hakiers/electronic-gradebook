@@ -7,6 +7,7 @@ import com.egradebook.backend.model.Subject;
 import com.egradebook.backend.request.AssignStudentToGroupsRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -64,16 +65,28 @@ public class StudentRepository {
         return count != null && count > 0;
     }
 
-    public void saveStudent(Student student) {
+    public boolean saveStudent(Student student) {
+
         String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, student.getUsername(), student.getPassword(), "student");
+        try {
+            jdbcTemplate.update(sql, student.getUsername(), student.getPassword(), "student");
+        } catch (Exception e){
+            return false;
+        }
 
         int user_id = userRepository.getUserId(student.getUsername());
         sql = "INSERT INTO students (user_id, class_id) VALUES (?, ?)";
         jdbcTemplate.update(sql, user_id, student.getClass_id());
 
         sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user_id, student.getName(), student.getSurname(), student.getPesel());
+        try {
+            jdbcTemplate.update(sql, user_id, student.getName(), student.getSurname(), student.getPesel());
+        } catch (Exception e){
+            sql = "DELETE FROM users WHERE user_id = ?";
+            jdbcTemplate.update(sql, user_id);
+            return false;
+        }
+        return true;
     }
 
     public Student getStudent(int student_id) {
@@ -134,9 +147,10 @@ public class StudentRepository {
         String sql = """
                 SELECT student_id FROM students;
                 """;
-        return jdbcTemplate.query(sql, (rs, rowNum) ->
+        List<Student> students = jdbcTemplate.query(sql, (rs, rowNum) ->
                 getStudent(rs.getInt("student_id"))
         );
+        return students;
     }
 
     public void assignStudentToGroups(AssignStudentToGroupsRequest request) {

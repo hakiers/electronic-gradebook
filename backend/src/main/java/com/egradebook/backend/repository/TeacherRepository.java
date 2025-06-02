@@ -162,9 +162,13 @@ public class TeacherRepository {
         return clazzes;
     }
 
-    public void saveTeacher(Teacher teacher) {
+    public boolean saveTeacher(Teacher teacher) {
         String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, teacher.getUsername(), teacher.getPassword(), "teacher");
+        try {
+            jdbcTemplate.update(sql, teacher.getUsername(), teacher.getPassword(), "teacher");
+        } catch (Exception e) {
+            return false;
+        }
 
         int user_id = userRepository.getUserId(teacher.getUsername());
 
@@ -173,14 +177,20 @@ public class TeacherRepository {
 
         int teacher_id = getTeacherId(user_id);
         sql = "INSERT INTO personal_data (user_id, name, surname, pesel) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user_id, teacher.getName(), teacher.getSurname(), teacher.getPesel());
 
+        try {
+            jdbcTemplate.update(sql, user_id, teacher.getName(), teacher.getSurname(), teacher.getPesel());
+        } catch (Exception e) {
+            sql = "DELETE FROM users WHERE user_id = ?";
+            jdbcTemplate.update(sql, user_id);
+            return false;
+        }
 
         sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
         for(Subject subject: teacher.getInitSubjects()){
             jdbcTemplate.update(sql, teacher_id, subject.getSubject_id());
         }
-
+        return true;
     }
 
     public void addAttendance(AddAttendanceRequest attendance){

@@ -91,7 +91,9 @@ public class Teacher {
         if(userRepository.existUserByPeselAndRole(pesel, "teacher")){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
-        teacherRepository.saveTeacher(this);
+        if(!teacherRepository.saveTeacher(this)){
+            throw new ForbiddenOperationException("Cannot register teacher!");
+        }
     }
 
     public void loadTeacherSubjects(){
