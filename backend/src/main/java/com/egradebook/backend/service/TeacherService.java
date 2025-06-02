@@ -1,5 +1,6 @@
 package com.egradebook.backend.service;
 
+import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.dto.ClazzDto;
 import com.egradebook.backend.dto.LessonDto;
 import com.egradebook.backend.model.*;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -181,5 +183,9 @@ public class TeacherService {
                 .toList();
         return schedule;
 
+    }
+    public List<Attendance> getAttendanceForDateAndLesson(String date, int lessonNumber, List<Integer> studentIds) {
+        LocalDate parsedDate = LocalDate.parse(date);
+        return teacherRepository.getAttendanceForDateAndLesson(parsedDate, lessonNumber, studentIds);
     }
 }

@@ -3,15 +3,14 @@ package com.egradebook.backend.dto;
 public class Attendance {
     private int student_id;
     private int attendance_id;
-    private int schedule_id;
+    private Integer schedule_id;
     private String status;
     private String date;
 
-    public Attendance(int student_id, int attendance_id, int schedule_id, String status, String date) {
+    public Attendance(int student_id, int attendance_id, Integer schedule_id, String status, String date) {
         this.student_id = student_id;
         this.attendance_id = attendance_id;
-        this.schedule_id = schedule_id;
-        this.status = status;
+        this.schedule_id = (schedule_id != null) ? schedule_id : 0;         this.status = status;
         this.date = date;
     }
     public int getStudent_id() { return student_id; }
