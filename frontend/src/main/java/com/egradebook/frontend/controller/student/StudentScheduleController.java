@@ -86,17 +86,6 @@ public class StudentScheduleController {
     }
 
 
-    /*private VBox createLessonBox(Lesson lesson) {
-        VBox box = new VBox(3);
-        box.setStyle("-fx-padding: 5; -fx-background-color: #e8f4f8; -fx-border-color: #d0d0d0;");
-
-        Label subject = new Label("Przedmiot:\n" + lesson.getSubject_name());
-        Label teacher = new Label("Nauczyciel:\n" + lesson.getTeacher_fullname());
-        Label room = new Label("Sala: " + lesson.getRoom_number());
-
-        box.getChildren().addAll(subject, teacher, room);
-        return box;
-    }*/
     private VBox createLessonBox(Lesson lesson) {
         VBox box = new VBox(3);
         box.setStyle("-fx-background-color: #aed581; -fx-border-color: #7cb342; -fx-padding: 6;"

@@ -3,7 +3,6 @@ package com.egradebook.frontend.service;
 import com.egradebook.frontend.model.*;
 import com.egradebook.frontend.request.AddAttendanceRequest;
 import com.egradebook.frontend.request.EditAttendanceRequest;
-import com.egradebook.frontend.utils.StudentConverter;
 import com.egradebook.frontend.utils.Triple;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,7 +62,7 @@ public class TeacherService {
 
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            List<Student> lista = StudentConverter.jsonToStudentList(response.body());
+            List<Student> lista = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
             return new Pair<>(response.statusCode(), lista);
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,18 +199,8 @@ public class TeacherService {
 
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 200) {
-                List<Integer> lessons = mapper.readValue(
-                        response.body(),
-                        new TypeReference<List<Integer>>() {}
-                );
-                return;
-            } else {
-                return;
-            }
         } catch (Exception e) {
             e.printStackTrace();
-            return;
         }
     }
 
@@ -227,33 +216,11 @@ public class TeacherService {
                     .build();
 
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() == 200) {
-                List<Integer> lessons = mapper.readValue(
-                        response.body(),
-                        new TypeReference<List<Integer>>() {}
-                );
-                return;
-            } else {
-                return;
-            }
         } catch (Exception e) {
             e.printStackTrace();
-            return;
         }
     }
 
-    private static final Map<String, List<Attendance>> attendanceDatabase = new HashMap<>();
-
-    static {
-        // Klucz: data+lekcja -> Lista obecności
-        attendanceDatabase.put("2025-05-24_2", List.of(
-                new Attendance(1, 1, null, LocalDate.of(2025, 5, 24).toString(), 2, Attendance.Status.PRESENCE),
-                new Attendance(2, 2, null, LocalDate.of(2025, 5, 24).toString(), 2, Attendance.Status.ABSENCE),
-                new Attendance(3, 9, null, LocalDate.of(2025, 5, 24).toString(), 2, Attendance.Status.LATE)
-        ));
-    }
-    // TODO PRZEROBIĆ NA MODELE BAZY
     public static List<Attendance> getAttendanceForDateAndLesson(LocalDate date, int lessonNumber, List<Integer> studentIds) {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
@@ -273,7 +240,6 @@ public class TeacherService {
                     .header("Content-Type", "application/json")
                     .GET()
                     .build();
-            System.out.println(urlBuilder.toString());
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
