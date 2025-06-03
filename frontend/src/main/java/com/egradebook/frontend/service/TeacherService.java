@@ -219,12 +219,11 @@ public class TeacherService {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
                 return;
-            }
-
+            } String json =mapper.writeValueAsString(req);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/teacher/add-attendance"))
+                    .uri(new URI("http://localhost:8080/api/teacher/edit-attendance"))
                     .header("Content-Type", "application/json")
-                    .PUT(HttpRequest.BodyPublishers.ofString(req.toString()))
+                    .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());

@@ -339,8 +339,8 @@ public class TeacherRepository {
         params.addAll(studentIds);
 
         List<Attendance> found = jdbcTemplate.query(sql, params.toArray(), (rs, rowNum) -> new Attendance(
-                rs.getInt("attendance_id"),
                 rs.getInt("student_id"),
+                rs.getInt("attendance_id"),
                 rs.getObject("schedule_id") != null ? rs.getInt("schedule_id") : null,
                 rs.getString("status"),
                 rs.getString("date")

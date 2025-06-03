@@ -102,7 +102,6 @@ public class TeacherAttendanceController {
             return;
         }
 
-        List<Attendance> saved = new ArrayList<>();
         for (StudentAttendanceRow row : attendanceRows) {
             if(row.getAttendanceId()==0) {
                 AddAttendanceRequest request=new AddAttendanceRequest(row.getStudentId(), row.getScheduleId(),row.getStatus().toString().toLowerCase());
