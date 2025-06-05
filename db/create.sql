@@ -59,7 +59,7 @@ CREATE TABLE class_schedule(
     day_of_week integer not null CHECK(day_of_week BETWEEN 1 AND 7),
     lesson_number integer not null,
     room_number integer not null,
-    CONSTRAINT c1 UNIQUE(class_id, day_of_week, lesson_number)
+    CONSTRAINT c1 UNIQUE(class_id, day_of_week, lesson_number, group_id)
 );
 
 CREATE TABLE contact_info(

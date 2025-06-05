@@ -31,6 +31,11 @@ public class TeacherManageController {
     @FXML private Label detailLastName;
     @FXML private Label detailSubject;
     @FXML private Label detailClass;
+    @FXML private Label detailUsername;
+    @FXML private Label detailEmail;
+    @FXML private Label detailPhone;
+    @FXML private Label detailAddress;
+    @FXML private Label pesel;
 
     private List<Teacher> teachers;
 
@@ -70,11 +75,12 @@ public class TeacherManageController {
             detailLastName.setText("");
             detailSubject.setText("");
             detailClass.setText("");
+            detailUsername.setText("");
             return;
         }
         detailFirstName.setText(teacher.getName());
         detailLastName.setText(teacher.getSurname());
-
+        detailUsername.setText(teacher.getUsername());
         // 1. Przedmioty
         List<Subject> subjects = TeacherService.getTeacherSubjects(teacher.getTeacher_id()).getValue();
         if (subjects != null && !subjects.isEmpty()) {

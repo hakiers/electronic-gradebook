@@ -31,6 +31,18 @@
             <Label fx:id="detailClass" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
             <Label text="Grupy:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
             <Label fx:id="detailGroups" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <Label text="Username:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Label fx:id="detailUsername" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+
+            <Label text="E-mail:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <Label fx:id="detailEmail" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+            <Label text="Telefon:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <Label fx:id="detailPhone" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+            <Label text="Adres:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+            <Label fx:id="detailAdress" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+            <Label text="Pesel:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+            <Label fx:id="detailPesel" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
         </GridPane>
     </VBox>
 </center>
