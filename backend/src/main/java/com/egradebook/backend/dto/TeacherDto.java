@@ -8,12 +8,14 @@ public class TeacherDto {
     private String name;
     private String surname;
     private String pesel;
+    private String username;
 
     public TeacherDto(Teacher teacher) {
         this.name = teacher.getName();
         this.surname = teacher.getSurname();
         this.pesel = teacher.getPesel();
         this.teacher_id = teacher.getTeacher_id();
+        this.username = teacher.getUsername();
     }
 
     public int getTeacher_id() {
@@ -31,4 +33,6 @@ public class TeacherDto {
     public String getPesel() {
         return pesel;
     }
+
+    public String getUsername() { return username; }
 }

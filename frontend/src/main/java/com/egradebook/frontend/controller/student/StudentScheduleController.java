@@ -36,7 +36,8 @@ public class StudentScheduleController {
         }
 
         List<Lesson> lessons = StudentService.getSchedule().getValue();
-
+        VBox[][] lessonCells = new VBox[6][9];
+        /*
         for (Lesson lesson : lessons) {
             int dayIndex = lesson.getDay_od_week(); // 1-5 (Pon-Pt)
             int lessonIndex = lesson.getLesson_number(); // 1-8
@@ -46,6 +47,26 @@ public class StudentScheduleController {
                 timetableGrid.add(lessonBox, dayIndex, lessonIndex);
             }
         }
+         */
+        for (Lesson lesson : lessons) {
+            int dayIndex = lesson.getDay_od_week(); // 1-5 (Pon-Pt)
+            int lessonIndex = lesson.getLesson_number(); // 1-8
+
+            if (dayIndex >= 1 && dayIndex <= 5 && lessonIndex >= 1 && lessonIndex <= 8) {
+                // Jeśli nie ma jeszcze kontenera dla tej komórki - dodaj go do gridu
+                if (lessonCells[dayIndex][lessonIndex] == null) {
+                    VBox cellBox = new VBox(4);
+                    cellBox.setStyle("-fx-background-color: #aed581; -fx-border-color: #7cb342; -fx-padding: 3;"
+                            + "-fx-border-radius: 5; -fx-background-radius: 5;");
+                    lessonCells[dayIndex][lessonIndex] = cellBox;
+                    timetableGrid.add(cellBox, dayIndex, lessonIndex);
+                }
+                // Doklejaj każdy lessonBox do tej komórki
+                VBox lessonBox = createLessonBox(lesson);
+                lessonCells[dayIndex][lessonIndex].getChildren().add(lessonBox);
+            }
+        }
+
 
         for (int i = 0; i <= 5; i++) { // 0 to nagłówki dni (pon-pt)
             ColumnConstraints col = new ColumnConstraints();
@@ -111,7 +132,10 @@ public class StudentScheduleController {
         Label room = new Label("s. " + lesson.getRoom_number());
         room.setStyle("-fx-font-size: 11;");
 
-        box.getChildren().addAll(subject, teacher, room);
+        Label group = new Label("grupa: " + lesson.getGroup_number());
+        group.setStyle("-fx-font-size: 11;");
+
+        box.getChildren().addAll(subject, teacher, room, group);
         box.setPrefSize(120, 60);
         return box;
     }

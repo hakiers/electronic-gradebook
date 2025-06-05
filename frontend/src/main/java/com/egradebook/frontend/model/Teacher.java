@@ -14,20 +14,15 @@ public class Teacher {
     private List<Subject> teachSubjects = new ArrayList<>();
     private List<Triple<Clazz, Subject, Group>> teachClassSubject = new ArrayList<>();
     private String username;
-    private String password;
-
     public Teacher() {
     }
 
-    ;
-
-    public Teacher(int teacher_id, String name, String surname, String pesel, String username, String password) {
+    public Teacher(int teacher_id, String name, String surname, String pesel, String username) {
         this.teacher_id = teacher_id;
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
         this.username = username;
-        this.password = password;
     }
 
 
@@ -45,6 +40,10 @@ public class Teacher {
 
     public String getFullName() {
         return name + " " + surname;
+    }
+
+    public String getUsername(){
+        return username;
     }
 
     public String getPesel() {

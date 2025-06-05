@@ -25,6 +25,11 @@ public class StudentManageController {
     @FXML private Label detailLastName;
     @FXML private Label detailClass;
     @FXML private Label detailGroups;
+    @FXML private Label detailUsername;
+    @FXML private Label detailEmail;
+    @FXML private Label detailPhone;
+    @FXML private Label detailAddress;
+    @FXML private Label pesel;
 
     private List<Student> students;
 
@@ -55,6 +60,7 @@ public class StudentManageController {
             detailLastName.setText("");
             detailClass.setText("");
             detailGroups.setText("");
+            detailUsername.setText("");
             return;
         }
         detailFirstName.setText(student.getName());
@@ -67,6 +73,7 @@ public class StudentManageController {
         } else {
             detailClass.setText("-");
         }
+        detailUsername.setText(student.getUsername());
         //todo Pobierz/przetwórz grupy przedmiotowe jako String
         //detailGroups.setText(String.join(", ", student.getSubjectGroups()));
     }
