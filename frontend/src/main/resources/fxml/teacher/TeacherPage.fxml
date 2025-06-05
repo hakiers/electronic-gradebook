@@ -5,14 +5,15 @@
 
 <VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.egradebook.frontend.controller.teacher.TeacherPageController"
-      alignment="CENTER" spacing="20">
+      alignment="CENTER" spacing="20"
+      stylesheets="@../../css/base.css">
     <Button text="Zarządzaj klasami" fx:id="manageClassButton"
-            style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleManageClass"/>
+            styleClass="toggle-button" onAction="#handleManageClass"/>
     <Button text="Plan zajęć" fx:id="showSchedule"
-            style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleShowSchedule"/>
+            styleClass="toggle-button" onAction="#handleShowSchedule"/>
     <Button text="Zmień hasło" fx:id="changePasswordButton"
-            style="-fx-background-color: #00d9ff;-fx-text-fill: black;" onAction="#handleChange"/>
+            styleClass="toggle-button" onAction="#handleChange"/>
     <Button text="Wyloguj" fx:id="logoutButton"
-            style="-fx-background-color: red; -fx-text-fill: white;" onAction="#handleLogout"/>
+            styleClass="toggle-button" onAction="#handleLogout"/>
 
 </VBox>
