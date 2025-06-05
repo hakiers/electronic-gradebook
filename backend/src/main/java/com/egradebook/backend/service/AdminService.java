@@ -2,6 +2,7 @@ package com.egradebook.backend.service;
 
 
 import com.egradebook.backend.dto.StudentDto;
+import com.egradebook.backend.dto.SubjectGroupsDto;
 import com.egradebook.backend.dto.TeacherDto;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.*;
@@ -180,5 +181,13 @@ public class AdminService {
             throw new ForbiddenOperationException("Only admin can view teachers!");
         }
         return teacherRepository.getTeachersForSubject(subject_id).stream().map(TeacherDto::new).collect(Collectors.toList());
+    }
+
+    public List<SubjectGroupsDto> getStudentSubjectGroups(int student_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view student groups!");
+        }
+        return studentRepository.getStudentSubjectGroups(student_id);
     }
 }

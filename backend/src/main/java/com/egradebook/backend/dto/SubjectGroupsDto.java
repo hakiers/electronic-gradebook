@@ -12,6 +12,7 @@ public class SubjectGroupsDto {
         this.group_id = group_id;
         this.class_id = class_id;
         this.subject_id = subject_id;
+        this.group_number = group_number;
     }
 
     public int getGroup_id() {return group_id;}

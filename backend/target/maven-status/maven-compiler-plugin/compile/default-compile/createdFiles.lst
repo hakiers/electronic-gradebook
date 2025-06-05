@@ -9,6 +9,7 @@ com/egradebook/backend/model/Clazz.class
 com/egradebook/backend/request/AddClassProfileRequest.class
 com/egradebook/backend/service/AdminService.class
 com/egradebook/backend/dto/SubjectsWithGradesDto.class
+com/egradebook/backend/request/RemoveGradeRequest.class
 com/egradebook/backend/DataInitializer$Faker$Internet.class
 com/egradebook/backend/exception/UsernameAlreadyExistsException.class
 com/egradebook/backend/utils/Pair.class
@@ -28,8 +29,8 @@ com/egradebook/backend/exception/InvalidCredentialsException.class
 com/egradebook/backend/controller/TeacherController.class
 com/egradebook/backend/DataInitializer$Faker$Hipster.class
 com/egradebook/backend/request/AddScheduleRequest.class
-com/egradebook/backend/model/ClassTeacher.class
 com/egradebook/backend/request/UserChangePasswordRequest.class
+com/egradebook/backend/model/ClassTeacher.class
 com/egradebook/backend/request/AddClassRequest.class
 com/egradebook/backend/repository/utils/CountRepository.class
 com/egradebook/backend/model/Student.class

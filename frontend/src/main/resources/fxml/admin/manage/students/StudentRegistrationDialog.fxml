@@ -1,51 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.text.Text?>
-<?import javafx.geometry.Insets?>
-<?import com.egradebook.frontend.utils.IntegerField?>
-<VBox fx:id="mainContainer" xmlns="http://javafx.com/javafx/8.0.171"
+
+<VBox fx:id="mainContainer" id="mainContainer" xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.egradebook.frontend.controller.admin.manage.students.StudentRegistrationDialogController"
-      alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f4;">
+      alignment="CENTER" spacing="20" maxWidth="800"
+      stylesheets="@../../../../css/base.css">
+
     <fx:define>
         <ToggleGroup fx:id="sendTypeGroup"/>
     </fx:define>
-    <Text text="Dodaj ucznia" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-    <Label fx:id="errorLabel" textFill="RED" visible="false" />
-    <Label fx:id="correctLabel" textFill="GREEN" visible="false" />
-    <GridPane hgap="10" vgap="10" alignment="CENTER">
-        <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
 
-        <Label text="Imię:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="nameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <Text text="DODAJ UCZNIA" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-        <Label text="Nazwisko:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="surnameField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    <Label fx:id="errorLabel" textFill="RED" visible="false"/>
+    <Label fx:id="correctLabel" textFill="GREEN" visible="false"/>
 
-        <Label text="(wymagane) PESEL:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="peselField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <HBox spacing="40" alignment="CENTER">
+        <!-- Lewa kolumna -->
+        <VBox spacing="15" alignment="TOP_LEFT">
+            <Label text="PESEL (wymagane)" styleClass="form-label"/>
+            <HBox alignment="CENTER" styleClass="input-container">
+                <TextField fx:id="peselField" styleClass="input-field"/>
+            </HBox>
 
-        <Label text="Klasa:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="class_idBox" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <Label text="Imię" styleClass="form-label"/>
+            <HBox alignment="CENTER" styleClass="input-container">
+                <TextField fx:id="nameField" styleClass="input-field"/>
+            </HBox>
 
-        <Label fx:id="usernameLabel" text="Nazwa użytkownika:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-        <TextField fx:id="usernameField" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <Label text="Nazwisko" styleClass="form-label"/>
+            <HBox alignment="CENTER" styleClass="input-container">
+                <TextField fx:id="surnameField" styleClass="input-field"/>
+            </HBox>
 
-        <Label fx:id="passwordLabel" text="Hasło" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
-        <TextField fx:id="passwordField" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
-    </GridPane>
+            <Label text="Klasa" styleClass="form-label"/>
+            <HBox alignment="CENTER" styleClass="input-container">
+                <ComboBox fx:id="class_idBox" styleClass="input-field"/>
+            </HBox>
+        </VBox>
 
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Dodaj" fx:id="addbutton" defaultButton="true"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
-                onAction="#add"/>
-        <Button text="Wyczyść" fx:id="clearButton"
-                style="-fx-background-color: #f44336; -fx-text-fill: white;"
+        <!-- Prawa kolumna -->
+        <VBox spacing="15" alignment="TOP_LEFT">
+            <Label fx:id="usernameLabel" text="Nazwa użytkownika:" styleClass="form-label"/>
+            <HBox alignment="CENTER" >
+                <TextField fx:id="usernameField" styleClass="input-field"/>
+            </HBox>
+
+            <Label fx:id="passwordLabel" text="Hasło:" styleClass="form-label"/>
+            <HBox alignment="CENTER" >
+                <TextField fx:id="passwordField" styleClass="input-field"/>
+            </HBox>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="DODAJ" fx:id="addbutton" defaultButton="true"
+                minHeight="40"
+                maxHeight="40"
+                onAction="#add"
+                styleClass="toggle-button"/>
+        <Button text="WYCZYŚĆ" fx:id="clearButton"
+                minHeight="40"
+                maxHeight="40"
                 onAction="#clear"/>
-        <Button text="Cancel" fx:id="returnButton" defaultButton="true"
-                alignment="TOP_LEFT" onAction="#cancel"/>
+        <Button text="ANULUJ" fx:id="returnButton"
+                minHeight="40"
+                maxHeight="40"
+                onAction="#cancel"
+                styleClass="cancel-button"/>
     </HBox>
 </VBox>

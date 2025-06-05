@@ -1,7 +1,9 @@
 package com.egradebook.backend.repository;
 
 import com.egradebook.backend.dto.Attendance;
+import com.egradebook.backend.dto.SubjectGroupsDto;
 import com.egradebook.backend.model.Grade;
+import com.egradebook.backend.model.Group;
 import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Subject;
 import com.egradebook.backend.request.AssignStudentToGroupsRequest;
@@ -159,6 +161,24 @@ public class StudentRepository {
         for (int i = 0; i < request.getGroups().size(); i++) {
             jdbcTemplate.update(sql, request.getStudent_id(), request.getGroups().get(i).getGroup_id());
         }
+    }
+
+    public List<SubjectGroupsDto> getStudentSubjectGroups(int student_id) {
+        //group id
+        //class id
+        //subject id
+        //group number
+        String sql = """
+                SELECT * FROM subject_groups WHERE group_id IN (SELECT group_id FROM student_subject_group WHERE student_id = ?);
+                """;
+        return jdbcTemplate.query(sql, new Object[]{student_id}, (rs, rowNum) ->
+                  new SubjectGroupsDto(
+                          rs.getInt("group_id"),
+                          rs.getInt("class_id"),
+                          rs.getInt("subject_id"),
+                          rs.getInt("group_number")
+                  )
+        );
     }
 
 }

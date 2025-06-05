@@ -153,3 +153,27 @@
 }
 
 
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-table-cell-border-color: #e0e0e0;
+    -fx-padding: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #3088c3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.header{
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+

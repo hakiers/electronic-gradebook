@@ -8,7 +8,6 @@ public class Subject {
     @JsonProperty("name")
     private String name;
 
-    // Konstruktor bezargumentowy wymagany przez Jacksona
     public Subject() {}
 
     public Subject(int subject_id, String name) {
@@ -16,7 +15,6 @@ public class Subject {
         this.name = name;
     }
 
-    // Gettery i settery
     public int getSubject_id() {
         return subject_id;
     }
