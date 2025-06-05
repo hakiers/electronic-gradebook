@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="mainContainer" id="mainContainer" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.egradebook.frontend.controller.parent.ChildScheduleController">
+    <HBox style="-fx-background-color: #f4f4f4; -fx-padding: 10;" alignment="CENTER">
+        <Button fx:id="returnButton" id="returnButton" text="wróć" onAction="#back"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="PLAN LEKCJI" alignment="CENTER" styleClass="header"/>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+
+
+
+    <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background: white;" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
+        <content>
+            <GridPane fx:id="timetableGrid"
+                      gridLinesVisible="true"
+                      style="-fx-padding: 20; -fx-hgap: 4; -fx-vgap: 4; -fx-background-color: white;"
+                      VBox.vgrow="ALWAYS"
+            />
+        </content>
+    </ScrollPane>
+
+</VBox>

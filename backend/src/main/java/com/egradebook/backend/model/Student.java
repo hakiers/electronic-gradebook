@@ -1,9 +1,6 @@
 package com.egradebook.backend.model;
 
-import com.egradebook.backend.dto.Attendance;
-import com.egradebook.backend.dto.StudentAttendance;
-import com.egradebook.backend.dto.StudentProfile;
-import com.egradebook.backend.dto.SubjectsWithGradesDto;
+import com.egradebook.backend.dto.*;
 import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.ClassRepository;
@@ -52,6 +49,14 @@ public class Student {
         this.surname = student.getSurname();
         this.pesel = student.getPesel();
         this.class_id = student.getClassId();
+    }
+    public Student(StudentDto student) {
+        this.student_id = student.getStudent_id();
+        this.name = student.getName();
+        this.surname = student.getSurname();
+        this.pesel = student.getPesel();
+        this.class_id=student.getClass_id();
+        this.username = student.getUsername();
     }
 
     public int getStudent_id() {

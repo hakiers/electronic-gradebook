@@ -1,5 +1,7 @@
-package com.egradebook.frontend.controller.student;
+package com.egradebook.frontend.controller.parent;
+
 import com.egradebook.frontend.model.Lesson;
+import com.egradebook.frontend.service.ParentService;
 import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.application.Platform;
@@ -17,7 +19,7 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class StudentScheduleController {
+public class ChildScheduleController {
     @FXML private GridPane timetableGrid;
     @FXML private VBox mainContainer;
 
@@ -35,11 +37,11 @@ public class StudentScheduleController {
             timetableGrid.add(lessonLabel, 0, lessonNum);
         }
 
-        List<Lesson> lessons = StudentService.getSchedule().getValue();
+        List<Lesson> lessons = ParentService.getSchedule().getValue();
         VBox[][] lessonCells = new VBox[6][9];
         for (Lesson lesson : lessons) {
-            int dayIndex = lesson.getDay_od_week();
-            int lessonIndex = lesson.getLesson_number();
+            int dayIndex = lesson.getDay_od_week(); // 1-5 (Pon-Pt)
+            int lessonIndex = lesson.getLesson_number(); // 1-8
 
             if (dayIndex >= 1 && dayIndex <= 5 && lessonIndex >= 1 && lessonIndex <= 8) {
                 if (lessonCells[dayIndex][lessonIndex] == null) {
@@ -117,3 +119,4 @@ public class StudentScheduleController {
         ViewLoader.goPrev(stage);
     }
 }
+
