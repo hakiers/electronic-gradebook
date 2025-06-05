@@ -85,7 +85,6 @@ public class UserService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            //System.out.println(response.statusCode());
             System.out.println(response.body());
             return new Pair<>(response.statusCode(), response.body());
         }catch (Exception e) {

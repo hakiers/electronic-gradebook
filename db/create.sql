@@ -65,8 +65,8 @@ CREATE TABLE class_schedule(
 CREATE TABLE contact_info(
     contact_id serial PRIMARY KEY,
     user_id integer REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE  UNIQUE,
-    phone_number char(9) not null CHECK (phone_number ~ '^[0-9]{9}$') UNIQUE,
-    email varchar(64) CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$') UNIQUE,
+    phone_number char(9) not null,
+    email varchar(64),
     address varchar(100)
 );
 
@@ -75,7 +75,7 @@ CREATE TABLE personal_data(
     user_id integer REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE UNIQUE,
     name varchar(32) not null,
     surname varchar(32) not null,
-    pesel char(11) not null UNIQUE
+    pesel char(11) not null
 );
 
 CREATE TABLE attendance(
@@ -98,7 +98,7 @@ CREATE TABLE tests(
 
 CREATE TABLE events(
     event_id serial PRIMARY KEY,
-    title varchar(32) not null,
+    title varchar(64) not null,
     description varchar(100),
     "date" date not null,
     class_id integer REFERENCES classes(class_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -149,7 +149,7 @@ CREATE TABLE teacher_class_subject (
     class_id INTEGER NOT NULL REFERENCES classes(class_id) ON DELETE CASCADE,
     subject_id INTEGER NOT NULL REFERENCES subjects(subject_id) ON DELETE CASCADE,
     group_id INTEGER NOT NULL REFERENCES subject_groups(group_id) ON DELETE CASCADE,
-    PRIMARY KEY (teacher_id, class_id, subject_id)
+    PRIMARY KEY (teacher_id, class_id, subject_id, group_id)
 );
 
 -- sprawdzanie pseselu 
@@ -313,10 +313,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+/*
 CREATE TRIGGER trg_is_room_available
 BEFORE INSERT ON class_schedule
 FOR EACH ROW EXECUTE FUNCTION is_room_available();
-
+*/
 -- sprawdzenie czy nauczyciel nie ma dwoch lekcji na raz
 CREATE OR REPLACE FUNCTION check_teacher_conflict()
 RETURNS TRIGGER AS $$
@@ -333,10 +334,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+   /*
 CREATE TRIGGER trg_check_teacher_conflict
 BEFORE INSERT ON class_schedule
 FOR EACH ROW EXECUTE FUNCTION check_teacher_conflict();
-
+*/
 -- plan lekcji dla klasy
 CREATE OR REPLACE VIEW class_timetable AS
 SELECT 

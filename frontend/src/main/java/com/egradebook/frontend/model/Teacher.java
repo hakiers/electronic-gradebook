@@ -19,8 +19,6 @@ public class Teacher {
     public Teacher() {
     }
 
-    ;
-
     public Teacher(int teacher_id, String name, String surname, String pesel, String username, String password) {
         this.teacher_id = teacher_id;
         this.name = name;

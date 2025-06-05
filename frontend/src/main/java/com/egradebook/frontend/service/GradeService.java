@@ -21,7 +21,6 @@ public class GradeService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = UserService.client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            //System.out.println(response.statusCode());
             System.out.println(response.body());
             if (response.statusCode() == 200) {
                 response.statusCode();
@@ -43,7 +42,6 @@ public class GradeService {
                     .method("DELETE", HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = UserService.client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            //System.out.println(response.statusCode());
             System.out.println(response.body());
             if (response.statusCode() == 200) {
                 response.statusCode();
@@ -65,7 +63,6 @@ public class GradeService {
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = UserService.client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            //System.out.println(response.statusCode());
             System.out.println(response.body());
             if (response.statusCode() == 200) {
                 response.statusCode();

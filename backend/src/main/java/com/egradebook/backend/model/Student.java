@@ -3,6 +3,7 @@ package com.egradebook.backend.model;
 import com.egradebook.backend.dto.Attendance;
 import com.egradebook.backend.dto.StudentProfile;
 import com.egradebook.backend.dto.SubjectsWithGradesDto;
+import com.egradebook.backend.exception.ForbiddenOperationException;
 import com.egradebook.backend.exception.PeselAlreadyExistsException;
 import com.egradebook.backend.repository.ClassRepository;
 import com.egradebook.backend.repository.StudentRepository;
@@ -96,7 +97,9 @@ public class Student {
         if(userRepository.existUserByPeselAndRole(pesel, "student")){
             throw new PeselAlreadyExistsException("Pesel is already taken!");
         }
-        studentRepository.saveStudent(this);
+        if(!studentRepository.saveStudent(this)){
+            throw new ForbiddenOperationException("Cannot register student!");
+        }
     }
 
     public List<Subject> getSubjects() {
