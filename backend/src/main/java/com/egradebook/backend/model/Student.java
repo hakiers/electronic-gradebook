@@ -138,6 +138,6 @@ public class Student {
     }
 
     public List<Lesson> getSchedule(){
-        return clazzRepository.getSchedule(student_id);
+        return clazzRepository.getSchedule(class_id);
     }
 }

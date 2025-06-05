@@ -6,17 +6,19 @@ public class Student {
     private String surname;
     private String pesel;
     private int class_id;
+    private String username;
     public Student()
     {
 
     }
 
-    public Student(int student_id, String name, String surname, String pesel, int class_id) {
+    public Student(int student_id, String name, String surname, String pesel, int class_id, String username) {
         this.student_id = student_id;
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
         this.class_id = class_id;
+        this.username = username;
     }
 
     public int getStudent_id() {
@@ -37,6 +39,10 @@ public class Student {
 
     public String getSurname() {
         return surname;
+    }
+
+    public String getUsername(){
+        return username;
     }
 
     public String getPesel() {

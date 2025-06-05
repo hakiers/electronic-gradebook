@@ -8,6 +8,7 @@ public class StudentDto {
     private String surname;
     private String pesel;
     private int class_id;
+    private String username;
 
     public StudentDto(Student student) {
         this.student_id = student.getStudent_id();
@@ -15,6 +16,7 @@ public class StudentDto {
         this.surname = student.getSurname();
         this.pesel = student.getPesel();
         this.class_id = student.getClass_id();
+        this.username = student.getUsername();
     }
 
     public int getStudent_id() {
@@ -40,7 +42,10 @@ public class StudentDto {
     public String getPesel() {
         return pesel;
     }
+
     public int getClass_id() {
         return class_id;
     }
+
+    public String getUsername() { return username; }
 }
