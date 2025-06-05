@@ -61,7 +61,12 @@ public class StudentManageController {
         detailLastName.setText(student.getSurname());
         int class_id = student.getClass_id();
         Clazz clazz = ClassService.getClazz(class_id).getValue();
-        detailClass.setText(clazz.getName());
+
+        if (clazz != null) {
+            detailClass.setText(clazz.getName());
+        } else {
+            detailClass.setText("-");
+        }
         //todo Pobierz/przetwórz grupy przedmiotowe jako String
         //detailGroups.setText(String.join(", ", student.getSubjectGroups()));
     }

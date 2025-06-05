@@ -100,6 +100,7 @@ public class TeacherService {
             return new Pair<>(500, null);
         }
     }
+
     public static Pair<Integer, List<Triple<Clazz, Subject,Group>>> getClassSubjects() {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
@@ -129,6 +130,37 @@ public class TeacherService {
             return new Pair<>(500, null);
         }
     }
+
+    public static Pair<Integer, List<Triple<Clazz, Subject,Group>>> getClassSubjects(int teacher_id) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/teacher/"+teacher_id+"/class_subject"))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                List<Triple<Clazz,Subject,Group>> lista = mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Triple<Clazz, Subject,Group>>>() {
+                        }
+                );
+                return new Pair<>(response.statusCode(), lista);
+            } else {
+                return new Pair<>(response.statusCode(),
+                        null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, null);
+        }
+    }
+
     public static Pair<Integer,List<Lesson>> getSchedule() {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
@@ -337,6 +369,37 @@ public class TeacherService {
                         new TypeReference<List<Teacher>>() {}
                 );
                 return new Pair<>(response.statusCode(), teachers);
+            }
+            else {
+                return new Pair<>(response.statusCode(), null);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, null);
+        }
+    }
+
+    public static Pair<Integer, List<Subject>> getTeacherSubjects(int teacher_id) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/teacher/"+teacher_id+"/subjects"))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if(response.statusCode() == 200) {
+                List<Subject> subjects = mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Subject>>() {}
+                );
+                return new Pair<>(response.statusCode(), subjects);
             }
             else {
                 return new Pair<>(response.statusCode(), null);
