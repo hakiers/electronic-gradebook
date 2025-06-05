@@ -74,8 +74,10 @@ public class LoginController {
                delay.play();
            }
            else {
-               errorLabel.setText("Niepoprawny login lub hasło");
-               errorLabel.setVisible(true);
+               ViewLoader.loadView(stage, "/fxml/shared/MainPage.fxml","Strona główna");
+               PauseTransition delay = new PauseTransition(Duration.seconds(1));
+               delay.setOnFinished(event -> ViewLoader.loadView(stage, "/fxml/parent/ParentPage.fxml", "Strona Główna"));
+               delay.play();
            }
         }
         else {
