@@ -3,6 +3,7 @@ package com.egradebook.frontend.service;
 import com.egradebook.frontend.model.*;
 import com.egradebook.frontend.request.AddAttendanceRequest;
 import com.egradebook.frontend.request.EditAttendanceRequest;
+import com.egradebook.frontend.utils.StudentConverter;
 import com.egradebook.frontend.utils.Triple;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,7 +63,7 @@ public class TeacherService {
 
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            List<Student> lista = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
+            List<Student> lista = StudentConverter.jsonToStudentList(response.body());
             return new Pair<>(response.statusCode(), lista);
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,6 +100,7 @@ public class TeacherService {
             return new Pair<>(500, null);
         }
     }
+
     public static Pair<Integer, List<Triple<Clazz, Subject,Group>>> getClassSubjects() {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
@@ -128,6 +130,37 @@ public class TeacherService {
             return new Pair<>(500, null);
         }
     }
+
+    public static Pair<Integer, List<Triple<Clazz, Subject,Group>>> getClassSubjects(int teacher_id) {
+        try {
+            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
+                return new Pair<>(401, null);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/teacher/"+teacher_id+"/class_subject"))
+                    .header("Content-Type", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                List<Triple<Clazz,Subject,Group>> lista = mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Triple<Clazz, Subject,Group>>>() {
+                        }
+                );
+                return new Pair<>(response.statusCode(), lista);
+            } else {
+                return new Pair<>(response.statusCode(),
+                        null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Pair<>(500, null);
+        }
+    }
+
     public static Pair<Integer,List<Lesson>> getSchedule() {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
@@ -201,6 +234,7 @@ public class TeacherService {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
     }
 
@@ -218,6 +252,7 @@ public class TeacherService {
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
     }
 
@@ -308,34 +343,6 @@ public class TeacherService {
                 return new Pair<>(response.statusCode(), null);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Pair<>(500, null);
-        }
-    }
-    public static Pair<Integer, List<Teacher> > getAllTeachers() {
-        try {
-            if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
-                return new Pair<>(401, null);
-            }
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/api/admin/teachers"))
-                    .header("Content-Type", "application/json")
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() == 200) {
-                List<Teacher> teachers = mapper.readValue(
-                        response.body(),
-                        new TypeReference<List<Teacher>>() {}
-                );
-                return new Pair<>(response.statusCode(), teachers);
-            } else {
-                return new Pair<>(response.statusCode(), null);
-            }
         } catch (Exception e) {
             e.printStackTrace();
             return new Pair<>(500, null);

@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="238.0" prefWidth="158.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.egradebook.frontend.controller.admin.manage.teachers.TeacherManageController">
-    <Button fx:id="addTeacherButton" onAction="#handleAddTeacher" style="-fx-background-color: #00d9ff;-fx-text-fill: black;" text="Dodaj nauczyciela" />
-    <Button text="wróć" fx:id="returnButton" defaultButton="true" alignment="TOP_LEFT" onAction="#back"/>
-</VBox>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.egradebook.frontend.controller.admin.manage.teachers.TeacherManageController"
+            prefWidth="700" prefHeight="500">
+
+    <center>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <Label text="Lista nauczycieli:"/>
+            <TableView fx:id="teachersTable" prefHeight="250">
+                <columns>
+                    <TableColumn text="Imię" fx:id="colFirstName"/>
+                    <TableColumn text="Nazwisko" fx:id="colLastName"/>
+                    <TableColumn text="Przedmiot" fx:id="colSubject"/>
+                </columns>
+            </TableView>
+
+            <Label text="Szczegóły nauczyciela:"/>
+            <GridPane hgap="10" vgap="5">
+                <Label text="Imię:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label fx:id="detailFirstName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="Nazwisko:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label fx:id="detailLastName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label text="Przedmiot:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label fx:id="detailSubject" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label text="Klasy:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label fx:id="detailClass" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            </GridPane>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px;">
+            <Button text="Dodaj nauczyciela" onAction="#handleAddTeacher"/>
+            <Button text="Edytuj" onAction="#handleEditTeacher"/>
+            <Button text="Usuń" onAction="#handleDeleteTeacher"/>
+            <Button text="Zmień przedmioty" onAction="#handleChangeSubject"/>
+            <Button fx:id="returnButton" text="Wróć" onAction="#back"/>
+        </HBox>
+    </bottom>
+</BorderPane>

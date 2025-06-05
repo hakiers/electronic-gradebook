@@ -22,7 +22,7 @@ public class AdminService {
         try {
             ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(scheduleRequest);
-
+            System.out.println(json);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://localhost:8080/api/admin/schedule/add"))
                     .header("Content-Type", "application/json")
