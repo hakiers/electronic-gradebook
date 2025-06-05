@@ -126,6 +126,9 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getTeachersForSubject(subject_id, session));
     }
 
-
+    @GetMapping("student-subject-groups/{student_id}")
+    public ResponseEntity<?> getStudentSubjectGroups(@PathVariable int student_id, HttpSession session){
+        return ResponseEntity.ok(adminService.getStudentSubjectGroups(student_id, session));
+    }
 
 }
