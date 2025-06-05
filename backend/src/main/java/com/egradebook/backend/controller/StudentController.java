@@ -45,9 +45,9 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAttendanceByDate(session, date));
     }
 
-    /*@GetMapping("/groups")
+    @GetMapping("/subjectgroups")
     public ResponseEntity<?> getSubjectGroups(HttpSession session) {
-
-    }*/
+        return ResponseEntity.ok(studentService.getStudentSubjectGroups(session));
+    }
 
 }
