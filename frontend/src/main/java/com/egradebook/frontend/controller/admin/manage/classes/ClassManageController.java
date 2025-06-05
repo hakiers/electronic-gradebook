@@ -5,14 +5,12 @@ import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.model.Teacher;
 import com.egradebook.frontend.service.AdminService;
 import com.egradebook.frontend.service.ClassService;
-import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
 
@@ -125,7 +123,7 @@ public class ClassManageController {
     @FXML
     public void onSetSchedule() {
         Clazz selected = classesTable.getSelectionModel().getSelectedItem();
-        AddOrEditLessonDialog dialog = new AddOrEditLessonDialog(selected);
+        AddOrEditScheduleDialog dialog = new AddOrEditScheduleDialog(selected);
         dialog.showAndWait();
         reloadClasses();
     }

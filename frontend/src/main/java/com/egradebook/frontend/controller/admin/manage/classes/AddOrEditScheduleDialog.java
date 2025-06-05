@@ -1,15 +1,13 @@
 package com.egradebook.frontend.controller.admin.manage.classes;
 
-import com.egradebook.frontend.controller.admin.manage.students.ChangeClassDialogController;
 import com.egradebook.frontend.model.Clazz;
-import com.egradebook.frontend.model.Student;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AddOrEditLessonDialog extends Stage {
-    public AddOrEditLessonDialog(Clazz clazz) {
+public class AddOrEditScheduleDialog extends Stage {
+    public AddOrEditScheduleDialog(Clazz clazz) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/manage/classes/AddOrEditScheduleDialog.fxml"));
             setScene(new Scene(loader.load()));
