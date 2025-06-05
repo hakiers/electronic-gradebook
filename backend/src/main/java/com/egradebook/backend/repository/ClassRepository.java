@@ -9,6 +9,7 @@ import com.egradebook.backend.utils.Pair;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -121,13 +122,34 @@ public class ClassRepository {
         jdbcTemplate.update(sql, new Object[]{class_id});
     }
 
+    public int existSubjectGroup(int class_id, int subject_id, int group_number){
+        String sql = "SELECT group_id FROM subject_groups WHERE class_id = ? AND subject_id = ? AND group_number = ?";
+        try {
+            Integer group_id = jdbcTemplate.queryForObject(sql, Integer.class, class_id, subject_id, group_number);
+            return (group_id != null) ? group_id : 0;
+        } catch (EmptyResultDataAccessException e) {
+            return 0;
+        }
+    }
+
+    public void addSubjectGroup(int class_id, int subject_id, int group_number){
+        String sql = "INSERT INTO subject_groups (class_id, subject_id, group_number) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, class_id, subject_id, group_number);
+    }
+
     public void addLesson(Lesson lesson) {
+        int group_id = existSubjectGroup(lesson.getClass_id(), lesson.getSubject_id(), lesson.getGroup_id());
+        if(group_id == 0){
+            addSubjectGroup(lesson.getClass_id(), lesson.getSubject_id(), lesson.getGroup_id());
+            group_id = existSubjectGroup(lesson.getClass_id(), lesson.getSubject_id(), lesson.getGroup_id());
+        }
+
         String sql = """
                 INSERT INTO class_schedule (class_id, teacher_id, subject_id, group_id, day_of_week, lesson_number, room_number)
                 VALUES (?,?,?,?,?,?,?)
                 """;
        jdbcTemplate.update(sql, lesson.getClass_id(), lesson.getTeacher_id(),
-               lesson.getSubject_id(), lesson.getGroup_id(), lesson.getDay_od_week(),
+               lesson.getSubject_id(), group_id, lesson.getDay_od_week(),
                lesson.getLesson_number(), lesson.getRoom_number());
     }
 

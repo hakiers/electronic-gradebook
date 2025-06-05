@@ -5,7 +5,6 @@ import com.egradebook.backend.repository.SubjectRepository;
 import com.egradebook.backend.repository.TeacherRepository;
 import com.egradebook.backend.request.AddScheduleRequest;
 import com.egradebook.backend.utils.BeanUtil;
-import jakarta.servlet.http.HttpSession;
 
 public class Lesson {
     private int schedule_id;
