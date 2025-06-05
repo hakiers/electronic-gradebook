@@ -1,61 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-
-
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.egradebook.frontend.controller.admin.manage.students.StudentManageController"
-            prefWidth="700" prefHeight="500">
+            prefWidth="700" prefHeight="500"
+            stylesheets="@../../../../css/base.css">
 
-<center>
-    <VBox spacing="10" style="-fx-padding: 10;">
-        <Label text="Lista uczniów:"/>
-        <TableView fx:id="studentsTable" prefHeight="250">
-            <columns>
-                <TableColumn text="Imię" fx:id="colFirstName"/>
-                <TableColumn text="Nazwisko" fx:id="colLastName"/>
-                <TableColumn text="Klasa" fx:id="colClass"/>
-            </columns>
-        </TableView>
+    <top>
+        <HBox alignment="TOP_LEFT" style="-fx-background-color: #f4f4f4;">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+            <Button fx:id="returnButton" text="WRÓĆ" onAction="#back"/>
+        </HBox>
+    </top>
 
-        <Label text="Szczegóły ucznia:"/>
-        <GridPane hgap="10" vgap="5">
-            <Label text="Imię:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <Label fx:id="detailFirstName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-            <Label text="Nazwisko:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Label fx:id="detailLastName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-            <Label text="Klasa:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <Label fx:id="detailClass" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-            <Label text="Grupy:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <Label fx:id="detailGroups" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-            <Label text="Username:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-            <Label fx:id="detailUsername" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    <center>
+        <VBox fx:id="mainContainer" spacing="10">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
 
+            <HBox alignment="CENTER" spacing="20">
+                <Label styleClass="header" text="LISTA UCZNIÓW"/>
+                <Label fx:id="studentNameLabel" styleClass="header"/>
+            </HBox>
 
-            <Label text="E-mail:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-            <Label fx:id="detailEmail" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
-            <Label text="Telefon:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-            <Label fx:id="detailPhone" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-            <Label text="Adres:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-            <Label fx:id="detailAdress" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
-            <Label text="Pesel:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-            <Label fx:id="detailPesel" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
-        </GridPane>
-    </VBox>
-</center>
+            <ScrollPane fitToWidth="true" fitToHeight="false" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                <content>
+                    <VBox alignment="CENTER" spacing="15">
+                        <TableView fx:id="studentsTable"
+                                   prefHeight="250"
+                                   minWidth="900"
+                                   maxWidth="900">
+                            <columns>
+                                <TableColumn text="IMIĘ" fx:id="colFirstName" resizable="false" prefWidth="300"/>
+                                <TableColumn text="NAZWISKO" fx:id="colLastName" resizable="false" prefWidth="300"/>
+                                <TableColumn text="KLASA" fx:id="colClass" resizable="false" prefWidth="300"/>
+                            </columns>
+                        </TableView>
 
+                        <Label text="SZCZEGÓŁY UCZNIA:" styleClass="sub-header"/>
 
-<bottom>
-    <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px;">
-        <Button text="Dodaj ucznia" onAction="#handleAddStudent"/>
-        <Button text="Edytuj" onAction="#handleEditStudent"/>
-        <Button text="Usuń" onAction="#handleDeleteStudent"/>
-        <Button text="Zmień klasę" onAction="#handleChangeClass"/>
-        <Button text="Przypisz do grupy" onAction="#handleAssignToGroup"/>
-        <Button fx:id="returnButton" text="Wróć" onAction="#back"/>
-    </HBox>
-</bottom>
+                        <GridPane hgap="10" vgap="5">
+                            <Label text="Imię:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailFirstName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                            <Label text="Nazwisko:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailLastName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                            <Label text="Klasa:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailClass" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                            <Label text="Grupy:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailGroups" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                            <Label text="Username:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailUsername" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                            <Label text="E-mail:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailEmail" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                            <Label text="Telefon:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailPhone" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                            <Label text="Adres:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailAdress" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                            <Label text="Pesel:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailPesel" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                        </GridPane>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
+            <Button text="DODAJ UCZNIA" onAction="#handleAddStudent" styleClass="toggle-button" />
+            <Button text="EDYTUJ" onAction="#handleEditStudent" styleClass="toggle-button" />
+            <Button text="USUŃ" onAction="#handleDeleteStudent" styleClass="toggle-button" />
+            <Button text="ZMIEŃ KLASĘ" onAction="#handleChangeClass" styleClass="toggle-button" />
+            <Button text="PRZYPISZ DO GRUPY" onAction="#handleAssignToGroup" styleClass="toggle-button"/>
+        </HBox>
+    </bottom>
 </BorderPane>
