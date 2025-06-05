@@ -21,7 +21,7 @@ public class Attendance {
 
     @JsonProperty("status")
     private Status status;
-
+    @JsonProperty("lesson_number")
     private int lessonNumber;
 
     public Attendance() {

@@ -1,6 +1,7 @@
 package com.egradebook.backend.repository;
 
 import com.egradebook.backend.dto.Attendance;
+import com.egradebook.backend.dto.StudentAttendance;
 import com.egradebook.backend.model.Grade;
 import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Subject;
@@ -126,18 +127,20 @@ public class StudentRepository {
     //to do: w funkcji getAllStudentsAbsences zmienic zapytanie tak zeby bralo dane z widoku attendance w aktualnym
     //roku szkolnym
 
-    public List<Attendance> getAllStudentsAbsences(int student_id) {
+    public List<StudentAttendance> getAllStudentsAbsences(int student_id) {
         String sql = """
-                SELECT * FROM attendance WHERE student_id = ? AND status != 'presence'
+                SELECT student_id,attendance_id,schedule_id,status,date,lesson_number
+                    FROM attendance natural join class_schedule WHERE student_id = ? AND status != 'presence'
                 ORDER BY date;
                 """;
-        List<Attendance> attendance = jdbcTemplate.query(sql, new Object[]{student_id}, (rs, rowNum) ->
-                new Attendance(
+        List<StudentAttendance> attendance = jdbcTemplate.query(sql, new Object[]{student_id}, (rs, rowNum) ->
+                new StudentAttendance(
                         rs.getInt("student_id"),
                         rs.getInt("attendance_id"),
                         rs.getInt("schedule_id"),
                         rs.getString("status"),
-                        rs.getString("date")
+                        rs.getString("date"),
+                        rs.getInt("lesson_number")
                 )
         );
         return attendance;

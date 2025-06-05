@@ -1,6 +1,7 @@
 package com.egradebook.backend.model;
 
 import com.egradebook.backend.dto.Attendance;
+import com.egradebook.backend.dto.StudentAttendance;
 import com.egradebook.backend.dto.StudentProfile;
 import com.egradebook.backend.dto.SubjectsWithGradesDto;
 import com.egradebook.backend.exception.ForbiddenOperationException;
@@ -132,7 +133,7 @@ public class Student {
         return studentRepository.getStudentsAttendanceByDate(student_id, date);
     }
 
-    public List<Attendance> getAllStudentsAbsences(){
+    public List<StudentAttendance> getAllStudentsAbsences(){
         return studentRepository.getAllStudentsAbsences(student_id);
     }
 

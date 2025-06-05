@@ -49,11 +49,6 @@ public class LoginController {
             }
             isWorkerMode = (newVal == asWorkerButton);
         });
-        Platform.runLater(() -> {
-            Scene scene = mainContainer.getScene();
-            URL cssUrl = getClass().getResource("/css/base.css");
-            scene.getStylesheets().add(cssUrl.toExternalForm());
-        });
     }
 
     @FXML

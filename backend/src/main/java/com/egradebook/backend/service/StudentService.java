@@ -1,9 +1,6 @@
 package com.egradebook.backend.service;
 
-import com.egradebook.backend.dto.Attendance;
-import com.egradebook.backend.dto.LessonDto;
-import com.egradebook.backend.dto.StudentProfile;
-import com.egradebook.backend.dto.SubjectsWithGradesDto;
+import com.egradebook.backend.dto.*;
 import com.egradebook.backend.exception.UnauthorizedException;
 import com.egradebook.backend.model.*;
 import com.egradebook.backend.repository.ClassRepository;
@@ -82,7 +79,7 @@ public class StudentService {
         return schedule;
     }
 
-    public List<Attendance> getAllAbsences(HttpSession session) {
+    public List<StudentAttendance> getAllAbsences(HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if(!loggedUser.isStudent()) {
             throw new UnauthorizedException("You are no student");
