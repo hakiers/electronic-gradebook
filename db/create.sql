@@ -152,6 +152,31 @@ CREATE TABLE teacher_class_subject (
     PRIMARY KEY (teacher_id, class_id, subject_id, group_id)
 );
 
+CREATE TABLE class_changes_history(
+    id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES students(student_id) ON DELETE CASCADE,
+    from_class INTEGER REFERENCES classes(class_id),
+    to_class INTEGER NOT NULL REFERENCES classes(class_id),
+    "date" date NOT NULL
+);
+
+CREATE TABLE group_changes_history(
+    id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES students(student_id) ON DELETE CASCADE,
+    from_group INTEGER REFERENCES subject_groups(group_id),
+    to_group INTEGER NOT NULL REFERENCES subject_groups(group_id),
+    "date" date NOT NULL
+);
+
+CREATE TABLE final_grades(
+    id SERIAL PRIMARY KEY,
+    student_id INTEGER NOT NULL REFERENCES students(student_id) ON DELETE CASCADE,
+    subject_id INTEGER NOT NULL REFERENCES subjects(subject_id),
+    teacher_id INTEGER NOT NULL REFERENCES teachers(teacher_id),
+    grade_value NUMERIC,
+    school_year character(4) NOT NULL
+);
+
 -- sprawdzanie pseselu 
 CREATE OR REPLACE FUNCTION validate_pesel()
 RETURNS TRIGGER AS $$
@@ -166,6 +191,93 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_validate_pesel
 BEFORE INSERT OR UPDATE ON personal_data
 FOR EACH ROW EXECUTE FUNCTION validate_pesel();
+
+--better sprawdzarka jako ciekawostka
+/*
+CREATE OR REPLACE FUNCTION validate_pesel()
+RETURNS TRIGGER AS $$
+DECLARE
+pesel_text TEXT := NEW.pesel;
+    pesel_digits INTEGER[];
+    weights INTEGER[] := ARRAY[1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
+    control_sum INTEGER := 0;
+    control_digit INTEGER;
+    i INTEGER;
+    yy INTEGER;
+    mm INTEGER;
+    dd INTEGER;
+year INTEGER;
+month INTEGER;
+day INTEGER;
+BEGIN
+    --Sprawdzenie długości i cyfr
+    IF pesel_text !~ '^[0-9]{11}$' THEN
+        RAISE EXCEPTION 'Nieprawidłowy numer PESEL: % (nie 11 cyfr)', pesel_text;
+END IF;
+
+    --Konwersja na tablicę cyfr
+    pesel_digits := ARRAY[
+        CAST(SUBSTRING(pesel_text,1,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,2,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,3,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,4,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,5,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,6,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,7,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,8,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,9,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,10,1) AS INTEGER),
+        CAST(SUBSTRING(pesel_text,11,1) AS INTEGER)
+    ];
+
+    --Cyfra kontrolna
+FOR i IN 1..10 LOOP
+        control_sum := control_sum + pesel_digits[i] * weights[i];
+END LOOP;
+    control_digit := (10 - (control_sum % 10)) % 10;
+
+    IF control_digit != pesel_digits[11] THEN
+        RAISE EXCEPTION 'Nieprawidłowa cyfra kontrolna PESEL: %', pesel_text;
+END IF;
+
+    --Sprawdzanie daty urodzenia
+    yy := pesel_digits[1]*10 + pesel_digits[2];
+    mm := pesel_digits[3]*10 + pesel_digits[4];
+    dd := pesel_digits[5]*10 + pesel_digits[6];
+
+    --Odszyfrowanie wieku na podstawie miesięcy
+    IF mm BETWEEN 1 AND 12 THEN
+        year := 1900 + yy;
+month := mm;
+    ELSIF mm BETWEEN 21 AND 32 THEN
+        year := 2000 + yy;
+month := mm - 20;
+    ELSIF mm BETWEEN 41 AND 52 THEN
+        year := 2100 + yy;
+month := mm - 40;
+    ELSIF mm BETWEEN 61 AND 72 THEN
+        year := 2200 + yy;
+month := mm - 60;
+    ELSIF mm BETWEEN 81 AND 92 THEN
+        year := 1800 + yy;
+month := mm - 80;
+ELSE
+        RAISE EXCEPTION 'Nieprawidłowy miesiąc w PESEL: %', pesel_text;
+END IF;
+day := dd;
+
+    -- Sprawdzanie poprawności daty
+    PERFORM to_date(year::TEXT || lpad(month::TEXT,2,'0') || lpad(day::TEXT,2,'0'), 'YYYYMMDD');
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Nieprawidłowa data urodzenia w PESEL: %', pesel_text;
+END IF;
+
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+
 
 -- liczenie sredniej z przedmiotu 
 CREATE OR REPLACE FUNCTION subject_average(student INT, subject INT)
@@ -240,7 +352,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- sprawdzenie czy nauczyciel moze wstawic ocene
-/*
 CREATE OR REPLACE FUNCTION check_teacher_permission()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -250,8 +361,7 @@ BEGIN
     FROM teacher_class_subject
     WHERE teacher_id = NEW.teacher_id
       AND class_id = (SELECT class_id FROM students WHERE student_id = NEW.student_id)
-      AND subject_id = NEW.subject_id
-    LIMIT 1;
+      AND subject_id = NEW.subject_id LIMIT 1;
 
     IF NOT FOUND THEN
         RAISE EXCEPTION 'Nauczyciel nie uczy tego przedmiotu w tej klasie';
@@ -266,8 +376,6 @@ CREATE TRIGGER trg_check_teacher_permission
 BEFORE INSERT ON grades
 FOR EACH ROW EXECUTE FUNCTION check_teacher_permission();
 
-
- */
 -- wypisz oceny ucznia z przedmiotu 
 CREATE OR REPLACE FUNCTION get_student_grades(student INT)
 RETURNS TABLE(subject_name TEXT, grade NUMERIC, description TEXT, "date" DATE) AS $$
@@ -279,7 +387,6 @@ BEGIN
     WHERE g.student_id = student;
 END;
 $$ LANGUAGE plpgsql;
-
 
 -- blokada wstawiania ocen w wakacje 
 CREATE OR REPLACE FUNCTION block_grades_in_vacation()
@@ -313,11 +420,10 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-/*
 CREATE TRIGGER trg_is_room_available
 BEFORE INSERT ON class_schedule
 FOR EACH ROW EXECUTE FUNCTION is_room_available();
-*/
+
 -- sprawdzenie czy nauczyciel nie ma dwoch lekcji na raz
 CREATE OR REPLACE FUNCTION check_teacher_conflict()
 RETURNS TRIGGER AS $$
@@ -334,39 +440,54 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-   /*
 CREATE TRIGGER trg_check_teacher_conflict
 BEFORE INSERT ON class_schedule
 FOR EACH ROW EXECUTE FUNCTION check_teacher_conflict();
-*/
+
 -- plan lekcji dla klasy
 CREATE OR REPLACE VIEW class_timetable AS
-SELECT 
+SELECT
     c.class_id,
     cs.day_of_week,
     cs.lesson_number,
     s.name AS subject,
     t.teacher_id,
-    cs.room_number
+    cs.room_number,
+    se.type AS exception_type,
+    se.sub_teacher_id,
+    se.note,
+    se.exception_date
 FROM class_schedule cs
-JOIN classes c ON c.class_id = cs.class_id
-JOIN subjects s ON s.subject_id = cs.subject_id
-JOIN teachers t ON t.teacher_id = cs.teacher_id;
+         JOIN classes c ON c.class_id = cs.class_id
+         JOIN subjects s ON s.subject_id = cs.subject_id
+         JOIN teachers t ON t.teacher_id = cs.teacher_id
+         LEFT JOIN slot_exceptions se
+         ON se.schedule_id = cs.schedule_id
+         AND se.exception_date BETWEEN CURRENT_DATE AND CURRENT_DATE + interval '6 days';
+
 
 -- plan lekcji dla ucznia 
 CREATE OR REPLACE VIEW student_timetable AS
-SELECT 
+SELECT
     st.student_id,
     cs.day_of_week,
     cs.lesson_number,
     s.name AS subject,
-    cs.room_number
+    cs.room_number,
+    se.type AS exception_type,
+    se.sub_teacher_id,
+    se.note,
+    se.exception_date
 FROM students st
-JOIN class_schedule cs ON cs.class_id = st.class_id
-JOIN subjects s ON s.subject_id = cs.subject_id;
+         JOIN class_schedule cs ON cs.class_id = st.class_id
+         JOIN subjects s ON s.subject_id = cs.subject_id
+         LEFT JOIN slot_exceptions se
+        ON se.schedule_id = cs.schedule_id
+        AND se.exception_date BETWEEN CURRENT_DATE AND CURRENT_DATE + interval '6 days';
 
 
--- raning uczniow wedlug redniej 
+
+-- ranking uczniow wedlug redniej
 CREATE OR REPLACE VIEW student_avg_ranking AS
 SELECT 
     s.class_id,
@@ -391,7 +512,6 @@ JOIN subjects s ON s.subject_id = g.subject_id
 GROUP BY g.student_id, s.name;
 
 --trigger blokuje mozliwosc zmiany danych osobowych na null
-
 CREATE OR REPLACE FUNCTION avoid_nulls_in_personal_data()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -415,5 +535,52 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE TRIGGER trg_avoid_nulls_in_personal_data
 BEFORE UPDATE ON personal_data
 FOR EACH ROW EXECUTE FUNCTION avoid_nulls_in_personal_data();
+
+
+-- Historia zmian grup
+CREATE OR REPLACE FUNCTION insert_group_change_history()
+RETURNS TRIGGER AS $$
+DECLARE
+previous_group INTEGER;
+BEGIN
+SELECT group_id INTO previous_group
+FROM student_subject_group ssg
+         JOIN subject_groups sg ON sg.group_id = ssg.group_id
+WHERE ssg.student_id = NEW.student_id
+  AND sg.subject_id = (SELECT subject_id FROM subject_groups WHERE group_id = NEW.group_id)
+  AND ssg.group_id != NEW.group_id
+    LIMIT 1;
+
+IF previous_group IS NOT NULL THEN
+        INSERT INTO group_changes_history(student_id, from_group, to_group, "date")
+        VALUES (NEW.student_id, previous_group, NEW.group_id, CURRENT_DATE);
+END IF;
+
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_insert_group_change_history ON student_subject_group;
+CREATE TRIGGER trg_insert_group_change_history
+    AFTER INSERT ON student_subject_group
+    FOR EACH ROW EXECUTE FUNCTION insert_group_change_history();
+
+-- Historia zmian klas
+CREATE OR REPLACE FUNCTION insert_class_change_history()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.class_id IS DISTINCT FROM OLD.class_id AND NEW.class_id IS NOT NULL THEN
+        INSERT INTO class_changes_history(student_id, from_class, to_class, "date")
+        VALUES (NEW.student_id, OLD.class_id, NEW.class_id, CURRENT_DATE);
+END IF;
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_insert_class_change_history ON students;
+CREATE TRIGGER trg_insert_class_change_history
+    AFTER UPDATE ON students
+    FOR EACH ROW EXECUTE FUNCTION insert_class_change_history();
+
 
 

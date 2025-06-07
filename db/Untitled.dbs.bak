@@ -20,11 +20,11 @@
 			</fk>
 		</table>
 		<table name="class_profile" prior="class_pro" >
-			<column name="id" type="integer" jt="4" mandatory="y" />
-			<column name="shortcut_name" prior="profile_shortcut" type="char" length="4" jt="1" mandatory="y" />
+			<column name="profile_id" prior="id" type="integer" jt="4" mandatory="y" />
+			<column name="short_name" prior="shortcut_name" type="char" length="4" jt="1" mandatory="y" />
 			<column name="name" type="varchar" length="32" jt="12" mandatory="y" />
 			<index name="pk_class_profile" unique="PRIMARY_KEY" >
-				<column name="id" />
+				<column name="profile_id" />
 			</index>
 		</table>
 		<table name="class_schedule" prior="schedule" >
@@ -68,7 +68,7 @@
 				<fk_column name="class_teacher" pk="teacher_id" />
 			</fk>
 			<fk name="fk_classes_class_profile" to_schema="electronic-gradebook-schema" to_table="class_profile" >
-				<fk_column name="class_profile" pk="id" />
+				<fk_column name="class_profile" pk="profile_id" />
 			</fk>
 		</table>
 		<table name="contact_info" prior="contact" >
@@ -326,12 +326,12 @@
 		<entity schema="electronic-gradebook-schema" name="teacher_subject" color="C1D8EE" x="1040" y="60" />
 		<entity schema="electronic-gradebook-schema" name="classes" color="C1D8EE" x="660" y="280" />
 		<entity schema="electronic-gradebook-schema" name="students" color="C1D8EE" x="440" y="280" />
-		<entity schema="electronic-gradebook-schema" name="student_subject_group" color="C1D8EE" x="820" y="100" />
-		<entity schema="electronic-gradebook-schema" name="subject_groups" color="C1D8EE" x="620" y="100" />
 		<entity schema="electronic-gradebook-schema" name="class_schedule" color="C1D8EE" x="1060" y="500" />
 		<entity schema="electronic-gradebook-schema" name="teacher_class_subject" color="C1D8EE" x="1200" y="280" />
 		<entity schema="electronic-gradebook-schema" name="parent_student" color="C1D8EE" x="60" y="60" />
-		<entity schema="electronic-gradebook-schema" name="class_profile" color="C1D8EE" x="840" y="300" />
+		<entity schema="electronic-gradebook-schema" name="subject_groups" color="C1D8EE" x="640" y="60" />
+		<entity schema="electronic-gradebook-schema" name="student_subject_group" color="C1D8EE" x="840" y="60" />
+		<entity schema="electronic-gradebook-schema" name="class_profile" color="C1D8EE" x="840" y="280" />
 		<script name="SQL_Editor" id="57a64da3-3270-40e2-8e76-f005324f02d3" language="SQL" confirmed="y" >
 			<string><![CDATA[CREATE TABLE student_groups (
     group_id   SERIAL PRIMARY KEY,
