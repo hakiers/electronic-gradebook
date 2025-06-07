@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
 
 public class TeacherGradesController {
     @FXML private Button returnButton;
-    @FXML private Button addGradesButton;
-    @FXML private Button editGradeButton;
 
     @FXML private TableView<StudentGrades> gradesTable;
     @FXML private TableColumn<StudentGrades, String> studentColumn;
