@@ -31,7 +31,8 @@ public class AttendanceTableHelper {
 
     public static void loadData(
             TableView<AttendanceRow> table,
-            Supplier<List<Attendance>> attendanceSupplier
+            Supplier<List<Attendance>> attendanceSupplier,
+            TableColumn<AttendanceRow, String> dateColumn
     ) {
         List<Attendance> rawData = attendanceSupplier.get();
 
@@ -43,6 +44,10 @@ public class AttendanceTableHelper {
 
         ObservableList<AttendanceRow> rows = FXCollections.observableArrayList(grouped.values());
         table.setItems(rows);
+
+        table.getSortOrder().clear();
+        dateColumn.setSortType(TableColumn.SortType.DESCENDING);
+        table.getSortOrder().add(dateColumn);
     }
 
     private static String getStatusSymbol(Attendance.Status status) {

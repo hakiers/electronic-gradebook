@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TeacherAttendanceController {
@@ -69,6 +70,7 @@ public class TeacherAttendanceController {
         attendanceRows.clear();
 
         List<Student> students = TeacherService.getStudentInClass(TeacherService.selectedClassId).getValue();
+        students.sort(Comparator.comparing(Student::getSurname));
         if (students == null) return;
 
         List<Integer> ids = students.stream().map(Student::getStudent_id).toList();
