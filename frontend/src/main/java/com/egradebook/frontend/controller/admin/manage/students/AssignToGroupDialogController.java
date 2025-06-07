@@ -1,8 +1,11 @@
 package com.egradebook.frontend.controller.admin.manage.students;
 
+import com.egradebook.frontend.dto.AssignStudentToGroupsRequest;
 import com.egradebook.frontend.model.Group;
 import com.egradebook.frontend.model.Lesson;
 import com.egradebook.frontend.model.Student;
+import com.egradebook.frontend.model.SubjectGroup;
+import com.egradebook.frontend.service.AdminService;
 import com.egradebook.frontend.service.ClassService;
 import com.egradebook.frontend.service.StudentService;
 import javafx.fxml.FXML;
@@ -19,23 +22,8 @@ public class AssignToGroupDialogController {
     @FXML private ListView<HBox> subjectsListView;
     private Student student;
     private Stage dialogStage;
-    private final Map<String, ComboBox<GroupInfo>> subjectComboMap = new HashMap<>();
+    private final Map<String, ComboBox<SubjectGroup>> subjectComboMap = new HashMap<>();
 
-    // Pomocnicza klasa do combo
-    public static class GroupInfo {
-        private final int groupId;
-        private final int groupNumber;
-        private final String displayName;
-
-        public GroupInfo(int groupId, int groupNumber, String displayName) {
-            this.groupId = groupId;
-            this.groupNumber = groupNumber;
-            this.displayName = displayName;
-        }
-        @Override public String toString() { return displayName; }
-        public int getGroupId() { return groupId; }
-        public int getGroupNumber() { return groupNumber; }
-    }
 
     public void setDialogStage(Stage s) { this.dialogStage = s; }
 
@@ -56,60 +44,63 @@ public class AssignToGroupDialogController {
                 .collect(Collectors.groupingBy(Lesson::getSubject_name));
 
 
+        List<SubjectGroup> subjectGroups = AdminService.getStudentSubjectGroups(student.getStudent_id()).getValue();
         for (Map.Entry<String, List<Lesson>> entry : lessonsBySubject.entrySet()) {
             String subjectName = entry.getKey();
             List<Lesson> subjectLessons = entry.getValue();
 
             Label subjectLabel = new Label(subjectName);
 
-            List<GroupInfo> groupInfos = subjectLessons.stream()
+            List<SubjectGroup> groupInfos = subjectLessons.stream()
                     .collect(Collectors.groupingBy(Lesson::getGroup_id))
                     .values().stream()
                     .map(list -> {
                         Lesson l = list.get(0);
-                        return new GroupInfo(
+                        return new SubjectGroup(
                                 l.getGroup_id(),
-                                l.getGroup_number(),
-                                "Grupa " + l.getGroup_number()
+                                l.getClass_id(),
+                                l.getSubject_id(),
+                                l.getGroup_number()
                         );
                     })
                     .collect(Collectors.toList());
 
-            ComboBox<GroupInfo> groupCombo = new ComboBox<>();
+            ComboBox<SubjectGroup> groupCombo = new ComboBox<>();
             groupCombo.getItems().addAll(groupInfos);
 
-            // (Opcjonalnie) ustaw wybraną grupę, jeśli student już przypisany:
-            // int assignedGroupId = student.getAssignedGroupIdForSubject(subjectName);
-            // for (GroupInfo info : groupInfos)
-            //     if (info.getGroupId() == assignedGroupId) groupCombo.getSelectionModel().select(info);
-            if (assignedGroupId != -1) {
-                for (GroupInfo info : groupInfos) {
-                    if (info.getGroupId() == assignedGroupId) {
+            // KLUCZOWA CZĘŚĆ:
+            int subjectId = subjectLessons.get(0).getSubject_id();
+            Optional<SubjectGroup> assignedGroupOpt = subjectGroups.stream()
+                    .filter(g -> g.getSubject_id() == subjectId)
+                    .findFirst();
+
+            assignedGroupOpt.ifPresent(assignedGroup -> {
+                for (SubjectGroup info : groupInfos) {
+                    if (info.getGroup_id() == assignedGroup.getGroup_id()) {
                         groupCombo.getSelectionModel().select(info);
                         break;
                     }
                 }
-            }
+            });
 
             HBox row = new HBox(20, subjectLabel, groupCombo);
             row.setStyle("-fx-alignment: CENTER_LEFT;");
             subjectsListView.getItems().add(row);
             subjectComboMap.put(subjectName, groupCombo);
         }
+
     }
 
     @FXML
     public void save() {
-        // Odczytaj wybory i zapisz je do studenta
-        for (Map.Entry<String, ComboBox<GroupInfo>> entry : subjectComboMap.entrySet()) {
-            String subjectName = entry.getKey();
-            GroupInfo selected = entry.getValue().getSelectionModel().getSelectedItem();
+        List<Group> groups = new ArrayList<>();
+        for (Map.Entry<String, ComboBox<SubjectGroup>> entry : subjectComboMap.entrySet()) {
+            SubjectGroup selected = entry.getValue().getSelectionModel().getSelectedItem();
             if (selected != null) {
-                // Tu przypisz grupę do ucznia (musisz mieć taką metodę w modelu)
-                // student.assignGroupToSubject(subjectName, selected.getGroupId());
+                groups.add(new Group(selected.getGroup_id(), selected.getGroup_number()));
             }
         }
-        // StudentService.saveOrUpdate(student);
+        AdminService.assignGroupToSubject(new AssignStudentToGroupsRequest(student.getStudent_id(), groups));
         dialogStage.close();
     }
 

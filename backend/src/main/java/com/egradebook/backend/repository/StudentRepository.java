@@ -156,12 +156,28 @@ public class StudentRepository {
     }
 
     public void assignStudentToGroups(AssignStudentToGroupsRequest request) {
-        String sql = "INSERT INTO student_subject_group (student_id, group_id) VALUES (?, ?)";
+        for (Group group : request.getGroups()) {
+            Integer subjectId = jdbcTemplate.queryForObject(
+                    "SELECT subject_id FROM subject_groups WHERE group_id = ?",
+                    Integer.class,
+                    group.getGroup_id()
+            );
 
-        for (int i = 0; i < request.getGroups().size(); i++) {
-            jdbcTemplate.update(sql, request.getStudent_id(), request.getGroups().get(i).getGroup_id());
+            jdbcTemplate.update(
+                    "DELETE FROM student_subject_group WHERE student_id = ? AND group_id IN (" +
+                            "SELECT group_id FROM subject_groups WHERE subject_id = ?)",
+                    request.getStudent_id(),
+                    subjectId
+            );
+
+            jdbcTemplate.update(
+                    "INSERT INTO student_subject_group (student_id, group_id) VALUES (?, ?)",
+                    request.getStudent_id(),
+                    group.getGroup_id()
+            );
         }
     }
+
 
     public List<SubjectGroupsDto> getStudentSubjectGroups(int student_id) {
         //group id

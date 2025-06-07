@@ -37,7 +37,7 @@ public class AdminController {
             return ResponseEntity.ok(adminService.registerNewStudent(request, session));
     }
 
-    @PostMapping("/assign-to-groups")
+    @PutMapping("/assign-to-groups")
     public ResponseEntity<?> assignToGroups(@RequestBody AssignStudentToGroupsRequest request, HttpSession session) {
         adminService.assignStudentToGroups(request, session);
         return ResponseEntity.ok("Students assigned to groups successfully");
