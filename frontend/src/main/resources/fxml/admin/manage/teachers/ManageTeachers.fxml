@@ -1,56 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.egradebook.frontend.controller.admin.manage.teachers.TeacherManageController"
-            prefWidth="700" prefHeight="500">
+            prefWidth="700" prefHeight="500"
+            stylesheets="@../../../../css/base.css">
+
+    <top>
+        <HBox alignment="TOP_LEFT" style="-fx-background-color: #f4f4f4;">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+            <Button fx:id="returnButton" text="WRÓĆ" onAction="#back"/>
+        </HBox>
+    </top>
 
     <center>
-        <VBox spacing="10" style="-fx-padding: 10;">
-            <Label text="Lista nauczycieli:"/>
-            <TableView fx:id="teachersTable" prefHeight="250">
-                <columns>
-                    <TableColumn text="Imię" fx:id="colFirstName"/>
-                    <TableColumn text="Nazwisko" fx:id="colLastName"/>
-                    <TableColumn text="Przedmiot" fx:id="colSubject"/>
-                </columns>
-            </TableView>
+        <VBox fx:id="mainContainer" spacing="10">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
 
-            <Label text="Szczegóły nauczyciela:"/>
-            <GridPane hgap="10" vgap="5">
-                <Label text="Imię:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Label fx:id="detailFirstName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                <Label text="Nazwisko:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <Label fx:id="detailLastName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                <Label text="Przedmiot:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <Label fx:id="detailSubject" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                <Label text="Klasy:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <Label fx:id="detailClass" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-                <Label text="Username:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                <Label fx:id="detailUsername" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <HBox alignment="CENTER" spacing="20">
+                <Label styleClass="header" text="LISTA NAUCZYCIELI"/>
+                <Label fx:id="teacherNameLabel" styleClass="header"/>
+            </HBox>
 
+            <ScrollPane fitToWidth="true" fitToHeight="false" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                <content>
+                    <VBox alignment="CENTER" spacing="15">
+                        <TableView fx:id="teachersTable" prefHeight="250" minWidth="1200" maxWidth="1200">
+                            <columns>
+                                <TableColumn text="IMIĘ" fx:id="colFirstName" resizable="false" prefWidth="300"/>
+                                <TableColumn text="NAZWISKO" fx:id="colLastName" resizable="false" prefWidth="300"/>
+                                <TableColumn text="PRZEDMIOT" fx:id="colSubject" resizable="false" prefWidth="600"/>
+                            </columns>
+                        </TableView>
 
-                <Label text="E-mail:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                <Label fx:id="detailEmail" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
-                <Label text="Telefon:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <Label fx:id="detailPhone" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-                <Label text="Adres:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-                <Label fx:id="detailAdress" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
-                <Label text="Pesel:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-                <Label fx:id="detailPesel" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
-            </GridPane>
+                        <Label text="SZCZEGÓŁY NAUCZYCIELA:" styleClass="sub-header"/>
+
+                        <GridPane hgap="10" vgap="5">
+                            <Label text="Imię:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailFirstName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                            <Label text="Nazwisko:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailLastName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                            <Label text="Przedmiot:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailSubject" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                            <Label text="Klasy:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailClass" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                            <Label text="Username:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailUsername" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                            <Label text="E-mail:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailEmail" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                            <Label text="Telefon:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailPhone" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                            <Label text="Adres:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailAdress" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                            <Label text="Pesel:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailPesel" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                        </GridPane>
+                    </VBox>
+                </content>
+            </ScrollPane>
         </VBox>
     </center>
 
     <bottom>
-        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px;">
-            <Button text="Dodaj nauczyciela" onAction="#handleAddTeacher"/>
-            <Button text="Edytuj" onAction="#handleEditTeacher"/>
-            <Button text="Usuń" onAction="#handleDeleteTeacher"/>
-            <Button text="Zmień przedmioty" onAction="#handleChangeSubject"/>
-            <Button fx:id="returnButton" text="Wróć" onAction="#back"/>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
+            <Button text="DODAJ NAUCZYCIELA" onAction="#handleAddTeacher" styleClass="toggle-button"/>
+            <Button text="EDYTUJ" onAction="#handleEditTeacher" styleClass="toggle-button"/>
+            <Button text="USUŃ" onAction="#handleDeleteTeacher" styleClass="toggle-button"/>
+            <Button text="ZMIEŃ PRZEDMIOTY" onAction="#handleChangeSubject" styleClass="toggle-button"/>
         </HBox>
     </bottom>
 </BorderPane>

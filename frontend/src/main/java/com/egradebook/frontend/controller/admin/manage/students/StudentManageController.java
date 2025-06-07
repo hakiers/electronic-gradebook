@@ -101,7 +101,7 @@ public class StudentManageController {
         reloadStudents();
     }
 
-    @FXML
+    /*@FXML
     public void handleDeleteStudent() {
         Student selected = studentsTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
@@ -114,7 +114,30 @@ public class StudentManageController {
                 reloadStudents();
             }
         });
+    }*/
+
+    @FXML
+    public void handleDeleteStudent() {
+        Student selected = studentsTable.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Czy na pewno usunąć ucznia?");
+        alert.setTitle("Potwierdzenie");
+        alert.setHeaderText(null);
+
+        // Dodanie CSS
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/css/base.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-alert");
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                // StudentService.deleteStudent(selected.getId());
+                reloadStudents();
+            }
+        });
     }
+
 
     @FXML
     public void handleChangeClass() {

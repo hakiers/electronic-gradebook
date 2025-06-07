@@ -234,3 +234,35 @@
 }
 
 
+.custom-alert {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-background-color: white;
+}
+
+.custom-alert .content {
+    -fx-padding: 12;
+    -fx-font-weight: normal;
+}
+
+.custom-alert .header-panel {
+    -fx-background-color: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.custom-alert .button-bar .button {
+    -fx-background-color: #3088c3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 6 16;
+    -fx-background-radius: 0;
+
+}
+
+.custom-alert .button-bar .button:hover {
+    -fx-background-color: #0b5585;
+}
+
+
+
