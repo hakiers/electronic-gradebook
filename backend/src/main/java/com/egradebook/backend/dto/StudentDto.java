@@ -9,7 +9,9 @@ public class StudentDto {
     private String pesel;
     private int class_id;
     private String username;
-
+    public StudentDto() {
+        // Domyślny konstruktor wymagany przez Spring
+    }
     public StudentDto(Student student) {
         this.student_id = student.getStudent_id();
         this.name = student.getName();

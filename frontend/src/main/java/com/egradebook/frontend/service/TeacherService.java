@@ -62,12 +62,19 @@ public class TeacherService {
 
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            List<Student> lista = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
-            return new Pair<>(response.statusCode(), lista);
+            if (response.statusCode() == 200) {
+                List<Student> lista = mapper.readValue(
+                        response.body(),
+                        new TypeReference<List<Student>>() {
+                        }
+                );
+                return new Pair<>(response.statusCode(), lista);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return new Pair<>(500, null);
         }
+        return null;
     }
 
     public static Pair<Integer, List<Grade>> getGradesForStudent(int student_id, int subject_id) {
@@ -233,6 +240,7 @@ public class TeacherService {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
     }
 
@@ -250,6 +258,7 @@ public class TeacherService {
             HttpResponse<String> response = UserService.client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
     }
 
@@ -345,7 +354,6 @@ public class TeacherService {
             return new Pair<>(500, null);
         }
     }
-
     public static Pair<Integer, List<Subject>> getTeacherSubjects(int teacher_id) {
         try {
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {

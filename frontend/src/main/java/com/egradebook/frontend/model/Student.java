@@ -54,4 +54,8 @@ public class Student {
     public String getFullName() {
         return name + " " + surname;
     }
+    @Override
+    public String toString() {
+        return getFullName();
+    }
 }

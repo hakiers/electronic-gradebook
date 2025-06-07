@@ -15,6 +15,7 @@ module com.example.egradebook {
     opens com.egradebook.frontend.controller.shared to javafx.fxml;
     opens com.egradebook.frontend.controller.student to javafx.fxml;
     opens com.egradebook.frontend.controller.teacher to javafx.fxml;
+    opens com.egradebook.frontend.controller.parent to javafx.fxml;
     opens com.egradebook.frontend.utils to com.fasterxml.jackson.databind;
     opens com.egradebook.frontend.model to com.fasterxml.jackson.databind, javafx.base;
 

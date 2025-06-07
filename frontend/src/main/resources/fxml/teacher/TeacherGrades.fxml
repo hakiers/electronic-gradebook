@@ -5,21 +5,25 @@
 
 <VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.egradebook.frontend.controller.teacher.TeacherGradesController">
+      fx:controller="com.egradebook.frontend.controller.teacher.TeacherGradesController"
+      stylesheets="@../../css/base.css, @../../css/student.css">
     <Button text="wróć" fx:id="returnButton" defaultButton="true"
             alignment="TOP_LEFT" onAction="#back"/>
     <HBox spacing="20" alignment="CENTER">
         <Label text="Twoje oceny" styleClass="header"/>
         <Label fx:id="studentNameLabel" styleClass="student-name"/>
     </HBox>
-
-    <TableView fx:id="gradesTable">
-        <columns>
-            <TableColumn fx:id="studentColumn" text="Uczeń"/>
-            <TableColumn fx:id="gradesColumn" text="Obecne oceny"/>
-            <TableColumn fx:id="newGradeColumn" text="Nowa ocena"/>
-        </columns>
-    </TableView>
+    <ScrollPane fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
+        <content>
+            <TableView fx:id="gradesTable">
+                <columns>
+                    <TableColumn fx:id="studentColumn" text="Uczeń"/>
+                    <TableColumn fx:id="gradesColumn" text="Obecne oceny"/>
+                    <TableColumn fx:id="newGradeColumn" text="Nowa ocena"/>
+                </columns>
+            </TableView>
+        </content>
+    </ScrollPane>
     <HBox style="-fx-padding: 10 0 0 0;">
         <TextField fx:id="descriptionField" promptText="Opis oceny" HBox.hgrow="ALWAYS"/>
         <Button fx:id="addGradesButton" text="Dodaj oceny" style="-fx-base: green;" onAction="#addGradesToSelected"/>

@@ -3,6 +3,7 @@
     -fx-background-radius: 0;
     -fx-text-fill: black;
     -fx-padding: 3 6;
+    -fx-min-width: 30px; /* lub inna odpowiednia wartość */
 }
 
 

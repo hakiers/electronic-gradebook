@@ -45,20 +45,30 @@ public class TeacherScheduleController {
 
     private Label createHeaderLabel(String text) {
         Label label = new Label(text);
-        label.setFont(Font.font("System", FontWeight.BOLD, 12));
-        label.setStyle("-fx-padding: 5; -fx-alignment: center;");
+        label.setFont(Font.font("System", FontWeight.BOLD, 14));
+        label.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-alignment: center; "
+                + "-fx-padding: 8; -fx-border-color: #2980b9;");
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setMaxHeight(Double.MAX_VALUE);
         return label;
     }
 
     private VBox createLessonBox(Lesson lesson) {
         VBox box = new VBox(3);
-        box.setStyle("-fx-padding: 5; -fx-background-color: #e8f4f8; -fx-border-color: #d0d0d0;");
+        box.setStyle("-fx-background-color: #aed581; -fx-border-color: #7cb342; -fx-padding: 6;"
+                + "-fx-border-radius: 5; -fx-background-radius: 5;");
 
-        Label subject = new Label("Przedmiot:\n" + lesson.getSubject_name());
-        Label clazz = new Label("Klasa:\n" + lesson.getClass_id());
-        Label room = new Label("Sala: " + lesson.getRoom_number());
+        Label subject = new Label(lesson.getSubject_name());
+        subject.setStyle("-fx-font-weight: bold; -fx-font-size: 13;");
+
+        Label clazz = new Label(String.valueOf(lesson.getClass_id()));
+        clazz.setStyle("-fx-font-size: 11;");
+
+        Label room = new Label("s. " + lesson.getRoom_number());
+        room.setStyle("-fx-font-size: 11;");
 
         box.getChildren().addAll(subject, clazz, room);
+        box.setPrefSize(120, 60);
         return box;
     }
 
