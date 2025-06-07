@@ -38,7 +38,7 @@ public class ManageChildrenController {
         Stage stage=(Stage) returnButton.getScene().getWindow();
         if(selectBox.getSelectionModel().getSelectedItem()!=null) {
             ParentService.selectedStudent=selectBox.getValue();
-            ViewLoader.loadView(stage,"/fxml/parent/childrenGrades.fxml", "Oceny");
+            ViewLoader.loadView(stage,"/fxml/parent/ChildrenGrades.fxml", "Oceny");
         }
 
     }
@@ -47,7 +47,7 @@ public class ManageChildrenController {
         Stage stage=(Stage) returnButton.getScene().getWindow();
         if(selectBox.getValue()!=null) {
             ParentService.selectedStudent=selectBox.getValue();
-            ViewLoader.loadView(stage,"/fxml/parent/childAttendance.fxml", "Frekwencja");
+            ViewLoader.loadView(stage,"/fxml/parent/ChildAttendance.fxml", "Frekwencja");
         }
     }
     public void handleSchedule() {
@@ -55,7 +55,7 @@ public class ManageChildrenController {
         Stage stage=(Stage) returnButton.getScene().getWindow();
         if(selectBox.getValue()!=null) {
             ParentService.selectedStudent=selectBox.getValue();
-            ViewLoader.loadView(stage,"/fxml/parent/childSchedule.fxml", "Plan");
+            ViewLoader.loadView(stage,"/fxml/parent/ChildSchedule.fxml", "Plan");
         }
     }
 }

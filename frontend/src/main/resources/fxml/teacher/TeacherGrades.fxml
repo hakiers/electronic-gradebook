@@ -15,7 +15,7 @@
                 <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
             <Button fx:id="returnButton" id="returnButton"
-                    text="wróć"
+                    text="WRÓĆ"
                     onAction="#back"/>
         </HBox>
     </top>
@@ -32,35 +32,35 @@
             </HBox>
 
             <ScrollPane fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
-                <content>
-                    <TableView fx:id="gradesTable" prefHeight="400.0" minWidth="600.0">
+                <VBox alignment="CENTER">
+                    <TableView fx:id="gradesTable" prefHeight="400.0" minWidth="1112.5" maxWidth="1112.5">
                         <columns>
-                            <TableColumn fx:id="studentColumn" text="UCZEŃ" prefWidth="200.0"/>
-                            <TableColumn fx:id="gradesColumn" text="OCENY" prefWidth="600.0"/>
-                            <TableColumn fx:id="newGradeColumn" text="NOWA OCENA" prefWidth="200.0"/>
+                            <TableColumn fx:id="studentColumn" resizable="false" text="UCZEŃ" prefWidth="200.0"/>
+                            <TableColumn fx:id="gradesColumn" resizable="false" text="OCENY" prefWidth="700.0"/>
+                            <TableColumn fx:id="newGradeColumn" resizable="false" text="NOWA OCENA" prefWidth="200.0"/>
                         </columns>
                     </TableView>
-                </content>
+                </VBox>
             </ScrollPane>
 
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <TextField fx:id="descriptionField" promptText="Opis oceny" HBox.hgrow="ALWAYS"/>
-                <Button fx:id="addGradesButton" text="Dodaj oceny"
-                        style="-fx-base: green;" onAction="#addGradesToSelected"/>
+                <Button fx:id="addGradesButton" text="DODAJ OCENY"
+                        styleClass="toggle-button" onAction="#addGradesToSelected"/>
             </HBox>
 
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <TextField fx:id="newGradeField" promptText="Nowa ocena" HBox.hgrow="ALWAYS"/>
-                <Button fx:id="editGradeButton" text="edytuj"
-                        style="-fx-base: green;" onAction="#edit"/>
-                <Button fx:id="eraseGradeButton" text="usuń"
-                        style="-fx-base: red;" onAction="#delete"/>
+                <Button fx:id="editGradeButton" text="EDYTUJ"
+                        styleClass="toggle-button" onAction="#edit"/>
+                <Button fx:id="eraseGradeButton" text="USUŃ"
+                        styleClass="cancelButton" onAction="#delete"/>
             </HBox>
 
             <fx:define>
                 <Tooltip fx:id="gradeTooltip" styleClass="grade-tooltip"/>
             </fx:define>
-
         </VBox>
     </center>
+
 </BorderPane>
