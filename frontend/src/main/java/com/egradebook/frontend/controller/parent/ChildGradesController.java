@@ -4,6 +4,7 @@ import com.egradebook.frontend.dto.SubjectWithGrades;
 import com.egradebook.frontend.service.ParentService;
 import com.egradebook.frontend.service.StudentService;
 import com.egradebook.frontend.utils.GradeButtonCellFactory;
+import com.egradebook.frontend.utils.GradesTableHelper;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -29,44 +30,14 @@ public class ChildGradesController {
     @FXML private TableColumn<SubjectWithGrades, String> gradesColumn;
 
     public void initialize() {
-
-        configureTableColumns();
-        loadGrades();
+        GradesTableHelper.configureColumns(subjectColumn, gradesColumn);
+        GradesTableHelper.loadData(gradesTable, () -> ParentService.getGrades().getValue());
 
         Platform.runLater(() -> {
             Scene scene = mainContainer.getScene();
             scene.getStylesheets().add(getClass().getResource("/css/base.css").toExternalForm());
             scene.getStylesheets().add(getClass().getResource("/css/student.css").toExternalForm());
         });
-    }
-
-    private void configureTableColumns() {
-        // Wyciąga nazwę przedmiotu z Subject
-        subjectColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getSubject().getName()));
-
-        // Pusta wartość, bo nadpisujemy ją przyciskami
-        gradesColumn.setCellValueFactory(cellData -> new SimpleStringProperty(""));
-
-        gradesColumn.setCellFactory(
-                new GradeButtonCellFactory<>(
-                        SubjectWithGrades::getGrades,
-                        grade -> {
-                            System.out.println("Kliknięto ocenę: " + grade.getGrade_value() + " (" + grade.getDescription() + ")");
-                        },
-                        grade -> false
-                ).create()
-        );
-    }
-
-
-    private void loadGrades() {
-        List<SubjectWithGrades> subjectGrades = ParentService.getGrades().getValue();
-
-        if (subjectGrades != null) {
-            ObservableList<SubjectWithGrades> subjectGradesList = FXCollections.observableArrayList(subjectGrades);
-            gradesTable.setItems(subjectGradesList);
-        }
     }
 
     public void back() {

@@ -3,6 +3,7 @@ package com.egradebook.frontend.controller.parent;
 import com.egradebook.frontend.model.Attendance;
 import com.egradebook.frontend.service.ParentService;
 import com.egradebook.frontend.service.StudentService;
+import com.egradebook.frontend.utils.AttendanceRow;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,7 +25,6 @@ public class ChildAttendanceController {
     @FXML private TableColumn<AttendanceRow, String> dateColumn;
     @FXML private VBox mainContainer;
 
-    // Kolumny dla lekcji 1-10
     @FXML private TableColumn<AttendanceRow, String> lesson1Column;
     @FXML private TableColumn<AttendanceRow, String> lesson2Column;
     @FXML private TableColumn<AttendanceRow, String> lesson3Column;
@@ -33,10 +33,8 @@ public class ChildAttendanceController {
     @FXML private TableColumn<AttendanceRow, String> lesson6Column;
     @FXML private TableColumn<AttendanceRow, String> lesson7Column;
     @FXML private TableColumn<AttendanceRow, String> lesson8Column;
-    @FXML private TableColumn<AttendanceRow, String> lesson9Column;
-    @FXML private TableColumn<AttendanceRow, String> lesson10Column;
 
-    private final int MAX_LESSONS = 10;
+    private final int MAX_LESSONS = 8;
 
     @FXML
     public void initialize() {
@@ -75,8 +73,6 @@ public class ChildAttendanceController {
             case 6 -> lesson6Column;
             case 7 -> lesson7Column;
             case 8 -> lesson8Column;
-            case 9 -> lesson9Column;
-            case 10 -> lesson10Column;
             default -> throw new IllegalArgumentException("Invalid lesson number: " + lessonNumber);
         };
     }
@@ -109,28 +105,4 @@ public class ChildAttendanceController {
         ViewLoader.goPrev(stage);
     }
 
-    // Pomocnicza klasa do reprezentacji pojedynczego wiersza w tabeli
-    public static class AttendanceRow {
-        private final String date;
-        private final String[] statuses = new String[10];
-
-        public AttendanceRow(String  date) {
-            this.date = date;
-        }
-
-        public void setStatus(int lessonNumber, String symbol) {
-            if (lessonNumber >= 0 && lessonNumber < 10) {
-                statuses[lessonNumber] = symbol;
-            }
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public String getLessonStatus(int lessonNumber) {
-            return (lessonNumber >= 1 && lessonNumber <= 10 && statuses[lessonNumber - 1] != null)
-                    ? statuses[lessonNumber - 1] : "";
-        }
-    }
 }
