@@ -1,6 +1,8 @@
 package com.egradebook.frontend.controller.teacher;
 
+import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.Lesson;
+import com.egradebook.frontend.service.ClassService;
 import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.fxml.FXML;
@@ -60,14 +62,14 @@ public class TeacherScheduleController {
 
         Label subject = new Label(lesson.getSubject_name());
         subject.setStyle("-fx-font-weight: bold; -fx-font-size: 13;");
-
-        Label clazz = new Label(String.valueOf(lesson.getClass_id()));
-        clazz.setStyle("-fx-font-size: 11;");
+        Clazz clazz= ClassService.getClazz(lesson.getClass_id()).getValue();
+        Label clazzLabel = new Label(clazz.getName());
+        clazzLabel.setStyle("-fx-font-size: 11;");
 
         Label room = new Label("s. " + lesson.getRoom_number());
         room.setStyle("-fx-font-size: 11;");
 
-        box.getChildren().addAll(subject, clazz, room);
+        box.getChildren().addAll(subject, clazzLabel, room);
         box.setPrefSize(120, 60);
         return box;
     }
