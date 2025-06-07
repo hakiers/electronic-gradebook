@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox fx:id="mainContainer" id="mainContainer" xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.egradebook.frontend.controller.admin.manage.students.AssignToGroupDialogController"
-      spacing="16" alignment="CENTER">
+      alignment="CENTER" spacing="20" maxWidth="800"
+      stylesheets="@../../../../css/base.css">
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+    <Text text="PRZYPISZ DO GRUP" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-    <Label text="Wybierz grupy przedmiotowe:" style="-fx-font-weight: bold;"/>
+    <Label fx:id="errorLabel" textFill="RED" visible="false"/>
+    <Label fx:id="correctLabel" textFill="GREEN" visible="false"/>
 
-    <!-- ListView, do którego dodajesz HBoxy dynamicznie -->
-    <ListView fx:id="subjectsListView" prefHeight="260" prefWidth="340"/>
+    <VBox spacing="10" alignment="TOP_LEFT" maxWidth="600" VBox.vgrow="ALWAYS">
+        <Label text="Wybierz grupy przedmiotowe:" styleClass="form-label"/>
+        <ListView fx:id="subjectsListView"
+                  prefHeight="260"
+                  prefWidth="600"
+                  VBox.vgrow="ALWAYS"
+                  styleClass="group-list-view"/>
+    </VBox>
 
-    <HBox spacing="16" alignment="CENTER">
-        <Button text="Zapisz" onAction="#save"/>
-        <Button text="Anuluj" onAction="#cancel"/>
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="ZAPISZ" fx:id="saveButton"
+                minHeight="40"
+                maxHeight="40"
+                onAction="#save"
+                styleClass="toggle-button"/>
+        <Button text="ANULUJ" fx:id="returnButton"
+                minHeight="40"
+                maxHeight="40"
+                onAction="#cancel"
+                styleClass="cancel-button"/>
     </HBox>
 </VBox>
