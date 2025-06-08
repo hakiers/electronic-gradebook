@@ -627,17 +627,17 @@ CREATE OR REPLACE VIEW perfect_attendance AS
 
 CREATE OR REPLACE VIEW attendance_ranking as
        select * from attendance_percentage
-       order by "% frekwencjqi" desc;
+       order by attendance_percentage."% frekwencji" desc;
 
 CREATE OR REPLACE VIEW hardest_subjects as
     select name,round(avg(grade_value),2)
     from grades
         natural join subjects
-    group by subject_id,name
+    group by subject_id,subjects.name
     order by 2 asc;
 
 CREATE OR REPLACE VIEW rigorous_teachers as
-    select tc.name,tc.surname,s.name,round(avg(grade_value),2)
+    select tc.name as name,tc.surname,s.name as subject_name,round(avg(grade_value),2)
     from (select * from teachers t natural join personal_data pd) tc
         right join grades g using (teacher_id)
         join subjects s using (subject_id)
