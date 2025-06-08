@@ -92,5 +92,5 @@ System oparty na architekturze klient-serwer:
 ## ✍ Autorzy
 
 Mateusz Wojaczek  
-Witoria Klejdysz  
+Wiktoria Klejdysz  
 Aleksander Wieczorek
