@@ -1,9 +1,14 @@
 package com.egradebook.frontend.controller.admin.manage.students;
 
+import com.egradebook.frontend.dto.UserContactData;
+import com.egradebook.frontend.dto.UserPersonalData;
 import com.egradebook.frontend.model.Student;
 import com.egradebook.frontend.model.Clazz;
+import com.egradebook.frontend.model.SubjectGroup;
+import com.egradebook.frontend.service.AdminService;
 import com.egradebook.frontend.service.ClassService;
 import com.egradebook.frontend.service.StudentService;
+import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -28,8 +33,8 @@ public class StudentManageController {
     @FXML private Label detailUsername;
     @FXML private Label detailEmail;
     @FXML private Label detailPhone;
-    @FXML private Label detailAddress;
-    @FXML private Label pesel;
+    @FXML private Label detailAdress;
+    @FXML private Label detailPesel;
 
     private List<Student> students;
 
@@ -74,8 +79,21 @@ public class StudentManageController {
             detailClass.setText("-");
         }
         detailUsername.setText(student.getUsername());
-        //todo Pobierz/przetwórz grupy przedmiotowe jako String
-        //detailGroups.setText(String.join(", ", student.getSubjectGroups()));
+        List<SubjectGroup> subjectGroups = StudentService.getStudentSubjectGroups(student.getStudent_id()).getValue();
+        if(subjectGroups != null) {
+            //todo nazwa przedmiotu
+            detailGroups.setText(String.join(", ", subjectGroups.toString()));
+        }
+
+        int user_id = AdminService.getUserIdByStudentId(student.getStudent_id()).getValue();
+        UserContactData contactData = UserService.UserContactData(user_id).getValue();
+        if(contactData != null) {
+            detailAdress.setText(contactData.getAddress());
+            detailEmail.setText(contactData.getEmail());
+            detailPhone.setText(contactData.getPhone_number());
+        }
+
+        detailPesel.setText(student.getPesel());
     }
 
     @FXML
@@ -109,8 +127,7 @@ public class StudentManageController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Czy na pewno usunąć ucznia?");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                //todo usuwanie ucznia request
-                //StudentService.deleteStudent(selected.getId());
+                AdminService.deleteStudent(selected.getStudent_id());
                 reloadStudents();
             }
         });

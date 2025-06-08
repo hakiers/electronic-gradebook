@@ -44,7 +44,7 @@ public class TeacherRepository {
     }
 
     public Teacher getTeacher(int teacher_id){
-        String sql = "SELECT t.teacher_id, p.name, p.surname, p.pesel FROM teachers t INNER JOIN personal_data p ON p.user_id = t.user_id WHERE teacher_id = ?";
+        String sql = "SELECT t.teacher_id, p.name, p.surname, p.pesel, u.username FROM teachers t INNER JOIN personal_data p ON p.user_id = t.user_id INNER JOIN users u ON u.user_id = t.user_id WHERE teacher_id = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[]{teacher_id}, (rs, rowNum) ->
                 new Teacher(
@@ -52,7 +52,7 @@ public class TeacherRepository {
                         rs.getString("name"),
                         rs.getString("surname"),
                         rs.getString("pesel"),
-                        null,
+                        rs.getString("username"),
                         null
                         )
         );
@@ -364,6 +364,21 @@ public class TeacherRepository {
         }
 
         return found;
+    }
+
+    public int getUserId(int teacher_id) {
+        String sql = "SELECT user_id FROM teachers WHERE teacher_id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, teacher_id);
+    }
+
+    public void addTeachSubject(int teacher_id, int subject_id) {
+        String sql = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, teacher_id, subject_id);
+    }
+
+    public void deleteTeachSubject(int teacher_id, int subject_id) {
+        String sql = "DELETE FROM teacher_subject WHERE teacher_id = ? AND subject_id = ?";
+        jdbcTemplate.update(sql, teacher_id, subject_id);
     }
 
 }

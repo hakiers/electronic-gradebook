@@ -25,7 +25,7 @@
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px;">
             <Button onAction="#onAddClass" text="Dodaj klasę"/>
-            <Button onAction="#onEditClass" text="Edytuj klasę"/>
+            <!--<Button onAction="#onEditClass" text="Edytuj klasę"/> -->
             <Button onAction="#onDeleteClass" text="Usuń klasę"/>
             <Button onAction="#onSetSchedule" text="Ustal plan lekcji"/>
             <Button onAction="#onManageProfiles" text="Profile klas"/>

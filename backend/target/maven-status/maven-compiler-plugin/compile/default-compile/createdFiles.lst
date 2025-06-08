@@ -45,6 +45,7 @@ com/egradebook/backend/request/GetAttendanceByLessonRequest.class
 com/egradebook/backend/service/StudentService.class
 com/egradebook/backend/DataInitializer$Faker$ClazzProfiles.class
 com/egradebook/backend/request/AddSubjectGroupRequest.class
+com/egradebook/backend/request/ChangeClassRequest.class
 com/egradebook/backend/repository/UserRepository.class
 com/egradebook/backend/exception/UnauthorizedException.class
 com/egradebook/backend/DataInitializer$Faker$Name.class

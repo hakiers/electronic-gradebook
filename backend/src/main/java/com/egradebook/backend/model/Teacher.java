@@ -186,4 +186,12 @@ public class Teacher {
     public List<Integer> getClassSubjectSchedule(int class_id,int subject_id,int dayOfWeek) {
         return teacherRepository.getClassSubjectSchedule(teacher_id,class_id,subject_id,dayOfWeek);
     }
+
+    public void addTeachSubject(Subject subject){
+        teacherRepository.addTeachSubject(teacher_id, subject.getSubject_id());
+    }
+
+    public void deleteTeachSubject(Subject subject){
+        teacherRepository.deleteTeachSubject(teacher_id, subject.getSubject_id());
+    }
 }

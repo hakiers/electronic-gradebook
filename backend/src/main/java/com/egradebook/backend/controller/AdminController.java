@@ -126,9 +126,48 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getTeachersForSubject(subject_id, session));
     }
 
-    @GetMapping("student-subject-groups/{student_id}")
+    @GetMapping("/student-subject-groups/{student_id}")
     public ResponseEntity<?> getStudentSubjectGroups(@PathVariable int student_id, HttpSession session){
         return ResponseEntity.ok(adminService.getStudentSubjectGroups(student_id, session));
     }
 
+    @PostMapping("/change-class")
+    public ResponseEntity<?> changeStudentClass(@RequestBody ChangeClassRequest request, HttpSession session){
+        adminService.changeStudentClass(request, session);
+        return ResponseEntity.ok("Class changed successfully");
+    }
+
+    @GetMapping("/get-student-id/user_id/{student_id}")
+    public ResponseEntity<?> getUserIdByStudenId(@PathVariable int student_id, HttpSession session){
+        return ResponseEntity.ok(adminService.getUserIdByStudentId(student_id, session));
+    }
+
+    @GetMapping("/get-teacher-id/user_id/{teacher_id}")
+    public ResponseEntity<?> getUserIdByTeacherId(@PathVariable int teacher_id, HttpSession session){
+        return ResponseEntity.ok(adminService.getUserIdByTeacherId(teacher_id, session));
+    }
+
+    @DeleteMapping("/delete-student/{student_id}")
+    public ResponseEntity<?> deleteStudent(@PathVariable int student_id, HttpSession session){
+        adminService.deleteStudent(student_id, session);
+        return ResponseEntity.ok("Student deleted successfully");
+    }
+
+    @DeleteMapping("/delete-teacher/{teacher_id}")
+    public ResponseEntity<?> deleteTeacher(@PathVariable int teacher_id, HttpSession session){
+        adminService.deleteTeacher(teacher_id, session);
+        return ResponseEntity.ok("Teacher deleted successfully");
+    }
+
+    @DeleteMapping("/delete-teacher-subject/{teacher_id}/{subject_id}")
+    public ResponseEntity<?> deleteTeacherSubject(@PathVariable int teacher_id, @PathVariable int subject_id, HttpSession session){
+        adminService.deleteTeacherSubject(teacher_id, subject_id, session);
+        return ResponseEntity.ok("Subject deleted successfully");
+    }
+
+    @PutMapping("/add-teacher-subject/{teacher_id}/{subject_id}")
+    public ResponseEntity<?> addTeacherSubject(@PathVariable int teacher_id, @PathVariable int subject_id, HttpSession session){
+        adminService.addTeacherSubject(teacher_id, subject_id, session);
+        return ResponseEntity.ok("Subject added successfully");
+    }
 }

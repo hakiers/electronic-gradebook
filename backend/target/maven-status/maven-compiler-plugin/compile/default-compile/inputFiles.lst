@@ -54,6 +54,7 @@
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AddSubjectGroupRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AssignStudentToGroupsRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/AssignTeacherRequest.java
+/Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/ChangeClassRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditAttendanceRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditGradeRequest.java
 /Users/mateuszwojaczek/Desktop/TCS/2Sem/PO/Projekt/electronic-gradebook/backend/src/main/java/com/egradebook/backend/request/EditUserContactDataRequest.java

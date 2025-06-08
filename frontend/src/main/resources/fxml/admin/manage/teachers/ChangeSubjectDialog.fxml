@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.CheckComboBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.egradebook.frontend.controller.admin.manage.teachers.ChangeSubjectDialogController"
+            prefWidth="350" prefHeight="220">
+
+    <children>
+        <Label layoutX="20" layoutY="24" text="Przypisz przedmioty nauczycielowi:" />
+        <CheckComboBox fx:id="subjectsCheckComboBox" layoutX="20" layoutY="52" prefWidth="310"/>
+        <Button text="Zapisz" layoutX="190" layoutY="130" prefWidth="65" onAction="#save"/>
+        <Button text="Anuluj" layoutX="265" layoutY="130" prefWidth="65" onAction="#cancel"/>
+    </children>
+</AnchorPane>

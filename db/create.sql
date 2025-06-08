@@ -536,7 +536,6 @@ CREATE OR REPLACE TRIGGER trg_avoid_nulls_in_personal_data
 BEFORE UPDATE ON personal_data
 FOR EACH ROW EXECUTE FUNCTION avoid_nulls_in_personal_data();
 
-
 -- Historia zmian grup
 DROP FUNCTION IF EXISTS insert_group_change_history() CASCADE;
 
