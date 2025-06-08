@@ -200,7 +200,7 @@ public class TeacherRepository {
     public void addAttendance(AddAttendanceRequest attendance){
         String sql = """
         INSERT INTO attendance (student_id, schedule_id, status, date)
-        VALUES (?, ?, ?, CURRENT_DATE)
+        VALUES (?, ?, ?, ?)
         ON CONFLICT (student_id, schedule_id, date)
         DO UPDATE SET status = EXCLUDED.status
         """;
@@ -208,7 +208,8 @@ public class TeacherRepository {
         jdbcTemplate.update(sql,
                 attendance.getStudent_id(),
                 attendance.getSchedule_id(),
-                attendance.getStatus()
+                attendance.getStatus(),
+                attendance.getDate()
         );
 
     }

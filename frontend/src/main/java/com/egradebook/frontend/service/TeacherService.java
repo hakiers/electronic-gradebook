@@ -225,7 +225,7 @@ public class TeacherService {
     }
     public static void addAttendance(AddAttendanceRequest req) {
         try {
-            if(req.getStatus().equals("excused_abscence")) req=new AddAttendanceRequest(req.getStudent_id(), req.getSchedule_id(), "excused absence");
+            if(req.getStatus().equals("excused_abscence")) req=new AddAttendanceRequest(req.getStudent_id(), req.getSchedule_id(), "excused absence", req.getDate());
             if (UserService.getCurrentUsername() == null || UserService.getCurrentRole() == null) {
                 return;
             }

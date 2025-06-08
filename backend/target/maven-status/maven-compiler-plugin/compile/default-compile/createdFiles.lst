@@ -27,7 +27,6 @@ com/egradebook/backend/request/AddScheduleRequest.class
 com/egradebook/backend/model/ClassTeacher.class
 com/egradebook/backend/request/UserChangePasswordRequest.class
 com/egradebook/backend/request/AddClassRequest.class
-com/egradebook/backend/repository/utils/CountRepository.class
 com/egradebook/backend/model/Student.class
 com/egradebook/backend/EgradebookApplication.class
 com/egradebook/backend/request/EditGradeRequest.class
@@ -69,6 +68,7 @@ com/egradebook/backend/service/TeacherService.class
 com/egradebook/backend/dto/TeacherDto.class
 com/egradebook/backend/model/Grade.class
 com/egradebook/backend/request/AddGradeRequest.class
+com/egradebook/backend/repository/utils/UtilsRepository.class
 com/egradebook/backend/controller/AdminController.class
 com/egradebook/backend/repository/SubjectRepository.class
 com/egradebook/backend/exception/PeselAlreadyExistsException.class
