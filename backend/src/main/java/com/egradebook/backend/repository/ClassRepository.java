@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ClassRepository {
@@ -151,13 +152,60 @@ public class ClassRepository {
        jdbcTemplate.update(sql, lesson.getClass_id(), lesson.getTeacher_id(),
                lesson.getSubject_id(), group_id, lesson.getDay_od_week(),
                lesson.getLesson_number(), lesson.getRoom_number());
+
+        String checkRelation = """
+        SELECT COUNT(*) FROM teacher_class_subject
+        WHERE teacher_id = ? AND class_id = ? AND subject_id = ? AND group_id = ?
+        """;
+
+        Integer exists = jdbcTemplate.queryForObject(checkRelation, Integer.class,
+                lesson.getTeacher_id(), lesson.getClass_id(), lesson.getSubject_id(), group_id);
+
+        if (exists != null && exists == 0) {
+            String insertRelation = """
+            INSERT INTO teacher_class_subject (teacher_id, class_id, subject_id, group_id)
+            VALUES (?, ?, ?, ?)
+            """;
+            jdbcTemplate.update(insertRelation,
+                    lesson.getTeacher_id(), lesson.getClass_id(), lesson.getSubject_id(), group_id);
+        }
     }
 
     public void removeLesson(int schedule_id) {
-        String sql = """
-                DELETE FROM class_schedule WHERE schedule_id = ?
-                """;
-        jdbcTemplate.update(sql, new Object[]{schedule_id});
+        String getLessonInfo = """
+        SELECT teacher_id, class_id, subject_id, group_id
+        FROM class_schedule
+        WHERE schedule_id = ?
+        """;
+
+        Map<String, Object> lesson = jdbcTemplate.queryForMap(getLessonInfo, schedule_id);
+
+        int teacher_id = (int) lesson.get("teacher_id");
+        int class_id = (int) lesson.get("class_id");
+        int subject_id = (int) lesson.get("subject_id");
+        int group_id = (int) lesson.get("group_id");
+
+        // Usuwamy lekcję
+        String deleteSchedule = "DELETE FROM class_schedule WHERE schedule_id = ?";
+        jdbcTemplate.update(deleteSchedule, schedule_id);
+
+        // Sprawdzamy, czy nauczyciel nadal ma inne lekcje tej samej kombinacji
+        String checkRemaining = """
+        SELECT COUNT(*) FROM class_schedule
+        WHERE teacher_id = ? AND class_id = ? AND subject_id = ? AND group_id = ?
+        """;
+
+        Integer remaining = jdbcTemplate.queryForObject(checkRemaining, Integer.class,
+                teacher_id, class_id, subject_id, group_id);
+
+        if (remaining != null && remaining == 0) {
+            // Jeśli nie ma innych lekcji, usuwamy z teacher_class_subject
+            String deleteRelation = """
+            DELETE FROM teacher_class_subject
+            WHERE teacher_id = ? AND class_id = ? AND subject_id = ? AND group_id = ?
+            """;
+            jdbcTemplate.update(deleteRelation, teacher_id, class_id, subject_id, group_id);
+        }
     }
 
     public void addSubjectGroup(AddSubjectGroupRequest request){

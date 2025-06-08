@@ -198,10 +198,18 @@ public class TeacherRepository {
     }
 
     public void addAttendance(AddAttendanceRequest attendance){
-        String sql = "INSERT INTO attendance (student_id, schedule_id, status) VALUES (?, ?, ?)";
+        String sql = """
+        INSERT INTO attendance (student_id, schedule_id, status, date)
+        VALUES (?, ?, ?, CURRENT_DATE)
+        ON CONFLICT (student_id, schedule_id, date)
+        DO UPDATE SET status = EXCLUDED.status
+        """;
 
-        jdbcTemplate.update(sql, attendance.getStudent_id(), attendance.getSchedule_id(), attendance.getStatus());
-
+        jdbcTemplate.update(sql,
+                attendance.getStudent_id(),
+                attendance.getSchedule_id(),
+                attendance.getStatus()
+        );
 
     }
 
