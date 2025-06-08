@@ -1,36 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 
-<HBox spacing="24" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.egradebook.frontend.controller.admin.manage.classes.AddOrEditScheduleDialogController">
+<VBox fx:id="mainContainer" id="mainContainer"
+      xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.classes.AddOrEditScheduleDialogController"
+      alignment="CENTER" spacing="20" maxWidth="1100"
+      stylesheets="@../../../../css/base.css">
 
-    <VBox spacing="12" alignment="TOP_LEFT" prefWidth="260">
-        <Label text="Dodaj wpis do planu lekcji" style="-fx-font-size: 16;"/>
-        <Label text="Dzień tygodnia:"/>
-        <ComboBox fx:id="dayCombo"/>
-        <Label text="Nr lekcji:"/>
-        <ComboBox fx:id="lessonCombo"/>
-        <Label text="Przedmiot:"/>
-        <ComboBox fx:id="subjectCombo"/>
-        <Label text="Grupa:"/>
-        <ComboBox fx:id="groupCombo"/>
-        <Label text="Nauczyciel:"/>
-        <ComboBox fx:id="teacherCombo"/>
-        <Label text="Sala:"/>
-        <TextField fx:id="roomField"/>
-        <HBox spacing="10">
-            <Button text="Dodaj" onAction="#onAdd"/>
-            <Button text="Usuń zaznaczony" onAction="#onDelete"/>
-        </HBox>
-        <Label fx:id="errorLabel" textFill="red"/>
-        <Button text="Zamknij" onAction="#close"/>
-    </VBox>
+    <HBox alignment="TOP_LEFT" style="-fx-background-color: #f4f4f4;">
+        <padding>
+            <Insets top="10" bottom="10" left="10" right="10"/>
+        </padding>
+        <Button text="ZAMKNIJ" fx:id="returnButton" onAction="#close" styleClass="cancel-button"/>
+    </HBox>
 
-    <VBox spacing="8" prefWidth="500">
-        <Label fx:id="classLabel" text="Podgląd planu lekcji:" style="-fx-font-size: 15;"/>
-        <ScrollPane fitToWidth="true">
-            <GridPane fx:id="timetableGrid" gridLinesVisible="true" style="-fx-padding: 10;"/>
-        </ScrollPane>
-    </VBox>
-</HBox>
+    <Text text="EDYTUJ PLAN LEKCJI" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <Label fx:id="errorLabel" textFill="RED" visible="false"/>
+
+    <HBox spacing="40" alignment="TOP_CENTER">
+        <VBox spacing="15" alignment="TOP_LEFT" prefWidth="300">
+            <Label text="Dzień tygodnia:" styleClass="form-label"/>
+            <ComboBox fx:id="dayCombo" styleClass="input-container" prefWidth="250"/>
+
+            <Label text="Nr lekcji:" styleClass="form-label"/>
+            <ComboBox fx:id="lessonCombo" styleClass="input-container" prefWidth="250"/>
+
+            <Label text="Przedmiot:" styleClass="form-label"/>
+            <ComboBox fx:id="subjectCombo" styleClass="input-container" prefWidth="250"/>
+
+            <Label text="Grupa:" styleClass="form-label"/>
+            <ComboBox fx:id="groupCombo" styleClass="input-container" prefWidth="250"/>
+
+            <Label text="Nauczyciel:" styleClass="form-label"/>
+            <ComboBox fx:id="teacherCombo" styleClass="input-container" prefWidth="250"/>
+
+            <Label text="Sala:" styleClass="form-label"/>
+            <TextField fx:id="roomField" styleClass="input-container" prefWidth="250"/>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="DODAJ" onAction="#onAdd" styleClass="toggle-button"/>
+                <Button text="USUŃ ZAZNACZONY" styleClass="cancelButton" onAction="#onDelete"/>
+            </HBox>
+        </VBox>
+
+        <VBox spacing="10" prefWidth="700">
+            <Label fx:id="classLabel" text="Podgląd planu lekcji:" styleClass="header"/>
+            <ScrollPane fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
+                <GridPane fx:id="timetableGrid" gridLinesVisible="true" style="-fx-padding: 10;"/>
+            </ScrollPane>
+        </VBox>
+    </HBox>
+</VBox>
