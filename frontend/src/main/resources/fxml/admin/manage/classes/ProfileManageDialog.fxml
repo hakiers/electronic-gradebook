@@ -12,7 +12,7 @@
         <HBox spacing="10" style="-fx-padding: 10;">
             <Button fx:id="returnButton" text="Zamknij" onAction="#close"/>
             <Button text="Dodaj profil" onAction="#handleAddProfile"/>
-            <Button text="Edytuj profil" onAction="#handleEditProfile"/>
+            <!--<Button text="Edytuj profil" onAction="#handleEditProfile"/>-->
             <Button text="Usuń profil" onAction="#handleDeleteProfile"/>
         </HBox>
     </top>

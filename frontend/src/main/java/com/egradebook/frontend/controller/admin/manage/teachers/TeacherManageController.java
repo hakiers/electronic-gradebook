@@ -1,11 +1,13 @@
 package com.egradebook.frontend.controller.admin.manage.teachers;
 
+import com.egradebook.frontend.dto.UserContactData;
 import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.Group;
 import com.egradebook.frontend.model.Subject;
 import com.egradebook.frontend.model.Teacher;
 import com.egradebook.frontend.service.AdminService;
 import com.egradebook.frontend.service.TeacherService;
+import com.egradebook.frontend.service.UserService;
 import com.egradebook.frontend.utils.Triple;
 import com.egradebook.frontend.utils.ViewLoader;
 import javafx.beans.property.SimpleListProperty;
@@ -34,8 +36,8 @@ public class TeacherManageController {
     @FXML private Label detailUsername;
     @FXML private Label detailEmail;
     @FXML private Label detailPhone;
-    @FXML private Label detailAddress;
-    @FXML private Label pesel;
+    @FXML private Label detailAdress;
+    @FXML private Label detailPesel;
 
     private List<Teacher> teachers;
 
@@ -119,6 +121,16 @@ public class TeacherManageController {
         } else {
             detailClass.setText("-");
         }
+
+        int user_id = AdminService.getUserIdByTeacherId(teacher.getTeacher_id()).getValue();
+        UserContactData contactData = UserService.UserContactData(user_id).getValue();
+
+        if (contactData != null) {
+            detailAdress.setText(contactData.getAddress());
+            detailEmail.setText(contactData.getEmail());
+            detailPhone.setText(contactData.getPhone_number());
+        }
+        detailPesel.setText(teacher.getPesel());
     }
 
 
@@ -139,9 +151,8 @@ public class TeacherManageController {
     public void handleEditTeacher() {
         Teacher selected = teachersTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
-        //todo
-        //EditTeacherDialog dialog = new EditTeacherDialog(selected);
-        //dialog.showAndWait();
+        EditTeacherDialog dialog = new EditTeacherDialog(selected);
+        dialog.showAndWait();
         reloadTeachers();
     }
 
@@ -152,7 +163,7 @@ public class TeacherManageController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Czy na pewno usunąć nauczyciela?");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                //TeacherService.deleteTeacher(selected.getId());
+                AdminService.deleteTeacher(selected.getTeacher_id());
                 reloadTeachers();
             }
         });
@@ -162,9 +173,8 @@ public class TeacherManageController {
     public void handleChangeSubject() {
         Teacher selected = teachersTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
-        //todo
-        //ChangeSubjectDialog dialog = new ChangeSubjectDialog(selected);
-        //dialog.showAndWait();
+        ChangeSubjectDialog dialog = new ChangeSubjectDialog(selected);
+        dialog.showAndWait();
         reloadTeachers();
     }
 

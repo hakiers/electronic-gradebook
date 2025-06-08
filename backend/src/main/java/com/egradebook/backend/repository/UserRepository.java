@@ -147,4 +147,9 @@ public class UserRepository {
         int updated = jdbcTemplate.update(sql, request.getName(), request.getSurname(), user_id);
         return updated > 0;
     }
+
+    public void deleteUser(int user_id){
+        String sql = "DELETE FROM users WHERE user_id = ?";
+        jdbcTemplate.update(sql, user_id);
+    }
 }

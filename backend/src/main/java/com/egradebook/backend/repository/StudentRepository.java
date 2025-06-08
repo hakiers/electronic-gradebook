@@ -1,8 +1,10 @@
 package com.egradebook.backend.repository;
 
 import com.egradebook.backend.dto.Attendance;
+import com.egradebook.backend.dto.SubjectGroupsDto;
 import com.egradebook.backend.dto.StudentAttendance;
 import com.egradebook.backend.model.Grade;
+import com.egradebook.backend.model.Group;
 import com.egradebook.backend.model.Student;
 import com.egradebook.backend.model.Subject;
 import com.egradebook.backend.request.AssignStudentToGroupsRequest;
@@ -91,7 +93,7 @@ public class StudentRepository {
     }
 
     public Student getStudent(int student_id) {
-        String sql = "SELECT s.student_id, p.name, p.surname, p.pesel, s.class_id FROM students s INNER JOIN personal_data p ON s.user_id = p.user_id WHERE s.student_id = ?";
+        String sql = "SELECT s.student_id, p.name, p.surname, p.pesel, s.class_id, u.username FROM students s INNER JOIN personal_data p ON s.user_id = p.user_id INNER JOIN users u ON u.user_id = s.user_id WHERE s.student_id = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[]{student_id}, (rs, rowNum) ->
                 new Student(
@@ -100,7 +102,7 @@ public class StudentRepository {
                         rs.getString("surname"),
                         rs.getString("pesel"),
                         rs.getInt("class_id"),
-                        null,
+                        rs.getString("username"),
                         null
                 )
         );
@@ -157,11 +159,57 @@ public class StudentRepository {
     }
 
     public void assignStudentToGroups(AssignStudentToGroupsRequest request) {
-        String sql = "INSERT INTO student_subject_group (student_id, group_id) VALUES (?, ?)";
+        for (Group group : request.getGroups()) {
+            Integer subjectId = jdbcTemplate.queryForObject(
+                    "SELECT subject_id FROM subject_groups WHERE group_id = ?",
+                    Integer.class,
+                    group.getGroup_id()
+            );
 
-        for (int i = 0; i < request.getGroups().size(); i++) {
-            jdbcTemplate.update(sql, request.getStudent_id(), request.getGroups().get(i).getGroup_id());
+            jdbcTemplate.update(
+                    "DELETE FROM student_subject_group WHERE student_id = ? AND group_id IN (" +
+                            "SELECT group_id FROM subject_groups WHERE subject_id = ?)",
+                    request.getStudent_id(),
+                    subjectId
+            );
+
+            jdbcTemplate.update(
+                    "INSERT INTO student_subject_group (student_id, group_id) VALUES (?, ?)",
+                    request.getStudent_id(),
+                    group.getGroup_id()
+            );
         }
     }
 
+
+    public List<SubjectGroupsDto> getStudentSubjectGroups(int student_id) {
+        //group id
+        //class id
+        //subject id
+        //group number
+        String sql = """
+                SELECT * FROM subject_groups WHERE group_id IN (SELECT group_id FROM student_subject_group WHERE student_id = ?);
+                """;
+        return jdbcTemplate.query(sql, new Object[]{student_id}, (rs, rowNum) ->
+                  new SubjectGroupsDto(
+                          rs.getInt("group_id"),
+                          rs.getInt("class_id"),
+                          rs.getInt("subject_id"),
+                          rs.getInt("group_number")
+                  )
+        );
+    }
+
+    public void changeClass(int student_id, int class_id) {
+        String sql = "UPDATE students SET class_id = ? WHERE student_id = ?";
+        jdbcTemplate.update(sql, class_id, student_id);
+
+        sql = "DELETE FROM student_subject_group WHERE student_id = ?";
+        jdbcTemplate.update(sql, student_id);
+    }
+
+    public int getUserId(int student_id) {
+        String sql = "SELECT user_id FROM students WHERE student_id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, student_id);
+    }
 }

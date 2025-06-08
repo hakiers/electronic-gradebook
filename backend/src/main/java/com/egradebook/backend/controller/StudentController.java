@@ -45,4 +45,14 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAttendanceByDate(session, date));
     }
 
+    @GetMapping("/subjectgroups")
+    public ResponseEntity<?> getSubjectGroups(HttpSession session) {
+        return ResponseEntity.ok(studentService.getStudentSubjectGroups(session));
+    }
+
+    @GetMapping("/subjectgroups/{student_id}")
+    public ResponseEntity<?> getSubjectGroups(@PathVariable int student_id, HttpSession session) {
+        return ResponseEntity.ok(studentService.getStudentSubjectGroups(student_id, session));
+    }
+
 }

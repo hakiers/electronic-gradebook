@@ -721,7 +721,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.*;
-
+/*
 @Component
 public class DataInitializer implements CommandLineRunner {
 
@@ -1284,4 +1284,4 @@ public class DataInitializer implements CommandLineRunner {
         return count != null && count > 0;
     }
 
-}
+}*/

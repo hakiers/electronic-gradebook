@@ -107,4 +107,6 @@ public class TeacherController {
             @RequestParam List<Integer> studentIds) {
         return ResponseEntity.ok(teacherService.getAttendanceForDateAndLesson(date, lessonNumber, studentIds));
     }
+
+
 }

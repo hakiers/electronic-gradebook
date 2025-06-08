@@ -97,4 +97,22 @@ public class StudentService {
         return student.getAttendanceByDate(date);
     }
 
+    public List<SubjectGroupsDto> getStudentSubjectGroups(HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isStudent()) {
+            throw new UnauthorizedException("You are no student");
+        }
+        Student student = studentRepository.getStudent(loggedUser.getRoleId());
+        return studentRepository.getStudentSubjectGroups(student.getStudent_id());
+    }
+
+    public List<SubjectGroupsDto> getStudentSubjectGroups(int student_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new UnauthorizedException("You are no admin");
+        }
+        Student student = studentRepository.getStudent(student_id);
+        return studentRepository.getStudentSubjectGroups(student.getStudent_id());
+    }
+
 }
