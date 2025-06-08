@@ -83,7 +83,7 @@ CREATE TABLE attendance(
     student_id integer REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
     schedule_id integer REFERENCES class_schedule(schedule_id) ON DELETE SET NULL ON UPDATE CASCADE,
     "date" date not null,
-    status varchar(16) CHECK(status IN ('presence', 'absence', 'late', 'excused absence')) not null,
+    status varchar(16) CHECK(status IN ('presence', 'absence', 'late', 'excused_absence')) not null,
     CONSTRAINT c2 UNIQUE(student_id, schedule_id, "date")
 );
 
@@ -590,3 +590,22 @@ CREATE TRIGGER trg_insert_class_change_history
 
 
 
+-- Zablokowanie usuniecia nauczyciela ktory jest wychowawca
+CREATE OR REPLACE FUNCTION prevent_delete_class_teacher()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Sprawdzenie, czy nauczyciel jest wychowawcą jakiejś klasy
+    IF EXISTS (
+        SELECT 1 FROM classes WHERE class_teacher = OLD.teacher_id
+    ) THEN
+        RAISE EXCEPTION 'Nie można usunąć nauczyciela (%), który jest wychowawcą klasy', OLD.teacher_id;
+END IF;
+
+RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_prevent_delete_class_teacher
+    BEFORE DELETE ON teachers
+    FOR EACH ROW
+    EXECUTE FUNCTION prevent_delete_class_teacher();
