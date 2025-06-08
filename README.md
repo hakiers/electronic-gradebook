@@ -79,6 +79,17 @@ System oparty na architekturze klient-serwer:
 | `Pokaż obecność`     | Wyświetlenie listy obecności ucznia                                 |
 | `Zapisz obecność`    | Zapisanie obecności przez nauczyciela                               |
 
+
+## Konta
+- Konto ucznia hasło student123
+- Konto rodzica hasło parent123
+- Konto nauczyciela hasło teacher123
+
+Wszystkie loginy do kont można podejrzeć w palelu administratora
+Dane logowania do admina: 
+Username: admin 
+Password: admin123
+
 ## 🔄 Komunikacja klient-serwer
 
 1. Użytkownik wybiera akcję w UI (JavaFX)
