@@ -29,7 +29,7 @@ Aby uruchomić aplikację lokalnie, potrzebne są:
    cd backend
    mvn spring-boot:run
    ```
-   Zmiana portu loginu hasłaa do bazy w [config](backend/src/main/resources/application.properties)
+   Zmiana portu loginu hasła do bazy w [config](backend/src/main/resources/application.properties)
    
 5. **Uruchom frontend JavaFX:**
    ```bash
