@@ -588,5 +588,36 @@ CREATE TRIGGER trg_insert_class_change_history
     AFTER UPDATE ON students
     FOR EACH ROW EXECUTE FUNCTION insert_class_change_history();
 
+CREATE OR REPLACE VIEW attendance_percentage AS
+select name,surname,(select cp.name from classes c inner join class_profile cp on c.class_profile=cp.id where s.class_id=c.class_id) as class_name
+     ,round(100*avg(case when a.status='presence' then 1 else 0 end),0) as "% frekwencji"
+from personal_data
+         natural join users u
+         natural join students s
+         left join attendance a on s.student_id=a.student_id
+group by user_id,name,surname,class_name;
 
 
+CREATE OR REPLACE VIEW perfect_attendance AS
+    select *
+    from attendance_percentage
+    where "% frekwencji"=100;
+
+CREATE OR REPLACE VIEW attendance_ranking as
+       select * from attendance_percentage
+       order by "% frekwencjqi" desc;
+
+CREATE OR REPLACE VIEW hardest_subjects as
+    select name,round(avg(grade_value),2)
+    from grades
+        natural join subjects
+    group by subject_id,name
+    order by 2 asc;
+
+CREATE OR REPLACE VIEW rigorous_teachers as
+    select tc.name,tc.surname,s.name,round(avg(grade_value),2)
+    from (select * from teachers t natural join personal_data pd) tc
+        right join grades g using (teacher_id)
+        join subjects s using (subject_id)
+    group by tc.teacher_id,tc.name,tc.surname,s.subject_id,s.name
+    order by 4 asc;
