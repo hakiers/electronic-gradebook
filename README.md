@@ -1,6 +1,37 @@
+
 # 📘 Electronic Gradebook
 
 **Electronic Gradebook** to aplikacja typu *e-dziennik*, umożliwiająca zarządzanie ocenami, planem lekcji, obecnościami oraz kontami użytkowników (uczniowie, nauczyciele, administratorzy).
+
+## ▶️ Jak uruchomić projekt?
+
+Aby uruchomić aplikację lokalnie, potrzebne są:
+
+- Java 17+ i Maven
+- PostgreSQL
+- Python (jeśli chcesz dodać dane przykładowe)
+
+### Krok po kroku:
+
+1. **Zainstaluj PostgreSQL** i uruchom serwer.
+2. **Utwórz bazę danych** i wczytaj schemat:
+   ```bash
+   psql -U <użytkownik> -d <nazwa_bazy> -f db/create.sql
+   ```
+3. **Dodaj przykładowe dane (opcjonalnie):**
+   ```bash
+   python db/generator.py
+   ```
+4. **Uruchom backend Spring Boot:**
+   ```bash
+   cd backend
+   mvn spring-boot:run
+   ```
+5. **Uruchom frontend JavaFX:**
+   ```bash
+   cd frontend
+   mvn javafx:run
+   ```
 
 ## 🧩 Architektura
 
@@ -8,7 +39,8 @@ System oparty na architekturze klient-serwer:
 
 - **Frontend**: JavaFX (FXML + kontrolery Java)
 - **Backend**: Spring Boot (REST API, Spring Data JPA)
-- **Baza danych**: PostgreSQL (tabele: uczniowie, nauczyciele, przedmioty, plan lekcji, oceny, obecności)
+- **Baza danych**: PostgreSQL  
+  Tabele: uczniowie, nauczyciele, przedmioty, plan lekcji, oceny, obecności
 
 ## 🧑‍🏫 Funkcjonalności
 
@@ -52,8 +84,13 @@ System oparty na architekturze klient-serwer:
 
 ## 📂 Dokumentacja techniczna
 
-- 📄 [dokumentacja.tex](dokumentacja.tex) – plik źródłowy LaTeX  
-- 📑 [dokumentacja.pdf](dokumentacja.pdf) – wygenerowany PDF (jeśli obecny w repo)
+- 📄 [dokumentacja.pdf](dokumentacja.pdf) – dokumentacja  
+- 📑 [schema.pdf](schema.pdf) – schemat bazy danych  
+- 🗃️ `db/create.sql` – schemat tworzenia bazy  
+- 🧪 `db/generator.py` – przykładowe dane
 
-✍ Autorzy:  
-Mateusz Wojaczek, Witoria Klejdysz, Aleksander Wieczorek
+## ✍ Autorzy
+
+Mateusz Wojaczek  
+Witoria Klejdysz  
+Aleksander Wieczorek
