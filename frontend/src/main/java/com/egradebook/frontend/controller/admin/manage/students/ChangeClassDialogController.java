@@ -2,6 +2,8 @@ package com.egradebook.frontend.controller.admin.manage.students;
 
 import com.egradebook.frontend.model.Clazz;
 import com.egradebook.frontend.model.Student;
+import com.egradebook.frontend.request.ChangeClassRequest;
+import com.egradebook.frontend.service.AdminService;
 import com.egradebook.frontend.service.ClassService;
 import com.egradebook.frontend.service.StudentService;
 import javafx.fxml.FXML;
@@ -19,7 +21,6 @@ public class ChangeClassDialogController {
 
     @FXML
     public void initialize() {
-        // Tu można dodać dynamicznie klasy z serwisu:
         classComboBox.getItems().addAll(ClassService.getAllClasses().getValue());
         if (student != null) {
             Clazz clazz = ClassService.getClazz(student.getClass_id()).getValue();
@@ -31,7 +32,7 @@ public class ChangeClassDialogController {
     public void save() {
         Clazz newClass = classComboBox.getValue();
         if (newClass == null) return;
-        //todo wylasc request do bazy zmieniajacy klase ucznia
+        AdminService.changeStudentClass(new ChangeClassRequest(student.getStudent_id(), newClass.getClass_id()));
         dialogStage.close();
     }
 

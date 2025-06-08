@@ -93,7 +93,7 @@ public class StudentRepository {
     }
 
     public Student getStudent(int student_id) {
-        String sql = "SELECT s.student_id, p.name, p.surname, p.pesel, s.class_id FROM students s INNER JOIN personal_data p ON s.user_id = p.user_id WHERE s.student_id = ?";
+        String sql = "SELECT s.student_id, p.name, p.surname, p.pesel, s.class_id, u.username FROM students s INNER JOIN personal_data p ON s.user_id = p.user_id INNER JOIN users u ON u.user_id = s.user_id WHERE s.student_id = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[]{student_id}, (rs, rowNum) ->
                 new Student(
@@ -102,7 +102,7 @@ public class StudentRepository {
                         rs.getString("surname"),
                         rs.getString("pesel"),
                         rs.getInt("class_id"),
-                        null,
+                        rs.getString("username"),
                         null
                 )
         );
@@ -200,4 +200,16 @@ public class StudentRepository {
         );
     }
 
+    public void changeClass(int student_id, int class_id) {
+        String sql = "UPDATE students SET class_id = ? WHERE student_id = ?";
+        jdbcTemplate.update(sql, class_id, student_id);
+
+        sql = "DELETE FROM student_subject_group WHERE student_id = ?";
+        jdbcTemplate.update(sql, student_id);
+    }
+
+    public int getUserId(int student_id) {
+        String sql = "SELECT user_id FROM students WHERE student_id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, student_id);
+    }
 }

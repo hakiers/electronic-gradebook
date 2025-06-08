@@ -30,7 +30,7 @@
 
             <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
                 <VBox alignment="CENTER">
-                    <TableView fx:id="attendanceTable" prefHeight="400.0" maxWidth="990.0">
+                    <TableView fx:id="attendanceTable" prefHeight="400.0" maxWidth="810.0">
                         <columns>
                             <TableColumn fx:id="dateColumn" text="DATA" prefWidth="90.0" resizable="false"/>
                             <TableColumn fx:id="lesson1Column" text="1" prefWidth="90.0" resizable="false"/>
@@ -41,8 +41,6 @@
                             <TableColumn fx:id="lesson6Column" text="6" prefWidth="90.0" resizable="false"/>
                             <TableColumn fx:id="lesson7Column" text="7" prefWidth="90.0" resizable="false"/>
                             <TableColumn fx:id="lesson8Column" text="8" prefWidth="90.0" resizable="false"/>
-                            <TableColumn fx:id="lesson9Column" text="9" prefWidth="90.0" resizable="false"/>
-                            <TableColumn fx:id="lesson10Column" text="10" prefWidth="90.0" resizable="false"/>
                         </columns>
                     </TableView>
                 </VBox>

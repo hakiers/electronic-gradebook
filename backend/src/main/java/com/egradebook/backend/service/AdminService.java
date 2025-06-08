@@ -13,7 +13,6 @@ import com.egradebook.backend.utils.Pair;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -189,5 +188,67 @@ public class AdminService {
             throw new ForbiddenOperationException("Only admin can view student groups!");
         }
         return studentRepository.getStudentSubjectGroups(student_id);
+    }
+
+    public void changeStudentClass(ChangeClassRequest request, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can change student class!");
+        }
+        studentRepository.changeClass(request.getStudent_id(), request.getClass_id());
+    }
+
+    public int getUserIdByStudentId(int student_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view user id!");
+        }
+        return studentRepository.getUserId(student_id);
+    }
+
+    public int getUserIdByTeacherId(int teacher_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can view user id!");
+        }
+        return teacherRepository.getUserId(teacher_id);
+    }
+
+    public void deleteStudent(int student_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can delete student!");
+        }
+        int user_id = getUserIdByStudentId(student_id, session);
+        userRepository.deleteUser(user_id);
+    }
+
+    public void deleteTeacher(int teacher_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can delete student!");
+        }
+        int user_id = getUserIdByTeacherId(teacher_id, session);
+        userRepository.deleteUser(user_id);
+    }
+
+    public void deleteTeacherSubject(int teacher_id, int subject_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can delete student!");
+        }
+        Teacher teacher = teacherRepository.getTeacher(teacher_id);
+        Subject subject = subjectRepository.getSubject(subject_id);
+        teacher.deleteTeachSubject(subject);
+    }
+
+    public void addTeacherSubject(int teacher_id, int subject_id, HttpSession session) {
+        User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
+        if(!loggedUser.isAdmin()) {
+            throw new ForbiddenOperationException("Only admin can add student!");
+        }
+        Teacher teacher = teacherRepository.getTeacher(teacher_id);
+        Subject subject = subjectRepository.getSubject(subject_id);
+        teacher.addTeachSubject(subject);
     }
 }

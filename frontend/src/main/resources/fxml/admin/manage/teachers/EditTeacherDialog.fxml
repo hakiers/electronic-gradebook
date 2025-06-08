@@ -5,7 +5,7 @@
 
 <?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.egradebook.frontend.controller.admin.manage.students.EditStudentDialogController"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.teachers.EditTeacherDialogController"
       spacing="10" alignment="CENTER" stylesheets="@../../../../css/base.css">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>

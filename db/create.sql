@@ -558,26 +558,32 @@ CREATE OR REPLACE TRIGGER trg_avoid_nulls_in_personal_data
 BEFORE UPDATE ON personal_data
 FOR EACH ROW EXECUTE FUNCTION avoid_nulls_in_personal_data();
 
-
 -- Historia zmian grup
+DROP FUNCTION IF EXISTS insert_group_change_history() CASCADE;
+
 CREATE OR REPLACE FUNCTION insert_group_change_history()
 RETURNS TRIGGER AS $$
-DECLARE
-previous_group INTEGER;
 BEGIN
-SELECT group_id INTO previous_group
-FROM student_subject_group ssg
-         JOIN subject_groups sg ON sg.group_id = ssg.group_id
-WHERE ssg.student_id = NEW.student_id
-  AND sg.subject_id = (SELECT subject_id FROM subject_groups WHERE group_id = NEW.group_id)
-  AND ssg.group_id != NEW.group_id
-    LIMIT 1;
-
-IF previous_group IS NOT NULL THEN
-        INSERT INTO group_changes_history(student_id, from_group, to_group, "date")
-        VALUES (NEW.student_id, previous_group, NEW.group_id, CURRENT_DATE);
+    IF EXISTS (
+        SELECT ssg.group_id FROM student_subject_group ssg
+        JOIN subject_groups sg ON sg.group_id = ssg.group_id
+        WHERE ssg.student_id = NEW.student_id
+        AND sg.subject_id = (SELECT subject_id FROM subject_groups WHERE group_id = NEW.group_id)
+        AND ssg.group_id != NEW.group_id
+        LIMIT 1
+    ) THEN
+        INSERT INTO group_changes_history (student_id, old_group_id, new_group_id, change_date, change_reason)
+        VALUES (NEW.student_id,
+                (SELECT ssg.group_id FROM student_subject_group ssg
+                 JOIN subject_groups sg ON sg.group_id = ssg.group_id
+                 WHERE ssg.student_id = NEW.student_id
+                 AND sg.subject_id = (SELECT subject_id FROM subject_groups WHERE group_id = NEW.group_id)
+                 AND ssg.group_id != NEW.group_id
+                 LIMIT 1),
+                NEW.group_id,
+                NOW(),
+                'Automatic change');
 END IF;
-
 RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

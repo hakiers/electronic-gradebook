@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class SelectClassController {
@@ -24,6 +25,11 @@ public class SelectClassController {
     public void initialize() {
         TeacherService.selectedClassId=-1;
         List<Triple<Clazz, Subject, Group>> classes= TeacherService.getClassSubjects().getValue();
+        classes.sort(
+                Comparator.comparingInt((Triple<Clazz, Subject, Group> t) ->
+                        ((Clazz) t.getFirst()).getClass_id()).thenComparingInt(t ->
+                        ((Subject) t.getSecond()).getSubject_id()).thenComparingInt(t ->
+                        ((Group) t.getThird()).getGroup_id()));
         selectBox.getItems().addAll(classes);
     }
     public void back() {

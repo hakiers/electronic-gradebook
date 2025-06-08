@@ -9,11 +9,9 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 public class AttendanceTableConfigurer {
 
     public static void configure(TableView<StudentAttendanceRow> tableView) {
-        // Imię i nazwisko
         TableColumn<StudentAttendanceRow, String> nameCol = new TableColumn<>("Uczeń");
         nameCol.setCellValueFactory(cellData -> cellData.getValue().fullNameProperty());
 
-        // Obecność (ComboBox edytowalny)
         TableColumn<StudentAttendanceRow, Status> statusCol = new TableColumn<>("Obecność");
         statusCol.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
         statusCol.setCellFactory(column -> {
