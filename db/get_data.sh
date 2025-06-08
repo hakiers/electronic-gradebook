@@ -4,7 +4,7 @@
 # Użycie: ./export_egradebook_data.sh [nazwa_bazy] [plik_wyjściowy]
 
 DB_NAME=${1:-egradebook}
-OUTPUT_FILE=${2:-small_egradebook_data.sql}
+OUTPUT_FILE=${2:-big_egradebook_data.sql}
 TEMP_SCRIPT="temp_export_script.sql"
 
 echo "=== Eksport danych z bazy $DB_NAME ==="
@@ -32,13 +32,10 @@ cat > $TEMP_SCRIPT << 'EOF'
 
 -- 1. Tabele bazowe bez zależności
 \set table_name '''class_profile'''
-\gset
-\if :{?export_result}
-    \echo 'COPY class_profile FROM stdin;'
-    \copy class_profile TO stdout
-    \echo '\\.'
-    \echo ''
-\endif
+\echo 'COPY class_profile FROM stdin;'
+\copy class_profile TO stdout
+\echo '\\.'
+\echo ''
 
 \set table_name '''users'''
 \echo 'COPY users FROM stdin;'
@@ -163,25 +160,25 @@ cat > $TEMP_SCRIPT << 'EOF'
 -- Sekwencje
 \echo ''
 \echo '-- Aktualizacja sekwencji'
-\echo "SELECT setval('class_profile_id_seq', COALESCE((SELECT MAX(id) FROM class_profile), 1));"
-\echo "SELECT setval('users_user_id_seq', COALESCE((SELECT MAX(user_id) FROM users), 1));"
-\echo "SELECT setval('teachers_teacher_id_seq', COALESCE((SELECT MAX(teacher_id) FROM teachers), 1));"
-\echo "SELECT setval('classes_class_id_seq', COALESCE((SELECT MAX(class_id) FROM classes), 1));"
-\echo "SELECT setval('subjects_subject_id_seq', COALESCE((SELECT MAX(subject_id) FROM subjects), 1));"
-\echo "SELECT setval('subject_groups_group_id_seq', COALESCE((SELECT MAX(group_id) FROM subject_groups), 1));"
-\echo "SELECT setval('parents_parent_id_seq', COALESCE((SELECT MAX(parent_id) FROM parents), 1));"
-\echo "SELECT setval('students_student_id_seq', COALESCE((SELECT MAX(student_id) FROM students), 1));"
-\echo "SELECT setval('class_schedule_schedule_id_seq', COALESCE((SELECT MAX(schedule_id) FROM class_schedule), 1));"
-\echo "SELECT setval('contact_info_contact_id_seq', COALESCE((SELECT MAX(contact_id) FROM contact_info), 1));"
-\echo "SELECT setval('personal_data_personal_id_seq', COALESCE((SELECT MAX(personal_id) FROM personal_data), 1));"
-\echo "SELECT setval('attendance_attendance_id_seq', COALESCE((SELECT MAX(attendance_id) FROM attendance), 1));"
-\echo "SELECT setval('tests_test_id_seq', COALESCE((SELECT MAX(test_id) FROM tests), 1));"
-\echo "SELECT setval('events_event_id_seq', COALESCE((SELECT MAX(event_id) FROM events), 1));"
-\echo "SELECT setval('grades_grade_id_seq', COALESCE((SELECT MAX(grade_id) FROM grades), 1));"
-\echo "SELECT setval('slot_exceptions_exception_id_seq', COALESCE((SELECT MAX(exception_id) FROM slot_exceptions), 1));"
-\echo "SELECT setval('class_changes_history_id_seq', COALESCE((SELECT MAX(id) FROM class_changes_history), 1));"
-\echo "SELECT setval('group_changes_history_id_seq', COALESCE((SELECT MAX(id) FROM group_changes_history), 1));"
-\echo "SELECT setval('final_grades_id_seq', COALESCE((SELECT MAX(id) FROM final_grades), 1));"
+\echo SELECT setval('class_profile_id_seq', COALESCE((SELECT MAX(id) FROM class_profile), 1));
+\echo SELECT setval('users_user_id_seq', COALESCE((SELECT MAX(user_id) FROM users), 1));
+\echo SELECT setval('teachers_teacher_id_seq', COALESCE((SELECT MAX(teacher_id) FROM teachers), 1));
+\echo SELECT setval('classes_class_id_seq', COALESCE((SELECT MAX(class_id) FROM classes), 1));
+\echo SELECT setval('subjects_subject_id_seq', COALESCE((SELECT MAX(subject_id) FROM subjects), 1));
+\echo SELECT setval('subject_groups_group_id_seq', COALESCE((SELECT MAX(group_id) FROM subject_groups), 1));
+\echo SELECT setval('parents_parent_id_seq', COALESCE((SELECT MAX(parent_id) FROM parents), 1));
+\echo SELECT setval('students_student_id_seq', COALESCE((SELECT MAX(student_id) FROM students), 1));
+\echo SELECT setval('class_schedule_schedule_id_seq', COALESCE((SELECT MAX(schedule_id) FROM class_schedule), 1));
+\echo SELECT setval('contact_info_contact_id_seq', COALESCE((SELECT MAX(contact_id) FROM contact_info), 1));
+\echo SELECT setval('personal_data_personal_id_seq', COALESCE((SELECT MAX(personal_id) FROM personal_data), 1));
+\echo SELECT setval('attendance_attendance_id_seq', COALESCE((SELECT MAX(attendance_id) FROM attendance), 1));
+\echo SELECT setval('tests_test_id_seq', COALESCE((SELECT MAX(test_id) FROM tests), 1));
+\echo SELECT setval('events_event_id_seq', COALESCE((SELECT MAX(event_id) FROM events), 1));
+\echo SELECT setval('grades_grade_id_seq', COALESCE((SELECT MAX(grade_id) FROM grades), 1));
+\echo SELECT setval('slot_exceptions_exception_id_seq', COALESCE((SELECT MAX(exception_id) FROM slot_exceptions), 1));
+\echo SELECT setval('class_changes_history_id_seq', COALESCE((SELECT MAX(id) FROM class_changes_history), 1));
+\echo SELECT setval('group_changes_history_id_seq', COALESCE((SELECT MAX(id) FROM group_changes_history), 1));
+\echo SELECT setval('final_grades_id_seq', COALESCE((SELECT MAX(id) FROM final_grades), 1));
 
 \echo ''
 \echo 'SET session_replication_role = DEFAULT;'

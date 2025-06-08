@@ -537,77 +537,77 @@ class DataGenerator:
 
         self.conn.commit()
         print("Wygenerowano plan lekcji")
-        def generate_grades(self, students_data):
-                """Generuje oceny dla uczniów zgodnie z relacjami w bazie danych"""
-                print("🎯 Generuje oceny dla uczniów...")
+    def generate_grades(self, students_data):
+            """Generuje oceny dla uczniów zgodnie z relacjami w bazie danych"""
+            print("🎯 Generuje oceny dla uczniów...")
 
-                for student_id, student_user_id, class_id in students_data:
-                    # Pobierz wszystkie kombinacje nauczyciel-przedmiot dla danego ucznia
-                    # które są zgodne z triggerem check_teacher_permission()
-                    self.cur.execute("""
-                        SELECT DISTINCT
-                            tcs.teacher_id,
-                            tcs.subject_id,
-                            s.class_id
-                        FROM teacher_class_subject tcs
-                        JOIN students s ON s.class_id = tcs.class_id
-                        WHERE s.student_id = %s
-                          AND s.class_id = %s
-                          AND tcs.class_id = %s
-                    """, (student_id, class_id, class_id))
+            for student_id, student_user_id, class_id in students_data:
+                # Pobierz wszystkie kombinacje nauczyciel-przedmiot dla danego ucznia
+                # które są zgodne z triggerem check_teacher_permission()
+                self.cur.execute("""
+                    SELECT DISTINCT
+                        tcs.teacher_id,
+                        tcs.subject_id,
+                        s.class_id
+                    FROM teacher_class_subject tcs
+                    JOIN students s ON s.class_id = tcs.class_id
+                    WHERE s.student_id = %s
+                      AND s.class_id = %s
+                      AND tcs.class_id = %s
+                """, (student_id, class_id, class_id))
 
-                    valid_combinations = self.cur.fetchall()
+                valid_combinations = self.cur.fetchall()
 
-                    if not valid_combinations:
-                        continue
+                if not valid_combinations:
+                    continue
 
 
-                    for teacher_id, subject_id, student_class_id in valid_combinations:
-                        # Generuj 3-8 ocen dla każdej kombinacji
-                        grades_count = random.randint(3, 8)
+                for teacher_id, subject_id, student_class_id in valid_combinations:
+                    # Generuj 3-8 ocen dla każdej kombinacji
+                    grades_count = random.randint(3, 8)
 
-                        for _ in range(grades_count):
-                            # Realistyczne wartości ocen z wagami
-                            grade_value = random.choices(
-                                [1, 2, 3, 4, 5, 6],
-                                weights=[2, 5, 15, 25, 35, 18]
-                            )[0]
+                    for _ in range(grades_count):
+                        # Realistyczne wartości ocen z wagami
+                        grade_value = random.choices(
+                            [1, 2, 3, 4, 5, 6],
+                            weights=[2, 5, 15, 25, 35, 18]
+                        )[0]
 
-                            # Data oceny (unikaj wakacji - lipiec/sierpień)
+                        # Data oceny (unikaj wakacji - lipiec/sierpień)
+                        grade_date = fake.date_between(start_date='-90d', end_date='today')
+                        while grade_date.month in [7, 8]:
                             grade_date = fake.date_between(start_date='-90d', end_date='today')
-                            while grade_date.month in [7, 8]:
-                                grade_date = fake.date_between(start_date='-90d', end_date='today')
 
-                            # Typ oceny
-                            grade_types = [
-                                'Praca klasowa', 'Kartkówka', 'Odpowiedź ustna',
-                                'Praca domowa', 'Projekt', 'Test', 'Aktywność',
-                                'Sprawdzian', 'Quiz', 'Prezentacja'
-                            ]
-                            description = random.choice(grade_types)
+                        # Typ oceny
+                        grade_types = [
+                            'Praca klasowa', 'Kartkówka', 'Odpowiedź ustna',
+                            'Praca domowa', 'Projekt', 'Test', 'Aktywność',
+                            'Sprawdzian', 'Quiz', 'Prezentacja'
+                        ]
+                        description = random.choice(grade_types)
 
-                            try:
-                                self.cur.execute("""
-                                    INSERT INTO grades (
-                                        student_id, subject_id, teacher_id,
-                                        grade_value, date, description
-                                    ) VALUES (%s, %s, %s, %s, %s, %s)
-                                """, (
+                        try:
+                            self.cur.execute("""
+                                INSERT INTO grades (
                                     student_id, subject_id, teacher_id,
-                                    grade_value, grade_date, description
-                                ))
+                                    grade_value, date, description
+                                ) VALUES (%s, %s, %s, %s, %s, %s)
+                            """, (
+                                student_id, subject_id, teacher_id,
+                                grade_value, grade_date, description
+                            ))
 
-                            except Exception as e:
-                                self.conn.rollback()
-                                print(f"❌ Błąd przy dodawaniu oceny: {e}")
-                                # Kontynuuj z następną oceną
-                                continue
-                try:
-                    self.conn.commit()
-                    print("✅ Pomyślnie wygenerowano oceny")
-                except Exception as e:
-                    self.conn.rollback()
-                    print(f"❌ Błąd podczas commitowania ocen: {e}")
+                        except Exception as e:
+                            self.conn.rollback()
+                            print(f"❌ Błąd przy dodawaniu oceny: {e}")
+                            # Kontynuuj z następną oceną
+                            continue
+            try:
+                self.conn.commit()
+                print("✅ Pomyślnie wygenerowano oceny")
+            except Exception as e:
+                self.conn.rollback()
+                print(f"❌ Błąd podczas commitowania ocen: {e}")
 
     def generate_attendance(self, students_data):
         """Generuje obecności"""
@@ -759,7 +759,7 @@ class DataGenerator:
 
             self.conn.commit()
             print("Wygenerowano oceny końcowe")
-def generate_slot_exceptions(self):
+    def generate_slot_exceptions(self):
         """Generuje wyjątki w planie lekcji (np. zastępstwa)"""
         # Pobierz losowe lekcje z planu
         self.cur.execute("""
@@ -804,7 +804,6 @@ def generate_slot_exceptions(self):
                         (schedule_id, exception_date, type, note)
                         VALUES (%s, %s, %s, %s)
                     """, (schedule_id, exception_date, exception_type, "Lekcja odwołana"))
-
         self.conn.commit()
         print("Wygenerowano wyjątki w planie lekcji")
 
@@ -956,6 +955,12 @@ def main():
     generator.generate_teacher_class_subject(teachers_data, classes_data)
     generator.assign_students_to_groups(students_data)
     generator.generate_schedule(classes_data, teachers_data)
+
+    # Nowe metody
+    generator.generate_slot_exceptions()
+    generator.generate_class_changes_history(classes_data, students_data)
+    generator.generate_group_changes_history(students_data)
+
     generator.generate_grades(students_data)
     generator.generate_attendance(students_data)
     generator.generate_tests_and_events(classes_data)
