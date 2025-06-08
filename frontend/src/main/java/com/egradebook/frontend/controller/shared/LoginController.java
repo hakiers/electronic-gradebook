@@ -73,7 +73,7 @@ public class LoginController {
                delay.setOnFinished(event -> ViewLoader.loadView(stage, "/fxml/student/StudentPage.fxml", "Strona Główna"));
                delay.play();
            }
-           else {
+           else if(LoginInfo.getValue().equals("parent")) {
                ViewLoader.loadView(stage, "/fxml/shared/MainPage.fxml","Strona główna");
                PauseTransition delay = new PauseTransition(Duration.seconds(1));
                delay.setOnFinished(event -> ViewLoader.loadView(stage, "/fxml/parent/ParentPage.fxml", "Strona Główna"));
@@ -96,18 +96,13 @@ public class LoginController {
                     ViewLoader.loadView(stage, "/fxml/admin/AdminPage.fxml", "Strona Główna"));
                 delay.play();
             }
-            else{
+            else if(LoginInfo.getValue().equals("teacher")){
                 ViewLoader.loadView(stage, "/fxml/shared/MainPage.fxml","Strona główna");
                 PauseTransition delay = new PauseTransition(Duration.seconds(1));
                 delay.setOnFinished(event ->
                         ViewLoader.loadView(stage, "/fxml/teacher/TeacherPage.fxml", "Strona Główna"));
                 delay.play();
             }
-        }
-        //dodaj konto nauczyciela
-        else {
-            errorLabel.setText("Niepoprawny login lub hasło");
-            errorLabel.setVisible(true);
         }
     }
 

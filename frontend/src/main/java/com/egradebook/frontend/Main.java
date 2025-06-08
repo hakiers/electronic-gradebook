@@ -11,7 +11,6 @@ import static java.lang.Thread.sleep;
 public class Main extends Application {
     @Override
     public void start(Stage stage){
-        // Najpierw ładujemy główny widok
         ViewLoader.loadView(stage, "/fxml/shared/Login.fxml", "eGradeBook - Logowanie");
         stage.show();
         Thread checkConnectionThread = new Thread(() -> {
