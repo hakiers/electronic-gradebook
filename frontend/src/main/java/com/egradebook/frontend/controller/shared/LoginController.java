@@ -79,6 +79,10 @@ public class LoginController {
                delay.setOnFinished(event -> ViewLoader.loadView(stage, "/fxml/parent/ParentPage.fxml", "Strona Główna"));
                delay.play();
            }
+           else {
+               errorLabel.setText("Niepoprawny login lub hasło");
+               errorLabel.setVisible(true);
+           }
         }
         else {
             errorLabel.setText("Niepoprawny login lub hasło");
@@ -103,6 +107,14 @@ public class LoginController {
                         ViewLoader.loadView(stage, "/fxml/teacher/TeacherPage.fxml", "Strona Główna"));
                 delay.play();
             }
+            else {
+                errorLabel.setText("Niepoprawny login lub hasło");
+                errorLabel.setVisible(true);
+            }
+        }
+        else {
+            errorLabel.setText("Niepoprawny login lub hasło");
+            errorLabel.setVisible(true);
         }
     }
 
