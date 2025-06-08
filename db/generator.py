@@ -7,6 +7,7 @@ import bcrypt
 # Konfiguracja połączenia z bazą danych
 DB_CONFIG = {
     'host': 'localhost',
+    'port': 5432,
     'database': 'egradebook',
     'user': 'postgres',
     'password': 'postgres'
