@@ -84,8 +84,8 @@ System oparty na architekturze klient-serwer:
 
 ## 📂 Dokumentacja techniczna
 
-- 📄 [dokumentacja.pdf](dokumentacja.pdf) – dokumentacja  
-- 📑 [schema.pdf](schema.pdf) – schemat bazy danych  
+- 📄 [dokumentacja.pdf](doc/dokumentacja.pdf) – dokumentacja  
+- 📑 [schema.pdf](db/schema.pdf) – schemat bazy danych  
 - 🗃️ `db/create.sql` – schemat tworzenia bazy  
 - 🧪 `db/generator.py` – przykładowe dane
 
