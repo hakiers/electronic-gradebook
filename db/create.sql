@@ -139,7 +139,7 @@ CREATE TABLE slot_exceptions (
     schedule_id INTEGER NOT NULL REFERENCES class_schedule(schedule_id) ON DELETE CASCADE,
     exception_date DATE NOT NULL,
     type VARCHAR(16) NOT NULL CHECK(type IN ('cancelled','substitution')),
-    sub_teacher_id INTEGER REFERENCES teachers(teacher_id),
+    sub_teacher_id INTEGER REFERENCES teachers(teacher_id) ON DELETE CASCADE,
     note VARCHAR(200)
 );
 
@@ -172,7 +172,7 @@ CREATE TABLE final_grades(
     id SERIAL PRIMARY KEY,
     student_id INTEGER NOT NULL REFERENCES students(student_id) ON DELETE CASCADE,
     subject_id INTEGER NOT NULL REFERENCES subjects(subject_id),
-    teacher_id INTEGER NOT NULL REFERENCES teachers(teacher_id),
+    teacher_id INTEGER REFERENCES teachers(teacher_id) ON DELETE SET NULL,
     grade_value NUMERIC,
     school_year character(4) NOT NULL
 );
