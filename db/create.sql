@@ -501,6 +501,7 @@ JOIN personal_data pd ON pd.user_id = s.user_id
 GROUP BY s.class_id, s.student_id, pd.name, pd.surname
 ORDER BY s.class_id, avg_grade DESC;
 
+--tutaj dopisac sprawdzanie roku szkolnego???
 -- srednia z przedmiotu dla ucznia 
 CREATE OR REPLACE VIEW subject_avg_for_student AS
 SELECT 
@@ -510,6 +511,27 @@ SELECT
 FROM grades g
 JOIN subjects s ON s.subject_id = g.subject_id
 GROUP BY g.student_id, s.name;
+
+--procent nieobecnosci w danym roku szkolnym
+CREATE OR REPLACE FUNCTION count_absences(id integer) RETURNS numeric AS
+$$
+DECLARE absences numeric;
+DECLARE all_attendance numeric;
+DECLARE result numeric(5,2);
+BEGIN
+
+SELECT COUNT(*) INTO absences FROM attendance
+WHERE student_id = id AND status = 'absence';
+
+SELECT COUNT(*) INTO all_attendance FROM attendance
+WHERE student_id = id;
+
+result := ROUND(absences/all_attendance*100, 2);
+
+RETURN result;
+END;
+$$
+LANGUAGE plpgsql;
 
 --trigger blokuje mozliwosc zmiany danych osobowych na null
 CREATE OR REPLACE FUNCTION avoid_nulls_in_personal_data()
