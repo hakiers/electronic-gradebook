@@ -31,13 +31,15 @@ public class AdminService {
     private StudentRepository studentRepository;
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private Generator generator;
 
     public LoginData registerNewTeacher(TeacherRegistrationRequest request, HttpSession session) {
         User loggedUser = userRepository.findUserById(Integer.parseInt(session.getAttribute("user_id").toString()));
         if(!loggedUser.isAdmin()) {
             throw new ForbiddenOperationException("Only admin can register new teacher!");
         }
-        LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
+        LoginData loginData = generator.generateLoginData(request.getName(), request.getSurname());
 
         Teacher newteacher = new Teacher(request);
         newteacher.setUsername(loginData.getUsername());
@@ -52,7 +54,7 @@ public class AdminService {
             throw new ForbiddenOperationException("Only admin can register new teacher!");
         }
 
-        LoginData loginData = Generator.generateLoginData(request.getName(), request.getSurname());
+        LoginData loginData = generator.generateLoginData(request.getName(), request.getSurname());
         Student newstudent = new Student(request);
         newstudent.setUsername(loginData.getUsername());
         newstudent.setPassword(loginData.getPassword());

@@ -106,11 +106,11 @@ public class TeacherAttendanceController {
 
         for (StudentAttendanceRow row : attendanceRows) {
             if(row.getAttendanceId()==0) {
-                AddAttendanceRequest request=new AddAttendanceRequest(row.getStudentId(), row.getScheduleId(),row.getStatus().toString().toLowerCase());
+                AddAttendanceRequest request=new AddAttendanceRequest(row.getStudentId(), row.getScheduleId(),row.getStatus().toString().toLowerCase(), datePicker.getValue().toString());
                 TeacherService.addAttendance(request);
             }
             else{
-                EditAttendanceRequest request=new EditAttendanceRequest(row.getAttendanceId(), row.getStatus().toString().toLowerCase());
+                EditAttendanceRequest request=new EditAttendanceRequest(row.getAttendanceId(), row.getStatus().toString().toLowerCase(), datePicker.getValue().toString());
                 TeacherService.editAttendance(request);
             }
         }
