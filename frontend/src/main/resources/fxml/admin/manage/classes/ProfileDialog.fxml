@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+<VBox fx:id="mainContainer" id="mainContainer"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.egradebook.frontend.controller.admin.manage.classes.ProfileDialogController"
-      spacing="10" alignment="CENTER" style="-fx-padding:20;">
-    <HBox spacing="10">
-        <Label text="Nazwa profilu:"/>
-        <TextField fx:id="nameField"/>
-    </HBox>
-    <HBox spacing="10">
-        <Label text="Skrót:"/>
-        <TextField fx:id="shortNameField"/>
-    </HBox>
-    <Label fx:id="statusLabel" textFill="red"/>
-    <HBox spacing="10" alignment="CENTER">
-        <Button fx:id="saveButton" text="Zapisz" onAction="#save"/>
-        <Button fx:id="cancelButton" text="Anuluj" onAction="#cancel"/>
+      alignment="CENTER" spacing="20" maxWidth="600"
+      stylesheets="@../../../../css/base.css">
+
+    <Text text="DODAJ/EDYTUJ PROFIL" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <Label fx:id="statusLabel" textFill="RED" visible="false"/>
+
+    <VBox spacing="15" alignment="TOP_LEFT">
+        <Label text="Nazwa profilu" styleClass="form-label"/>
+        <HBox alignment="CENTER" styleClass="input-container">
+            <TextField fx:id="nameField" styleClass="input-field" prefWidth="250"/>
+        </HBox>
+
+        <Label text="Skrót" styleClass="form-label"/>
+        <HBox alignment="CENTER" styleClass="input-container">
+            <TextField fx:id="shortNameField" styleClass="input-field" prefWidth="250"/>
+        </HBox>
+    </VBox>
+
+    <HBox spacing="15" alignment="CENTER">
+        <Button fx:id="saveButton" text="ZAPISZ" onAction="#save"
+                minHeight="40" maxHeight="40" styleClass="toggle-button"/>
+        <Button fx:id="returnButton" text="ANULUJ" onAction="#cancel"
+                minHeight="40" maxHeight="40" styleClass="cancel-button"/>
     </HBox>
 </VBox>

@@ -48,6 +48,23 @@
     -fx-background-color: #6e0000;
 }
 
+.cancelButton{
+    -fx-background-color: #a60000;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-border-color: #770000;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+
 
 /* Przyciski dodatkowe (np. Wyczyść) */
 #clearButton {
@@ -176,4 +193,93 @@
     -fx-font-size: 20px;
     -fx-font-weight: bold;
 }
+
+
+/* Styl dropdowna dla ListView */
+.dropdown-like-list {
+    -fx-background-color: white;
+    -fx-border-color: #c0c0c0;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.1, 0, 1);
+    -fx-font-size: 14px;
+}
+
+/* Styl pojedynczych komórek */
+.dropdown-like-list .list-cell {
+    -fx-padding: 8 12;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-size: 14px;
+}
+
+/* Podświetlenie komórki przy najechaniu */
+.dropdown-like-list .list-cell:hover {
+    -fx-background-color: #f5f5f5;
+}
+
+/* Styl paska przewijania */
+.dropdown-like-list .scroll-bar:vertical {
+    -fx-pref-width: 8px;
+    -fx-background-color: transparent;
+}
+
+
+.styled-subjects-list {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 4;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0.1, 0, 1);
+}
+
+.styled-subjects-list .list-cell {
+    -fx-padding: 10 14;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.styled-subjects-list .list-cell:hover {
+    -fx-background-color: #f4f4f4;
+}
+
+.styled-subjects-list .scroll-bar:vertical {
+    -fx-pref-width: 8px;
+}
+
+
+.custom-alert {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-background-color: white;
+}
+
+.custom-alert .content {
+    -fx-padding: 12;
+    -fx-font-weight: normal;
+}
+
+.custom-alert .header-panel {
+    -fx-background-color: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.custom-alert .button-bar .button {
+    -fx-background-color: #3088c3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 6 16;
+    -fx-background-radius: 0;
+
+}
+
+.custom-alert .button-bar .button:hover {
+    -fx-background-color: #0b5585;
+}
+
+
 

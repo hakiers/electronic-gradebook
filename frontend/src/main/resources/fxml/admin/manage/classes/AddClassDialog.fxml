@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.egradebook.frontend.controller.admin.manage.classes.AddClassDialogController"
-            prefHeight="300.0" prefWidth="400.0">
+<VBox fx:id="mainContainer" id="mainContainer"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.classes.AddClassDialogController"
+      alignment="CENTER" spacing="20" maxWidth="600"
+      stylesheets="@../../../../css/base.css">
 
-    <VBox spacing="16" alignment="CENTER" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20">
-        <Label text="Dodaj klasę" style="-fx-font-size: 18;"/>
+    <Text text="DODAJ KLASĘ" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-        <HBox spacing="10">
-            <Label text="Profil:" minWidth="120"/>
-            <ComboBox fx:id="profileField"/>
+    <Label fx:id="errorLabel" textFill="RED" visible="false"/>
+
+    <VBox spacing="15" alignment="TOP_LEFT">
+        <Label text="Profil" styleClass="form-label"/>
+        <HBox alignment="CENTER" styleClass="input-container">
+            <ComboBox fx:id="profileField" styleClass="input-field" prefWidth="250"/>
         </HBox>
 
-        <HBox spacing="10">
-            <Label text="Wychowawca:" minWidth="120"/>
-            <ComboBox fx:id="teacherCombo" prefWidth="200"/>
+        <Label text="Wychowawca" styleClass="form-label"/>
+        <HBox alignment="CENTER" styleClass="input-container">
+            <ComboBox fx:id="teacherCombo" styleClass="input-field" prefWidth="250"/>
         </HBox>
 
-        <HBox spacing="10">
-            <Label text="Rocznik:" minWidth="120"/>
-            <ComboBox fx:id="groupsCombo" prefWidth="80"/>
-        </HBox>
-
-        <Label fx:id="errorLabel" textFill="red"/>
-
-        <HBox spacing="12" alignment="CENTER">
-            <Button text="Zapisz" onAction="#save"/>
-            <Button text="Anuluj" onAction="#cancel"/>
+        <Label text="Rocznik" styleClass="form-label"/>
+        <HBox alignment="CENTER" styleClass="input-container">
+            <ComboBox fx:id="groupsCombo" styleClass="input-field" prefWidth="100"/>
         </HBox>
     </VBox>
-</AnchorPane>
+
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="ZAPISZ" onAction="#save"
+                minHeight="40" maxHeight="40" styleClass="toggle-button"/>
+        <Button text="ANULUJ" onAction="#cancel" fx:id="returnButton"
+                minHeight="40" maxHeight="40" styleClass="cancel-button"/>
+    </HBox>
+</VBox>

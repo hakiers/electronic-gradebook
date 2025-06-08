@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.egradebook.frontend.controller.admin.manage.teachers.ChangeSubjectDialogController"
-            prefWidth="350" prefHeight="220">
+<VBox fx:id="mainContainer" id="mainContainer" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.egradebook.frontend.controller.admin.manage.teachers.ChangeSubjectDialogController"
+      alignment="CENTER" spacing="20" maxWidth="800"
+      stylesheets="@../../../../css/base.css"
+      prefWidth="400" prefHeight="240">
 
-    <children>
-        <Label layoutX="20" layoutY="24" text="Przypisz przedmioty nauczycielowi:" />
-        <CheckComboBox fx:id="subjectsCheckComboBox" layoutX="20" layoutY="52" prefWidth="310"/>
-        <Button text="Zapisz" layoutX="190" layoutY="130" prefWidth="65" onAction="#save"/>
-        <Button text="Anuluj" layoutX="265" layoutY="130" prefWidth="65" onAction="#cancel"/>
-    </children>
-</AnchorPane>
+    <Text text="PRZYPISZ PRZEDMIOTY" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <VBox spacing="15" alignment="TOP_LEFT" maxWidth="350">
+        <Label text="Przypisz przedmioty nauczycielowi:" styleClass="form-label"/>
+        <CheckComboBox fx:id="subjectsCheckComboBox" prefWidth="350" />
+    </VBox>
+
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="ZAPISZ" onAction="#save"
+                minHeight="40" maxHeight="40" prefWidth="100"
+                styleClass="toggle-button"/>
+        <Button text="ANULUJ" onAction="#cancel"
+                fx:id="returnButton"
+                minHeight="40" maxHeight="40" prefWidth="120"
+                styleClass="cancel-button"/>
+    </HBox>
+</VBox>

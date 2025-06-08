@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.egradebook.frontend.controller.parent.ManageChildrenController"
-      alignment="CENTER" spacing="20"
-      stylesheets="@../../css/base.css">
-    <Button text="wróć" fx:id="returnButton" defaultButton="true" styleClass="toggle-button"
-            onAction="#back"/>
-    <Label text="Wybierz dziecko" fx:id="selectLabel" />
-    <ComboBox fx:id="selectBox"/>
-    <Button text="Pokaż oceny" fx:id="gradesButton" defaultButton="true" styleClass="toggle-button"
-            onAction="#handleGrades"/>
-    <Button text="Pokaż obecność" fx:id="attendanceButton" defaultButton="true" styleClass="toggle-button"
-            onAction="#handleAttendance"/>
-    <Button text="Pokaż plan lekcji" fx:id="scheduleButton" defaultButton="true" styleClass="toggle-button"
-            onAction="#handleSchedule"/>
-</VBox>
+<BorderPane fx:id="mainContainer" id="mainContainer"
+            xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.egradebook.frontend.controller.parent.ManageChildrenController"
+            stylesheets="@../../css/base.css">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #f4f4f4;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button fx:id="returnButton" text="WRÓĆ"
+                    onAction="#back"
+                    styleClass="logoutButton"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <Label fx:id="selectLabel" text="WYBIERZ DZIECKO" styleClass="header"/>
+
+            <ComboBox fx:id="selectBox" styleClass="input-container" prefWidth="200"/>
+
+            <Button text="SPRAWDŹ OCENY" fx:id="gradesButton"
+                    styleClass="toggle-button"
+                    onAction="#handleGrades"/>
+
+            <Button text="SPRAWDŹ FREKWENCJĘ" fx:id="attendanceButton"
+                    styleClass="toggle-button"
+                    onAction="#handleAttendance"/>
+
+            <Button text="SPRAWDŹ PLAN LEKCJI" fx:id="scheduleButton"
+                    styleClass="toggle-button"
+                    onAction="#handleSchedule"/>
+        </VBox>
+    </center>
+</BorderPane>

@@ -27,7 +27,7 @@
     <center>
         <VBox alignment="CENTER" spacing="20">
             <children>
-                <Button text="Dzieci" fx:id="showGradesButton"
+                <Button text="DZIECI" fx:id="showGradesButton"
                         styleClass="toggle-button"
                         onAction="#handleManageChildren"/>
                 <Button text="ZMIANA HASŁA" fx:id="changePasswordButton"

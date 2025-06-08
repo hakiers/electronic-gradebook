@@ -1,19 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.egradebook.frontend.controller.teacher.TeacherPageController"
-      alignment="CENTER" spacing="20"
-      stylesheets="@../../css/base.css">
-    <Button text="Zarządzaj klasami" fx:id="manageClassButton"
-            styleClass="toggle-button" onAction="#handleManageClass"/>
-    <Button text="Plan zajęć" fx:id="showSchedule"
-            styleClass="toggle-button" onAction="#handleShowSchedule"/>
-    <Button text="Zmień hasło" fx:id="changePasswordButton"
-            styleClass="toggle-button" onAction="#handleChange"/>
-    <Button text="Wyloguj" fx:id="logoutButton"
-            styleClass="toggle-button" onAction="#handleLogout"/>
+<BorderPane fx:id="mainContainer" id="mainContainer"
+            xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.egradebook.frontend.controller.teacher.TeacherPageController"
+            stylesheets="@../../css/base.css">
 
-</VBox>
+    <top>
+        <HBox alignment="CENTER_RIGHT">
+            <children>
+                <Button text="WYLOGUJ" fx:id="logoutButton"
+                        styleClass="logoutButton" onAction="#handleLogout"/>
+            </children>
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <children>
+                <Button text="ZARZĄDZAJ KLASAMI" fx:id="manageClassButton"
+                        styleClass="toggle-button" onAction="#handleManageClass"/>
+                <Button text="PLAN ZAJĘĆ" fx:id="showSchedule"
+                        styleClass="toggle-button" onAction="#handleShowSchedule"/>
+                <Button text="ZMIANA HASŁA" fx:id="changePasswordButton"
+                        styleClass="toggle-button" onAction="#handleChange"/>
+            </children>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 
-<?import javafx.geometry.Insets?>
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+<VBox fx:id="mainContainer" id="mainContainer" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.egradebook.frontend.controller.admin.manage.teachers.EditTeacherDialogController"
-      spacing="10" alignment="CENTER" stylesheets="@../../../../css/base.css">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-    <HBox spacing="10">
-        <Label text="Imię:"/>
-        <TextField fx:id="firstNameField"/>
+      alignment="CENTER" spacing="20" maxWidth="800"
+      stylesheets="@../../../../css/base.css">
+
+    <Text text="EDYTUJ NAUCZYCIELA" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <Label fx:id="statusLabel" textFill="RED" visible="false"/>
+
+    <HBox spacing="40" alignment="CENTER">
+        <VBox spacing="15" alignment="TOP_LEFT">
+            <Label text="Imię" styleClass="form-label"/>
+            <HBox alignment="CENTER" styleClass="input-container">
+                <TextField fx:id="firstNameField" styleClass="input-field"/>
+            </HBox>
+
+            <Label text="Nazwisko" styleClass="form-label"/>
+            <HBox alignment="CENTER" styleClass="input-container">
+                <TextField fx:id="lastNameField" styleClass="input-field"/>
+            </HBox>
+        </VBox>
     </HBox>
-    <HBox spacing="10">
-        <Label text="Nazwisko:"/>
-        <TextField fx:id="lastNameField"/>
-    </HBox>
-    <Label fx:id="statusLabel" textFill="red"/>
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Zapisz" onAction="#save"/>
-        <Button text="Anuluj" onAction="#cancel"/>
+
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="ZAPISZ" onAction="#save"
+                minHeight="40" maxHeight="40"
+                styleClass="toggle-button"/>
+        <Button text="ANULUJ" onAction="#cancel"
+                fx:id="returnButton"
+                minHeight="40" maxHeight="40"
+                styleClass="cancel-button"/>
     </HBox>
 </VBox>

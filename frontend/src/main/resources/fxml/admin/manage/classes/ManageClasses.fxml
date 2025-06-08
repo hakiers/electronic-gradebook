@@ -1,35 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="565.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.egradebook.frontend.controller.admin.manage.classes.ClassManageController">
+            fx:controller="com.egradebook.frontend.controller.admin.manage.classes.ClassManageController"
+            prefWidth="800" prefHeight="565"
+            stylesheets="@../../../../css/base.css">
 
     <top>
-        <Label text="Zarządzanie klasami" style="-fx-font-size: 20px; -fx-padding: 10px;"/>
+        <HBox alignment="TOP_LEFT" style="-fx-background-color: #f4f4f4;">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+            <Button fx:id="returnButton" text="WRÓĆ" onAction="#back"/>
+        </HBox>
     </top>
+
     <center>
-        <TableView fx:id="classesTable" prefHeight="200.0" prefWidth="200.0">
-            <columns>
-                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
-                <TableColumn fx:id="colYear" text="Rocznik" prefWidth="90"/>
-                <TableColumn fx:id="colName" text="Nazwa klasy" prefWidth="120"/>
-                <TableColumn fx:id="colProfile" text="Profil" prefWidth="100"/>
-                <TableColumn fx:id="colTeacher" text="Wychowawca" prefWidth="120"/>
-                <TableColumn fx:id="colStudentCount" text="Liczba uczniów" prefWidth="90"/>
-            </columns>
-        </TableView>
+        <VBox fx:id="mainContainer" spacing="10">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+
+            <HBox alignment="CENTER" spacing="20">
+                <Label styleClass="header" text="LISTA KLAS"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" fitToHeight="false" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                <content>
+                    <VBox alignment="CENTER" spacing="15">
+                        <TableView fx:id="classesTable" prefHeight="500" minWidth="1010" maxWidth="1010">
+                            <columns>
+                                <TableColumn fx:id="colId" text="ID" prefWidth="60" resizable="false"/>
+                                <TableColumn fx:id="colYear" text="ROCZNIK" prefWidth="90" resizable="false"/>
+                                <TableColumn fx:id="colName" text="NAZWA KLASY" prefWidth="120" resizable="false"/>
+                                <TableColumn fx:id="colProfile" text="PROFIL" prefWidth="330" resizable="false"/>
+                                <TableColumn fx:id="colTeacher" text="WYCHOWAWCA" prefWidth="250" resizable="false"/>
+                                <TableColumn fx:id="colStudentCount" text="LICZBA UCZNIÓW" prefWidth="150" resizable="false"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
     </center>
+
     <bottom>
-        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px;">
-            <Button onAction="#onAddClass" text="Dodaj klasę"/>
-            <!--<Button onAction="#onEditClass" text="Edytuj klasę"/> -->
-            <Button onAction="#onDeleteClass" text="Usuń klasę"/>
-            <Button onAction="#onSetSchedule" text="Ustal plan lekcji"/>
-            <Button onAction="#onManageProfiles" text="Profile klas"/>
-            <Button fx:id="returnButton" text="Wróć" onAction="#back"/>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
+            <Button text="DODAJ KLASĘ" onAction="#onAddClass" styleClass="toggle-button"/>
+            <!-- <Button text="EDYTUJ KLASĘ" onAction="#onEditClass" styleClass="toggle-button"/> -->
+            <Button text="USUŃ KLASĘ" onAction="#onDeleteClass" styleClass="toggle-button"/>
+            <Button text="USTAL PLAN LEKCJI" onAction="#onSetSchedule" styleClass="toggle-button"/>
+            <Button text="PROFILE KLAS" onAction="#onManageProfiles" styleClass="toggle-button"/>
         </HBox>
     </bottom>
 </BorderPane>

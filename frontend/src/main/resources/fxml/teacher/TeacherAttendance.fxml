@@ -1,21 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="TOP_CENTER" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.egradebook.frontend.controller.teacher.TeacherAttendanceController">
-    <Button text="wróć" fx:id="backButton" defaultButton="true"
-            onAction="#back"/>
-    <DatePicker fx:id="datePicker" />
-    <ComboBox fx:id="lessonComboBox" promptText="Wybierz lekcję" />
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.egradebook.frontend.controller.teacher.TeacherAttendanceController"
+            stylesheets="@../../css/base.css, @../../css/student.css">
 
-    <TableView fx:id="attendanceTable" prefHeight="400" prefWidth="600">
-        <columns>
-            <TableColumn fx:id="nameColumn" text="Uczeń" />
-            <TableColumn fx:id="statusColumn" text="Status" />
-        </columns>
-    </TableView>
+    <top>
+        <HBox alignment="TOP_LEFT" style="-fx-background-color: #f4f4f4;">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+            <Button fx:id="returnButton" id="returnButton" text="WRÓĆ" onAction="#back"/>
+        </HBox>
+    </top>
 
-    <Button text="Zapisz obecność" onAction="#saveAttendance"/>
-</VBox>
+    <center>
+        <VBox fx:id="mainContainer" spacing="15">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+
+            <HBox spacing="20" alignment="CENTER">
+                <Label text="LISTA OBECNOŚCI" styleClass="header"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER">
+                <DatePicker fx:id="datePicker"/>
+                <ComboBox fx:id="lessonComboBox" promptText="Wybierz lekcję"/>
+                <Button text="ZAPISZ OBECNOŚĆ" onAction="#saveAttendance" styleClass="toggle-button"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
+                <VBox alignment="CENTER">
+                    <TableView fx:id="attendanceTable" prefHeight="400" minWidth="600" maxWidth="1000">
+                        <columns>
+                            <TableColumn fx:id="nameColumn" text="UCZEŃ" prefWidth="400.0" resizable="false"/>
+                            <TableColumn fx:id="statusColumn" text="STATUS" prefWidth="200.0" resizable="false"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+
+</BorderPane>

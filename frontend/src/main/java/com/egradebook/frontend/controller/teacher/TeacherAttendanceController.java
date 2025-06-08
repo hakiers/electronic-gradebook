@@ -21,7 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TeacherAttendanceController {
-    @FXML private Button backButton;
+    @FXML private Button returnButton;
     @FXML private DatePicker datePicker;
     @FXML private ComboBox<Integer> lessonComboBox;
     @FXML private TableView<StudentAttendanceRow> attendanceTable;
@@ -33,6 +33,8 @@ public class TeacherAttendanceController {
     @FXML
     public void initialize() {
         AttendanceTableConfigurer.configure(attendanceTable);
+
+        attendanceTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         datePicker.setOnAction(e -> {
             updateLessonComboBox();
@@ -124,7 +126,7 @@ public class TeacherAttendanceController {
         alert.showAndWait();
     }
     public void back() {
-        Stage stage=(Stage) backButton.getScene().getWindow();
+        Stage stage=(Stage) returnButton.getScene().getWindow();
         ViewLoader.goPrev(stage);
     }
 }

@@ -1,41 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.egradebook.frontend.controller.admin.manage.classes.ProfileManageDialogController"
-            prefWidth="600" prefHeight="400">
+            prefWidth="900" prefHeight="700"
+            stylesheets="@../../../../css/base.css">
 
     <top>
-        <HBox spacing="10" style="-fx-padding: 10;">
-            <Button fx:id="returnButton" text="Zamknij" onAction="#close"/>
-            <Button text="Dodaj profil" onAction="#handleAddProfile"/>
-            <!--<Button text="Edytuj profil" onAction="#handleEditProfile"/>-->
-            <Button text="Usuń profil" onAction="#handleDeleteProfile"/>
+        <HBox alignment="TOP_LEFT" style="-fx-background-color: #f4f4f4;">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+            <Button fx:id="returnButton" text="WRÓĆ" onAction="#close"/>
         </HBox>
     </top>
 
     <center>
-        <VBox spacing="10" style="-fx-padding: 10;">
-            <Label text="Lista profili klas:"/>
-            <TableView fx:id="profilesTable" prefHeight="250">
-                <columns>
-                    <TableColumn text="ID" fx:id="colId"/>
-                    <TableColumn text="Nazwa profilu" fx:id="colName"/>
-                    <TableColumn text="Skrót" fx:id="colShortName"/>
-                </columns>
-            </TableView>
-            <Label text="Szczegóły profilu:"/>
-            <GridPane hgap="10" vgap="5">
-                <Label text="ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Label fx:id="detailId" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                <Label text="Nazwa:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <Label fx:id="detailName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                <Label text="Skrót:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <Label fx:id="detailShortName" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-            </GridPane>
+        <VBox fx:id="mainContainer" spacing="10">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+
+            <HBox alignment="CENTER" spacing="20">
+                <Label styleClass="header" text="LISTA PROFILI KLAS"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" fitToHeight="false" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                <content>
+                    <VBox alignment="CENTER" spacing="15">
+                        <TableView fx:id="profilesTable" prefHeight="300" minWidth="600" maxWidth="600">
+                            <columns>
+                                <TableColumn fx:id="colId" text="ID" prefWidth="60" resizable="false"/>
+                                <TableColumn fx:id="colName" text="NAZWA PROFILU" prefWidth="270" resizable="false"/>
+                                <TableColumn fx:id="colShortName" text="SKRÓT" prefWidth="270" resizable="false"/>
+                            </columns>
+                        </TableView>
+
+                        <Label text="SZCZEGÓŁY PROFILU:" styleClass="sub-header"/>
+
+                        <GridPane hgap="10" vgap="5">
+                            <Label text="ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailId" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                            <Label text="Nazwa:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                            <Label text="Skrót:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <Label fx:id="detailShortName" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        </GridPane>
+                    </VBox>
+                </content>
+            </ScrollPane>
         </VBox>
     </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
+            <Button text="DODAJ PROFIL" onAction="#handleAddProfile" styleClass="toggle-button"/>
+            <!-- <Button text="EDYTUJ PROFIL" onAction="#handleEditProfile" styleClass="toggle-button"/> -->
+            <Button text="USUŃ PROFIL" onAction="#handleDeleteProfile" styleClass="toggle-button"/>
+        </HBox>
+    </bottom>
 </BorderPane>
