@@ -22,11 +22,15 @@ Aby uruchomić aplikację lokalnie, potrzebne są:
    ```bash
    python db/generator.py
    ```
+
+   W skrypcie można zmienić dane do logowania do bazy [generator](db/generator.py)
 4. **Uruchom backend Spring Boot:**
    ```bash
    cd backend
    mvn spring-boot:run
    ```
+   Zmiana portu loginu hasła do bazy w [config](backend/src/main/resources/application.properties)
+   
 5. **Uruchom frontend JavaFX:**
    ```bash
    cd frontend
@@ -40,7 +44,7 @@ System oparty na architekturze klient-serwer:
 - **Frontend**: JavaFX (FXML + kontrolery Java)
 - **Backend**: Spring Boot (REST API, Spring Data JPA)
 - **Baza danych**: PostgreSQL  
-  Tabele: uczniowie, nauczyciele, przedmioty, plan lekcji, oceny, obecności
+  Tabele: uczniowie, nauczyciele, przedmioty, plan lekcji, oceny, obecności 
 
 ## 🧑‍🏫 Funkcjonalności
 
