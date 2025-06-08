@@ -16,7 +16,7 @@ public class Main extends Application {
         Thread checkConnectionThread = new Thread(() -> {
             boolean connectionOk = true;
 
-            while (!Thread.currentThread().isInterrupted()) {
+            while (true) {
                 boolean currentConnectionOk =
                         ConnectionService.ping().getKey() == 200 &&
                                 ConnectionService.status().getKey() == 200;

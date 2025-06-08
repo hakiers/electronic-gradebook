@@ -12,10 +12,7 @@ public class MainPageController {
 
     @FXML
     private void initialize() {
-        Platform.runLater(() -> {
-            Scene scene = mainContainer.getScene();
-            scene.getStylesheets().add(getClass().getResource("/css/base.css").toExternalForm());
-        });
+
 
     }
 

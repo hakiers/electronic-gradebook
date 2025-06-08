@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.egradebook.frontend.controller.teacher.TeacherAttendanceController"
-            stylesheets="@../../css/base.css, @../../css/student.css">
+<BorderPane stylesheets="@../../css/base.css, @../../css/student.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.egradebook.frontend.controller.teacher.TeacherAttendanceController">
 
     <top>
         <HBox alignment="TOP_LEFT" style="-fx-background-color: #f4f4f4;">
             <padding>
-                <Insets top="10" bottom="10" left="10" right="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <Button fx:id="returnButton" id="returnButton" text="WRÓĆ" onAction="#back"/>
+            <Button id="returnButton" fx:id="returnButton" onAction="#back" text="WRÓĆ" />
         </HBox>
     </top>
 
     <center>
         <VBox fx:id="mainContainer" spacing="15">
             <padding>
-                <Insets top="10" bottom="10" left="10" right="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
 
-            <HBox spacing="20" alignment="CENTER">
-                <Label text="LISTA OBECNOŚCI" styleClass="header"/>
+            <HBox alignment="CENTER" spacing="20">
+                <Label styleClass="header" text="LISTA OBECNOŚCI" />
             </HBox>
 
-            <HBox spacing="20" alignment="CENTER">
-                <DatePicker fx:id="datePicker"/>
-                <ComboBox fx:id="lessonComboBox" promptText="Wybierz lekcję"/>
-                <Button text="ZAPISZ OBECNOŚĆ" onAction="#saveAttendance" styleClass="toggle-button"/>
+            <HBox alignment="CENTER" spacing="20">
+                <DatePicker fx:id="datePicker" />
+                <ComboBox fx:id="lessonComboBox" promptText="Wybierz lekcję" />
+                <Button onAction="#saveAttendance" styleClass="toggle-button" text="ZAPISZ OBECNOŚĆ" />
             </HBox>
 
             <ScrollPane fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
                 <VBox alignment="CENTER">
-                    <TableView fx:id="attendanceTable" prefHeight="400" minWidth="600" maxWidth="1000">
+                    <TableView fx:id="attendanceTable" maxWidth="1000" minWidth="600" prefHeight="400">
                         <columns>
-                            <TableColumn fx:id="nameColumn" text="UCZEŃ" prefWidth="400.0" resizable="false"/>
-                            <TableColumn fx:id="statusColumn" text="STATUS" prefWidth="200.0" resizable="false"/>
+                            <TableColumn fx:id="nameColumn" editable="false"
+                                         prefWidth="400.0" minWidth="400.0" maxWidth="400.0"
+                                         resizable="false" text="UCZEŃ" />
+                            <TableColumn fx:id="statusColumn" editable="false"
+                                         prefWidth="200.0" minWidth="200.0" maxWidth="200.0"
+                                         resizable="false" text="STATUS" />
                         </columns>
                     </TableView>
                 </VBox>

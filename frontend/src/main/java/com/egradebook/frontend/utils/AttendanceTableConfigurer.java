@@ -11,6 +11,10 @@ public class AttendanceTableConfigurer {
     public static void configure(TableView<StudentAttendanceRow> tableView) {
         TableColumn<StudentAttendanceRow, String> nameCol = new TableColumn<>("Uczeń");
         nameCol.setCellValueFactory(cellData -> cellData.getValue().fullNameProperty());
+        nameCol.setPrefWidth(400);
+        nameCol.setMinWidth(400);
+        nameCol.setMaxWidth(400);
+        nameCol.setResizable(false);
 
         TableColumn<StudentAttendanceRow, Status> statusCol = new TableColumn<>("Obecność");
         statusCol.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
@@ -43,6 +47,10 @@ public class AttendanceTableConfigurer {
             return cell;
         });
 
+        statusCol.setPrefWidth(200);
+        statusCol.setMinWidth(200);
+        statusCol.setMaxWidth(200);
+        statusCol.setResizable(false);
         statusCol.setEditable(true);
         tableView.setEditable(true);
 

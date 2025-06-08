@@ -9,6 +9,7 @@ import com.egradebook.frontend.service.TeacherService;
 import com.egradebook.frontend.utils.StudentAttendanceRow;
 import com.egradebook.frontend.utils.AttendanceTableConfigurer;
 import com.egradebook.frontend.utils.ViewLoader;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,8 +35,15 @@ public class TeacherAttendanceController {
     public void initialize() {
         AttendanceTableConfigurer.configure(attendanceTable);
 
-        attendanceTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
+        Platform.runLater(() -> {
+            // Blokada przeciągania kolumn (drag & drop)
+            attendanceTable.lookupAll(".column-header").forEach(header -> {
+                header.setOnMouseDragged(event -> event.consume());
+                header.setOnDragDetected(event -> event.consume());
+                header.setOnMousePressed(event -> event.consume());
+                header.setOnMouseReleased(event -> event.consume());
+            });
+        });
         datePicker.setOnAction(e -> {
             updateLessonComboBox();
             loadAttendanceTable();
