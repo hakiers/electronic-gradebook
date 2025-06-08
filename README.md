@@ -83,7 +83,7 @@ System oparty na architekturze klient-serwer:
 ## Konta
 - Konto ucznia hasło student123
 - Konto rodzica hasło parent123
-- Konto nauczycuela hasło teacher123
+- Konto nauczyciela hasło teacher123
 
 Wszystkie loginy do kont można podejrzeć w palelu administratora
 Dane logowania do admina: 
