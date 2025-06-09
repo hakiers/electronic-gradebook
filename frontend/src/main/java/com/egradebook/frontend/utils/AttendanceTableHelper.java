@@ -21,9 +21,9 @@ public class AttendanceTableHelper {
         dateColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getDate()));
 
-        for (int i = 1; i <= lessonColumns.size(); i++) {
+        for (int i = 2; i <= lessonColumns.size(); i++) {
             final int lessonNumber = i;
-            TableColumn<AttendanceRow, String> column = lessonColumns.get(i - 1);
+            TableColumn<AttendanceRow, String> column = lessonColumns.get(i - 2);
             column.setCellValueFactory(cellData ->
                     new SimpleStringProperty(cellData.getValue().getLessonStatus(lessonNumber)));
         }
