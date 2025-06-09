@@ -104,7 +104,7 @@ public class TeacherGradesController {
                 try {
                     int gradeValue = Integer.parseInt(gradeValueStr);
                     AddGradeRequest request=new AddGradeRequest(getStudentId(studentGrades.getStudentName()).intValue(),
-                            1,gradeValue,date,description);
+                            TeacherService.selectedSubjectId,gradeValue,date,description);
                     GradeService.addGrade(request);
                     studentGrades.setNewGradeValue("");
                     gradesAdded = true;
