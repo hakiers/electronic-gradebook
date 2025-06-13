@@ -13,7 +13,7 @@
             <padding>
                 <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
-            <Button fx:id="returnButton" text="wróć" onAction="#back"/>
+            <Button fx:id="returnButton" text="WRÓĆ" onAction="#back"/>
         </HBox>
     </top>
 

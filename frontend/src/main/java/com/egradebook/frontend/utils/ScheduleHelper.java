@@ -34,7 +34,7 @@ public class ScheduleHelper {
             if (dayIndex >= 1 && dayIndex <= 5 && lessonIndex >= 1 && lessonIndex <= 8) {
                 if (lessonCells[dayIndex][lessonIndex] == null) {
                     VBox cellBox = new VBox(4);
-                    cellBox.setStyle("-fx-background-color: #aed581; -fx-border-color: #7cb342; -fx-padding: 3;"
+                    cellBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #ffffff; -fx-padding: 3;"
                             + "-fx-border-radius: 5; -fx-background-radius: 5;");
                     lessonCells[dayIndex][lessonIndex] = cellBox;
                     timetableGrid.add(cellBox, dayIndex, lessonIndex);
@@ -68,8 +68,8 @@ public class ScheduleHelper {
     private static Label createHeaderLabel(String text) {
         Label label = new Label(text);
         label.setFont(Font.font("System", FontWeight.BOLD, 14));
-        label.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-alignment: center; "
-                + "-fx-padding: 8; -fx-border-color: #2980b9;");
+        label.setStyle("-fx-background-color: #3088c3; -fx-text-fill: white; -fx-alignment: center; "
+                + "-fx-padding: 8; -fx-border-color: #0b5585;");
         label.setMaxWidth(Double.MAX_VALUE);
         label.setMaxHeight(Double.MAX_VALUE);
         return label;
@@ -77,7 +77,7 @@ public class ScheduleHelper {
 
     private static VBox createLessonBox(Lesson lesson) {
         VBox box = new VBox(3);
-        box.setStyle("-fx-background-color: #aed581; -fx-border-color: #7cb342; -fx-padding: 6;"
+        box.setStyle("-fx-background-color: #c2e1f4; -fx-border-color: #93d5f6; -fx-padding: 6;"
                 + "-fx-border-radius: 5; -fx-background-radius: 5;");
 
         Label subject = new Label(lesson.getSubject_name());

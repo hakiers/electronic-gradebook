@@ -35,8 +35,8 @@ public class TeacherAttendanceController {
     public void initialize() {
         AttendanceTableConfigurer.configure(attendanceTable);
 
+
         Platform.runLater(() -> {
-            // Blokada przeciągania kolumn (drag & drop)
             attendanceTable.lookupAll(".column-header").forEach(header -> {
                 header.setOnMouseDragged(event -> event.consume());
                 header.setOnDragDetected(event -> event.consume());

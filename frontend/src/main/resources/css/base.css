@@ -178,6 +178,8 @@
     -fx-padding: 5;
 }
 
+
+
 .table-view .column-header {
     -fx-background-color: #3088c3;
     -fx-text-fill: white;

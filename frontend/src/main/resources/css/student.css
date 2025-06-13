@@ -69,3 +69,28 @@
     -fx-font-weight: bold;
 }
 
+.clean-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+}
+
+/*
+.clean-vbox {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.clean-table {
+    -fx-background-color: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: white;
+}
+*/

@@ -31,20 +31,26 @@
                 <Button onAction="#saveAttendance" styleClass="toggle-button" text="ZAPISZ OBECNOŚĆ" />
             </HBox>
 
-            <ScrollPane fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
-                <VBox alignment="CENTER">
-                    <TableView fx:id="attendanceTable" maxWidth="1000" minWidth="600" prefHeight="400">
+            <ScrollPane fx:id="scrollPane"
+                        fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED"
+                        style="-fx-background-color: transparent; -fx-padding: 0; -fx-border-color: transparent; -fx-background-insets: 0;">
+                <VBox alignment="CENTER"
+                      style="-fx-background-color: transparent; -fx-padding: 0;">
+                    <TableView fx:id="attendanceTable"
+                               minWidth="1200" maxWidth="1200"
+                               style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0; -fx-background-insets: 0; -fx-table-cell-border-color: transparent;">
                         <columns>
                             <TableColumn fx:id="nameColumn" editable="false"
-                                         prefWidth="400.0" minWidth="400.0" maxWidth="400.0"
+                                         minWidth="600.0" maxWidth="600.0"
                                          resizable="false" text="UCZEŃ" />
                             <TableColumn fx:id="statusColumn" editable="false"
-                                         prefWidth="200.0" minWidth="200.0" maxWidth="200.0"
+                                         minWidth="600.0" maxWidth="600.0"
                                          resizable="false" text="STATUS" />
                         </columns>
                     </TableView>
                 </VBox>
             </ScrollPane>
+
         </VBox>
     </center>
 
